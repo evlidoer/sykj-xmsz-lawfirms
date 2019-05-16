@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<base href="../../lawfirms" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>全所收支明细</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.form-group {
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+					<ol class="breadcrumb">
+						<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+						<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+						<span class="glyphicon glyphicon-menu-left" ></span>
+					</button>
+						<li class="breadcrumb-li-one">
+							<a>财务</a>
+						</li>
+						<li>
+							<a>全所收支明细</a>
+						</li>
+					</ol>
+				</div>
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<div class="form-inline">
+						<div class="form-group">
+							<input type="text" class="form-control" id="caseId">
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="caseIdNum">
+								<option value="1">案号搜索</option>
+					            <option value="2">收支人搜索</option>
+					            <option value="3">委托人搜索</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="inType">
+								<option value="-1">选择收支类型</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="payment">
+								<option value="-1">选择支付方式</option>
+								<option value="转账支票">转账支票</option>
+								<option value="电汇">电汇</option>
+								<option value="网银">网银</option>
+								<option value="Pos机">Pos机</option>
+								<option value="现金">现金</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<div class="form-inline">
+						<div class="form-group">
+							<select class="form-control" id="cType">
+								<option value="-1">案件类型</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control Time" placeholder="起始时间:  yyyy-MM-dd" id="startTime" />
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control Time " placeholder="结束时间:  yyyy-MM-dd" id="endTime" />
+						</div>
+						<div class="form-group">
+							<input type="button" onclick="$('#showTable').bootstrapTable('refresh');" value="检索" class="btn btn-success">
+						</div>
+						<div class="form-group" style="margin-left: 30px;">
+							<input type="button"  onclick="exports();" value="导出" class="btn btn-default">
+							<form name="dwon" action="finance/allBudget/export" method="post" style="display: none;">
+								<input type="hidden" name="startTime" />
+								<input type="hidden" name="endTime" />
+								<input type="hidden" name="caseId">
+								<input type="hidden" name="caseIdNum">
+								<input type="hidden" name="inType">
+								<input type="hidden" name="payment">
+								<input type="hidden" name="cType">
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px;">
+					<table id="showTable"></table>
+				</div>
+			</div>
+		</div>
+		<script src="static/financeJs/allBudget.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function exports(){
+				$("input[name='startTime']").val("").val($("#startTime").val());
+				$("input[name='endTime']").val("").val($("#endTime").val());
+				$("input[name='caseId']").val("").val($("#caseId").val());
+				$("input[name='caseIdNum']").val("").val($("#caseIdNum").val());
+				$("input[name='inType']").val("").val($("#inType").val());
+				$("input[name='payment']").val("").val($("#payment").val());
+				$("input[name='cType']").val("").val($("#cType").val());
+				var oDwon = document.dwon;
+				oDwon.submit();
+			}
+		</script>
+	</body>
+
+</html>

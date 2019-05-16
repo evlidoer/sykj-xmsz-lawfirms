@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<!--
+			bootstarp table 导入
+		-->
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<!-- <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script> -->
+		<script src="static/layui/layui.js"></script>
+<!-- 		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+ -->	<!-- 	<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="static/js/echarts.min.js"></script> -->
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#stime' //指定元素
+				});
+				laydate.render({
+					elem: '#etime' //指定元素
+				});
+			});
+		</script>
+		<style type="text/css">
+		td>a {font-size:16px} 
+
+		td>a:link {color: blue; text-decoration:none;} //未访问：蓝色、无下划线 
+		
+		td>a:active:{color: red; } //激活：红色 
+		
+		td>a:visited {color:purple;text-decoration:none;} //已访问：purple、无下划线 
+		
+		td>a:hover {color: red; text-decoration:underline;} //鼠标移近：红色、下划线
+			.select_time,
+			#BegTime,
+			#EndTime,
+			#BirthDay,
+			#Begtime,
+			#TCxrq,
+			#STime,
+			#PayTime1,
+			#LiAnDate,
+			#KaiTingDate,
+			#XuanPanDate,
+			#ShangSuDate,
+			#XjDate,
+			#DbDate,
+			#ZcBegDate,
+			#ZcEndDate,
+			#ZcBegDate1,
+			#ZcEndDate1,
+			#ZcBegDate2,
+			#ZcEndDate2,
+			#ScBegDate,
+			#ScEndDate,
+			#fDate,
+			#BillTime,
+			#ETime,
+			#stime,
+			#etime,
+			#Ptime {
+				background-repeat: no-repeat;
+				background-position: 99% center;
+				background-size: 24px 24px;
+				background-image: url(static/img/icon_input_time.png);
+			}
+			.small_menu a {
+			    display: block;
+			    padding: 4px 70px;
+			    color: #333;
+			}
+			table ul {
+			    display: inline-block;
+			    left: auto;
+			    right: 86px;
+			    top: 120px;
+			    background-color: white;
+			    text-shadow: 1px 2px 20px black;
+		}
+		svg 
+		{
+			font-size:25px;
+		}
+		</style>
+	</head>
+	<script type="text/javascript">
+		function sel(id) {
+			$.cookie("sel_ExpressageByID_id_1213",id,{ expires: 30, path: '/lawfirms' });
+			window.location.href = "/lawfirms/goto/addressBook/sel_ExpressageByID_id";
+		}
+		function upd(id) {
+			$.cookie("upd_ExpressageByID_id_51454", id,{ expires: 30, path: '/lawfirms' });
+			window.location.href = "goto/addressBook/upd_ExpressageByID_id";
+		}
+		function refresh() {
+			$("#Expressage").bootstrapTable("refresh");
+		}
+		function del(id) {
+			$.ajax({
+				type: "post",
+				url: "Expressage/delExpressage/"+id,
+				data: "_method=delete",
+				success: function(data) {
+					window.location.href = "goto/administration/Expressage";
+				}
+			});
+		}
+		//转换日期格式(时间戳转换为datetime格式)
+		function changeDateFormat(cellval) {
+			var dateVal = cellval + "";
+			if(cellval != null) {
+				var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+				var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+				var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+				var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+				var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+				return date.getFullYear() + "-" + month + "-" + currentDate;
+			}
+		}
+		var i = 0;
+		var myleft = 86;
+		var mytop = 188;
+		$(function() {
+			$("#ref").on("click", function() {
+				refresh();
+			})
+			$(document).keyup(function(event) {
+				if(event.keyCode == 13) {
+					refresh();
+				}
+			});
+			$("#Expressage").bootstrapTable({
+				method: "get",
+				url: "Expressage/sel", //?timer=" + new Date().getTime()
+				dataType: "json",
+				cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+				pagination: true, //开启分页
+				pageNumber: 1, //默认显示第几页
+				pageSize: 10, //每页几条数据
+				pageList: [15,20],
+				sidePagination: "server", //client 前台分页，server后台分页 	
+				/**
+				 * 参数传递
+				 * @param {Object} params
+				 */
+				queryParams: function(params) {
+					return {
+						offset: params.offset,
+						limit: params.limit,
+						title: $("#title").val(),
+						stime: $("#stime").val(),
+						etime: $("#etime").val(),
+						status: $("#status").val(),
+						DateType: $("#DateType").val(),
+						company: $("#company").val()
+					}
+				},
+				columns: [{
+					title: "收件人",
+					field: "emp_name"
+				}, {
+					title: "收件日期",
+					formatter: function(value, row, index) {
+						return changeDateFormat(row.sj_date)
+					}
+				}, {
+					title: "案号",
+					formatter: function(value, row, index) {
+						if (row.case_propernum != undefined)
+							return '<a href = "javaScript:sel('+row.law_id+')">'+row.case_propernum+'</>'
+					}
+				}, {
+					title: "快递公司",
+					field: "gs_name"
+				}, {
+					title: "快递类型",
+					field: "kd_type"
+				}, {
+					title: "快递费",
+					field: "kdmonery"
+				}, {
+					title: "领件人",
+					field: "sjname"
+				}, {
+					title: "领件状态",
+					formatter: function(value, row, index, field) {
+						if(row.sj_status == "Y") {
+							return '<svg class="icon" style="width: 1.0009765625em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5023"><path d="M903.984 217.344l0.56 217.728 3.632 0.912c19.744 4.944 32.496 14.352 40.128 29.616l9.088 18.208V217.328c0-65.136-51.296-118.128-114.352-118.128H148.96c-63.056 0-114.352 52.992-114.352 118.128v589.328c0 65.136 51.296 118.144 114.352 118.144h406.192l-4.16-7.2c-7.248-12.544-12.048-27.2-14.256-43.568l-0.544-4.16H148.96c-33.6 0-60.944-28.352-60.944-63.216V383.968h196.832v196.592c0 15.12 11.984 27.44 26.704 27.44 4.4 0 8.656-1.104 12.624-3.296l101.008-56 101.68 56c3.968 2.192 8.208 3.296 12.608 3.296 14.72 0 26.704-12.32 26.704-27.44V154.112H843.04c33.6 0 60.944 28.368 60.944 63.232z m-619.136 111.696H88.016v-111.712c0-34.864 27.328-63.216 60.944-63.216h135.888v174.928z m227.92 205.76l-62.352-34.368c-15.824-8.688-35.008-8.416-49.76 0l-62.368 34.368V154.112h174.496v380.688z" fill="#007dd0" p-id="5024"></path><path d="M809.664 527.008c-119.296 0-216 96.704-216 216s96.704 216 216 216 216-96.704 216-216-96.688-216-216-216z m136.8 204.176L752.72 904.016l-107.28-95.92v-115.632l107.28 95.968 193.744-172.848v115.6z" fill="#007dd0" p-id="5025"></path></svg>';
+						}else {
+							return '<svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5633"><path d="M768 578.56c0-15.36-15.36-30.72-30.72-30.72s-30.72 15.36-30.72 30.72V737.28c0 15.36 15.36 30.72 30.72 30.72h158.72c15.36 0 30.72-15.36 30.72-30.72s-15.36-30.72-30.72-30.72H768v-128z" fill="#A21F24" p-id="5634"></path><path d="M1024 225.28V97.28C1024 46.08 983.04 0 926.72 0H97.28C40.96 0 0 46.08 0 97.28V225.28c0 51.2 40.96 97.28 97.28 97.28v512C97.28 870.4 128 901.12 163.84 901.12h337.92c51.2 76.8 138.24 122.88 235.52 122.88 158.72 0 286.72-128 286.72-286.72 0-87.04-35.84-158.72-97.28-215.04v-204.8c51.2 5.12 97.28-40.96 97.28-92.16z m-962.56 0V97.28c0-20.48 15.36-30.72 30.72-30.72H921.6c15.36 0 30.72 15.36 30.72 30.72V225.28c0 20.48-15.36 30.72-30.72 30.72H97.28c-20.48 0-35.84-15.36-35.84-30.72zM957.44 737.28c0 122.88-102.4 225.28-225.28 225.28s-225.28-102.4-225.28-225.28 102.4-225.28 225.28-225.28c51.2 0 97.28 15.36 138.24 46.08l5.12 5.12c51.2 40.96 81.92 102.4 81.92 174.08zM737.28 450.56c-158.72 0-286.72 128-286.72 286.72 0 35.84 5.12 66.56 20.48 97.28H163.84h-5.12v-512H860.16v153.6A309.37088 309.37088 0 0 0 737.28 450.56z" fill="#A21F24" p-id="5635"></path></svg>';}
+					}
+				}, {
+					title: "领件时间",
+					formatter: function(value, row, index) {
+						if(row.sj_status != "Y") {
+							return "待领取";
+						}
+						return changeDateFormat(row.lj_date)
+					}
+				}, {
+					title: "备注说明",
+					field: "sjdesc"
+				}, {
+					title: "操作",
+					column:"width:390px",
+					formatter: function(value, row, index) {
+						if (i + 1 === index){
+							mytop += 42
+							i++;
+						}
+						return '<div  class="btn_hollow case_set facaidan btn_solid" data-value="1695">菜单</div>' +
+							'<ul class="small_menu" style="display:none;left: auto; right: '+myleft+'px; top: '+mytop+'px;">' +
+							' <li><a href="javaScript:sel(' + row.id + ')" draggable="false">查看</a></li>' +
+							'<li><a href="javaScript:upd(' + row.id + ')" draggable="false">修改</a></li>' +
+							'<li><a href="javaScript:del(' + row.id + ')" draggable="false">删除</a></li>' +
+							'</ul>';
+					}
+				}],
+				//height: $(window).height() - 150//自定义表格的高度
+			}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+			$('table tr td:last').css("width","390px")
+			$(document).on("click", ".facaidan", function() {
+				$(this).text("收起")
+				//alert($(this).next().css("display"))
+				if($(this).next().css("display") == "none") {
+					$(this).next().css("display", "inline-block")
+				} else {
+					$(this).text("菜单")
+					$(this).next().css("display", "none")
+				}
+			});
+			refresh();
+		}); //
+		
+		 function sel(id){
+		     	$.cookie("gotocognizance_id",id, {
+					expires: 30,
+					path: '/lawfirms'
+				});
+		     	window.location.href="gocognizance"
+		     }
+	</script>
+
+	<body id="content">
+		<section>
+
+			<!--页面加载动画-->
+			<div class="load1" id="loading">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">行政</a>
+				</li>
+				<li>
+					<a class="active">快递管理</a>
+				</li>
+			</ol>
+
+			<!-- 选项卡 -->
+			<ul class="tab">
+				<li>
+					<a href="goto/administration/Expressage" class="tab_on">收件管理</a>
+				</li>
+				<li>
+					<a href="goto/administration/FJExpressage">发件管理</a>
+				</li>
+			</ul>
+
+			<form action="/Express/ReciveList" class="container-fluid page_find" id="searchForm" method="post">
+				<div style="margin: 10px 20px 0 0;">
+					<div class="input-group">
+						<input type="text" name="title" id="title" class="form-control" placeholder="收件人/领件人">
+					</div>
+					<div class="down_box">
+						<input type="text" name="company" id="company" class="form-control" placeholder="快递公司">
+					</div>
+					<!-- <div class="down_box">
+						<select name="FileCols">
+							<option selected="selected" value="">选择快件类型</option>
+							<option value="K">快递</option>
+							<option value="R">人工派送</option>
+						</select>
+					</div> -->
+					<div class="down_box">
+						<select id="status" name="status">
+							<option value="" disabled selected hidden>领取状态:</option>
+							<option value="Y">已领取</option>
+							<option value="N">未领取</option>
+							<option value="">所有</option>
+						</select>
+					</div>
+					<div class="input-group">日期:</div>
+					<div class="input-group">
+						<input id="stime" name="stime" type="text" class="Wdate t_edit form-control">
+					</div>
+					<div class="input-group">至</div>
+					<div class="input-group">
+						<input id="etime" name="etime" type="text" class="Wdate t_edit form-control">
+					</div>
+					<div class="down_box">
+						<select id="DateType" name="DateType">
+							<option value="S">根据收件日期</option>
+							<option value="L">根据领件日期</option>
+						</select>
+					</div>
+					<input type="button" id="ref" value="检索" class="btn_solid" style="margin-left: 10px;">
+					<a href='goto/addressBook/add_ExpressageByID_id' class="btn_hollow" style="margin-left:20px;">添加收件</a>
+				</div>
+			</form>
+
+			<div id="datas">
+
+				<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="Expressage">
+				</table>
+			</div>
+
+		</section>
+	</body>
+
+</html>

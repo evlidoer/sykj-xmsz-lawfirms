@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.jt.lawfirm.mapper.record.IRecordArchiveslibraryMapper">
+	<resultMap type="com.jt.lawfirm.bean.record.RecordArchiveslibrary" id="myresult">
+		<id column="id" property="id"/>
+		<result column="archiveslibraryBorrowdate" property="archiveslibraryBorrowdate"/>
+		<result column="archiveslibraryReturndate" property="archiveslibraryReturndate"/>
+		<result column="archiveslibraryRemark" property="archiveslibraryRemark"/>
+		<result column="archiveslibraryReturnStatus" property="archiveslibraryReturnStatus"/>
+		<collection property="law" ofType="com.jt.lawfirm.bean.casea.Law">
+			<id column="id" property="id"/>
+			<result column="casePropernum" property="casePropernum"/>
+			<result column="caseFilenumber" property="caseFilenumber"/>
+		</collection>
+		<collection property="record" ofType="com.jt.lawfirm.bean.record.Record">
+			<id column="id" property="id"/>
+			<collection property="recordFile" ofType="com.jt.lawfirm.bean.record.RecordFile">
+				<id column="id" property="id"/>
+				<result column="fileName" property="fileName"/>
+			</collection>
+		</collection>
+		<collection property="user" ofType="com.jt.lawfirm.bean.system.User">
+			<id column="id" property="id"/>
+			<result column="user_name" property="userName"/>
+		</collection>
+		<collection property="emp" ofType="com.jt.lawfirm.bean.hr.HrEmp">
+			<id column="id" property="id"/>
+			<result column="empName" property="empName"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selRecordArchiveslibraryAll"
+		resultMap="myresult" parameterType="java.util.Map">
+			select record_archiveslibrary.id id
+				,case_propernum casePropernum <!-- #案号 -->
+				,case_filenumber caseFilenumber<!-- #档案号 -->
+				,file_name fileName<!-- #档案名称 -->
+				,user_name<!-- #借档人 -->
+				,emp_name empName
+				,archiveslibrary_borrowdate archiveslibraryBorrowdate<!-- #借出时间 -->
+				,archiveslibrary_returndate archiveslibraryReturndate<!-- #归还时间 -->
+				,archiveslibrary_remark archiveslibraryRemark<!-- #备注 -->
+				,archiveslibrary_return_status archiveslibraryReturnStatus<!-- #归还状态 -->
+			from record_archiveslibrary 
+				inner join case_law on record_archiveslibrary.law_caseid = case_law.id
+				inner join record on record_archiveslibrary.record_id = record.id
+				inner join system_user on record_archiveslibrary.system_user_id = system_user.id
+				inner join record_file on record.record_archived_file = record_file.id
+				inner join hr_emp on hr_emp.id = system_user.hr_emp_id
+				where 1 != 2
+		 <if test="case_propernum != null and case_propernum != ''">
+		 	and case_propernum like #{case_propernum} 
+		 </if>
+		 <if test="case_filenumber != null and case_filenumber != ''">
+		 	and case_filenumber like #{case_filenumber}
+		 </if>
+		 <if test="file_name != null and file_name != ''">
+		 	and file_name like #{file_name}
+		 </if>
+		 <if test="user_name != null and user_name != ''">
+		 	and user_name like #{user_name}
+		 </if>
+		 
+		 <!-- 归还状态 -->
+		  <if test="archiveslibrary_return_status != null and archiveslibrary_return_status != ''">
+		 	and archiveslibrary_return_status = #{archiveslibrary_return_status}
+		 </if>
+		 
+		 <!-- 某个时间排序 -->
+		 <if test="jie_yue_desc != null and jie_yue_desc != ''">
+		 	order by archiveslibrary_borrowdate desc
+		 </if>
+		 <if test="jie_yue != null and jie_yue != ''">
+		 	order by archiveslibrary_borrowdate
+		 </if>
+		 <if test="gui_huan_desc != null and gui_huan_desc != ''">
+		 	order by archiveslibrary_returndate
+		 </if>
+		 <if test="gui_huan != null and gui_huan != ''">
+		 	order by archiveslibrary_returndate
+		 </if>
+	</select>
+	<select id="selByArrId" parameterType="java.util.List" resultMap="myresult">
+		select record_archiveslibrary.id id
+				,case_propernum casePropernum <!-- #案号 -->
+				,case_filenumber caseFilenumber<!-- #档案号 -->
+				,file_name fileName<!-- #档案名称 -->
+				,user_name<!-- #借档人 -->
+				,emp_name empName
+				,archiveslibrary_borrowdate archiveslibraryBorrowdate<!-- #借出时间 -->
+				,archiveslibrary_returndate archiveslibraryReturndate<!-- #归还时间 -->
+				,archiveslibrary_remark archiveslibraryRemark<!-- #备注 -->
+				,archiveslibrary_return_status archiveslibraryReturnStatus<!-- #归还状态 -->
+			from record_archiveslibrary 
+				inner join case_law on record_archiveslibrary.law_caseid = case_law.id
+				inner join record on record_archiveslibrary.record_id = record.id
+				inner join system_user on record_archiveslibrary.system_user_id = system_user.id
+				inner join record_file on record.record_archived_file = record_file.id
+				inner join hr_emp on hr_emp.id = system_user.hr_emp_id
+				where record_archiveslibrary.id in
+		<foreach item="item" index="index" collection="list" 
+							open="(" separator="," close=")">
+        	#{item}
+		</foreach>
+	</select>
+	
+	<delete id="delByArr" parameterType="java.util.List">
+		delete from record_archiveslibrary 
+		where id in
+		<foreach item="item" index="index" collection="list" 
+							open="(" separator="," close=")">
+        	#{item}
+		</foreach>
+	</delete>
+	
+	
+
+
+</mapper>

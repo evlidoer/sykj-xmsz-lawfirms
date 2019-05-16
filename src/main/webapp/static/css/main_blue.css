@@ -1,0 +1,173 @@
+
+
+
+/*é¡¶éƒ¨çŠ¶æ€æ é¢œè‰²*/
+.navbar-default {
+    background: #4EA5DE;
+    background: linear-gradient(to right,#4EA5DE,#348BC4);
+}
+
+
+
+
+
+
+/*æ–°è§†å›¾å¤´éƒ¨é¢œè‰²*/
+.new_view div {
+    background-color: #3da8fb;
+}
+
+/*æ¶ˆæ¯å¾½ç« èƒŒæ™¯è‰²*/
+.news_badge {
+    background-color: #3B9BDB;
+}
+
+/*ä¸€çº§èœå•å¼€å…³é¢œè‰²*/
+.home_nav_flex {
+    background-color: #3B9BDB;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/*å½“å‰é€‰ä¸­æ ç›®é¢œè‰²*/
+.home_btn_on {
+    background-color: #348BC4 !important;
+}
+
+    .home_btn_on svg g {
+        /*fill: #3B9BDB;*/
+    }
+
+
+/*ä¸€çº§èœå•èƒŒæ™¯è‰²*/
+.home_nav {
+    background-color: #3B9BDB;
+}
+
+#view {
+    background-color: #3B9BDB;
+}
+
+/*ä¸€çº§èœå•æ ç›®æ‚¬åœè‰²*/
+.btn1_hover:hover {
+    background-color: #4EA5DE;
+    color: #fff;
+}
+
+
+   
+#main_logo:focus{
+	color: #fff;
+}
+/*äºŒçº§èœå•èƒŒæ™¯è‰²*/
+.home_nav2 {
+    background-color: #348BC4;
+}
+
+    .home_nav2 ul li button {
+        background-color: #348BC4;
+    }
+
+        /*äºŒçº§èœå•æ ç›®æ‚¬åœè‰²*/
+        .home_nav2 ul li button:hover, .home_nav2 ul li button:focus {
+            background-color: #2E7CB0;
+            color: #fff;
+        }
+
+/*é€šç”¨èƒŒæ™¯é¢œè‰²*/
+.bg_change_title {
+    background: #3B9BDB;
+    color: white;
+}
+
+/*æŒ‰é’®é¢œè‰²*/
+.btn_solid {
+    background-color: #3B9BDB;
+    color: #fff;
+}
+
+    /*æŒ‰é’®æ‚¬åœé¢œè‰²*/
+    .btn_solid:hover {
+        background-color: #4EA5DE;
+    }
+
+
+
+/*æ¡ˆä»¶è¯¦æƒ…*/
+.caseDetail_nav .nav li {
+    float: left;
+    height: 50px;
+    margin: 10px 0px;
+    line-height: 50px;
+    padding: 0px 20px;
+    background: #3B9BDB;
+    border-right: 1px solid #ddd;
+}
+
+    .caseDetail_nav .nav li:hover {
+        background: #3B9BDB;
+    }
+
+
+
+
+
+.flow_line_now {
+    background-color: #3B9BDB !important;
+    color: #fff;
+}
+
+    .flow_line_now::after {
+        background-color: #3B9BDB !important;
+    }
+
+
+
+          .welcomeBg {
+    background: url('/Content/images/welcome.jpg') no-repeat;
+    background-size: 100%;
+}
+
+
+
+          .welcomeBg {
+    background: url('/Content/images/welcome/blue.jpg') no-repeat;
+    background-size: 100%;
+}
+
+.home_nav2 .home_btn_on{
+    color: #3B9BDB !important;
+}
+
+
+
+
+
+/*2018/10/24æ–°å¢ž*/
+
+.row_title .text_border,
+.fc-toolbar .fc-left h2{
+    border-left: 3px solid #3B9BDB;
+}
+
+.three-choice .col-xs-4 p:first-child{
+    color:#3B9BDB;
+}
+
+.fc-event{
+    background-color:#3B9BDB;
+}
+
+.tab .tab_on{
+    border-top: 2px solid #3B9BDB;
+}
+
+.case_type .case_typeActive,
+.case_type li:hover{
+    border: 2px solid #3B9BDB;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+    background-color:#3B9BDB;
+}
+
+

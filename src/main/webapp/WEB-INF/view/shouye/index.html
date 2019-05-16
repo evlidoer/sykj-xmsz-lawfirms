@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+<html>
+	<base href="/lawfirms/" />
+<head>
+  <meta charset="utf-8">
+  <title>律师事务所后台管理系统</title>
+   <meta http-equiv="pragma" content="no-cache">
+ <meta http-equiv="cache-control" content="no-cache">
+ <meta http-equiv="expires" content="0">   
+<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+<link rel="stylesheet" type="text/css" href="static/layui/css/layui.mobile.css"/>
+<link rel="stylesheet" type="text/css" href="static/layui/css/modules/code.css"/>
+<link rel="stylesheet" type="text/css" href="static/layui/css/modules/laydate/default/laydate.css"/>
+<link rel="stylesheet" type="text/css" href="static/layui/css/modules/layer/default/layer.css"/>
+<link rel="stylesheet" type="text/css" href="static/style/admin.css"/>
+<script type="text/javascript">
+	function logout(){
+		// 清除所有的cookie
+		function deleteCookie() {
+			var cookies = document.cookie.split(";");
+			for(var i = 0; i < cookies.length; i++) {
+				var cookie = cookies[i];
+				var eqPos = cookie.indexOf("=");
+				var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+				document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+			}
+			if(cookies.length > 0) {
+				for(var i = 0; i < cookies.length; i++) {
+					var cookie = cookies[i];
+					var eqPos = cookie.indexOf("=");
+					var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+					var domain = location.host.substr(location.host.indexOf('.'));
+					document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + domain;
+				}
+			}
+		}
+		window.location.href = "/lawfirms/logout";
+	}
+</script>
+ <!-- <script>
+  /^http(s*):\/\//.test(location.href) || alert('请先部署到 localhost 下再访问');
+  </script>-->
+  <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/LyJs.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+	<body class="layui-layout-body">
+
+		<div id="LAY_app" >
+			<div class="layui-layout layui-layout-admin">
+				<div class="layui-header">
+					<!-- 头部区域 -->
+					<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item layadmin-flexible" lay-unselect>
+							<a href="javascript:void(0)" onclick="fn(this)" layadmin-event="flexible" title="侧边伸缩">
+								<i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+							</a>
+						</li>
+						<!-- <li class="layui-nav-item layui-hide-xs" lay-unselect>
+							<a href="http://www.layui.com/admin/" target="_blank" title="前台">
+								<i class="layui-icon layui-icon-website"></i>
+							</a>
+						</li> -->
+						<li class="layui-nav-item" lay-unselect>
+							<a href="javascript:location.reload();" layadmin-event="refresh" title="刷新">
+								<i class="layui-icon layui-icon-refresh-3"></i>
+							</a>
+						</li>
+						<li class="layui-nav-item layui-hide-xs" lay-unselect>
+							<input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
+						</li>
+					</ul>
+					<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+	<!-- 					<li class="layui-nav-item" lay-unselect>
+							<a href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
+								<i class="layui-icon layui-icon-notice"></i>
+
+								如果有新消息，则显示小圆点
+								<span class="layui-badge-dot"></span>
+							</a>
+						</li> -->
+					<li class="layui-nav-item layui-hide-xs" lay-unselect="" id="test">
+			            <a href="javascript:;" layadmin-event="theme">
+			              <i class="layui-icon layui-icon-theme"></i>
+			            </a>
+			          </li>
+						
+						
+						
+						<li class="layui-nav-item layui-hide-xs" lay-unselect>
+							<a href="javascript:;" layadmin-event="note">
+								<i class="layui-icon layui-icon-note"></i>
+							</a>
+						</li>
+						<li class="layui-nav-item layui-hide-xs" lay-unselect>
+							<a href="javascript:;" layadmin-event="fullscreen">
+								<i class="layui-icon layui-icon-screen-full"></i>
+							</a>
+						</li>
+						<li class="layui-nav-item" lay-unselect>
+							<a href="javascript:;">
+								<cite>信息</cite>
+							</a>
+							<dl class="layui-nav-child">
+								<dd>
+									<a href="set/user/info.html">基本资料</a>
+								</dd>
+								<dd>
+									<a href="set/user/password.html">修改密码</a>
+								</dd>
+								<hr>
+								<dd layadmin-event="logout" style="text-align: center;">
+									<a href="javaScript:logout()">退出</a>
+								</dd>
+							</dl>
+						</li>
+
+						<li class="layui-nav-item layui-hide-xs" lay-unselect>
+							<a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
+						</li>
+						<li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+							<a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
+						</li>
+					</ul>
+				</div>
+
+
+
+
+				<!-- 侧边菜单 -->
+				<div class="layui-side layui-side-menu">
+					<div class="layui-side-scroll">
+						<div class="layui-logo" href="home/console.html">
+							<span>律师事务所</span>
+						</div>
+
+						<ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+							<li data-name="home" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="主页" lay-direction="2">
+									<i class="layui-icon layui-icon-home"></i>
+<!--
+律所管理 start
+-->		
+									<cite>律所管理</cite>
+								</a>
+									
+									<dl class="layui-nav-child">
+										<dd data-name="button">
+											<a href="homepage.html" target="myiframe"><i class="layui-icon layui-icon-home"></i>首页</a>
+										</dd>
+										<dd data-name="grid">
+										<a href="javascript:;">案件</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="ConflictOfInterestReview" target="myiframe">利益冲突审查</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="addCase1" target="myiframe">新增案件</a>
+												</dd>
+												<dd data-name="mobile-pc">
+													<a href="myCase" target="myiframe">我的案件</a>
+												</dd>
+												<dd data-name="all">
+													<a href="ConsultingGhostwriting" target="myiframe">咨询与代书</a>
+												</dd>
+												<dd data-name="stack">
+													<a href="kaitingMsg" target="myiframe">开庭/侦查/检查</a>
+												</dd>
+												<dd data-name="speed-dial">
+													<a href="feiyong" target="myiframe">费用减免申请记录</a>
+												</dd>
+												<dd data-name="speed-dial">
+													<a href="yongyin1" target="myiframe">用印申请</a>
+												</dd>
+												<hr/>
+												<!-- <dd data-name="speed-dial">
+													<a href="bulkLoad" target="myiframe">批量案件导入</a>
+												</dd> -->
+												<dd data-name="speed-dial">
+													<a href="WholeCase" target="myiframe">所有案件</a>
+												</dd>
+												<dd data-name="speed-dial">
+													<a href="ManageCase" target="myiframe">管理案件</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">审批</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="gotomyapply" target="myiframe">我的申请</a>
+												</dd>
+												<hr/>
+												<dd data-name="mobile">
+													<a href="gotomyapplyok" target="myiframe">审批中心</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">客户</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="gotomyclient" target="myiframe">我的客户</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="gotocounterparty" target="myiframe">对方当事人</a>
+												</dd>
+												<hr />
+												<dd data-name="mobile">
+													<a href="gotoclient" target="myiframe">所有客户</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">日志</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="goto/log" target="myiframe">我的工作日志</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="goto/log/addlog" target="myiframe">添加工作日志</a>
+												</dd>
+												<hr />
+												<dd data-name="mobile">
+													<a href="goto/log/allworkshow" target="myiframe">所有工作日志</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">行政</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="goto/administration/Notice" target = "myiframe">公告通知</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="goto/addressBook/Attorney" target = "myiframe">通讯录</a>
+												</dd>
+												<hr />
+												<dd data-name="mobile">
+													<a href="goto/administration/ManagerNotice" target = "myiframe">管理公告通知</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="goto/administration/SigninrecorGL" target = "myiframe">签到管理</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="goto/administration/Complain" target = "myiframe">建议投诉</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="component/grid/mobile.html" target = "myiframe">短信</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="goto/administration/Expressage"" target = "myiframe">快递登记</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">档案</a>
+											<dl class="layui-nav-child">
+												<!-- <dd data-name="list">
+													<a href="goto/record/ElectronicFiling" target = "myiframe" >电子归档</a>
+												</dd>
+												<hr /> -->
+												<dd data-name="mobile">
+													<a href="goto/record/ElectronicRecordsAll" target = "myiframe">全所电子档案</a>
+												</dd>
+												
+												<dd data-name="mobile">
+													<a href="goto/record/ArchivesLibrary" target = "myiframe">档案借阅</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">财务</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="finance/budget/show" target="myiframe">我的收支</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="finance/income/show" target="myiframe">我的收入</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="finance/invoice/show" target="myiframe">我的发票</a>
+												</dd>
+												<hr />
+												<dd data-name="mobile">
+													<a href="finance/caseEntry/show" target="myiframe">案件收支记录</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="finance/lawEntry/show" target="myiframe">律所收支记录</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="finance/allBudget/show" target="myiframe">全所收支记录</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="finance/acting/show" target="myiframe">代开发票</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="finance/kpList/show" target="myiframe">开具发票</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->							
+										<dd data-name="grid">
+										<a href="javascript:;">统计</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="statistics/finance/show" target="myiframe">财务统计</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="statistics/prosonFinance/show" target="myiframe">执业人员财务统计</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="statistics/shoujiean/show" target="myiframe">收结案统计</a>
+												</dd>
+												<hr />
+												<dd data-name="mobile">
+													<a href="statistics/using/show" target="myiframe">用印统计</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="statistics/center/show" target="myiframe">综合统计中心</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">分析</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="component/grid/list.html">案件分析</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="component/grid/mobile.html">创收分析</a>
+												</dd>
+											</dl>
+										</dd>
+											
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">人事</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="hr/index/show" target="myiframe">人事档案</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="hr/index/showteam" target="myiframe">团队管理</a>
+												</dd>
+											</dl>
+										</dd>
+										<!------------------------->
+										<dd data-name="grid">
+										<a href="javascript:;">考核上报</a>
+											<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="gotoyearend" target="myiframe">年底考核</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="gotohistory" target="myiframe">年度统计</a>
+												</dd><dd data-name="mobile">
+													<a href="gotorepotr" target="myiframe">数据上报</a>
+												</dd>
+											</dl>
+										</dd>
+							</li>
+<!--
+	律所管理 end
+	-->					
+<!--
+	知识文库 start
+	-->								
+							
+							
+							<li data-name="component" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="知识文库" lay-direction="2">
+									<i class="layui-icon layui-icon-component"></i>
+									<cite>知识文库</cite>
+								</a>
+								<dl class="layui-nav-child">
+												<dd data-name="list">
+													<a href="component/grid/list.html">内部知识文库</a>
+												</dd>
+												<dd data-name="mobile">
+													<a href="component/grid/mobile.html">共享知识文库</a>
+												</dd>
+								</dl>
+							</li>
+<!--
+	知识文库 end
+	
+	项目协作
+	-->	
+							<li data-name="template" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="项目协作" lay-direction="2">
+									<i class="layui-icon layui-icon-template"></i>
+									<cite>项目协作</cite>
+								</a>
+							</li>
+							
+<!--
+	
+	项目协作
+	
+	
+	小任务
+-->							
+							
+							<li data-name="app" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="小任务" lay-direction="2">
+									<i class="layui-icon layui-icon-app"></i>
+									<cite>小任务</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd data-name="list">
+										<a href="component/grid/list.html">未完成的</a>
+									</dd>
+									<dd data-name="mobile">
+										<a href="component/grid/mobile.html">已完成的</a>
+									</dd>
+									<dd data-name="list">
+										<a href="component/grid/list.html">我执行的</a>
+									</dd>
+									<dd data-name="mobile">
+										<a href="component/grid/mobile.html">我发出的</a>
+									</dd>
+									<dd data-name="list">
+										<a href="component/grid/list.html">抄送我的</a>
+									</dd>
+									<dd data-name="mobile">
+										<a href="component/grid/mobile.html">我收藏的</a>
+									</dd>
+									<dd data-name="list">
+										<a href="component/grid/list.html">发布任务</a>
+									</dd>
+								</dl>
+							</li>
+							
+		<!--
+			任务
+			
+			案源中心
+		-->					
+							<li data-name="senior" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="案源中心" lay-direction="2">
+									<i class="layui-icon layui-icon-senior"></i>
+									<cite>案源中心</cite>
+								</a>
+							</li>
+	<!--
+		案源中心
+		
+		
+		办案工具
+	-->
+							<li data-name="user" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="办案工具" lay-direction="2">
+									<i class="layui-icon layui-icon-user"></i>
+									<cite>办案工具</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd>
+										<a href="user/user/list.html">默认推荐</a>
+									</dd>
+									<dd>
+										<a href="user/administrators/list.html">案例法规</a>
+									</dd>
+									<dd>
+										<a href="user/administrators/role.html">尽职调查</a>
+									</dd>
+									<dd>
+										<a href="user/administrators/list.html">知识拓展</a>
+									</dd>
+									<dd>
+										<a href="user/administrators/role.html">资本市场</a>
+									</dd>
+								</dl>
+							</li>
+<!--
+	办案工具
+	
+	
+	应用商店
+-->
+
+							<li data-name="set" class="layui-nav-item">
+								<a href="javascript:;" lay-tips="应用商店" lay-direction="2">
+									<i class="layui-icon layui-icon-set"></i>
+									<cite>应用商店</cite>
+								</a>
+							</li>
+
+	<!--
+	应用商店
+	
+	设置
+-->
+						
+							<li data-name="set" class="layui-nav-item">
+
+								<a href="javascript:;" lay-tips="设置" lay-direction="2">
+									<i class="layui-icon layui-icon-set"></i>
+									<cite>设置</cite>
+								</a>
+								<dl class="layui-nav-child">
+									<dd>
+										<a href="goto/setting/userManager" target = "myiframe">用户管理</a>
+									</dd>
+									<dd>
+										<a href="approveShow" target="myiframe">审批流程配置</a>
+									</dd>
+									<dd>
+										<a href="user/administrators/role.html" target="myiframe">系统配置</a>
+									</dd>
+									<dd>
+										<a href="user/administrators/list.html" target="myiframe">文件管理</a>
+									</dd>
+									<dd>
+										<a href="sys/index/toindex" target="myiframe">系统日志</a>
+									</dd>
+									<dd>
+										<a href="user/administrators/role.html" target="myiframe">分所管理</a>
+									</dd>
+									<dd>
+										<a href="user/administrators/role.html" target="myiframe">二级密码</a>
+									</dd>
+								</dl>
+							</li>
+	<!--
+		设置
+	-->						
+							
+								
+						</ul>
+					</div>
+				</div>
+
+				<!-- 页面标签 -->
+<!--				<div class="layadmin-pagetabs" id="LAY_app_tabs">
+					<div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+					<div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+					<div class="layui-icon layadmin-tabs-control layui-icon-down">
+						<ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+							<li class="layui-nav-item" lay-unselect>
+								<a href="javascript:;"></a>
+								<dl class="layui-nav-child layui-anim-fadein">
+									<dd layadmin-event="closeThisTabs">
+										<a href="javascript:;">关闭当前标签页</a>
+									</dd>
+									<dd layadmin-event="closeOtherTabs">
+										<a href="javascript:;">关闭其它标签页</a>
+									</dd>
+									<dd layadmin-event="closeAllTabs">
+										<a href="javascript:;">关闭全部标签页</a>
+									</dd>
+								</dl>
+							</li>
+						</ul>
+					</div>
+					<div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+						<ul class="layui-tab-title" id="LAY_app_tabsheader">
+							<li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+						</ul>
+					</div>
+				</div>-->
+
+				<!-- 主体内容 -->
+				<div class="layui-body" id="LAY_app_body">
+					<div class="layadmin-tabsbody-item layui-show">
+
+					<!-- 	<iframe src="homepage.html" frameborder="0" class="layadmin-iframe" id="MyIframe" name="Iframename"></iframe> -->
+
+						<iframe src="homepage.html" name="myiframe" frameborder="0" class="layadmin-iframe" id="MyIframe"></iframe>
+
+					</div>
+				</div>
+
+				<!-- 辅助元素，一般用于移动设备下遮罩 -->
+				<div class="layadmin-body-shade" layadmin-event="shade"></div>
+			</div>
+		</div>
+
+		
+		
+		<script src="static/js/myJs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/lay/modules/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/lib/admin.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/lay/modules/form.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/lay/modules/carousel.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/lay/modules/code.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/lay/modules/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/lay/modules/table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/modules/common.js" type="text/javascript" charset="utf-8"></script>
+		
+	</body>
+	<script type="text/javascript">
+
+	layui.use('colorpicker', function(){
+		 var $ = layui.$
+		  ,colorpicker = layui.colorpicker;
+		//开启全功能
+		  colorpicker.render({
+		    elem: '#test'
+		    ,color: 'rgba(7, 155, 140, 1)'
+		    ,format: 'rgb'
+		    ,predefine: true
+		    ,alpha: true
+		    ,done: function(color){
+		      $('#test-all-input').val(color); //向隐藏域赋值
+		      layer.tips('给指定隐藏域设置了颜色值：'+ color, this.elem);
+		      
+		      color || this.change(color); //清空时执行 change
+		    }
+		    ,change: function(color){
+		      //给当前页面头部和左侧设置主题色
+		      $('.layui-side-scroll,.layui-logo').css('background-color', color);
+		    }
+		  });
+	})
+	</script>
+</html>

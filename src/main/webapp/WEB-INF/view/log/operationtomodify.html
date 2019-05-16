@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<base href="/lawfirms/" />
+
+		<head>
+			<meta charset="UTF-8">
+			<title>湖北巨天律师事务所</title>
+   <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+    
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/laydate/default/laydate.css"/>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/layui/lay/modules/laydate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+			
+			<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+			
+			
+							<!--
+	作者：二乐
+	描述：我的工作日志-操作-修改
+-->
+			
+			<script type="text/javascript">
+				function changeDateFormat(cellval) {
+					var dateVal = cellval + "";
+					if(cellval != null) {
+						var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+						var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+						var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+						var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+						var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+						var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+						return date.getFullYear() + "-" + month + "-" + currentDate;
+					}
+				}
+				$(function() {
+					$.ajax({
+						type: "get",
+						url: "goto/log/log_type",
+						dataType: "json",
+						success: function(data) {
+							for(var i = 0; i < data.length; i++) {
+								$("#V1").append("<option id='" + data[i].id + "'>" + data[i].log_type_logname + "</option>")
+							}
+						}
+					});
+					$.ajax({
+						type: "get",
+						url: "goto/log/operationview/info/" + $.cookie("upd_logshowByID_id"),
+						dataType: "json",
+						success: function(data) {
+							console.log(data)
+							$("#CaseId").val(data[0].case_propernum); //案件
+							$("#caselawid").val(data[0].case_law_id); //案件id
+							$("#CustName").val(data[0].client); //客户名称CustNameId
+							$("#CustNameId").val(data[0].client_id); //客户名称CustNameId
+							$("#BegTime").val(changeDateFormat(data[0].joblog_startTime)); //开始时间
+							$("#THour").val(changeDateFormat(data[0].joblog_reportedTime)); //自报时间
+							$("input[value=" + data[0].addresslist_state + "]").attr("checked", "checked");
+							$("#addresslist_state").val(data[0].addresslist_state); //公开状态
+							$("#joblog_file").val(data[0].joblog_file); //相关
+							$("#Des").val(data[0].joblog_text); //工作描述
+						}
+					});
+				})
+			</script>
+			<style type="text/css">
+				.myinput{
+					vertical-align: middle;
+					width: 102%;
+				}
+			</style>
+		</head>
+
+		<body id="content">
+			<section>
+		<script>
+					function CaseChoose() {
+						layer.open({
+							title: '案件选择',
+							type: 2,
+							area: ['80%', '80%'],
+							fixed: false, //不固定
+							maxmin: true,
+							content: 'xiaotable'
+						});
+					}
+
+					function CustomChoose() {
+						layer.open({
+							title: '客户选择',
+							type: 2,
+							area: ['80%', '80%'],
+							fixed: false, //不固定
+							maxmin: true,
+							content: 'gotoclientSelname'
+						});
+					}
+
+					function SetTime(Beg, End) {
+
+						if(Beg != "" && End != "") {
+							var dt1 = new Date(Date.parse(Beg.replace(/-/g, "/")));
+							var dt2 = new Date(Date.parse(End.replace(/-/g, "/")));
+							var diff = parseInt((dt2.getTime() - dt1.getTime()) / (1000 * 60));
+							$("#THour").val(parseInt(diff / 60).toString());
+							$("#TMinute").val((diff % 60).toString());
+						}
+					}
+					
+					
+					
+			
+				</script>
+
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">日志管理</a>
+				</li>
+				<li>
+					<a class="active">修改工作日志</a>
+				</li>
+			</ol>
+				<form action="goto/log/operationview/uplog" method = "post" class="shell todown" id="form">
+					
+					<div class="grid_input_shell">
+						<div class="container">
+							<div class="row row_title">
+								<div class="col-xs-12">
+									<label class="text_border">日志编辑</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<label for=""><em>*</em>日志类型：</label>
+									<div class="dropdown_box1">
+										<div class="down_box">
+											<select name="logtypeId" id="V1">
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-6" id="LiCase">
+									<label for=""><em>*</em>案件：</label>
+									<input type="hidden" name="caseLawId" id="caselawid"/>
+									<input type="text" id="CaseId" name="CaseId" onclick=CaseChoose(); value="" class="form-control required" title="请选择案件" readonly="true" />
+								</div>
+							</div>
+							<div class="row">
+
+								<div class="col-xs-6" id="LiCustName">
+									<label for=""><em>*</em>客户名称：</label>
+									<br />
+									<input type="hidden" name="cliendId" id="CustNameId"/>
+									<input id="clientName" name="CustName" class="form-control required" value="" type="text" title="请填写客户名称" />
+									<button class="btn_solid" onclick="CustomChoose()" type="button">选择客户</button>
+								</div>
+
+								<div class="col-xs-6">
+									<label for=""><em>*</em>相关地址：</label>
+									<input type="text" name="joblogFile" id="joblog_file" class="form-control required" />
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-6">
+									<label for=""><em>*</em>开始时间：</label>
+									<input id="BegTime" name="joblogStartTime" class="form-control required" value="" type="text" title="请选择开始时间" readonly="true" />
+								</div>
+
+								<div class="row">
+									<div class="col-xs-6" style="margin-top: -14px;">
+										<label for=""><em>*</em>自报时长：</label>
+										<input id="THour" name="joblogReportedTime" class="form-control required" value="" type="text" title="请选择自报时间" readonly="true" style="width: 545px;" />
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-xs-6">
+										<label for=""><em>*</em>公开状态：</label>
+										<input type="radio" name="addresslistState" value="未公开" /><label>未公开</label>
+										<input type="radio" name="addresslistState" value="已公开" /><label>已公开</label>
+										<label style="color: red; width: 350px;">提示：公开后，客户可通过自主查询来查询服务记录</label>
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-xs-12">
+										<label for=""><em>*</em>工作描述：</label>
+										<textarea id="Des" name="joblogText" class="form-control required" rows="3" cols="90" title="请填写工作描述"></textarea>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-xs-12">
+										<input type="button" value="确定提交" class="btn_solid"/>
+									</div>
+								</div>
+							</div>
+						</div>
+				</form>
+
+				<script>
+					laydate.render({
+						elem: '#BegTime' //指定元素
+							,
+						calendar: true,
+						type: 'datetime',
+						format: 'yyyy-MM-dd HH:mm',
+						done: function(value, date, endDate) {
+							SetTime(value, $("#EndTime").val().replace(/-/g, "/"));
+							//alert(value); //得到日期生成的值，如：2017-08-18
+							//console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+							//console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+						}
+					});
+
+					//					laydate.render({
+					//						elem: '#EndTime' //指定元素
+					//							//, calendar: true
+					//							,
+					//						format: 'yyyy-MM-dd HH:mm',
+					//						type: 'datetime',
+					//						done: function(value, date, endDate) {
+					//							SetTime($("#BegTime").val().replace(/-/g, "/"), value);
+					//							//alert(value); //得到日期生成的值，如：2017-08-18
+					//							//console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+					//							//console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+					//						}
+					//					});
+
+					laydate.render({
+						elem: '#THour' //指定元素
+							//, calendar: true
+							,
+						format: 'yyyy-MM-dd HH:mm',
+						type: 'datetime',
+						done: function(value, date, endDate) {
+							SetTime($("#BegTime").val().replace(/-/g, "/"), value);
+							//alert(value); //得到日期生成的值，如：2017-08-18
+							//console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+							//console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+						}
+					});
+				</script>
+
+			</section>
+
+		</body>
+
+</html>

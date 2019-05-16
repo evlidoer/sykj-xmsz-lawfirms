@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>辽宁盛恒律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.css?v=6867868678">
+		<link id="main_link" rel="stylesheet" type="text/css" href="/Content/css/parts2.css?v=20181130">
+
+		<link id="main_link2" rel="stylesheet" type="text/css" href="/Content/css/main_blue.css?v=123121231312">
+		<script src="/Content/js/jquery_1.11.3.min.js?v=123121231312"></script>
+		<script type="text/javascript" src="/Content/js/bootstrap.js?v=123121231312"></script>
+		<script src="/Content/Js/CityList.js?v=1231212311323312" charset="gb2312" type="text/javascript"></script>
+		<script src="/Content/Js/jquery.form.js?v=123121231312"></script>
+		<script src="/Content/Js/MouseOpen.js?v=123121231312"></script>
+		<script src="/Content/Js/WebSiteJs.js?v=20181123"></script>
+		<script src="/Content/layer/layer.js?v=123121231312"></script>
+		<link rel="stylesheet" href="http://shengheng.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="/Content/js/jquery.validate.js?v=123121231312"></script>
+		<script src="/Content/js/jquery.validate.min.js?v=123121231312"></script>
+		<script src="/Content/js/messages_zh.js?v=123121231312"></script>
+		<script src="/Content/Js/layDate-v5.0.9/laydate/laydate.js?v=123121231312"></script>
+		<link rel="stylesheet" href="http://shengheng.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="/Content/Js/echarts.min.js?v=123121231312"></script>
+		<script type="text/javascript" src="/Content/js/parts.js?v=123121231312"></script>
+
+		<!-- 使ie9及以下兼容媒体查询和html5标签 -->
+		<!--[if lte IE 9]>
+    　  <script src="/Content/js/html5shiv.min.js"></script>
+        <script src="/Content/js/respond.js"></script>
+    <![endif]-->
+
+		<!-- 兼容ie9 -->
+		<!--[if IE 9]>
+        <link rel="stylesheet" type="text/css" href="/Content/css/ie9.css">
+    <![endif]-->
+
+		<!-- 兼容ie8 -->
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="/Content/css/ie8down.css">
+	<![endif]-->
+
+	</head>
+
+	<body id="content" style="padding-top: 41px;">
+		<section>
+
+			<script type="text/javascript">
+				$(function() {
+					$("#form").validate({
+						errorPlacement: function(error, element) {
+							element.parent().find("label").after(error);
+						}
+					});
+
+					var newID = $("#NewID").val();
+					$("#form").ajaxForm({
+						beforeSubmit: function() {},
+						success: function(data) {
+							var end = JSON.parse(data);
+							//if (end.Stat == 0) {
+							//    if (newID == "0") {
+							//        location.href = "/Message/BuyList";
+							//    } else {
+							//        location.href = history.go(-1);
+							//    }
+							//} else {
+							//    layer.msg(end.Message, function () {
+							//        //关闭后的操作
+							//    });
+							//    return false;
+							//}
+							layer.msg(end.Message, {
+								time: 1500
+							}, function() {
+								//关闭后的操作
+							});
+						}
+					});
+				});
+
+				function UserChoose() {
+					layer.open({
+						title: '人员选择',
+						type: 2,
+						area: ['60%', '50%'],
+						fixed: false, //不固定
+						maxmin: true,
+						content: '/Users/ChooseList?T=1'
+					});
+				}
+			</script>
+
+			<!-- 使ie9及以下兼容媒体查询和html5标签 -->
+			<!--[if lt IE 9]>
+    　 <script src="/Content/js/html5shiv.min.js"></script>
+       <script src="/Content/js/respond.js"></script>
+    <![endif]-->
+
+			<!-- 兼容ie8 -->
+			<!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="/Content/css/ie8down.css">
+	<![endif]-->
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading" style="display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<header class="fixed_top">
+				<!-- 浏览路径线 -->
+				<ol class="breadcrumb">
+					<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+					<a href="javascript:;history.go(-1)" class="btn btn-default" draggable="false">
+						<img src="/Content/icon/back.png" draggable="false">
+					</a>
+					<li>短信</li>
+					<li class="active">短信充值</li>
+				</ol>
+			</header>
+
+			<ul class="tab">
+				<a href="/Message/MobileIndex" draggable="false">短信群发</a>
+				<a href="/Message/SetMobileCount" draggable="false" class="tab_on">短信充值</a>
+				<a href="/Message/BuyList" draggable="false">短信充值记录</a>
+				<a href="/Message/MobileSendList" draggable="false">短信发送记录</a>
+				<a href="/Message/ALLMobileSend" draggable="false">全所短信发送记录</a>
+			</ul>
+			<script type="text/javascript">
+				$(function() {
+					var url = window.location.pathname;
+					$('a').removeClass("tab_on");
+					$('a').each(function() {
+						var adress = $(this).attr("href");
+						if(adress == url) {
+							$(this).addClass("tab_on");
+						}
+					});
+				});
+			</script>
+
+			<!-- 表单类组件外部盒子 -->
+
+			<form action="/Message/SetMobileCount" class="shell todown" id="form" method="post">
+				<div class="grid_input_shell">
+					<div class="container">
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">短信充值</label>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-6">
+								<label for=""><em>*</em>短信总余额：</label>
+								<input type="text" value="96" class="form-control required" readonly="true">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-6">
+								<label for=""><em>*</em>操作数量（如减少,请输入负数）：</label>
+								<input type="text" id="count" name="count" class="form-control required" maxlength="10" title="请填写操作数量">
+							</div>
+
+							<div class="col-xs-6">
+								<label for=""><em>*</em>员工：</label>
+								<input id="FullName" name="FullName" onfocus="UserChoose();" type="text" class="form-control required" title="请选择员工">
+								<input id="userId" name="userId" type="hidden">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-12">
+								<label for="">备注说明：</label>
+								<textarea id="des" name="des" class="form-control"></textarea>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-12">
+								<button id="save" class="btn_solid">确定提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<input type="hidden" id="NewID" name="NewID">
+			</form>
+			<script type="text/javascript" src="/Content/js/baseFunction.js"></script>
+			<script type="text/javascript" src="/Content/js/parts.js"></script>
+
+		</section>
+
+		<script type="text/javascript" src="/WebResource.axd?d=0zd9Y-1nbqhtJETSjGdh4dGa2On7CjnrzzvirF6QSJmTOs9YvYuJMoAGTMZmXwYQKE4244xgjjNQeYPte1ABvh7NiWltqI0qvlWa5LmygrvXKqpZygL7IiTETaU3tRLo6avG77vdVFuiCjI-0sIORcrrQfg1&amp;t=636736440675645877"></script>
+		<script src="/Content/Scripts/jquery.unobtrusive-ajax.js?v=12321312313"></script>
+		<script type="text/javascript" src="/Content/js/baseFunction.js?v=12321312313"></script>
+
+	</body>
+
+</html>

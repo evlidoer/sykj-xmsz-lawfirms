@@ -1,0 +1,152 @@
+<html><head>
+    <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css?v=68673868678">
+    <link id="main_link" rel="stylesheet" type="text/css" href="css/parts2.css?v=201381130">
+
+    
+</head>
+<body id="content">
+    <section>
+        
+
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default">
+        <img src="icon/back.png">
+    </a>
+        <li><a href="javascript:void(0)">案件</a></li>
+        <li><a class="active">全所待收款案件</a></li>
+</ol>
+
+    <!-- 选项卡 -->
+    <ul class="tab">
+        <a href="/Case/ALLlist">全所案件</a>
+        <a href="/Case/Receivables?ListCols=1" class="tab_on">全所待收款案件</a>
+        <a href="/CaseSummary/List?U=1">全所案件汇总</a>
+    </ul>
+
+<form action="/Case/Receivables" class="container-fluid page_find" id="searchForm" method="post" onclick="Sys.Mvc.AsyncForm.handleClick(this, new Sys.UI.DomEvent(event));" onsubmit="Sys.Mvc.AsyncForm.handleSubmit(this, new Sys.UI.DomEvent(event), { insertionMode: Sys.Mvc.InsertionMode.replace, updateTargetId: 's' });">    <input type="hidden" name="ListCols" id="ListCols" value="1">
+    <div class="input-group">
+        <input type="text" name="Title" id="Title" class="form-control">
+    </div>
+    <div class="down_box">
+        <select name="SearchType" id="SearchType">
+            <option value="3">委托人/嫌疑人搜索</option>
+            <option value="4">对方当事人搜索</option>
+            <option value="1">案号搜索</option>
+            <option value="8">专属案号搜索</option>
+            <option value="7">案由搜索</option>
+            <option value="5">承办律师搜索</option>
+            <option value="6">受理法院搜索</option>
+            <option value="9">归档号搜索</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="CaseYear" id="CaseYear">
+            <option value="-1">选择年份</option>
+                <option value="2019">2019年案</option>
+                <option value="2018">2018年案</option>
+                <option value="2017">2017年案</option>
+                <option value="2016">2016年案</option>
+                <option value="2015">2015年案</option>
+                <option value="2014">2014年案</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="PayStat" id="PayStat">
+            <option value="-1">状态</option>
+            <option value="1">未开票-未付款</option>
+            <option value="2">开票大于付款</option>
+            <option value="3">开票小于付款</option>
+            <option value="4">款项未收齐</option>
+            <option value="5">发票未开完</option>
+        </select>
+    </div>
+    <label>收案日期：</label>
+    <div class="input-group">
+        <input id="BegTime" name="BegTime" class="form-control" type="text">
+    </div>
+    <div class="input-group">
+        <input id="EndTime" name="EndTime" class="form-control" type="text">
+    </div>
+    <input type="submit" value="检索" class="btn_solid">
+    <input type="button" value="款项发票已结清" onclick="CheckeOut()" class="btn_hollow" style="margin-left: 80px;">
+    <input type="button" class="btn_hollow" value="导出" id="export" onclick="ExportExcel()" style="margin-left: 2px">
+</form>
+<div id="datas">
+
+<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="table">
+    <thead id="table_title">
+        <tr>
+            <th style="display:bolock">
+                <input type="checkbox" class="all_mark">
+            </th>
+            <th>案号</th>
+            <th>委托人</th>
+            <th>对方当事人</th>
+            <th>承办律师</th>
+            <th>代理费(元)</th>
+            <th>已付款(元)</th>
+            <th>未付款(元)</th>
+            <th>已开票(元)</th>
+            <th>未开票(元)</th>
+        </tr>
+    </thead>
+        <tbody><tr id="20190100031">
+            <td style="display:bolock">
+                <input type="checkbox" name="CaseID" value="20190100031">
+            </td>
+            <td><a href="/Case/CaseDes?CaseId=20190100031">2019（民）第0003号</a></td>
+            
+            <td>111</td>
+            
+            <td>aaaa</td>
+            <td>管理员</td>
+            <td>3000.00</td>
+            <td>0</td>
+            
+            <td>3000</td>
+            <td>0</td>
+            <td>3000</td>
+        </tr>
+        <tr id="20190100021">
+            <td style="display:bolock">
+                <input type="checkbox" name="CaseID" value="20190100021">
+            </td>
+            <td><a href="/Case/CaseDes?CaseId=20190100021">2019（民）第0002号</a></td>
+            
+            <td>111</td>
+            
+            <td>111</td>
+            <td>管理员</td>
+            <td>3000.00</td>
+            <td>0</td>
+            
+            <td>3000</td>
+            <td>0</td>
+            <td>3000</td>
+        </tr>
+    <tr>
+        <td>合计</td>
+        <td colspan="4"></td>
+        <td>6000</td>
+        <td>0</td>
+        <td>6000</td>
+        <td>0</td>
+        <td>6000</td>
+    </tr>
+</tbody></table>
+
+</div>
+
+
+
+    </section>
+    
+
+
+
+</body></html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css">
+		<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script src="static/js/jquery_1.11.3.min.js"></script>
+		<script type="text/javascript" src="static/bootstarp/js/bootstrap.js"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/layer.js"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.min.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/layDate5.0.9/laydate.js"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading1" style="opacity: 0.2; display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb" style="background-color: white;">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="static/img/back.png" draggable="false">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)" draggable="false">审批</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">流程查看</a>
+				</li>
+			</ol>
+
+			<input id="client_id" value="" type="hidden">
+			<div class="grid_input_shell">
+
+				<div>
+					<div class="row basic_info">
+						<div class="row row_title">
+
+							<label class="text_border">民事案件</label>
+
+						</div>
+
+						<div class="shell text_group" id="ArticleCnt">
+							<div class="my_grid">
+								<div class="all_box text_box">
+									案号：
+									<p id="CaseIdP">
+										<a href="gotolawdetail" id="casePropernum"></a>
+									</p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									添加日期：
+									<p id="caseSubtime"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									案件类型：
+									<p id="caseCaseTypeId"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									收案日期：
+									<p id="satime"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+
+								<div class="all_box text_box">
+									委托人：
+									<p title="aa" id="WtrTitle">
+										<a href="javascript:Sel()" draggable="false" id="clientId">
+
+										</a>
+									</p>
+									
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									第三人：
+									<p id="caseThirdParty"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+
+								<div class="all_box text_box">
+									当事人：
+									<p title="as" id="caseParties">
+										
+									</p>
+									
+								</div>
+							</div>
+							<div class="my_grid">
+
+								<div class="all_box text_box">
+									对方当事人：
+									<p title="" id="caseOpposite">
+										
+									</p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									办案地区：
+									<p id="caseTransactionRegion"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									受理法院：
+									<p title="" id="caseCourt"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									主办律师：
+									<p id="caseLawyer"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									合办律师：
+									<p>
+
+									</p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									诉讼标的：
+									<p id="caseLawsuitobj"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									代理费：
+									<p id="caseAgencyfee"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									交杂费：
+									<p id="caseProxysa"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									收费方式：
+									<p id="case_paycols"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									是否享受政府补助：
+									<p id="caseSubsidy"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									补助金额：
+									<p id="caseSubsidysal"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+
+								<div class="all_box text_box">
+									诉讼阶段：
+									<p title="" id="caseStatus">
+										
+									</p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+
+									诉讼地位：
+									<p id="caseLawsuitStatus"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									是否指派：
+									<p id="caseAssign"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									收案审批状态：
+									<p id="caseApproveStatus"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									档案归档号：
+									<p id="caseFilenumber"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									专属案号：
+									<p></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									收案审批人：
+									<p id="systemApprovalId"></p>
+								</div>
+							</div>
+
+							<div class="all_box text_box">
+								案由：
+								<p id="caseCause"></p>
+							</div>
+
+							<div class="all_box text_box">
+								案件备注：
+								<p style="white-space:inherit !important" id="caseRemarks"></p>
+							</div>
+
+						</div>
+
+						<div class="shell text_group">
+							<div class="all_box text_box" style="display:none" id="FileULDIV">
+								<ul id="caseCorrelationFile">
+									<li id="">相关文件:</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="row approval_record">
+						<div class="row row_title">
+							<label class="text_border">审批记录</label>
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<p>
+
+								</p>
+								<p> </p>
+								<p> </p>
+								<p>
+								</p>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-xs-10">
+								<p>当前审批人:</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<script>
+				function Sel(){
+					$.cookie("clientSelById",$("#client_id").val());
+					window.location.href="gotoclientSel";
+				}
+				
+				
+				$(function() {
+					$.ajax({
+						type: "post",
+						url: "cognizance/"+$.cookie("gotocognizance_id"),
+						async: true,
+						dataType: "json",
+						success: function(data) {
+							console.log(data)
+							$("#client_id").val(data[0].client_id)
+							$("#caseParties").html(data[0].case_parties)
+							$("#caseOpposite").html(data[0].case_opposite_parties)
+							$("#caseThirdParty").html(data[0].case_third_party)
+							$("#caseSuspect").html(data[0].case_suspect)
+							$("#caseClash").html(data[0].case_clash)
+							$("#caseCause").html(data[0].case_cause)
+							$("#caseAccept").html(data[0].case_accept)
+							$("#caseLawyer").html(data[0].emp_name)
+							$("#caseLawsuitobj").html(data[0].case_lawsuitobj)
+							if(data[0].case_subsidy=="N"){
+								$("#caseSubsidy").html("否")
+							}else if(data[0].case_subsidy=="Y"){
+								$("#caseSubsidy").html("是")
+							}
+							
+							
+							$("#caseSubsidysal").html(data[0].case_subsidysal)
+							$("#caseSettleStatus").html(data[0].case_settle_status)
+							$("#casePlan").html(data[0].case_plan)
+							if(data[0].case_approve_status=="N"){
+								$("#caseApproveStatus").html("否")
+							}else if(data[0].case_approve_status=="Y"){
+								$("#caseApproveStatus").html("是")
+							}
+							
+							$("#caseAgencyfee").html(data[0].case_agencyfee)
+							$("#caseProxysa").html(data[0].case_proxysal)
+							$("#caseTransactionRegion").html(data[0].case_transaction_region)
+							if(data[0].case_assign=="N"){
+								$("#caseAssign").html("否")
+							}else if(data[0].case_assign=="Y"){
+								$("#caseAssign").html("是")
+							}
+							$("#casePaidsal").html(data[0].case_paidsal)
+							$("#caseUnpaidsal").html(data[0].case_unpaidsal)
+							$("#caseInvoiced").html(data[0].case_invoiced)
+							$("#caseNotinvoiced").html(data[0].case_notinvoiced)
+							$("#casePropernum").html(data[0].case_propernum)
+							$("#caseCourt").html(data[0].case_court)
+							$("#caseFilenumber").html(data[0].case_filenumber)
+							$("#caseCorrelationFile").html(data[0].case_correlation_file)
+							$("#caseSubmitter").html(data[0].case_submitter)
+							$("#caseSubtime").html(data[0].case_subtime)
+							$("#caseRecycle").html(data[0].case_recycle)
+							$("#caseRemarks").html(data[0].case_remarks)
+							$("#clientId").html(data[0].client)
+							$("#caseAttorneyId").html(data[0].case_attorney_id)
+							$("#caseStatus").html(data[0].case_status)
+							
+							$("#caseLawsuitStatus").html(data[0].case_lawsuit_status)
+							$("#case_paycols").html(data[0].case_paycols)
+							$("#systemApprovalId").html(data[0].system_approval_id)
+							$("#caseCaseTypeId").html(data[0].case_case_type_id)
+							$("#caseSealApplyforID").html(data[0].case_seal_applyfor_id)
+							
+							
+						}
+					});
+
+					var num = 1;
+					var slow = setInterval(function() {
+						num += -0.2;
+						$('#loading1').css('opacity', num);
+					}, 40);
+					setTimeout(function() {
+						$('#loading1').css('display', 'none');
+						clearInterval(slow);
+					}, 200);
+
+					//不需要导航条
+					$("#officialbreadcrumb").hide();
+					//案号，js赋值跳转新页面
+					var CaseIdTxt = $("#CaseIdP").html();
+					var cid = '20190100201';
+					$("#CaseIdP").html('<a href=/Case/CaseDes?CaseId=' + cid + '>' + CaseIdTxt + '</a>');
+
+					$("#form").ajaxForm({
+						beforeSubmit: function() {
+
+						},
+						success: function(data) {
+							//if (data.Msg == "审批成功") {
+							//    layer.msg(data.Msg, { time: 2000 }, function () {
+							//        window.location.href = "/Audit/List";
+							//    });
+							//} else {
+							//    layer.msg(data.Msg, { time: 2000 });
+							//}
+							data = JSON.parse(data);
+							layer.msg(data.Msg, {
+								time: 2000
+							}, function() {
+								window.location.href = "/Audit/List2?Cols=" + $("#Cols").val();
+							});
+						}
+					});
+
+				});
+			</script>
+			<script type="text/javascript">
+				function checkform() {
+					var end = false;
+					var mark = $("#mark").val();
+					var stat = $("#stat").val();
+					$.ajax({
+						url: '/Audit/Sp',
+						type: 'GET',
+						async: false,
+						data: {
+							Stat: stat,
+							Mark: mark
+						},
+						timeout: 5000,
+						dataType: 'json',
+						success: function(data) {
+							data = JSON.parse(data);
+							if(data.Msg.length > 0) {
+								layer.msg(data.Msg, function() {
+									//关闭后的操作
+								});
+							} else {
+								$("#addCustom").show();
+								b = true;
+								if(data.Count == 0) {
+									layer.msg("未检测到相关案件", function() {
+										//关闭后的操作
+									});
+								}
+							}
+						},
+						complete: function(data) {
+
+						}
+					});
+					return b;
+				}
+
+				function DrawBackEdit() {
+					layer.open({
+						title: '退费修改',
+						type: 2,
+						area: ['80%', '80%'],
+						fixed: false, //不固定
+						maxmin: true,
+						content: '/CaseOperate/DrawBackEdit?AuditID=' + $("#AuditID").val()
+					});
+				}
+			</script>
+
+		</section>
+
+	</body>
+
+</html>

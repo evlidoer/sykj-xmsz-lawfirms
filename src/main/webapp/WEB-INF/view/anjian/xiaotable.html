@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>案件信息</title>
+     <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+    
+	<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery-3.2.0.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/bootstrap-table/bootstrap-table.js"type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/CityList.js"  type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/layer/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    
+<!-- <!-- <thead id="table_title">
+<tr>
+    <th>选择</th>
+    <th>案号</th>
+    <th>委托人</th>
+    <th>对方当事人</th>
+    <th>代理费</th>
+    
+    <th>已到款</th>
+    <th>已开票</th>
+    <th>承办律师</th>
+    <th>收案日期</th>
+</tr>
+</thead>--> 
+
+</head>
+
+<body id="content">
+    <section>
+<form  class="container-fluid page_find" id="searchForm" method="post" >       
+		<div class="input-group">
+            <input type="text" name="casePropernum" id="SearchStr" class="form-control" />
+        </div> 
+          <div class="down_box">   
+            <select name="SearchType">
+                <option value="1">案号搜索</option>
+            </select>
+           </div>
+      <input type="button" id="btn" value="检索" class="btn_solid" />
+</form>
+<div id="datas">
+
+<input type="hidden" value="0" id="needRefresh" />
+<input type="hidden" value="0" id="T" />
+<input type="hidden" value="" id="GdNum" />
+<table id="xiaotable">
+</table>
+</div>
+<script src="static/js/LyJs.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+$(function () {
+	//注意：parent 是 JS 自带的全局对象，可用于操作父页面
+	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	
+	
+	$("#xiaotable").bootstrapTable({
+		method:'post',
+		dataType:'json',
+		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+		url:'ajaxlaw',
+		//设置true将禁止多选
+		singleSelect : true,
+		pagination:true,//显示分页
+		pageSize:3,//每页数据数
+		pageList:[3,4,5],//设置页面可显示的数据条数
+		pageNumber:1,//首页页码
+		sidePagination:'server',//设置为服务器端分页
+		//sidePagination: 'client',
+		 queryParams:function(params){//向后台传值
+			return{
+				offset:params.offset,
+				limit:params.limit,
+				"casePropernum":$("#casePropernum").val()
+			 }
+		}, 
+		columns:[{
+			align: 'center', // 左右居中
+			checkbox: true,
+		},{
+			align: 'center', // 左右居中
+			title:'id',
+			field:'id',
+			visible: false  ///列隐藏
+		},{
+			align: 'center', // 左右居中
+			title:'案号',
+			width:'230px',
+			field:'case_propernum'
+		},{
+			align: 'center', // 左右居中
+			title:'接案日期',
+			width:'95px',
+			formatter:function(value,row,index){
+				if(row.case_subtime!=null)return new Date(row.case_subtime).format("yyyy-MM-dd")
+				else return null
+			}
+			
+		}/*,{
+			align: 'center', // 左右居中
+			title:'委托人',
+			width:'60px',
+			field: 'case_third_party'
+		}*/,{
+			align: 'center', // 左右居中
+			title:'对方当事人',
+			field: 'case_opposite_parties'
+		},{
+			align: 'center', // 左右居中
+			title:'承办律师',
+			field: 'emp_name'
+		},{
+			align: 'center', // 左右居中
+			title:'结案',
+			width:'60px',
+			formatter:function(value,row,index){
+					if(row.case_settle_status == 'Y') return '已结案';
+					if(row.case_settle_status == 'N') return '未结案';
+			}
+		},{
+			align: 'center', // 左右居中
+			title:'代理费',
+			width:'60px',
+			field: 'case_agencyfee'
+		},{
+			align: 'center', // 左右居中
+			title:'已付款(元)',
+			width:'60px',
+			field: 'case_paidsal'
+		},
+		/* {
+			align: 'center', // 左右居中
+			title:'已开票(元)',
+			width:'60px',
+			field: 'case_invoiced'
+		}, */
+		{
+			align: 'center', // 左右居中
+			title:'收案审批',
+			width:'80px',
+			formatter:function(value,row,index){
+					if(row.case_approve_status == 'Y') return '已审批';
+					if(row.case_approve_status == 'N') return '未审批';
+			}
+		},{
+			align: 'center', // 左右居中
+			title:'收案审批人',
+			width:'100px',
+			field: 'system_approval_id'
+		},{
+			align: 'center', // 左右居中
+			title:'档案',
+			width:'60px',
+			formatter:function(value,row,index){
+					if(row.case_filenumber == 'Y') return '已归档';
+					if(row.case_filenumber == 'N') return '未归档';
+			}
+		}],
+		//点击checkbox触发事件
+		 onCheck:function(row){
+		 	
+		 	//获取选中的一行值
+			 var a= $("#xiaotable").bootstrapTable("getSelections");
+				console.log(a)
+				//赋值给父页面
+	    		parent.$("#CaseId").val(a[0].case_propernum);
+				parent.$("#caselawid").val(a[0].id);
+				parent.$("#NewCaseId").val(a[0].case_propernum);
+				parent.layer.close(index);
+	     }
+	})
+
+
+		//查询(刷新表格)
+		$("#btn").on("click",function(e){
+			$("#xiaotable").bootstrapTable('refresh');//刷新
+		});
+	
+	
+		
+	
+		
+});
+		
+		
+      
+        
+</script>
+
+
+ 
+
+
+    </section>
+    
+
+ <script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+</body>
+</html>

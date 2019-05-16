@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<!--
+				
+				bootstarp table 导入
+			-->
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/laydate.js"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script type="text/javascript">
+			function selExternalInfo(id) {
+				$.cookie("Save_Sel_ExternalInfo_ID", id);
+				window.location.href = "goto/addressBook/Externalnfo";
+			}
+			function updExternalInfo(id) {
+				$.cookie("Save_Upd_ExternalInfo_ID", id);
+				window.location.href = "goto/addressBook/updExternal";
+			}
+			$(function() {
+				refresh();
+				
+				$("#ref").on("click", function() {
+					refresh();
+				})
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+				$("#Tab").bootstrapTable({
+					method: "get",
+					url: "external/sel",
+					dataType: "json",
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 3, //每页几条数据
+					pageList: [3, 6, 10],
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							title: $("#title").val()
+						}
+					},
+					columns: [{
+							title: "单位",
+							field: "externalCompanyname"
+						}, {
+							title: "部门",
+							field: "dept"
+						}, {
+							title: "联系人",
+							field: "externalContacts"
+						}, {
+							title: "手机号",
+							field: "externalCellphonenumber"
+						}, {
+							title: "固定电话",
+							field: "externalTelephone"
+						},
+						/* {
+												title: "操作",
+												formatter: function(value, row, index, field) {
+
+													var caidan = '<button class="layui-btn MyBtu1"><i class="layui-icon"></i>呼出操作</button>' +
+														'<div class="layui-btn-group MyparDiv" style = "display:none">' +
+														' <button class="layui-btn MyBtu2"><i class="layui-icon"></i>收起</button>' +
+														'<a title = "go添加" href="goto/addressBook/addExternal"><button class="layui-btn layui-btn"><i class="layui-icon"></i></button></a>' +
+														' <button title = "删除" class="layui-btn layui-btn-danger" onclick = "del(' + row.id + ')"><i class="layui-icon"></i></button>' +
+														'<a title = "go修改" href="goto/addressBook/updExternal/' + row.id + '"><button class="layui-btn layui-btn"><i class="layui-icon"></i></button></a>' +
+														'<a title = "go查看" href="goto/addressBook/Externalnfo/' + row.id + '"><button class="layui-btn"><i class="layui-icon"></i></button></a>' +
+														' </div>';
+													return caidan;
+
+												}
+											}, */
+						{
+							title: "操作",
+							formatter: function(value, row, index, field) {
+
+								var caidan = '<button class="layui-btn MyBtu1"><i class="layui-icon"></i>呼出操作</button>' +
+									'<div class="layui-btn-group MyparDiv" style = "display:none">' +
+									' <button class="layui-btn MyBtu2"><i class="layui-icon"></i>收起</button>' +
+									'<a title = "go添加" href="goto/addressBook/addExternal"><button class="layui-btn layui-btn"><i class="layui-icon"></i></button></a>' +
+									' <button title = "删除" class="layui-btn layui-btn-danger" onclick = "del(' + row.id + ')"><i class="layui-icon"></i></button>' +
+									'<a title = "go修改" href="javaScript:updExternalInfo(' + row.id + ')"><button class="layui-btn layui-btn"><i class="layui-icon"></i></button></a>' +
+									'<a title = "go查看" href="javaScript:selExternalInfo(' + row.id + ')"><button class="layui-btn"><i class="layui-icon"></i></button></a>' +
+									' </div>';
+								return caidan;
+
+							}
+						}
+					]
+					//	height: $(window).height() - 150,//自定义表格的高度
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+				$("#Tab").bootstrapTable("refresh");
+				$(document).on("click", '#jiansuo', function() {
+					$("#Tab").bootstrapTable("refresh");
+				});
+				$(document).on("click", ".MyBtu1", function() {
+					$(this).css("display", "none")
+					$(this).next().css("display", "block");
+				})
+				$(document).on("click", ".MyBtu2", function() {
+					$(this).parent().css("display", "none")
+					$(this).parent().parent().children(".MyBtu1").css("display", "inline-block");
+				})
+			});
+			function refresh() {
+				$("#Tab").bootstrapTable("refresh");
+			}
+		</script>
+		<script>
+			function alertMsg(msg, mode, id) { //mode为空，即只有一个确认按钮，mode为1时有确认和取消两个按钮
+				msg = msg || '';
+				mode = mode || 0;
+				var top = document.body.scrollTop || document.documentElement.scrollTop;
+				var isIe = (document.all) ? true : false;
+				var isIE6 = isIe && !window.XMLHttpRequest;
+				var sTop = document.documentElement.scrollTop || document.body.scrollTop;
+				var sLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+				var winSize = function() {
+					var xScroll, yScroll, windowWidth, windowHeight, pageWidth, pageHeight;
+					// innerHeight获取的是可视窗口的高度，IE不支持此属性
+					if(window.innerHeight && window.scrollMaxY) {
+						xScroll = document.body.scrollWidth;
+						yScroll = window.innerHeight + window.scrollMaxY;
+					} else if(document.body.scrollHeight > document.body.offsetHeight) { // all but Explorer Mac
+						xScroll = document.body.scrollWidth;
+						yScroll = document.body.scrollHeight;
+					} else { // Explorer Mac...would also work in Explorer 6 Strict, Mozilla and Safari
+						xScroll = document.body.offsetWidth;
+						yScroll = document.body.offsetHeight;
+					}
+
+					if(self.innerHeight) { // all except Explorer
+						windowWidth = self.innerWidth;
+						windowHeight = self.innerHeight;
+					} else if(document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
+						windowWidth = document.documentElement.clientWidth;
+						windowHeight = document.documentElement.clientHeight;
+					} else if(document.body) { // other Explorers
+						windowWidth = document.body.clientWidth;
+						windowHeight = document.body.clientHeight;
+					}
+
+					// for small pages with total height less then height of the viewport
+					if(yScroll < windowHeight) {
+						pageHeight = windowHeight;
+					} else {
+						pageHeight = yScroll;
+					}
+
+					// for small pages with total width less then width of the viewport
+					if(xScroll < windowWidth) {
+						pageWidth = windowWidth;
+					} else {
+						pageWidth = xScroll;
+					}
+
+					return {
+						'pageWidth': pageWidth,
+						'pageHeight': pageHeight,
+						'windowWidth': windowWidth,
+						'windowHeight': windowHeight
+					}
+				}();
+				//alert(winSize.pageWidth);
+				//遮罩层
+				var styleStr = 'top:0;left:0;position:absolute;z-index:10000;background:#666;width:' + winSize.pageWidth + 'px;height:' + (winSize.pageHeight + 30) + 'px;';
+				styleStr += (isIe) ? "filter:alpha(opacity=80);" : "opacity:0.8;"; //遮罩层DIV
+				var shadowDiv = document.createElement('div'); //添加阴影DIV
+				shadowDiv.style.cssText = styleStr; //添加样式
+				shadowDiv.id = "shadowDiv";
+				//如果是IE6则创建IFRAME遮罩SELECT
+				if(isIE6) {
+					var maskIframe = document.createElement('iframe');
+					maskIframe.style.cssText = 'width:' + winSize.pageWidth + 'px;height:' + (winSize.pageHeight + 30) + 'px;position:absolute;visibility:inherit;z-index:-1;filter:alpha(opacity=0);';
+					maskIframe.frameborder = 0;
+					maskIframe.src = "about:blank";
+					shadowDiv.appendChild(maskIframe);
+				}
+				document.body.insertBefore(shadowDiv, document.body.firstChild); //遮罩层加入文档
+				//弹出框
+				var styleStr1 = 'display:block;position:fixed;_position:absolute;left:' + (winSize.windowWidth / 2 - 200) + 'px;top:' + (winSize.windowHeight / 2 - 150) + 'px;_top:' + (winSize.windowHeight / 2 + top - 150) + 'px;'; //弹出框的位置
+				var alertBox = document.createElement('div');
+				alertBox.id = 'alertMsg';
+				alertBox.style.cssText = styleStr1;
+				//创建弹出框里面的内容P标签
+				var alertMsg_info = document.createElement('P');
+				alertMsg_info.id = 'alertMsg_info';
+				alertMsg_info.innerHTML = msg;
+				alertBox.appendChild(alertMsg_info);
+				//创建按钮
+				var btn1 = document.createElement('a');
+				btn1.id = 'alertMsg_btn1';
+				btn1.href = 'javas' + 'cript:void(0)';
+				btn1.innerHTML = '<cite style="font-size: 15px;">确定</cite>';
+				btn1.onclick = function() {
+					document.body.removeChild(alertBox);
+					document.body.removeChild(shadowDiv);
+					$.ajax({
+						type: "get",
+						url: "external/del/" + id,
+						datatype: "json",
+						success: function() {
+							$("#Tab").bootstrapTable("refresh");
+						}
+					});
+					return true;
+				};
+				alertBox.appendChild(btn1);
+				if(mode === 1) {
+					var btn2 = document.createElement('a');
+					btn2.id = 'alertMsg_btn2';
+					btn2.href = 'javas' + 'cript:void(0)';
+					btn2.innerHTML = '<cite>取消</cite>';
+					btn2.onclick = function() {
+						document.body.removeChild(alertBox);
+						document.body.removeChild(shadowDiv);
+						return false;
+					};
+					alertBox.appendChild(btn2);
+				}
+				document.body.appendChild(alertBox);
+
+			}
+		</script>
+		<style type="text/css">
+			td span {
+				font-weight: 600px;
+				font-size: 25px;
+			}
+			
+			td {
+				line-height: 40px !important;
+			}
+			
+			#alertMsg {
+				display: none;
+				width: 400px;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				padding: 10px;
+				font-size: 18px;
+				position: absolute;
+				text-align: center;
+				background: #fff;
+				z-index: 100000;
+			}
+			
+			#alertMsg_info {
+				padding: 2px 15px;
+				line-height: 1.6em;
+				text-align: left;
+			}
+			
+			#alertMsg_btn1,
+			#alertMsg_btn2 {
+				display: inline-block;
+				background: url(images/gray_btn.png) no-repeat left top;
+				padding-left: 3px;
+				color: black;
+				font-size: 18px;
+				text-decoration: none;
+				margin-right: 10px;
+				cursor: pointer;
+			}
+			
+			#alertMsg_btn1 cite,
+			#alertMsg_btn2 cite {
+				line-height: 24px;
+				display: inline-block;
+				padding: 0 13px 0 10px;
+				background: url(images/gray_btn.png) no-repeat right top;
+				font-style: normal;
+			}
+			
+			.select_time,
+			#BegTime,
+			#EndTime,
+			#BirthDay,
+			#Begtime,
+			#TCxrq,
+			#STime,
+			#PayTime1,
+			#LiAnDate,
+			#KaiTingDate,
+			#XuanPanDate,
+			#ShangSuDate,
+			#XjDate,
+			#DbDate,
+			#ZcBegDate,
+			#ZcEndDate,
+			#ZcBegDate1,
+			#ZcEndDate1,
+			#ZcBegDate2,
+			#ZcEndDate2,
+			#ScBegDate,
+			#ScEndDate,
+			#fDate,
+			#BillTime,
+			#ETime,
+			#stime,
+			#etime,
+			#Ptime {
+				background-repeat: no-repeat;
+				background-position: 99% center;
+				background-size: 24px 24px;
+				background-image: url(static/img/icon_input_time.png);
+			}
+		</style>
+	</head>
+
+	<body id="content" style="layui-bg-green">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png" draggable="false" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">行政</a>
+				</li>
+				<li>
+					<a class="active">联系人</a>
+				</li>
+			</ol>
+
+			<!-- 选项卡 -->
+			<ul class="tab">
+				<li>
+					<a href="/lawfirms/goto/addressBook/Attorney">律所通讯录</a>
+				</li>
+				<li>
+					<a href="/lawfirms/goto/addressBook/External" class="tab_on">外部联系人</a>
+				</li>
+			</ul>
+
+			<form id="myFormLike" class="container-fluid page_find" method="get">
+				<div style="margin: 10px 20px 0 0;">
+					<div class="input-group">
+						<input type="text" name="title" id="title" class="form-control" placeholder="单位/部门/联系人/手机" />
+					</div>
+					<input type="button" id="jiansuo" value="检索" class="btn_solid" />
+					<a href="goto/addressBook/addExternal" class="btn_hollow" style="margin: 0 0 0 20px;">
+						添加联系人
+					</a>
+				</div>
+			</form>
+
+			<div id="datas">
+
+				<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="Tab">
+				</table>
+				<script type="text/javascript" src="static/js/table.js"></script>
+				<script>
+					function del(id) {
+						alertMsg('确认要删除吗？', 1, id);
+					}
+				</script>
+				<script src="static/layui/layui.js"></script>
+			</div>
+		</section>
+	</body>
+
+</html>

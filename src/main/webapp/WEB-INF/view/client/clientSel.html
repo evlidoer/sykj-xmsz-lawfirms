@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<script type="text/javascript" src="static/layui/layui.all.js"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts3.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css" />
+		<script src="static/bootstarp/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+<script type="text/javascript">
+	$(function(){
+					$("#table").bootstrapTable({
+					method: "get",
+					url: "myclient",
+					dataType: "json",
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 8, //每页几条数据
+					pageList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+					sidePagination: "server", //client 前台分页，server后台分页 
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+						}
+					},
+					columns: [{
+						title: "选择",
+						formatter: function(value, row, index, field) {
+							return '<input class = "layui-layer-close layui-layer-close1" type="radio" name="userID" id=' + row.id + ' value=' + row.client + '>';
+						}
+					},{
+						title: "客户(委托人)",
+						formatter: function(value, row, index) {
+							return "<a href='javascript:sel(" + row.id + ")'>" + row.client + "</a>";
+						}
+					}, {
+						title: "联系电话",
+						field: "tel"
+					}, {
+						title: "地区",
+						field: "detail.clientRegion"
+					}, {
+						title: "是否指派",
+						formatter: function(value, row, index) {
+							if(row.detail.clientAssign == 'N') {
+								return "否"
+							} else if(row.detail.clientAssign == 'Y') {
+								return "是"
+							}
+						}
+					}, {
+						title: "入库时间",
+						field: "detail.clientAddtime"
+					}, {
+						title: "律师",
+						field: "detail.empId"
+
+					}, {
+						title: "案件情况",
+
+						formatter: function(value, row, index) {
+							//var ran = new Date().getTime();
+							var b = 0;
+							$.ajax({
+								type: "get",
+								url: "lawnum/" + row.id + "",
+								async: false,
+								//dataType:"json",
+								success: function(data) {
+									b = data
+								}
+							});
+
+							return b + "个案件";
+						}
+
+					}]
+
+				})
+					
+					$(document).on("click", "input[name='userID']", function() {
+					parent.$('#clientName').val($(this).val());
+					parent.$('input[name=cliendId]').val($(this).attr("id"));
+					//window.parent.location.href = "goto/addressBook/add_ExpressageByID_id";
+					parent.layer.close(parent.layer.getFrameIndex(window.name)); //弹出层关闭
+					//$.cookie("Expressage_add_userArr", arr);
+					//	window.parent.location.reload();//刷新父窗口
+				});
+					
+	})
+</script>
+</head>
+<body>
+			<div id="datas">
+
+				<table class="table white table-hover table-fixed-head fixed" data-table-fixed-head-trigger="96" data-table-fixed-head-top="0" id="table" style="text-align: center;">
+
+				</table>
+
+			</div>	
+</body>
+</html>

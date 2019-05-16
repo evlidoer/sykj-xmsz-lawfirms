@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html><head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+  
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link  rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+  
+<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+<script>
+	$(function(){
+		
+		//区出案件号
+		var anhao = $.cookie("anhao")
+		//alert(anhao)
+		$("#anhao").html(anhao)
+		
+		
+	})
+
+
+    function getTempId() {
+    	var anhao = $.cookie("anhao")
+        var s = "";
+        $.each($('input[name="FileTempName"]:checkbox:checked'), function () {
+            s += $(this).val() + ",";
+        });
+        if (s.length > 0) {
+            s = s.substring(0, s.length - 1);
+            //alert(s)
+            $.ajax({ 
+                type: "post",
+                url: "addCaseSealApplyfor/" + s+"/"+anhao,
+                datatype:"json",
+				async:true,
+                success: function (data) {
+                	if(data == true){
+                		alert("提交成功")
+    					window.location.href="addCase6/"+new Date().getTime()
+                	}
+                }
+            });
+        } else {
+            layer.msg("请选择要生成的文书", function () {
+                //关闭后的操作
+            });
+        }
+    }
+
+
+</script>
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">批量生成文书</a></li>
+</ol>
+
+
+
+
+
+<div class="grid_input_shell">
+    <div class="container">
+        <ul class="flow_line">
+            <li>1.选择案件类型</li>
+            <span>&gt;</span>
+            <li>2.利益冲突审查</li>
+            <span>&gt;</span>
+            <li>3.新增委托人</li>
+            <span>&gt;</span>
+            <li>4.登记立案信息</li>
+            <span>&gt;</span>
+            <li class="flow_line_now">5.立案文书上传</li>
+            <span>&gt;</span>
+            <li>6.收案审批</li>
+        </ul>
+
+
+        <div class="shell text_group">
+            <div class="title" id="anhao"></div>
+        </div>
+        <div>
+            <table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="190" data-table-fixed-head-top="0" id="table"><thead id="table_title" class="table-fixed-head-thead" style="width: 1028px; min-width: 1028px; max-width: 1028px; top: 0px; position: fixed; visibility: hidden; left: 0px;">
+                    <tr style="width: 1028px; min-width: 1028px; max-width: 1028px;">
+                        <th title="" style="width: 288px; min-width: 288px; max-width: 288px;">
+                            <input type="checkbox" class="all_mark" style="width: 20px; min-width: 20px; max-width: 20px;">
+                        </th>
+                        <th title="编号" style="width: 189px; min-width: 189px; max-width: 189px;">编号</th>
+                        <th title="模板名称" style="width: 474px; min-width: 474px; max-width: 474px;">模板名称</th>
+                        <th title="" style="width: 77px; min-width: 77px; max-width: 77px;"></th>
+                    </tr>
+                </thead>
+                <thead id="table_title" style="visibility: visible;">
+                    <tr>
+                        <th title="">
+                            <input type="checkbox" class="all_mark">
+                        </th>
+                        <th title="编号">编号</th>
+                        <th title="模板名称">模板名称</th>
+                        <th title=""></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                        <tr class="slist">
+                            <td>
+                                <input type="checkbox" value=" 律师调查专用介绍信" name="FileTempName" id="49">
+                            </td>
+                            <td>1
+                            </td>
+                            <td>
+                                律师调查专用介绍信
+                            </td>
+                            <td style="color: red"></td>
+                        </tr> 
+                        <tr class="slist">
+                            <td>
+                                <input type="checkbox" value="风险代理合同" name="FileTempName" id="52">
+                            </td>
+                            <td>2
+                            </td>
+                            <td>
+                                风险代理合同
+                            </td>
+                            <td style="color: red"></td>
+                        </tr> 
+                        <tr class="slist">
+                            <td>
+                                <input type="checkbox" value="律师见证" name="FileTempName" id="53">
+                            </td>
+                            <td>3
+                            </td>
+                            <td>
+                                律师见证
+                            </td>
+                            <td style="color: red"></td>
+                        </tr> 
+                        <tr class="slist">
+                            <td>
+                                <input type="checkbox" value="委托代理合同" name="FileTempName" id="48">
+                            </td>
+                            <td>4
+                            </td>
+                            <td>
+                                委托代理合同
+                            </td>
+                            <td style="color: red"></td>
+                        </tr> 
+                        <tr class="slist">
+                            <td>
+                                <input type="checkbox" value="授权委托书（民商等）" name="FileTempName" id="27">
+                            </td>
+                            <td>5
+                            </td>
+                            <td>
+                                授权委托书（民商等）
+                            </td>
+                            <td style="color: red"></td>
+                        </tr> 
+                        <tr class="slist">
+                            <td>
+                                <input type="checkbox" value="结案登记表" name="FileTempName" id="21">
+                            </td>
+                            <td>6
+                            </td>
+                            <td>
+                                结案登记表
+                            </td>
+                            <td style="color: red"></td>
+                        </tr> 
+                        <tr class="slist">
+                            <td>
+                                <input type="checkbox" value="收案审批表" name="FileTempName" id="44">
+                            </td>
+                            <td>7
+                            </td>
+                            <td>
+                                收案审批表
+                            </td>
+                            <td style="color: red"></td>
+                        </tr> 
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <input type="button" onclick="getTempId()" value="批量生成" class="btn_solid">
+                <!-- <button class="btn_hollow">开始检索</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    </section>
+    
+
+<script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+
+
+</body></html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<script type="text/javascript" src="static/layui/layui.all.js"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts3.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css" />
+		<script src="static/bootstarp/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<style type="text/css">
+							.fixed-table-body {
+				overflow-x: visible;
+				overflow-y: visible;
+				height: 100%;
+			}
+			/*	body{
+				overflow-x: hidden;
+			}*/
+			/*.dropdown-menu {
+			    position: absolute;
+			    top: 15%;
+			    left: 1021px;
+			    z-index: 1000;
+			    display: none;
+			    float: left;
+			    min-width: 160px;
+			    padding: 5px 0;
+			    margin: 2px 0 0;
+			    font-size: 14px;
+			    text-align: left;
+			    list-style: none;
+			    background-color: #fff;
+			    -webkit-background-clip: padding-box;
+			    background-clip: padding-box;
+			    border: 1px solid #ccc;
+			    border: 1px solid rgba(0, 0, 0, .15);
+			    border-radius: 4px;
+			    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+			    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}*/
+			
+			ul {
+				padding: 0px;
+				margin: 0px;
+				list-style: none;
+				text-align: center;
+			}
+			
+			.form-control {
+				width: 100%;
+				display: block;
+			}
+			
+			.container {
+				padding-right: 15px;
+				padding-left: 15px;
+				margin-right: auto;
+				margin-left: auto;
+				@media (min-width: 768px) {
+					.container {
+						width: 750px;
+					}
+					@media (min-width: 992px) {
+						.container {
+							width: 970px;
+						}
+						@media (min-width: 1200px) {
+							.container {
+								width: 1170px;
+							}
+							ul li:nth-child(n+1) {
+								display: none
+							}
+		</style>
+		<script type="text/javascript">
+			function del(id) {
+				var del = confirm("确认删除？");
+				if(del == true) {
+					$.ajax({
+						type: "get",
+						url: "delete/" + id + "",
+						async: true,
+						success: function(data) {
+							if(data == 1) {
+								alert("删除成功");
+								$("#table").bootstrapTable("refresh");
+							} else {
+								alert("删除失败");
+							}
+						}
+					});
+				} else {
+					return;
+				}
+
+			}
+
+			function update(row) {
+				$.cookie("clientupdateId", row.id)
+				window.location.href = "gotoupdateclient";
+
+			}
+
+			function sel(id) {
+				$.cookie("clientSelById", id)
+				window.location.href = "gotoclientSel";
+			}
+
+			$(function() {
+
+				$("#search").on("click", function() {
+					$("#table").bootstrapTable("refresh");
+				})
+
+				$("#SearchType").change(function() {
+					var stype = $("#SearchType").val();
+					if(stype == 1) {
+						$("#Title").attr("name", "title");
+					} else if(stype == 4) {
+						$("#Title").attr("name", "tel");
+					}
+				})
+
+				$("#table").bootstrapTable({
+					method: "get",
+					url: "myclient",
+					dataType: "json",
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 8, //每页几条数据
+					pageList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+					sidePagination: "server", //client 前台分页，server后台分页 
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							client: $("input[name='title']").val(),
+							tel: $("input[name='tel']").val(),
+							clientAssign: $("#CFrom").val(),
+							clientStuatus: $("#CustType").val()
+						}
+					},
+					columns: [{
+						title: "客户(委托人)",
+						formatter: function(value, row, index) {
+							return "<a href='javascript:sel(" + row.id + ")'>" + row.client + "</a>";
+						}
+					}, {
+						title: "联系电话",
+						field: "tel"
+					}, {
+						title: "地区",
+						field: "detail.clientRegion"
+					}, {
+						title: "是否指派",
+						formatter: function(value, row, index) {
+							if(row.detail.clientAssign == 'N') {
+								return "否"
+							} else if(row.detail.clientAssign == 'Y') {
+								return "是"
+							}
+						}
+					}, {
+						title: "入库时间",
+						field: "detail.clientAddtime"
+					}, {
+						title: "律师",
+						field: "detail.empId"
+
+					}, {
+						title: "案件情况",
+
+						formatter: function(value, row, index) {
+							//var ran = new Date().getTime();
+							var b = 0;
+							$.ajax({
+								type: "get",
+								url: "lawnum/" + row.id + "",
+								async: false,
+								//dataType:"json",
+								success: function(data) {
+									b = data
+								}
+							});
+
+							return b + "个案件";
+						}
+
+					}, {
+						title: "操作",
+						formatter: function(value, row, index, field) {
+							var oSel = "<div class='dropdown'>" +
+								"<button class='btn btn-default' id='btncz' data-toggle='dropdown' type='button'>" +
+								'操作&nbsp;<span class="caret"></span>' +
+								'</button>' +
+								'<ul class="dropdown-menu" >' +
+								'<li>' +
+								"<a href='javascript:sel(" + row.id + ")'>查看详细</a>" +
+								'</li>' +
+								'<li>' +
+								"<a href='javascript:del(" + row.id + ")'>删除用户</a>" +
+								'</li>' +
+								'<li>' +
+								"<a href='javascript:update(" + JSON.stringify(row) + ")'>修改信息</a>" +
+								'</li>' +
+								'<li>' +
+								"<a href='javascript:pass(" + row.id  + ")'>客户转送</a>" +
+								'</li>' +
+								'</ul>' +
+								'</div>';
+							return oSel;
+						}
+					}]
+
+				})
+
+			})
+
+			function pass(id) {
+				$.cookie("emp_client_id",id)
+				layer.open({
+					title: '人员选择',
+					type: 2,
+					area: ['80%', '80%'],
+					fixed: false, //不固定
+					maxmin: true,
+					content: 'gotoempSelect',
+				});
+			}
+		</script>
+	</head>
+
+	<body id="content" style="padding-bottom: 67px;">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading" style="display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb" style="background-color: white;">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="static/img/back.png" draggable="false">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)" draggable="false">客户管理</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">所有客户</a>
+				</li>
+			</ol>
+
+			<form action="" class="container-fluid page_find" id="searchForm" method="post">
+				<div class="input-group">
+					<input type="text" name="title" id="Title" class="form-control" style="height: 33px;">
+				</div>
+				<div class="down_box">
+					<select name="SearchType" id="SearchType" class="selct_1">
+						<option value="1">客户（委托人）搜索</option>
+						<option value="4">电话搜索</option>
+					</select>
+				</div>
+				<div class="down_box">
+					<select name="CFrom" id="CFrom" class="selct_1">
+						<option value="">是否指派</option>
+						<option value="Y">是</option>
+						<option value="N">否</option>
+					</select>
+				</div>
+				<div class="down_box">
+					<select id="CustType" name="CustType">
+						<option value="">请选择</option>
+						<option value="潜在客户">潜在客户</option>
+						<option value="目标客户">目标客户</option>
+						<option value="正式客户">正式客户</option>
+						<option value="有效客户">有效客户</option>
+						<option value="无效客户">无效客户</option>
+						<option value="重点跟进">重点跟进</option>
+					</select>
+				</div>
+				<input type="button" value="检索" class="btn_solid" id="search">
+
+			</form>
+
+			<div id="datas">
+
+				<table class="table white table-hover table-fixed-head fixed" data-table-fixed-head-trigger="96" data-table-fixed-head-top="0" id="table" style="text-align: center;">
+
+				</table>
+
+			</div>
+		</section>
+
+	</body>
+
+</html>

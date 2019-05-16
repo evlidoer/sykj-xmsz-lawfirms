@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.jt.lawfirm.mapper.administration.IExpressageMapper">
+	<select id="selExpressageAll" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		select 	*,e.emp_name sjname from kdmanager
+				inner join system_user on system_user.id = kdmanager.user_id
+				inner join hr_emp on system_user.hr_emp_id = hr_emp.id
+				left join case_law on kdmanager.law_id = case_law.id
+				left join hr_emp e on kdmanager.hr_sj_id = e.id
+				inner join kdmanager_kd on kdmanager.kdtype = kdmanager_kd.id
+				inner join kdmanager_gs on kdmanager.company = kdmanager_gs.id
+			where user_id = #{id}
+		<!-- 按照收件人查 -->
+		<if test="title != null and title != ''">
+			and emp_name like #{title}
+		</if>
+		<!-- 按照领取状态查 -->
+		<if test="status != null and status != ''">
+			and sj_status = #{status}
+		</if>
+		<!-- 按照快递公司查 -->
+		<if
+			test="company != null and company != '' ">
+			and company like #{company}
+		</if>
+		
+		<!-- 按照收件日期查 -->
+		<if
+			test="stime != null and stime != '' and etime != null and etime != ''">
+			and sj_date between #{stime} and #{etime}
+		</if>
+		<!-- 按照领件时间查 -->
+		<if
+			test="stime2 != null and stime2 != '' and etime2 != null and etime2 != ''">
+			and lj_date between #{stime2} and #{etime2}
+		</if>
+	</select>
+		<select id="selExpressageFAll" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		select 	*,e.emp_name sjname from kdmanager_f
+				inner join system_user on system_user.id = kdmanager_f.user_id
+				inner join hr_emp on system_user.hr_emp_id = hr_emp.id
+				left join case_law on kdmanager_f.law_id = case_law.id
+				left join hr_emp e on kdmanager_f.hr_sj_id = e.id
+				inner join kdmanager_kd on kdmanager_f.kdtype = kdmanager_kd.id
+				inner join kdmanager_gs on kdmanager_f.company = kdmanager_gs.id
+			where user_id = #{id}
+		<!-- 按照收件人查 -->
+		<if test="title != null and title != ''">
+			and emp_name like #{title}
+		</if>
+		<!-- 按照领取状态查 -->
+		<if test="status != null and status != ''">
+			and sj_status = #{status}
+		</if>
+		<!-- 按照快递公司查 -->
+		<if
+			test="company != null and company != '' ">
+			and company like #{company}
+		</if>
+		
+		<!-- 按照收件日期查 -->
+		<if
+			test="stime != null and stime != '' and etime != null and etime != ''">
+			and sj_date between #{stime} and #{etime}
+		</if>
+		<!-- 按照领件时间查 -->
+		<if
+			test="stime2 != null and stime2 != '' and etime2 != null and etime2 != ''">
+			and lj_date between #{stime2} and #{etime2}
+		</if>
+	</select>
+	
+	<select id="selselUserAll" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		select *, system_user.id userID
+			from system_user 
+			inner join 
+				system_user_role on system_user.id = system_user_role.user_id
+			inner join 
+				system_role on system_user_role.role_id = system_role.id
+			<where>
+				<!-- 按照收件人查 -->
+				<if test="title != null and title != ''">
+					and system_user.user_name like #{title}
+				</if>
+			</where>
+	</select>
+	
+	<delete id="deleteExpressageById" parameterType="int">
+		delete from case_expressage where id = #{id} 
+	</delete>
+	
+	
+	<select id="selLawAndEMp" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		select * from case_law inner join hr_emp on case_law.case_attorney_id = hr_emp.id
+	</select>
+	
+	<select id="selExpressageById" resultType="java.util.Map"
+		parameterType="int">
+			select 	*,e.emp_name sjname from kdmanager
+				inner join system_user on system_user.id = kdmanager.user_id
+				inner join hr_emp on system_user.hr_emp_id = hr_emp.id
+				left join case_law on kdmanager.law_id = case_law.id
+				left join hr_emp e on kdmanager.hr_sj_id = e.id
+				inner join kdmanager_kd on kdmanager.kdtype = kdmanager_kd.id
+				inner join kdmanager_gs on kdmanager.company = kdmanager_gs.id
+			where kdmanager.id = #{id}
+	</select>
+	
+	<select id="selkuaidi" resultType="java.util.Map">
+		select * from kdmanager_gs
+			<if test="title != null and title != ''">
+				gs_name.like #{title}
+			</if>
+	</select>
+	
+	<select id="selkuaidiType" resultType="java.util.Map">
+		select * from kdmanager_kd
+			<if test="title != null and title != ''">
+				kdtype.like #{title}
+			</if>
+	</select>
+	
+	<insert id="insertAll" parameterType="java.util.Map">
+		 insert into kdmanager 
+        <foreach collection="dataMap.keys" separator="," item="key" open="(" close=")">
+        <if test="key != 'kdManager' and key != 'mypath'">
+             ${key}
+        </if>
+        </foreach>
+        values
+        <foreach collection="dataMap.keys" item="key" separator="," open="(" close=")">
+        <if test="key != 'kdManager' and key != 'mypath'">
+            #{dataMap[${key}]}
+        </if>
+        </foreach>
+	</insert>
+	
+	<update id="updateAll">
+		update kdmanager
+        SET
+        <foreach item="value" index="key" collection="params" separator=",">
+          <if test="key != 'id' and key != '_method'">
+              ${key} = #{value}
+          </if>
+        </foreach>
+        WHERE
+        <foreach item="value" index="key" collection="params" separator=",">
+            <if test="key == 'id'">
+                id = #{value}
+            </if>
+        </foreach>
+	</update>
+	
+	<insert id="addFAll" parameterType="java.util.Map">
+		 insert into kdmanager_f
+        <foreach collection="dataMap.keys" separator="," item="key" open="(" close=")">
+            ${key}
+        </foreach>
+        values
+        <foreach collection="dataMap.keys" item="key" separator="," open="(" close=")">
+            #{dataMap[${key}]}
+        </foreach>
+	</insert>
+	
+	
+	<select id="selFbyid" resultType="java.util.Map"
+		parameterType="int">
+			select 	*,e.emp_name sjname from kdmanager_f
+				inner join system_user on system_user.id = kdmanager_f.user_id
+				inner join hr_emp on system_user.hr_emp_id = hr_emp.id
+				left join case_law on kdmanager_f.law_id = case_law.id
+				left join hr_emp e on kdmanager_f.hr_sj_id = e.id
+				inner join kdmanager_kd on kdmanager_f.kdtype = kdmanager_kd.id
+				inner join kdmanager_gs on kdmanager_f.company = kdmanager_gs.id
+			where kdmanager_f.id = #{id}
+	</select>
+	
+	<update id="updF" parameterType="java.util.Map">
+		update kdmanager_f
+        SET
+        <foreach item="value" index="key" collection="params" separator=",">
+          <if test="key != 'id' and key != '_method'">
+              ${key} = #{value}
+          </if>
+        </foreach>
+        WHERE
+        <foreach item="value" index="key" collection="params" separator=",">
+            <if test="key == 'id'">
+                id = #{value}
+            </if>
+        </foreach>
+	</update>
+</mapper>

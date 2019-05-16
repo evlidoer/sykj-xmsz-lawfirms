@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.lawfirm.mapper.log.IAllLogMapper">
+	
+	<select id="queryAll" resultType="java.util.Map">
+	 select  * 
+			FROM log_job
+			left JOIN log_type on log_job.logtype_id = log_type.id
+			left JOIN client on log_job.client_id = client.id
+			left JOIN case_law on case_law.id = log_job.case_law_id
+			
+			where 1=1
+		<!-- 按案号/客户名称查 -->
+		<if test="Title != null and Title != ''">
+			and case_propernum like #{Title} or client like #{Title} or client like #{Title}
+		</if>
+		<!-- 按公开状态查 -->
+		<if test="addresslist_state != null and addresslist_state != ''">
+			and addresslist_state = #{addresslist_state}
+		</if>
+		<!-- 按日期查 -->
+		<if
+			test="stime != null and stime != '' and etime != null and etime != ''">
+			and joblog_startTime between #{stime} and #{etime}
+		</if>
+			
+			
+	</select>
+</mapper>

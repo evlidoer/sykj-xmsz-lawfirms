@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+    <meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化" />
+    <meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css?v=68673868678">
+    <link id="main_link" rel="stylesheet" type="text/css" href="../css/parts2.css?v=201381130">
+
+    <link id="main_link2" rel="stylesheet" type="text/css" href="../css/main_blue.css?v=123121231312">
+  
+
+    <!-- 使ie9及以下兼容媒体查询和html5标签 -->
+    <!--[if lte IE 9]>
+    　  <script src="../sysjs/html5shiv.min.js"></script>
+        <script src="../sysjs/respond.js"></script>
+    <![endif]-->
+
+    <!-- 兼容ie9 -->
+    <!--[if IE 9]>
+        <link rel="stylesheet" type="text/css" href="../css/ie9.css">
+    <![endif]-->
+
+    <!-- 兼容ie8 -->
+    <!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="../css/ie8down.css">
+	<![endif]-->
+
+
+
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+<!--<div class="load1" id="loading">
+    <div class="loader">Loading...</div>
+</div>-->
+
+<header class="fixed_top">
+    <!-- 浏览路径线 -->
+    <ol class="breadcrumb">
+        <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+        <a href="javascript:;history.go(-1)" class="btn btn-default">
+            <img src="../icon/back.png">
+        </a>
+        <li>案件管理</li>
+        <li class="active">批量导入案件</li>
+    </ol>
+</header>
+
+
+
+
+<form action="/Case/CImport" method="post" enctype="multipart/form-data" style="margin-top: 25px;">
+    <div class="grid_input_shell">
+        <div class="container">
+
+            <div class="tips">
+                <div class="tips_content" style="width: 75%">
+                    <div class="row_title">
+                        <label class="text_border">重要提示</label>
+                    </div>
+                    <p>1、请先下载模板，必须按照模板格式制作后导入；</p>
+                    <p>
+                        2、请勿将数据文件打开后导入；
+                    </p>
+                    <p>
+                        3、Excel模板中第二页为示例数据，可以参照:示例数据；
+                    </p>
+                    <p>
+                        
+                        4、<b>必填项</b>：案件编号，收案日期，案件类型，案件分类，承办律师，代理费，委托人；诉讼类案件：诉讼阶段，诉讼地位必填
+                    </p>
+                    <p>
+                        5、<b>其他说明</b>：案件类型及案件分类请参照系统中新增案件的类型及分类来填写；多个律师以逗号分隔；
+                    </p>
+
+                </div>
+
+                <div class="modal_file">
+                    <p>
+                        <a href="/File/CaseList.xls" style="color: chocolate;">
+                            <img src="../images/modal_file.png" width="100px">点击下载模板文件</a>
+                    </p>
+                </div>
+
+            </div>
+            <div class="upload">
+                <div class="row_title">
+                    <label class="text_border">导入文件</label>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span>注：请选择填写好的模板文件，并将其重新命名。</span>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <input type="file" name="ImportData" onchange="CheckUpFile('.xls',this);" />
+                    </div>
+
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn_solid" onclick="BtnImport()" id="ImportBtn">确认导入</button>
+                        <!-- <button class="btn_hollow">开始检索</button> -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</form>
+
+
+    </section>
+    
+
+</body>
+</html>

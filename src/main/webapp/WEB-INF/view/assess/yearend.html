@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css"/>
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css"/>
+    <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css"/>
+    <script src="static/js/jquery-3.2.0.js"></script>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/bootstarp/js/bootstrap.js"></script>
+    <script type="text/javascript" src="static/bootstarp/js/bootstrap-table.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+   <script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="static/css/laydate.css" id="layuicss-layer"/>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    <script src="static/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<style>
+    .table-title, .table-footer {
+        background: white;
+        display: table;
+        width: 100%;
+    }
+
+        .table-title p {
+            text-align: center;
+            font-weight: bold;
+            padding: 0;
+            margin: 0;
+        }
+
+    .title-p1 {
+        height: 50px;
+        line-height: 50px;
+        font-size: 20px;
+    }
+
+    .table-footer {
+        text-align: center;
+        color: red;
+        padding: 20px 0;
+    }
+</style>
+</head>
+<body>
+	<section>
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb" style="background-color: white;">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">年度考核</a></li>
+    <li><a class="active" draggable="false">考核填表</a></li>
+</ol>
+
+<!-- 选项卡 -->
+<ul class="tab">
+  	 <li><a href="gotoyearend" class="tab_on"  draggable="false">考核填表</a></li>
+    <li><a href="gotohistory" draggable="false">历史考核</a></li>
+</ul>
+
+<div class="table-title">
+    <p class="title-p1">
+        “辽宁盛恒律师事务所”
+        
+        年度考核
+    </p>
+    <p class="title-p2">
+        （总分：分，及格分：分，自评分：分）
+        <span style="margin-left: 20px;">提交状态：<span style="color: red"></span>
+        </span>
+        <span style="margin-left: 20px;">评审状态：<span style="color: red"> </span>
+        </span>
+    </p>
+</div>
+
+
+<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="164.8000030517578" data-table-fixed-head-top="0" id="table"><thead id="table_title" class="table-fixed-head-thead" style="width: 1198px; min-width: 1198px; max-width: 1198px; top: 0px; position: fixed; visibility: hidden;">
+        <tr style="width: 1198px; min-width: 1198px; max-width: 1198px;">
+            <th title="考核类别" style="width: 609px; min-width: 609px; max-width: 609px;">考核类别</th>
+            <th title="填写状态" style="width: 365px; min-width: 365px; max-width: 365px;">填写状态</th>
+            <th title="操作" style="width: 225px; min-width: 225px; max-width: 225px;">操作</th>
+        </tr>
+    </thead>
+    <thead id="table_title" style="visibility: visible;">
+        <tr>
+            <th title="考核类别">考核类别</th>
+            <th title="填写状态">填写状态</th>
+            <th title="操作">操作</th>
+        </tr>
+    </thead>
+        <tbody><tr>
+            <td>执业资质</td>
+            <td>未填写</td>
+            <td>
+                    <a href="javascript:Detail(0,1)" draggable="false">查看</a>
+            </td>
+        </tr>
+        <tr>
+            <td>队伍建设</td>
+            <td>未填写</td>
+            <td>
+                    <a href="javascript:Detail(0,3)" draggable="false">查看</a>
+            </td>
+        </tr>
+        <tr>
+            <td>业务开展情况</td>
+            <td>未填写</td>
+            <td>
+                    <a href="javascript:Detail(0,5)" draggable="false">查看</a>
+            </td>
+        </tr>
+        <tr>
+            <td>内部管理</td>
+            <td>未填写</td>
+            <td>
+                    <a href="javascript:Detail(0,7)" draggable="false">查看</a>
+            </td>
+        </tr>
+        <tr>
+            <td>履行会员义务</td>
+            <td>未填写</td>
+            <td>
+                    <a href="javascript:Detail(0,9)" draggable="false">查看</a>
+            </td>
+        </tr>
+        <tr>
+            <td>接受司法行政机关监督指导</td>
+            <td>未填写</td>
+            <td>
+                    <a href="javascript:Detail(0,11)" draggable="false">查看</a>
+            </td>
+        </tr>
+</tbody></table>
+
+    <ul class="small_menu" id="set_1">
+        <li><a href="javascript:Detail(0,1)" draggable="false">查看</a></li>
+    </ul>
+    <ul class="small_menu" id="set_3">
+        <li><a href="javascript:Detail(0,3)" draggable="false">查看</a></li>
+    </ul>
+    <ul class="small_menu" id="set_5">
+        <li><a href="javascript:Detail(0,5)" draggable="false">查看</a></li>
+    </ul>
+    <ul class="small_menu" id="set_7">
+        <li><a href="javascript:Detail(0,7)" draggable="false">查看</a></li>
+    </ul>
+    <ul class="small_menu" id="set_9">
+        <li><a href="javascript:Detail(0,9)" draggable="false">查看</a></li>
+    </ul>
+    <ul class="small_menu" id="set_11">
+        <li><a href="javascript:Detail(0,11)" draggable="false">查看</a></li>
+    </ul>
+
+
+<div class="table-footer">
+    温馨提示：自评分截止日期：前，过了截止日期将不允许再修改。
+</div>
+
+<script type="text/javascript" src="/Content/Js/table.js"></script>
+<script>
+    function Detail(ID, Fid) {
+        location.href = '/ExamineManage/ExamineTableDetail?ID=' + ID + '#TdFid' + Fid;
+    }
+
+    function SetValue(ID, Fid) {
+        location.href = '/ExamineManage/ExamineTableSetValue?ID=' + ID + '&Fid=' + Fid;
+    }
+</script>
+
+    </section>
+</body>
+</html>

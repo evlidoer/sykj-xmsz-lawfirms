@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>My律师事务所</title>
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts3.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.all.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			td span {
+				font-weight: 900;
+			}
+			
+			.table>tbody>tr>td,
+			.table>tfoot>tr>td {
+				padding: 0px;
+				line-height: 1.42857143;
+				vertical-align: top;
+				border-top: 1px solid #ddd;
+				line-height: 45px;
+			}
+			
+			#tooltip {
+				position: absolute;
+				border: 1px solid #333;
+				background: #f7f5d1;
+				padding: 1px;
+				color: #333;
+				display: none;
+			}
+			
+			.pagination-info {
+				font-size: 20px;
+				font-family: "楷体" !important;
+			}
+		</style>
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png" style="background-color: #f5f5f5;" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">人事</a>
+				</li>
+				<li>
+					<a class="active">角色管理</a>
+				</li>
+			</ol>
+
+			<!-- 选项卡 -->
+			<ul class="tab">
+				<li>
+					<a href="goto/setting/userManager">用户</a>
+				</li>
+				<li>
+					<a href="goto/setting/userManager/roles" class="tab_on">角色</a>
+				</li>
+			</ul>
+			<form class="container-fluid page_find" id="searchForm" method="post">
+				<div style="margin: 10px 20px 0 0;">
+					<div class="input-group">
+						<input type="text" name="title" id="title" class="form-control" placeholder="角色名称" />
+					</div>
+					<input type="button" value="检索" class="btn_solid" />
+					<a href="goto/setting/userManager/addRole" class="btn_hollow" style="margin: 0 0 0 20px;">添加角色</a>
+				</div>
+			</form>
+			<div id="datas">
+				<table style="position：relative;" class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="roleTab">
+				</table>
+			</div>
+		</section>
+		<script>
+			function del(id) {
+				layer.msg('是否确定删除？', {
+					time: 0,
+					btn: ['确定', '取消'],
+					yes: function(index) {
+						layer.close(index);
+						$.ajax({
+							type: "Post",
+							url: "role/permissons/removerole/" + id,
+							success: function(result) {
+								if (result == true){
+									layer.msg('删除成功!')
+								}else {
+									layer.msg('该角色使用中,删除失败!')
+								}
+							}
+						});
+					}
+				});
+			}
+		</script>
+		<script>
+			function add() {
+				window.location.href = "/Users/EditGroup2";
+			}
+		</script>
+	</body>
+	<script type="text/javascript">
+		function fp(id) {
+			if (id == -1){
+				layer.msg('超级管理员');
+				return;
+			}
+			$.cookie("update_role_permisson_sel_ById",id, {
+					expires: 30,
+					path: '/lawfirms'
+			});
+			window.location.href = "goto/setting/userManager/fenpwi"
+		}
+		$(function() {
+			$("[data-toggle='tooltip']").tooltip();
+			/**
+			 * 	标签提示
+			 */
+			$(document).on("mouseover", "td a", function() {
+				$("[data-toggle='tooltip']").tooltip();
+			})
+			$(document).on("mouseover", "td span", function() {
+				$("[data-toggle='tooltip']").tooltip();
+			})
+			/**
+			 * 高级检索
+			 */
+			$(document).on('click', "input[type=button]", function() {
+				reftab();
+			});
+			$("#roleTab").bootstrapTable({
+				method: "get",
+				url: "setting/roles/sel/all",
+				dataType: "json",
+				pagination: true, //开启分页
+				pageNumber: 1, //默认显示第几页
+				pageSize: 10, //每页几条数据
+				pageList: [6, 10, 15],
+				sidePagination: "server", //client 前台分页，server后台分页 	
+				queryParams: function(params) {
+					return {
+						offset: params.offset,
+						limit: params.limit,
+						title: $("#title").val()
+					}
+				},
+				columns: [{
+					title: "#",
+					formatter: function(value, row, index, field) {
+						return '<span id = ' + row.id + '>' + parseInt(index + 1) + '</span>';
+					}
+				}, {
+					title: "角色名称",
+					/* field: "rname" */
+					formatter: function(value, row, index, field) {
+						return '<a  href = "javaScript:del(' + row.id + ');" data-placement="top" data-toggle="tooltip" title="单击删除' + row.rname + '角色"><i class="layui-icon"></i></a> &nbsp; &nbsp;' + row.rname;
+					}
+				}, {
+					title: "角色描述",
+					/*field: "remark"*/
+					formatter: function(value, row, index, field) {
+						return '<span style="font-weight: 100;" "data-placement="top" data-toggle="tooltip" title="' + row.remark + '">' + row.remark + '</span>';
+					}
+				}, {
+					title: "操作",
+					formatter: function(value, row, index, field) {
+						if (row.rname == "admin"){
+							return '<button class="layui-btn layui-btn-radius layui-btn-primary" onclick="fp(-1)">权限分配<i class="layui-icon"></i></button>';
+						}
+						return '<button class="layui-btn layui-btn-radius layui-btn-primary" onclick="fp(' + row.id + ')">权限分配<i class="layui-icon"></i></button>';
+					}
+				}]
+			}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+		})
+
+		function reftab() {
+			$("#roleTab").bootstrapTable("refresh");
+		}
+	</script>
+
+</html>

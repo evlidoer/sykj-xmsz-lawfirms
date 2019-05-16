@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.lawfirm.mapper.record.ElectronicRecordsAlLMapper">
+  	<select id="selElectronicRecordsAlLAll" parameterType="java.util.Map" resultType="java.util.Map">
+  		select *
+			from record_archiveslibrary 
+				inner join case_law on record_archiveslibrary.law_caseid = case_law.id
+				inner join record on record_archiveslibrary.record_id = record.id
+				inner join system_user on record_archiveslibrary.system_user_id = system_user.id
+				inner join record_file on record.record_archived_file = record_file.id
+				inner join hr_emp on hr_emp.id = system_user.hr_emp_id
+  	</select>
+</mapper>

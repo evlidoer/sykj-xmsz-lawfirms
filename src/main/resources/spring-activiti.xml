@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 导入xml 类似于导包 -->
+	<import resource="spring-config.xml" />
+	<bean id="processEngineConfiguration"
+		class="org.activiti.spring.SpringProcessEngineConfiguration">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="databaseSchemaUpdate" value="true"></property>
+		<property name="transactionManager" ref="transactionManager"></property>
+		<!-- 注入了 deploymentResources 属性，将一个流程文件交给 pringProcessEngineConfiguration 
+			，让其自动进行流程文件部署，而不需要再像前 面章节讲的那样，通过编码的方式进行流程文件部署。如果需要部署 classpath 下的多个流程 文件，则可以使用“value="classpat*:*.bpmn 
+			”这样的配置， -->
+		<property name="deploymentResources" value="classpath:*.bpmn">
+			<!-- <list> <value>/bpmn/EngineConfigurationTest.bpmn</value> <value>/bpmn/EngineConfigurationTest2.bpmn</value> 
+				</list> -->
+		</property>
+		<property name="activityFontName" value="宋体" />
+		<property name="labelFontName" value="宋体" />
+		<property name="annotationFontName" value="宋体" />
+		<!-- 向 processEngineConfiguration 注入bean -->
+		<!-- <property name="beans"> <map> <entry key="myService" value-ref="myService"/> 
+			</map> </property> -->
+	</bean>
+
+	<!-- ProcessEngineFactoryBean 一般情况下使用 ProcessEngines getDefaultProcessEngine 
+		方法得到默 认的 ProcessEngine 实例 。 于维护一 ProcessEngine 实例，向 ProcessEngineFactoryBean 
+		设置（注入〉一个流 程引擎配置（ ProcessEngineConfiguration 实例 ，它就会自动创建 ProcessEngine 。 -->
+	<bean id="processEngine"
+		class="org.activiti.spring.ProcessEngineFactoryBean">
+		<property name="processEngineConfiguration"
+			ref="processEngineConfiguration"></property>
+	</bean>
+
+
+	<!-- Activiti 服务 组件 Actiiti的各 服务组件，均在 ProcessEineConfiguratnimpl 中被创建 （使用 
+		new 关键字〉 通过 ProcesseEngine 对象 getXXSrvice 方法可以得到这些服务的实例。 因为这些服务对象的创建由 Actiiti 
+		完成，所 Spring 并不需要管理它们的创建过程， -->
+	<bean id="repositoryService" factory-bean="processEngine"
+		factory-method="getRepositoryService"></bean>
+	<bean id="runtimeService" factory-bean="processEngine"
+		factory-method="getRuntimeService"></bean>
+	<bean id="taskService" factory-bean="processEngine"
+		factory-method="getTaskService"></bean>
+	<bean id="historyService" factory-bean="processEngine"
+		factory-method="getHistoryService"></bean>
+	<bean id="managementService" factory-bean="processEngine"
+		factory-method="getManagementService"></bean>
+
+	<!-- 业务组件 bean -->
+	<!-- <bean id="myService" class="edu.sanyang.service.MyService"></bean> -->
+
+</beans>

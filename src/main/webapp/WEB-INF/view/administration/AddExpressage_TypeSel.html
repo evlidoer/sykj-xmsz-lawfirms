@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>辽宁盛恒律师事务所</title>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/layer/mobile/need/layer.css"/>
+		<script src="static/js/laydate.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function refresh() {
+				$("#myKuaidi").bootstrapTable("refresh");
+			}
+			function del(id) {
+				$.ajax({
+					type: "DELETE",
+					url: "Expressage/updateExpressageCompanyType_del/" + id,
+					dataType:"json",
+					success: function(data) {
+						if (data == true){
+							refresh();
+						}else{
+							layer.msg('请先解除与该快递类型所使用协议!', {time: 5000, icon:6});
+						}
+					}
+				});
+			}
+			function updOrAddKD(row) {
+				if (row.kd_type != undefined) {
+					var arr = new Array();
+					arr[0] = row.id;
+					arr[1] = row.kd_type;
+					$.cookie("kaidi_addOrUpd_kd",arr,{ expires: 30, path: '/lawfirms' });
+				}else{
+					$.cookie("kaidi_addOrUpd_kd",row,{ expires: 30, path: '/lawfirms' });
+				}
+				window.location.href = "goto/administration/updOrAddKDTYpe";
+			}
+			$(function() {
+				refresh();
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+				$("#myKuaidi").bootstrapTable({
+					method: "get",
+					url: "Expressage/sel/findselkuaidiType", //?timer=" + new Date().getTime()
+					dataType: "json",
+					cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 3, //每页几条数据
+					pageList: [3],
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					/**
+					 * 参数传递
+					 * @param {Object} params
+					 */
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							title: $("#title").val()
+						}
+					},
+					columns: [{
+						title: "选择",
+						formatter: function(value, row, index, field) {
+							return '<input class = "layui-layer-close layui-layer-close1" type="radio" name="userID" id=' + row.id + ' value=' + row.kd_type + '>';
+						}
+					}, {
+						title: "快件类型",
+						field: "kd_type"
+					}, {
+						title: "操作",
+							formatter: function(value, row, index, field) {
+								var caidan = "<button class='layui-btn MyBtu1'><i class='layui-icon'></i>呼出操作</button>" +
+								"<div class='layui-btn-group MyparDiv' style = 'display:none;width: 300px;'>" +
+								" <button class='layui-btn MyBtu2'><i class='layui-icon'></i>收起</button>" +
+								"<a title = 'go添加'  href ='javaScript:updOrAddKD(-1);' href='#'><button class='layui-btn layui-btn'><i class='layui-icon'></i></button></a>" +
+								" <button title = '删除'  class='layui-btn layui-btn-danger' onclick ='javaScript:del(" + row.id + ");'><i class='layui-icon'></i></button>" +
+								"<a title = 'go修改'  href ='javaScript:updOrAddKD(" + JSON.stringify(row) + ");'><button class='layui-btn layui-btn'><i class='layui-icon'></i></button></a>" +
+								" </div>";
+							return caidan;
+href ='javaScript:del(" + row.id + ");'
+						}
+					}],
+					//height: $(window).height() - 150//自定义表格的高度
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+				$(document).on("click", ".MyBtu1", function() {
+					$(this).css("display", "none")
+					$(this).next().css("display", "block");
+				})
+				$(document).on("click", ".MyBtu2", function() {
+					$(this).parent().css("display", "none")
+					$(this).parent().parent().children(".MyBtu1").css("display", "inline-block");
+				})
+				$(document).on("click", "input[name='userID']", function() {
+					parent.$('#kdtype').val($(this).val());
+					parent.$('input[name=kdtype]').val($(this).attr("id"));
+					//window.parent.location.href = "goto/addressBook/add_ExpressageByID_id";
+					parent.layer.close(parent.layer.getFrameIndex(window.name)); //弹出层关闭
+					//$.cookie("Expressage_add_userArr", arr);
+					//	window.parent.location.reload();//刷新父窗口
+				});
+			})
+		</script>
+	</head>
+
+	<body id="content" style="padding-bottom: 61px;">
+		<section>
+
+			<style>
+				.tab .tab_on {
+					margin-top: 0px;
+					height: 40px;
+					line-height: 30px;
+					background-color: #fff !important;
+					font-weight: bold;
+					color: #333;
+					margin-top: 4px;
+					position: relative;
+					border-top: 2px solid #333;
+				}
+				
+				.one_row {
+					margin-left: 200px!important;
+					border: none!important;
+				}
+				
+				.my_grid {
+					width: 100%;
+				}
+				
+				.input3 {
+					margin: 0px;
+				}
+				
+				.input3 input {
+					display: inline;
+					border: 1px solid #ddd!important;
+				}
+				
+				.input3 input[type=number] {
+					background: white;
+				}
+				
+				.input3 input[type=file] {
+					background: white;
+					border: none!important;
+					width: 350px!important;
+				}
+				
+				.input3 input[type=text],
+				input[type=number] {
+					width: 350px!important;
+				}
+				
+				.input3 select {
+					width: 350px;
+				}
+				
+				.dropdown_box1 {
+					display: inline;
+				}
+				
+				.input3 ul {
+					padding: 10px 0 10px 0px;
+				}
+				
+				.input3 ul li {
+					margin: 15px 0 0 0;
+				}
+				
+				li .title-reload {
+					width: 120px;
+					text-align: right;
+					margin-right: 20px;
+				}
+				
+				.error {
+					width: 109px;
+					line-height: 30px;
+				}
+			</style>
+
+			<!-- 选项卡 -->
+			<ul id="myTab" class="tab nav nav-tabs">
+				<li class="active">
+					<a href="#list" class="tab_on" data-toggle="tab" draggable="false">列表</a>
+				</li>
+				<!--<li>
+					<a href="#action" class="tab_on" data-toggle="tab" draggable="false">添加/编辑 </a>
+				</li>-->
+			</ul>
+
+			<div id="myTabContent" class="tab-content">
+				<div class="tab-pane fade in active" id="list">
+					<form class="container-fluid page_find" id="searchForm" method="post" onclick="Sys.Mvc.AsyncForm.handleClick(this, new Sys.UI.DomEvent(event));" onsubmit="Sys.Mvc.AsyncForm.handleSubmit(this, new Sys.UI.DomEvent(event), { insertionMode: Sys.Mvc.InsertionMode.replace, updateTargetId: 's' });">
+						<div style="margin: 10px 20px 0 0;">
+							<div class="input-group">
+								<input type="text" name="title" id="title" class="form-control" placeholder="名称">
+								<input type="hidden" id="FidS" name="Fid" value="3">
+							</div>
+							<input type="button" value="检索" onclick="refresh()" class="btn_solid">
+						</div>
+					</form>
+					<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="117.4000015258789" data-table-fixed-head-top="0" id="myKuaidi">
+					</table>
+
+				</div>
+
+				<div class="tab-pane fade" id="action">
+					<form class="" enctype="multipart/form-data" id="form" method="post">
+						<div class="grid_input_shell">
+							<div class="container">
+								<div class="row row_title">
+									<div class="col-xs-12">
+										<label class="text_border">
+                                基本信息
+                            </label>
+									</div>
+								</div>
+
+								<div class="row ">
+									<div class="col-xs-6">
+										<label class=""><em>*</em>名称：</label>
+										<input type="text" name="Title" placeholder="名称" class="form-control required" title="请填写名称">
+
+									</div>
+									<div class="col-xs-6">
+										<label class=""><em>*</em>排序：</label>
+										<input type="text" name="Sort" placeholder="排序" class="form-control required digits" title="请填写排序">
+										<input type="hidden" id="ID" name="ID">
+										<input type="hidden" id="Fid" name="Fid" value="3">
+									</div>
+								</div>
+
+								<div class="row ">
+									<button id="save" class="btn_solid">确定提交</button>
+								</div>
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!--
+			<script type="text/javascript" src="/Content/Js/table.js"></script>
+			<script>
+				$(function() {
+					$('#Fid').val(parent.Fid);
+					$('#FidS').val(parent.Fid);
+
+					$("#form").validate({
+						errorPlacement: function(error, element) {
+							element.parent().find("label").after(error);
+						}
+					});
+
+					$("#form").ajaxForm({
+						beforeSubmit: function() {},
+						success: function(data) {
+							data = JSON.parse(data);
+							layer.msg(data.R, {
+								time: 1000
+							}, function() {
+								if(data.R == '提交成功') {
+									window.location.href = "/Express/DeliveryColListView?Fid=" + $('#Fid').val();
+								}
+							});
+						}
+					});
+
+					$('#myTab li').click(function() {
+						var preActiveTab = $('#myTab').find('.active').find('a').html();
+						var currentActiveTab = $(this).find('a').html();
+						if(currentActiveTab == '编辑' && preActiveTab != currentActiveTab) {
+							$('#ID').val('');
+							$('input[name=Title]').val('');
+							$('input[name=Sort]').val('');
+						}
+					});
+
+					var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+					$("input[name='WUid']").click(function() {
+						parent.$('#' + parent.hideID).val($(this).val().split(';')[0]);
+						parent.$('#' + parent.hideID + 'Name').val($(this).val().split(';')[1]);
+						parent.layer.close(index);
+					});
+				});
+
+				function edit(id, title, sort) {
+					$('#ID').val(id);
+					$('input[name=Title]').val(title);
+					$('input[name=Sort]').val(sort);
+					$('#myTab a:last').tab('show');
+				}
+
+				function del(id) {
+					layer.msg('是否确定删除？', {
+						time: 0,
+						btn: ['确定', '取消'],
+						yes: function(index) {
+							layer.close(index);
+							$.ajax({
+								type: "Post",
+								url: "/Express/DelDeliveryCol",
+								data: {
+									"ID": id
+								},
+								success: function(result) {
+									result = JSON.parse(result);
+									layer.msg(result.R, {
+										time: 1500
+									}, function() {
+										if(result.R == '删除成功') {
+											//location.href = '';
+											$("#" + id).remove();
+										}
+									});
+								}
+							});
+						}
+					});
+				}
+			</script>-->
+
+		</section>
+	</body>
+
+</html>

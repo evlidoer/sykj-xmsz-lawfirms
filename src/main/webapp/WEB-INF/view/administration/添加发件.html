@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>辽宁盛恒律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="/Content/css/bootstrap.css?v=6867868678">
+		<link id="main_link" rel="stylesheet" type="text/css" href="/Content/css/parts2.css?v=20181130">
+
+		<link id="main_link2" rel="stylesheet" type="text/css" href="/Content/css/main_blue.css?v=123121231312">
+		<script src="/Content/js/jquery_1.11.3.min.js?v=123121231312"></script>
+		<script type="text/javascript" src="/Content/js/bootstrap.js?v=123121231312"></script>
+		<script src="/Content/Js/CityList.js?v=1231212311323312" charset="gb2312" type="text/javascript"></script>
+		<script src="/Content/Js/jquery.form.js?v=123121231312"></script>
+		<script src="/Content/Js/MouseOpen.js?v=123121231312"></script>
+		<script src="/Content/Js/WebSiteJs.js?v=20181123"></script>
+		<script src="/Content/layer/layer.js?v=123121231312"></script>
+		<link rel="stylesheet" href="http://shengheng.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="/Content/js/jquery.validate.js?v=123121231312"></script>
+		<script src="/Content/js/jquery.validate.min.js?v=123121231312"></script>
+		<script src="/Content/js/messages_zh.js?v=123121231312"></script>
+		<script src="/Content/Js/layDate-v5.0.9/laydate/laydate.js?v=123121231312"></script>
+		<link rel="stylesheet" href="http://shengheng.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="/Content/Js/echarts.min.js?v=123121231312"></script>
+		<script type="text/javascript" src="/Content/js/parts.js?v=123121231312"></script>
+
+		<!-- 使ie9及以下兼容媒体查询和html5标签 -->
+		<!--[if lte IE 9]>
+    　  <script src="/Content/js/html5shiv.min.js"></script>
+        <script src="/Content/js/respond.js"></script>
+    <![endif]-->
+
+		<!-- 兼容ie9 -->
+		<!--[if IE 9]>
+        <link rel="stylesheet" type="text/css" href="/Content/css/ie9.css">
+    <![endif]-->
+
+		<!-- 兼容ie8 -->
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="/Content/css/ie8down.css">
+	<![endif]-->
+
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="/Content/icon/back.png" draggable="false">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)" draggable="false">行政</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">编辑发件</a>
+				</li>
+			</ol>
+
+			<form action="/Express/AjaxEditSendExpress?is_ajax=ajax" class="" enctype="multipart/form-data" id="form" method="post"> <input type="hidden" id="TMakeId" name="TMakeId" value="2019042319382321711687">
+				<input type="hidden" id="Tid" name="Tid" value="2019042319382321711687">
+				<input type="hidden" id="Uid" name="Uid" value="1">
+				<input type="hidden" id="Wid" name="Wid" value="1687">
+				<div class="grid_input_shell">
+					<div class="container">
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">基本资料：</label>
+							</div>
+						</div>
+						<div class="row ">
+
+							<div class="col-xs-6">
+								<label><em>*</em>代发人： </label>
+								<input type="hidden" id="FaUid" name="FaUid" value="">
+
+								<input type="text" name="FaUidName" class="form-control dfinput t_hui required" id="FaUidName" value="" title="请填写代发人" readonly="true" onclick="chooseUser(6)">
+
+							</div>
+							<div class="col-xs-6">
+								<label><em>*</em>发件时间：</label>
+								<input name="FaTime" type="text" id="FaTime" class="Wdate t_edit form-control required date" readonly="true" value="" title="请选择发件时间" lay-key="1">
+							</div>
+						</div>
+						<div class="row ">
+							<div class="col-xs-6">
+								<label><em>*</em>发件方式： </label>
+								<input type="hidden" name="Source" id="Source">
+								<input type="text" class="form-control dfinput t_hui required" id="SourceName" readonly="true" onclick="colsWindow(2, 'Source')" value="" title="请选择发件方式">
+							</div>
+							<div class="col-xs-6">
+								<label><em>*</em>快件类型：</label>
+								<input type="hidden" name="FileCols" id="FileCols" class="required" title="请选择快件类型">
+								<input type="text" class="form-control dfinput t_hui required" id="FileColsName" readonly="true" onclick="colsWindow(3, 'FileCols')" value="">
+
+							</div>
+						</div>
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">其他选填</label>
+								<span class="input_display">展开</span>
+							</div>
+						</div>
+
+						<div class="input3_other">
+							<div class="row ">
+
+								<div class="col-xs-6">
+									<label>发件人： </label>
+									<br>
+									<input type="text" name="FaFullName" class="form-control" id="FaFullName" style="width: 80%;display:inline-block">
+									<button class="btn_solid" onclick="chooseUser(7)" type="button" style="margin-top:0px;">选择发件人</button>
+								</div>
+								<div class="col-xs-6">
+									<label>案件：</label>
+									<input type="hidden" name="CaseId" id="CaseId">
+									<input type="text" id="CaseName" class="form-control dfinput t_hui" style="width: 450px;" onclick="CaseChoose()" value="" readonly="true">
+
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-6">
+									<label>快递单号： </label>
+									<input type="text" name="KdNums" class="form-control">
+
+								</div>
+								<div class="col-xs-6">
+									<label>快递费：</label>
+									<input type="text" name="KdPrice" class="form-control" onblur="SetInputDouble(this,2)">
+								</div>
+							</div>
+
+							<div class="row ">
+
+								<div class="col-xs-6">
+									<label for="">
+                            相关文件： 
+                        </label>
+									<br>
+									<input type="button" id="btnupload" value="上传文件" onclick="UpFile();">
+
+								</div>
+								<div class="col-xs-6">
+									<label>收件人：</label>
+									<input type="text" name="SFullName" class="form-control">
+
+								</div>
+							</div>
+
+							<div class="row" style="display:none" id="FileULDIV">
+								<div class="col-xs-12">
+									<ul style="float: left" id="FileUL">
+									</ul>
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-6">
+									<label>收件单位： </label>
+									<input type="text" name="SDanWei" class="form-control">
+
+								</div>
+								<div class="col-xs-6">
+									<label>收件地址：</label>
+									<input type="text" name="SAddress" class="form-control">
+
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-6">
+									<label>联系电话： </label>
+									<input type="text" name="SPhone" class="form-control">
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-12">
+									<label>发件备注： </label>
+									<textarea name="Make" id="Make" rows="3" cols="90" class="form-control"></textarea>
+								</div>
+							</div>
+						</div>
+
+						<div class="row ">
+							<div class="col-xs-12">
+								<button id="save" class="btn_solid">确定提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<input type="hidden" id="ID" name="ID" value="0">
+				<div class="my_grid one_row">
+				</div>
+				<script type="text/javascript" src="/Content/Js/table.js"></script>
+				<script>
+					$(function() {
+						laydate.render({
+							elem: '#FaTime',
+							calendar: true
+						});
+
+						$("#form").validate({
+							errorPlacement: function(error, element) {
+								if(element.context.tagName == 'SELECT') {
+									$(element).css('color', '#3a3a3a');
+								}
+								element.parent().find("label").after(error);
+							}
+						});
+
+						$("#form").ajaxForm({
+							beforeSubmit: function() {},
+							success: function(data) {
+								data = JSON.parse(data);
+								layer.msg(data.R, {
+									time: 1500
+								}, function() {
+									if(data.R == '提交成功') {
+										if($("#ID").val() != "" && $("#ID").val() != 0) {
+											window.history.go(-1);
+										} else {
+											window.location.href = "/Express/SendList";
+										}
+									}
+								});
+							}
+						});
+					});
+
+					function colsWindow(val, hideid) {
+						Fid = val;
+						hideID = hideid;
+						layer.open({
+							title: '设置管理',
+							type: 2,
+							area: ['60%', '50%'],
+							fixed: false, //不固定
+							maxmin: true,
+							content: '/Express/DeliveryColListView?Fid=' + val
+						});
+					}
+
+					function MineCases() {
+						layer.open({
+							title: '案件信息',
+							type: 2,
+							area: ['60%', '50%'],
+							fixed: false, //不固定
+							maxmin: true,
+							content: '/Express/CaseListView',
+						});
+					}
+
+					var openCount = 0;
+
+					function chooseUser(v) {
+						openCount++;
+						var t = "代发人"
+						if(v == 7) {
+							t = "发件人";
+						}
+						layer.open({
+							title: t,
+							type: 2,
+							area: ['60%', '50%'],
+							fixed: false, //不固定
+							maxmin: true,
+							content: '/Users/ChooseList?T=' + v
+						});
+					}
+
+					function CaseChoose() {
+						openCount++;
+						layer.open({
+							title: '案件选择',
+							type: 2,
+							area: ['60%', '50%'],
+							fixed: false, //不固定
+							maxmin: true,
+							content: '/CaseChoose/List?T=4'
+						});
+					}
+
+					function UpFile() {
+						var Wid = $("#Wid").val();
+						var Uid = $("#Uid").val();
+						var day = new Date();
+						var TimeStr = day.getFullYear().toString() + (day.getMonth() + 1).toString() + day.getDate().toString() + day.getHours().toString() + day.getMinutes().toString() + day.getSeconds().toString();
+						var VMakeId = document.getElementById("TMakeId").value;
+						layer.open({
+							title: '文件上传',
+							type: 2,
+							area: ['45%', '55%'],
+							fixed: true, //不固定
+							maxmin: true,
+							//content: '/CFileUpload/UploadFileStore?MakeId=' + VMakeId + "&S=" + TimeStr + "&Cols=3"
+							content: '/CFUpload/index.aspx?MakeId=' + VMakeId + "&S=" + TimeStr + "&Cols=3&TUid=" + Uid + "&TWid=" + Wid + "&Ts=3"
+						});
+					}
+
+					var openCount = 0;
+
+					function SetClose() {
+						openCount++;
+						GetUpCount();
+						layer.close(openCount);
+					}
+
+					function GetUpCount() {
+						var VTid = $("#Tid").val();
+						var day = new Date();
+						var TimeStr = day.getFullYear().toString() + (day.getMonth() + 1).toString() + day.getDate().toString() + day.getHours().toString() + day.getMinutes().toString() + day.getSeconds().toString();
+
+						$.ajax({
+							type: "POST",
+							url: "/CFileUpload/UploadFileStoreList",
+							data: {
+								"TimeStamp": $("#TMakeId").val(),
+								"Wid": $("#Wid").val(),
+								"Cols": 3
+							},
+							async: false,
+							success: function(result) {
+								result = JSON.parse(result);
+								$("#DivUpCount").html(result.C);
+								$("#FileCount").val(result.C);
+								for(var i = 0; i < result.R.length; i++) {
+									var s = "";
+									var fp = result.R[i]["FilePath"].toLowerCase();
+									if(fp.indexOf('.jpg') > -1 || fp.indexOf('.png') > -1 ||
+										fp.indexOf('.gif') > -1 || fp.indexOf('.jpeg') > -1 || fp.indexOf('.bmp') > -1) {
+										s += "<li style=\"float: left; margin-left: 20px\" id=\"li" + result.R[i]["ID"] + "\"><a href=\"javascript:ShowImgFullPath('" + result.R[i]["FilePath"] + "')\">" + result.R[i]["FileName"] + "</a>";
+									} else {
+										//s += "<li style=\"float: left; margin-left: 20px\" id=\"li" + result.R[i]["ID"] + "\"><a href=" + result.R[i]["FilePath"] + ">" + result.R[i]["FileName"] + "</a>";
+										s += "<li style=\"float: left; margin-left: 20px\" id=\"li" + result.R[i]["ID"] + "\"><a href=/FileView/DownUpload?TbName=FileStore&ID=" + result.R[i]["ID"] + ">" + result.R[i]["FileName"] + "</a>";
+									}
+
+									s += "<a href=\"javascript:del(" + result.R[i]["ID"] + ")\" style=\"font-size:15px;color:green\">-删除</a></li>";
+									$("#FileULDIV").show();
+									if($("#li" + result.R[i]["ID"]).length <= 0) {
+										$("#FileUL").append(s);
+									}
+								}
+							}
+						});
+					}
+
+					function del(v) {
+						layer.msg('确认要删除文件吗？', {
+							time: 0 //不自动关闭
+								,
+							btn: ['确定', '取消'],
+							yes: function(index) {
+								layer.close(index);
+								$.ajax({
+									type: "POST",
+									url: "/Custom/FileStoreDel",
+									data: {
+										"ID": v
+									},
+									success: function(result) {
+										result = JSON.parse(result);
+										layer.msg(result.R, {
+											time: 1500
+										}, function() {
+											//关闭后的操作
+											if(result.R == "删除成功") {
+												$("#li" + v).remove();
+											}
+										});
+									}
+								});
+							}
+						});
+					}
+				</script>
+			</form>
+		</section>
+
+		<script type="text/javascript" src="/WebResource.axd?d=0zd9Y-1nbqhtJETSjGdh4dGa2On7CjnrzzvirF6QSJmTOs9YvYuJMoAGTMZmXwYQKE4244xgjjNQeYPte1ABvh7NiWltqI0qvlWa5LmygrvXKqpZygL7IiTETaU3tRLo6avG77vdVFuiCjI-0sIORcrrQfg1&amp;t=636736440675645877"></script>
+		<script src="/Content/Scripts/jquery.unobtrusive-ajax.js?v=12321312313"></script>
+		<script type="text/javascript" src="/Content/js/baseFunction.js?v=12321312313"></script>
+
+	</body>
+
+</html>

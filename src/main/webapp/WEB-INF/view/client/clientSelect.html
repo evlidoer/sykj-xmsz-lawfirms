@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css">
+		<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script src="static/js/jquery_1.11.3.min.js"></script>
+		<script type="text/javascript" src="static/bootstarp/js/bootstrap.js"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/layer.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.min.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/layDate5.0.9/laydate.js"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			th{
+				text-align: center;
+			}
+		</style>
+		<script type="text/javascript">
+			function sel(id){
+				$.cookie("sel_logshowByID_id", id)
+				window.location.href = "/lawfirms/goto/log/operationview";
+			}
+			
+		$(function(){
+			$("#clientlaw").bootstrapTable({
+				method: "get",
+				url: "clientLawById/"+$.cookie("clientSelById"),
+				dataType: "json",
+				columns:[{
+					title:"客户类型",
+					halign:"center",
+					formatter:function(){
+						return "委托人"
+					}
+				},{
+					title:"案号",
+					halign:"center",
+					field:"case_propernum"
+				},{
+					title:"案件类别",
+					halign:"center",
+					field:"case_type_name"
+				},{
+					title:"案由",
+					halign:"center",
+					field:"case_cause"
+				},{
+					title:"当事人",
+					halign:"center",
+					field:"case_parties"
+				},{
+					title:"承办律师",
+					halign:"center",
+					field:"emp_name"
+				},{
+					title:"收案时间",
+					halign:"center",
+					field:"case_subtime"
+				},{
+					title:"结案",
+					halign:"center",
+					formatter:function(value,row,index){
+						if(row.case_plan=="C"){
+							return "已结案"
+						}else{
+							return "未结案"
+						}
+					}
+				},{
+					title:"代理费(元)",
+					halign:"center",
+					field:"case_agencyfee"
+				}]
+			})
+			
+			
+			$.ajax({
+				type:"get",
+				url:"clientSelect/"+$.cookie("clientSelById"),
+				async:true,
+				dataType:"json",
+				success:function(data){
+					console.log(data)
+					$("#CaseIdP").html(data[0].client);
+					$("#tel").html(data[0].tel);
+					$("#caseCaseTypeId").html(data[0].clientStuatus);
+					$("#satime").html(data[0].clientType);
+					$("#WtrTitle").html(data[0].idtype);
+					$("#caseThirdParty").html(data[0].idnumber);
+					$("#caseParties").html(data[0].companyNature);
+					$("#caseOpposite").html(data[0].companyScale);
+					$("#caseTransactionRegion").html(data[0].Type);
+					$("#caseCourt").html(data[0].industry );
+					$("#caseLawyer").html(data[0].clientPrincipal);
+					$("#client_contacts").html(data[0].clientContacts);
+					$("#client_email").html(data[0].clientEmail);
+					$("#client_duty").html(data[0].clientDuty);
+					$("#client_influence").html(data[0].clientInfluence);
+					$("#client_phone").html(data[0].clientPhone);
+					$("#client_region").html(data[0].clientRegion);
+					$("#client_stuatus").html(data[0].clientStuatus);
+					$("#client_behalf").html(data[0].clientBehalf);
+					$("#client_legalphone").html(data[0].clientLegalphone);
+					$("#client_file").html(data[0].clientFile);
+					$("#client_idcard").html(data[0].clientIdcard);
+					$("#client_nation").html(data[0].clientNation);
+					$("#client_sex").html(data[0].clientSex);
+					$("#client_site").html(data[0].clientSite);
+					$("#client_remark").html(data[0].clientRemark);
+				}
+			});
+			
+			$("#clientservice").bootstrapTable({
+				method: "get",
+				url:"logSelectById/"+$.cookie("clientSelById"),
+				dataType:"json",
+				columns:[{
+					title:"登记人",
+					field:"client",
+				},{
+					title:"日志类型",
+					field:"log_type_logname",
+				},{
+					title:"开始时间",
+					field:"joblog_startTime",
+				},{
+					title:"工作描述",
+					field:"joblog_text",
+				},{
+					title:"公开状态",
+					field:"addresslist_state",
+				},{
+					title:"操作",
+					formatter:function(value,row,index){
+						return "<a href='javaScript:sel(" + row.id + ")' >查看</a>"
+					}
+				}]
+			})
+		})
+			
+		</script>
+
+	</head>
+<body>
+	<body id="content">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading1" style="opacity: 0.2; display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb" style="background-color: white;">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="static/img/back.png" draggable="false">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)" draggable="false">我的客户</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">客户查看</a>
+				</li>
+			</ol>
+
+			<input id="IsLook" value="1" type="hidden">
+			<input id="Cols" value="1" type="hidden">
+			<input id="AuditID" value="403645" type="hidden">
+			<div class="grid_input_shell">
+
+				<div>
+					<div class="row basic_info">
+						<div class="row row_title">
+
+							<label class="text_border"></label>
+
+						</div>
+
+						<div class="shell text_group" id="ArticleCnt">
+							<div class="my_grid">
+								<div class="all_box text_box">
+									客户：
+									<p id="CaseIdP">
+										
+									</p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									手机号：
+									<p id="tel" ></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									客户状态：
+									<p id="caseCaseTypeId"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									客户类型：
+									<p id="satime"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+
+								<div class="all_box text_box">
+									身份特征：
+									<p title="aa" id="WtrTitle">
+										
+									</p>
+									
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									证件号：
+									<p id="caseThirdParty"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+
+								<div class="all_box text_box">
+									公司性质：
+									<p title="as" id="caseParties">
+										
+									</p>
+									
+								</div>
+							</div>
+							<div class="my_grid">
+
+								<div class="all_box text_box">
+									公司规模：
+									<p title="" id="caseOpposite">
+										
+									</p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									类型：
+									<p id="caseTransactionRegion"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									产业：
+									<p title="" id="caseCourt"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									主要负责人：
+									<p id="caseLawyer"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									业务联系人：
+									<p id="client_contacts">
+
+									</p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									邮箱：
+									<p id="client_email"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									职务：
+									<p id="client_duty"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									地区影响力：
+									<p id="client_influence"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									固定电话：
+									<p id="client_phone"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									所属地区：
+									<p id="client_region"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									客户状态：
+									<p id="client_stuatus"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+
+								<div class="all_box text_box">
+									法定代表人：
+									<p title="" id="client_behalf">
+										
+									</p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+
+									法人联系方式：
+									<p id="client_legalphone"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									相关文件：
+									<p id="client_file"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									身份证：
+									<p id="client_idcard"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									性别：
+									<p id="client_sex"></p>
+								</div>
+							</div>
+						<div class="my_grid">
+								<div class="all_box text_box">
+									民族：
+									<p id="client_nation"></p>
+								</div>
+							</div>
+							<div class="my_grid">
+								<div class="all_box text_box">
+									详细地址：
+									<p id="client_site"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									备注：
+									<p id="client_remark"></p>
+								</div>
+							</div>
+
+						</div>
+
+					
+					</div>
+
+				
+
+				</div>
+			</div>
+			<div class="row row_title" id="row_title1">
+                <label class="text_border">服务记录</label>
+            </div>
+            <div class="row">
+                <table class="table table-bordered" id="clientservice" style="text-align: center;">
+                 
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+			
+			
+			
+			<div class="row row_title" id="row_title1">
+                <label class="text_border">客户案件</label>
+            </div>
+            <div class="row" id="row1">
+                <table class="table table-bordered" id="clientlaw" style="text-align: center;">
+               		
+                </table>
+            </div>
+			
+			
+</body>
+</body>
+</html>

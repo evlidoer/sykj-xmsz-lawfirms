@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+  <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+<script>
+    function next(value) {
+        
+        var EditLinks = value;
+        $.cookie("caseCaseTypeId",EditLinks.substring(0,4),{
+        	path:"/"
+        })
+         if (
+        	EditLinks.indexOf("1001") == 0  ||
+        	EditLinks.indexOf("1003") == 0	||
+        	EditLinks.indexOf("1006") == 0  || 
+        	EditLinks.indexOf("1007") == 0	||
+        	EditLinks.indexOf("1008") == 0	||
+        	EditLinks.indexOf("1009") == 0
+        	){
+        	
+             //利益冲突审查
+            window.location.href = "addCase2";
+        }
+        else if (
+        		EditLinks.indexOf("1002") == 0  || 
+        		EditLinks.indexOf("1004") == 0  ||
+        		EditLinks.indexOf("1011") == 0	||
+        		EditLinks.indexOf("1005") == 0
+        		) {
+            //不需要案件利益冲突审查，直接到添加客户页面
+            window.location.href = "addCase3";
+        }
+        else if (EditLinks.indexOf("1010") == 0 ){
+        	//咨询与代书添加
+            window.location.href = "ConsultingGhostwritingAdd";
+        } 
+    }
+
+
+    //$("#TCols2").change(function () {
+    //    $("#ajfl").hide();
+    //});
+
+
+    function ChangeCols2(id) {
+        $("#caseCols2  li").remove();
+        $.ajax({
+            type: "POST",
+            url: "CaseCols2",
+            data: { "Cols": id },
+            success: function (result) {
+            	console.log(result[0].caseType)
+                for (var i = 0; i < result[0].caseType.length; i++) {
+                    //var link = result[i]["EditLinks"] + "?Cols=" + id + "_" + result[i]["ID"];
+
+                    $("#caseCols2").append("<li><a    href=\"javascript:;next('" + result[0].caseType[i]["id"] + "')\"><span   >" + result[0].caseType[i]["caseTypeName"] + "</span></a></li>");
+                    $(".case_type li").removeClass("case_typeActive");
+
+                    $("#"+id).parent().addClass("case_typeActive");
+                    //$("#TCols2").append("<option>" + result[i]["Title"] + "</option>");
+                }
+            }
+        });
+    }
+</script>
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+    <li><a href="javascript:void(0)" draggable="false">新增案件</a></li>
+    <li><a class="active" draggable="false">案件类型</a></li>
+</ol>
+<ul class="flow_line">
+    <li class="flow_line_now">1.选择案件类型</li>
+    <span>&gt;</span>
+    <li>2.利益冲突审查</li>
+    <span>&gt;</span>
+    <li>3.新增委托人</li>
+    <span>&gt;</span>
+    <li>4.登记立案信息</li>
+    <span>&gt;</span>
+    <li>5.立案文书上传</li>
+    <span>&gt;</span>
+    <li>6.收案审批</li>
+</ul>
+
+
+<form class="shell todown">
+    <div class="caseTypeChoice">
+
+        <div class="case_type">
+            <div class="row_title">
+                <label class="text_border">选择案件类型</label>
+            </div>
+           		 <ul>
+                    <li><a id="1" href="javascript:;ChangeCols2('1001')"><span>民事案件</span></a></li>
+                        <script type="text/javascript">
+                            ChangeCols2('1001');
+                        </script>   
+                    <li><a id="2" href="javascript:;ChangeCols2('1002')"><span>刑事案件</span></a></li>
+                    <li><a id="3" href="javascript:;ChangeCols2('1003')"><span>行政案件</span></a></li>
+                    <li><a id="4" href="javascript:;ChangeCols2('1004')"><span>非诉讼法律事务</span></a></li>
+                    <li><a id="5" href="javascript:;ChangeCols2('1005')"><span>法律顾问</span></a></li>
+                    <li><a id="6" href="javascript:;ChangeCols2('1006')"><span>法律援助</span></a></li>
+                    <li><a id="7" href="javascript:;ChangeCols2('1007')"><span>执行案件</span></a></li>
+                    <li><a id="8" href="javascript:;ChangeCols2('1008')"><span>中保案件</span></a></li>
+                    <li><a id="9" href="javascript:;ChangeCols2('1009')"><span>仲裁案件</span></a></li>
+                    <li><a id="11" href="javascript:;ChangeCols2('1011')"><span>破产案件</span></a></li>
+                    <li><a id="10" href="javascript:;ChangeCols2('1010')"><span>咨询代写文书</span></a></li>
+            </ul>
+        </div>
+        <div class="case_items">
+            <ul id="caseCols2">
+            </ul>
+        </div>
+    </div>
+</form>
+    </section>
+    <script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+</body>
+</html>

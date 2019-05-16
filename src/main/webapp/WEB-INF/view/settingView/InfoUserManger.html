@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html>
+<base href="/lawfirms/" />
+	<head>
+		<meta charset="UTF-8">
+		<title>辽宁盛恒律师事务所</title>
+		<meta http-equiv=“Content-Security-Policy” content=“upgrade-insecure-requests” />
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化" />
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts3.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.all.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript">
+			$(function(){
+				$.ajax({
+					type:"get",
+					url:"goto/setting/userManager/selByid/"+$.cookie("sel_info_userManager_byId"),
+					datatype:"json",
+					success:function(data){
+						console.log(data);
+						$("#user_name").text(data.user_name);
+						$("#user_realname").text(data.user_realname);
+						$("#rname").text(data.rname);
+						$("#user_phone").text(data.user_phone);
+						$("#emp_papersnum").text(data.emp_papersnum);
+						$("#emp_pracnum").text(data.emp_pracnum);
+						$("#emp_sex").text(data.emp_sex=="M"?"女":"男");
+						$("#user_status").text(data.user_status=="Y"?"在职":"离职");
+						$("#emp_qq").text(data.emp_qq);
+						$("#user_email").text(data.user_email);
+						$("#emp_site").text(data.emp_site);
+					}
+				});
+			});
+			function ShowOriginalPictures(){
+				layer.msg('暂未开放'); 
+			}
+		</script>
+
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">人事</a>
+				</li>
+				<li>
+					<a class="active">用户详情</a>
+				</li>
+			</ol>
+
+			<div class="case_detail">
+				<div class="row_title">
+					<label class="text_border">基本资料</label>
+				</div>
+				<div class="shell text_group">
+					<div class="my_grid">
+						<div class="all_box text_box">
+							账号：
+							<p id="user_name"></p>
+						</div>
+					</div>
+
+					<div class="my_grid">
+						<div class="all_box text_box">
+							姓名：
+							<p id="user_realname"></p>
+						</div>
+					</div>
+
+					<div class="my_grid">
+						<div class="all_box text_box">
+							用户组：
+							<p id="rname">
+							</p>
+						</div>
+					</div>
+
+					<div class="my_grid">
+						<div class="all_box text_box">
+							手机：
+							<p id="user_phone"></p>
+						</div>
+					</div>
+
+					<!--
+						<div class="my_grid">
+						<div class="all_box text_box">
+							公积金：
+							<p>0.00</p>
+						</div>
+					</div>
+					-->
+
+					<!--<div class="my_grid">
+						<div class="all_box text_box">
+							管理费：
+							<p>0.00</p>
+						</div>
+					</div>-->
+
+					<!--<div class="my_grid">
+						<div class="all_box text_box">
+							养老保险：
+							<p>0.00</p>
+						</div>
+					</div>-->
+
+					<!--<div class="my_grid">
+						<div class="all_box text_box">
+							提成组：
+							<p>
+
+							</p>
+						</div>
+					</div>-->
+
+					<div class="my_grid">
+						<div class="all_box text_box">
+							身份证号：
+							<p id="emp_papersnum"></p>
+						</div>
+					</div>
+
+					<div class="my_grid">
+						<div class="all_box text_box">
+							执业证号：
+							<p id="emp_pracnum"></p>
+						</div>
+					</div>
+
+					<div class="my_grid">
+						<div class="all_box text_box">
+							性别：
+							<p id="emp_sex"></p>
+						</div>
+					</div>
+
+
+					<div class="my_grid">
+						<div class="all_box text_box">
+							是否在职：
+							<p id="user_status">在职</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row_title">
+					<label class="text_border">详细资料</label>
+				</div>
+				<div class="shell text_group">
+						<div class="my_grid">
+						<div class="all_box text_box">
+							QQ：
+							<p id="emp_qq"></p>
+						</div>
+					</div>
+
+					<div class="my_grid">
+						<div class="all_box text_box">
+							邮箱：
+							<p id="user_email"></p>
+						</div>
+					</div>
+					<!-- <div class="my_grid">
+						<div class="all_box text_box">
+							照片：
+							<p>
+								<a href="javascript:ShowOriginalPictures()">查看</a>
+							</p>
+						</div>
+					</div> -->
+					<div class="all_box text_box">
+						家庭住址：
+						<p id="emp_site"></p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+
+</html>

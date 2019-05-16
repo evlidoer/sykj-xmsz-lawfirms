@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<!--<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />-->
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/laydate.js"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/layui/layui.all.js"></script>
+		<!--  前端验证框架 start -->
+		<link rel="stylesheet" type="text/css" href="static/bootstrapvalidator/src/css/bootstrapValidator.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstrapvalidator/vendor/bootstrap/css/bootstrap.min.css" />
+		<script type="text/javascript" src="static/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
+		<style type="text/css">
+			/*small {
+				display: none !important;
+			}*/
+			
+			.form-control-feedback {
+				position: absolute;
+				top: 39px;
+				right: 10px;
+				z-index: 2;
+				display: block;
+				width: 34px;
+				height: 34px;
+				line-height: 34px;
+				text-align: center;
+				pointer-events: none;
+				/* background-color: #ea2a2a; 
+				color: #cf2020;*/
+			}
+		</style>
+		<!--  前端验证框架 end -->
+
+	</head>
+	<script type="text/javascript">
+	</script>
+
+	<body id="content">
+		<section>
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="static/img/back.png" draggable="false" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)" draggable="false">行政</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">编辑联系人</a>
+				</li>
+			</ol>
+
+			<form id="myform_" enctype="multipart/form-data" id="form" method="post">
+				<div class="grid_input_shell">
+					<div class="container">
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">基本资料：</label>
+							</div>
+						</div>
+						<div id="father">
+							<div class="row ">
+								<div class="col-xs-6">
+									<label><em>*</em>单位名称： </label>
+									<input id="externalCompanyname" type="text" name="externalCompanyname" placeholder="单位名称" class="form-control required" title="请填写单位名称">
+								</div>
+								<div class="col-xs-6">
+									<label><em>*</em>联系人：</label>
+									<input id="externalContacts" type="text" name="externalContacts" placeholder="姓名" class="form-control required" title="请填写姓名">
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-6">
+									<label><em>*</em>手机号码： </label>
+									<input id="externalCellphonenumber" type="text" name="externalCellphonenumber" placeholder="手机号码" class="form-control required isMobile valid" title="请填写手机号码">
+								</div>
+							</div>
+						</div>
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">其他选填</label>
+								<span class="input_display">展开</span>
+							</div>
+						</div>
+
+						<div class="input3_other" style="display: none;">
+							<div class="row ">
+								<div class="col-xs-6">
+									<label>部门： </label>
+									<input id="dept" type="text" name="dept" placeholder="部门" class="form-control">
+								</div>
+								<div class="col-xs-6">
+									<label>职位：</label>
+									<input id="jobtitle" type="text" name="jobtitle" placeholder="职位" class="form-control">
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-6">
+									<label>固定电话： </label>
+									<input id="externalTelephone" type="text" name="externalTelephone" placeholder="固定电话" class="form-control">
+								</div>
+								<div class="col-xs-6">
+									<label>邮箱：</label>
+									<input id="externalPostbox" type="text" name="externalPostbox" placeholder="邮箱" class="form-control">
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-6">
+									<label>传真： </label>
+									<input id="externalFax" type="text" name="externalFax" placeholder="传真" class="form-control">
+								</div>
+
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-12">
+									<label>详细地址： </label>
+									<input id="externalFamily" type="text" name="externalFamily" placeholder="详细地址" class="form-control">
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-12">
+									<label>备注： </label>
+									<input id="externalComment" type="text" name="externalComment" placeholder="备注" class="form-control">
+								</div>
+							</div>
+						</div>
+
+						<div class="row ">
+							<div class="col-xs-12">
+								<input id="sSave" type="button" value="立即添加" class="btn_solid" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</section>
+	</body>
+	<script type="text/javascript">
+		$(function() {
+			$("#sSave").on("click", function() {
+				var arr = $("#father").find("input[type=text]")
+				var len = $(arr).length;
+				for(let i = 0; i < len; i++) {
+					if($(arr[i]).val().trim() == '') {
+						var str = $(arr[i]).prev().text();
+						layer.msg(str.substr(1) + '  为必填选项 ');
+						return;
+					}
+				}
+				var TEL_REGEXP = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
+				if(!(TEL_REGEXP.test($("#externalCellphonenumber").val().trim()))) {
+					layer.msg('请输入合法手机号');
+					return;
+				}
+				$.ajax({
+					type: "post",
+					url: "external/add",
+					data: $("form").serialize(),
+					success: function() {
+						window.history.go(-1);
+					}
+				});
+			})
+			/* $('form').bootstrapValidator({
+				//				message: 'This value is not valid',
+				　
+				feedbackIcons: { //提示图标
+					valid: 'glyphicon glyphicon-ok',
+					invalid: 'glyphicon glyphicon-remove',
+					validating: 'glyphicon glyphicon-refresh'
+				},
+				fields: {
+					externalCompanyname: {
+						//						message: '用户名验证失败',
+						validators: {
+							notEmpty: {
+								//								message: '用户名不能为空'
+							}
+						}
+					},
+					externalCompanyname: {
+						//						message: '用户名验证失败',
+						validators: {
+							notEmpty: {
+								//								message: '用户名不能为空'
+							}
+						}
+					},
+					externalCellphonenumber: {
+						validators: {
+							notEmpty: {
+								//								message: '邮箱地址不能为空'
+							}
+						}
+					}
+				}
+			});
+			$("#sSave").on("click", function() {
+				$('form').data('bootstrapValidator').validate(); //启用验证
+				var flag = $('form').data('bootstrapValidator').isValid() //验证是否通过true/false
+				if(!flag) {
+					return;
+				}
+				$.ajax({
+					type: "post",
+					url: "external/add",
+					data: $("form").serialize(),
+					success: function() {
+						window.history.go(-1);
+					}
+				});
+			})*/
+		})
+	</script>
+
+</html>

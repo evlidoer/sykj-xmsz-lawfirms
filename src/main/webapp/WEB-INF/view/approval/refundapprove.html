@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+    <script src="static/js/jquery-3.2.0.js"></script>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <link rel="stylesheet" href="static/css/laydate.css" id="layuicss-layer">
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script><link rel="stylesheet" id="layuicss-laydate">
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    <script src="static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+    	$(function(){
+    	$("#querentijiao").on("click",function(){
+    		$.ajax({
+    				type:"get",
+    				url:"refundApproval",
+    				async:true,
+    				data:$("#approveform").serialize(),
+    				success:function(data){
+    					if(data==1){
+    						alert("审批成功")
+    						window.location.href="gotobuniok";
+    					}else if(data==0){
+    						alert("当前用户无权限")
+    					}
+    				}
+    			});
+    	})
+    	})
+    
+    	
+    	
+    	
+    		$.ajax({
+    		type:"get",
+    		url:"RefundSel/"+$.cookie("RefundId"),
+    		async:true,
+    		success:function(data){
+    			$("#refund_id").val(data[0].id)
+				$("#case_propernum").html(data[0].case_propernum)
+				$("#case_parties").html(data[0].case_parties)
+				$("#user_realname").html(data[0].user_realname)
+				$("#case_refundtime").html(data[0].case_refundtime)
+				$("#case_agencyfee").html(data[0].case_agencyfee)
+				$("#case_money").html(data[0].case_money)
+				$("#case_refundway").html(data[0].case_refundway)
+				$("#case_refundtype").html(data[0].case_refundtype)
+				$("#case_cause").html(data[0].case_cause)
+				$("#case_detail").html(data[0].case_detail)
+    		}
+    	});
+    </script>
+    
+</head>
+<body>
+<section>
+        
+
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading1" style="opacity: 5.55112e-17; display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb" style="background-color: white;">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">审批</a></li>
+    <li><a class="active" draggable="false">流程查看</a></li>
+</ol>
+
+<input id="IsLook" value="1" type="hidden">
+<input id="Cols" value="2" type="hidden">
+<input id="AuditID" value="413459" type="hidden">
+<div class="grid_input_shell">
+    
+    <div>
+        <div class="row basic_info">
+            <div class="row row_title">
+
+
+                <label class="text_border">退费申请</label>
+                 
+            </div>
+
+
+<div class="row basic_info">
+   
+    <div>
+        <table class="table table-bordered">
+            <tbody><tr>
+                <td>案号：</td>
+				<td id="case_propernum"></td>
+ 				<td>委托人：</td>
+                <td id="case_parties"></td>
+                <td>提交人：</td>
+                <td id="user_realname"></td>
+            </tr>
+            <tr>
+                <td>提交时间：</td>
+                <td id="case_refundtime"></td>
+                <td>代理费：</td>
+                <td id="case_agencyfee"></td>
+                <td>退费金额：</td>
+                <td id="case_money"></td>
+            </tr>
+            <tr style="display: none">
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>退还方式：</td>
+                
+              <td id="case_refundway"></td>
+                <td>退费类别：</td>
+                <td id="case_refundtype"></td>
+            </tr>
+
+            <tr>
+                <td>备注：</td>
+                <td colspan="5" id="case_cause"></td>
+            </tr>
+            <tr>
+                <td>扣除业绩明细：</td>
+                <td colspan="5">
+                    <ul>
+                            <li><span id="case_detail"></span>
+                               
+                            </li>  
+                    </ul>
+                </td>
+            </tr>
+        </tbody></table>
+    </div>
+
+</div>
+
+
+        </div>
+
+
+        <div class="row approval_record">
+            <div class="row row_title">
+                <label class="text_border">审批记录</label>
+            </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        <p>
+                            
+                        </p>
+                        <p> </p>
+                        <p> </p>
+                        <p>
+                        </p>
+                    </div>
+
+                </div>
+                            <div class="row">
+                    <div class="col-xs-10">
+                        <p>当前审批人:</p>
+                    </div>
+                </div>
+        </div>
+        
+        			<form action="" method="post" id="approveform"> 					
+					<div class="row my_approval">
+                <div class="row row_title">
+                    <label class="text_border">我的审批</label>
+                </div>
+                <div class="row">
+                	<input type="hidden" id="refund_id" name="refund_id"/>
+                    <div class="col-xs-12">
+                        <label>审批操作：</label>
+                        <div class="choose_shell">
+                            <input type="radio" name="approvalStaus" value="Y" checked="checked" class="required input_radio_checked">通过
+                                    <input type="radio" name="approvalStaus" value="O">不通过
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>备注说明：</label>
+                        <div>
+                            <textarea class="form-control col-xs-12" name="approvalText"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: center">
+                        <input type="button" name="" class="btn_solid" id="querentijiao" value="确认提交">
+                    </div>
+                </div>
+            </div>
+					
+				</form>
+
+    </div>
+</div>
+    </section>
+</body>
+</html>

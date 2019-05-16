@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<script src="static/layui/layui.all.js"></script>
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<style type="text/css">
+			#big {
+				font-size: 15px;
+			}
+			
+			#table tr {
+				height: 47px;
+			}
+			
+			input[type="radio"],
+			input[type="checkbox"] {
+				margin: -3px 6px 0 !important;
+				line-height: normal;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid" id="big">
+			<div class="row">
+				<ol class="breadcrumb" style="background-color: #fff;">
+					<a class="btn btn-default" draggable="false" style="border: 0px;" href="gotoindex">
+						<img src="static/img/back.png" draggable="false" style="height: 40px; width: 40px;" />
+					</a>
+					<li>
+						<a draggable="false">人事</a>
+					</li>
+					<li>
+						<a class="active" draggable="false">人事管理</a>
+					</li>
+				</ol>
+			</div>
+			<div class="row">
+					<form class="form-inline">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="姓名/手机号码" id="nameorphone" />
+						</div>
+						<input type="button" value="检索" onclick="$('#table').bootstrapTable('refresh');" style="height: 2.4em; padding: 0 12px;" draggable="false" class="btn btn-success" readonly="true" />
+					</form>
+				</div>
+					<table class="tab" id="table"></table>
+		</div>
+	</body>
+	<script>
+		$(document).ready(function() {
+			$('#table').bootstrapTable('resetView', {
+				height: 260
+			});
+		});
+
+		function exportEx() {
+			var chval = [];
+			$("input[name='Person']:checked").each(function() {
+				chval.push($(this).val())
+			})
+			if(chval == "") {
+				alert("未选择");
+				return;
+			}
+			var deon = document.dwon;
+			$("input[name='chval']").val(chval);
+			deon.submit();
+		}
+
+		function confirmd(id) {
+			if(confirm("确定删除吗")) {
+				$.ajax({
+					type: "get",
+					url: "hr/emp/deletebyid/" + id,
+					success: function(data) {
+						if(data.status == "yes") {
+							$("#table").bootstrapTable("refresh")
+							alert("删除成功")
+						} else {
+							alert("删除失败")
+						}
+					}
+				});
+				$("#table").bootstrapTable("refresh");
+				return true;
+			}
+			return false;
+		}
+
+		$(function() {
+			$("#table").bootstrapTable({
+				url: "setting/emp/selall",
+				method: 'get',
+				dataType: "json",
+				striped: true, //是否显示行间隔色
+				pageNumber: 1, //初始化加载第一页
+				pagination: true, //是否分页
+				sidePagination: 'server', //server:服务器端分页|client：前端分页
+				pageSize: 12, //单页记录数
+				pageList: [6, 12, 18, 24], //可选择单页记录数
+				queryParams: function(params) {
+					return {
+						offset: params.offset,
+						limit: params.limit,
+						tle: $("#nameorphone").val()
+					}
+				},
+				columns: [{
+					title: "选择",
+					formatter: function(value, row, index, field) {
+						return '<input class = "layui-layer-close layui-layer-close1" style = "font-size:20px" type="radio" name="userID" id=' + row.id + ' value=' + row.empName + '>';
+					}
+				}, {
+					title: "编号",
+					field: "hrEmpId",
+					visible: false
+				}, {
+					title: "姓名",
+					field: "empName"
+				}, {
+					title: "手机号码",
+					field: "empPhone"
+				}, {
+					title: "入职时间",
+					field: "empEntrydate"
+				}, {
+					title: "合同到期时间",
+					field: "empContEnddate"
+				}, {
+					title: "在职状态",
+					field: "empWorkstatus",
+					formatter: function(value, row, index) {
+						if(value == "Y") {
+							return "在职";
+						} else if(value == "N") {
+							return "离职";
+						}
+					}
+				}, {
+					title: "状态",
+					field: "empStatus"
+				}]
+			});
+			$(document).on("click", "input[name='userID']", function() {
+				parent.$('#hr_sj_id_show').val($(this).val());
+				parent.$('input[name=hr_emp_id]').val($(this).attr("id"));
+				//window.parent.location.href = "goto/addressBook/add_ExpressageByID_id";
+				parent.layer.close(parent.layer.getFrameIndex(window.name)); //弹出层关闭
+				//$.cookie("Expressage_add_userArr", arr);
+				//	window.parent.location.reload();//刷新父窗口
+			});
+		})
+
+		function toadd(id) {
+			location = "hr/index/showsee?id=" + id;
+		}
+
+		function toup(id) {
+			location = "hr/index/toup?id=" + id;
+		}
+	</script>
+
+</html>

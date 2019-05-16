@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.jt.lawfirm.mapper.administration.IAttorneyMapper">
+	
+	<select id="selAttorneyAll"
+		resultType="com.jt.lawfirm.bean.administration.Attorney" parameterType="java.util.Map">
+		select a.* , e.emp_name ename from adm_addresslist a 
+		inner join hr_emp e on a.hr_emp_id  = e.id
+		where 1 = 1
+		<if test="title != null and title != ''">
+			and
+			addresslist_name like #{title}
+			or 
+			addresslist_user like #{title}
+			or 
+			addresslist_cellphonenumber = #{title}
+		</if>
+	</select>
+	
+	<select id="selAttorneyByID" resultType="com.jt.lawfirm.bean.administration.Attorney" parameterType="int">
+		select a.* , e.emp_name ename from adm_addresslist a 
+			inner join hr_emp e on a.hr_emp_id  = e.id
+			where a.id = #{id}
+	</select>
+</mapper>

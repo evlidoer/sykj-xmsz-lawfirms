@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+     <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+  	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_blue.css"/>	  
+	<script type="text/javascript" src="static/js/bootstrap.js"></script>
+	<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>    
+    <script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+    
+</head>
+<body id="content">
+    <section>
+<script type="text/javascript">
+        $(function(){
+        	$("#table").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:'ajaxFeiyong',
+			pagination:true,//显示分页
+			pageSize:3,//每页数据数
+			pageList:[3,5],//设置页面可显示的数据条数
+			pageNumber:1,//首页页码
+			sidePagination:'server',//设置为服务器端分页
+			//sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					offset:params.offset,
+					limit:params.limit,
+					casePropernum:$("#Title").val(),
+					relief_approval_status:$("#selct_1").val()
+				 }
+			}, 
+			columns:[{
+				title:'序号',
+				formatter:function(value,row,index){
+					return index+1
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'案号',
+				field: 'case_propernum'
+			},{
+				align: 'center', // 左右居中
+				title:'申请人',
+				field: 'relief_proposer'
+			},{
+				align: 'center', // 左右居中
+				title:'减免金额',
+				field: 'relief_credit_amount'
+			},{
+				align: 'center', // 左右居中
+				title:'申请日期',
+				formatter:function(value,row,index){
+					if(row.relief_application_date!=null)return new Date(row.relief_application_date).format("yyyy-MM-dd")
+					else return null
+				}
+			},{
+				align: 'center', // 左右居中"":""
+				title:'审核状态',
+				formatter:function(value,row,index){
+					if(row.relief_approval_status == 'Y') return "审核通过"
+					if(row.relief_approval_status == 'O') return "待审核"
+					if(row.relief_approval_status == 'N') return "未通过"
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'操作',
+				formatter:function(value,row,index){
+				return '<a href="javascript:detailsXXXX('+row.case_law_id+');">查看</a>'/* <a href="javascript:delfeiyong('+row.id+');">删除</a> */
+					}
+			}]
+		})
+        	
+        	//查询(刷新表格)
+			$(".btn_solid").on("click",function(e){
+				$("#table").bootstrapTable('refresh');//刷新
+				$("#Title").val("");
+			});
+        		
+      })
+        
+        
+        //删除
+	function delfeiyong(id){
+		var boo = confirm("删除后不能恢复,确定删除?")
+		if(boo == true){
+			$.ajax({
+				type:"get",
+				url:"delfeiyong/"+id,
+				async:true,
+				success:function(data){
+					if(data == true){
+						$("#table").bootstrapTable('refresh');//刷新
+						alert('删除成功');
+					}
+				}
+			});
+		}
+	}
+        
+     function detailsXXXX(case_law_id){
+    	 $.cookie("gotocognizance_id",case_law_id)
+    	 window.location.href="detailsXXXX";
+     }   
+        
+        
+        
+Date.prototype.format = function(fmt) { 
+     var o = { 
+        "M+" : this.getMonth()+1,                 //月份 
+        "d+" : this.getDate(),                    //日 
+        "h+" : this.getHours(),                   //小时 
+        "m+" : this.getMinutes(),                 //分 
+        "s+" : this.getSeconds(),                 //秒 
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+        "S"  : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return fmt; 
+}   
+
+        
+</script>
+
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default">
+        <img src="static/img/back.png">
+    </a>
+    <li><a href="javascript:void(0)">案件</a></li>
+    <li><a class="active">费用减免申请记录</a></li>
+</ol>
+
+
+
+<form action="/CostLessen/List" class="container-fluid page_find" id="searchForm" method="post" onclick="Sys.Mvc.AsyncForm.handleClick(this, new Sys.UI.DomEvent(event));" onsubmit="Sys.Mvc.AsyncForm.handleSubmit(this, new Sys.UI.DomEvent(event), { insertionMode: Sys.Mvc.InsertionMode.replace, updateTargetId: &#39;s&#39; });">    <div class="input-group">
+        <input type="text" name="casePropernum" id="Title" class="form-control" />
+    </div> 
+    <div class="down_box">
+        <select name="SearchType" class="selct_1">
+            <option>案号搜索</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="relief_approval_status" class="selct_1" id = "selct_1">
+            <option value="">审核状态</option>
+                <option value="O">待审核</option>
+                <option value="Y">审核通过</option>
+                <option value="N">未通过</option>
+        </select>
+    </div>
+    <input type="button" value="检索" class="btn_solid" />
+</form>
+
+<div id="datas">
+<table class="table white table-hover table-fixed-head" id="table">
+        </table>
+</div>
+    </section>
+</body>
+</html>

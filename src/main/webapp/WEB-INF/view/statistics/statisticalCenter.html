@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<base href="../../lawfirms" />
+<head>
+<meta charset="UTF-8">
+<title>综合统计中心</title>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+
+<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+	#list3auto_div {
+		display: none;
+		width: 250px;
+		border: 1px #74c0f9 solid;
+		border-radius: 0px 0px 5px 5px;
+		background: #FFFFFF;
+		position: absolute;
+		top: 35px;
+		left: 80px;
+		color: #323232;
+		z-index: 1000;
+	}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+				<ol class="breadcrumb">
+					<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+					<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+					<span class="glyphicon glyphicon-menu-left" ></span>
+				</button>
+					<li class="breadcrumb-li-one">
+						<a>统计</a>
+					</li>
+					<li>
+						<a>综合统计中心</a>
+					</li>
+				</ol>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 5px;">
+				<ul class="nav nav-tabs">
+					<li role="presentation" id="list1A" class="active">
+						<a href="javascript:;">业务收费汇总表</a>
+					</li>
+					<li role="presentation" id="list2A">
+						<a href="javascript:;">个人业务总计汇总表</a>
+					</li>
+					<li role="presentation" id="list3A">
+						<a href="javascript:;">个人业务月份汇总表</a>
+					</li>
+					<li role="presentation" id="list4A">
+						<a href="javascript:;">出纳统计</a>
+					</li>
+					<li role="presentation" id="list5A">
+						<a href="javascript:;">分类开票汇总</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row" id="list1">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px;">
+				<div class="form-inline">
+					<label>
+						<span>日期:</span>
+				    </label>
+				    <div class="form-group">
+						<input class="form-control times" id="list1startTime" type="text">
+					</div>
+					<div class="form-group">
+						<input class="form-control times" id="list1endTime" type="text">
+					</div>
+					<div class="form-group">
+						<input type="button" onclick="showList1();" value="检索" class="btn btn-success">
+					</div>
+					<div class="form-group" style="display: none;" id="list1But">
+						<input type="button" onclick="list1Export();" value="导出" class="btn btn-info">
+						<form name="list1dwon" method="post" style="display: none;">
+							<input type="hidden" name="properId" />
+							<input type="hidden" name="startTime" />
+							<input type="hidden" name="endTime" />
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px; display: none;" id="list1Data">
+				<h3 style="text-align: center; font-weight: bold;">律所业务收费汇总表</h3>
+				<table id="showList1" class="table table-hover table-striped"></table>
+			</div>
+		</div>
+		<div class="row" id="list2" style="display: none;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px;">
+				<div class="form-inline">
+					<label>
+						<span>日期:</span>
+				    </label>
+				    <div class="form-group">
+						<input class="form-control times" id="list2startTime" type="text">
+					</div>
+					<div class="form-group">
+						<input class="form-control times" id="list2endTime" type="text">
+					</div>
+					<div class="form-group">
+						<input type="button" onclick="showList2();" value="检索" class="btn btn-success">
+					</div>
+					<div class="form-group" style="display: none;" id="list2But">
+						<input type="button" onclick="list2Export();" value="导出" class="btn btn-info">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px; display: none;" id="list2Data">
+				<h3 style="text-align: center; font-weight: bold;">个人业务总计汇总表</h3>
+				<table id="showList2" class="table table-hover table-striped"></table>
+			</div>
+		</div>
+		<div class="row" id="list3" style="display: none;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px;">
+				<div class="form-inline">
+					<div class="form-group">
+						<label>
+							<span>执业人员:</span>
+					    </label>
+						<input id="list3properId" type="hidden" name="list3properId">
+						<input id="list3properUp" type="hidden">
+						<input class="form-control" id="list3proper" oninput="selNames($(this).val());">
+						<div id="list3auto_div">
+						</div>
+					</div>
+					<label>
+						<span>日期:</span>
+				    </label>
+				    <div class="form-group">
+						<input class="form-control times" id="list3startTime" type="text">
+					</div>
+					<div class="form-group">
+						<input class="form-control times" id="list3endTime" type="text">
+					</div>
+					<div class="form-group">
+						<input type="button" onclick="showList3();" value="检索" class="btn btn-success">
+					</div>
+					<div class="form-group" style="display: none;" id="list3But">
+						<input type="button" onclick="list3Export();" value="导出" class="btn btn-info">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px; display: none;" id="list3Data">
+				<h3 style="text-align: center; font-weight: bold;">个人业务总计汇总表</h3>
+				<table id="showList3" class="table table-hover table-striped"></table>
+			</div>
+		</div>
+		<div class="row" id="list4" style="display: none;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px;">
+				<div class="form-inline">
+					<label>
+						<span>日期:</span>
+				    </label>
+				    <div class="form-group">
+						<input class="form-control times" id="list4startTime" type="text">
+					</div>
+					<div class="form-group">
+						<input class="form-control times" id="list4endTime" type="text">
+					</div>
+					<div class="form-group">
+						<input type="button" onclick="showList4();" value="检索" class="btn btn-success">
+					</div>
+					<div class="form-group" style="display: none;" id="list4But">
+						<input type="button" onclick="list4Export();" value="导出" class="btn btn-info">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px; display: none;" id="list4Data">
+				<h3 style="text-align: center; font-weight: bold;">律所业务收费汇总表</h3>
+				<table id="showList4" class="table table-hover table-striped"></table>
+			</div>
+		</div>
+		<div class="row" id="list5" style="display: none;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px;">
+				<div class="form-inline">
+					<label>
+						<span>日期:</span>
+				    </label>
+				    <div class="form-group">
+						<input class="form-control times" id="list5startTime" type="text">
+					</div>
+					<div class="form-group">
+						<input class="form-control times" id="list5endTime" type="text">
+					</div>
+					<div class="form-group">
+						<input type="button" onclick="showList5();" value="检索" class="btn btn-success">
+					</div>
+					<div class="form-group" style="display: none;" id="list5But">
+						<input type="button" onclick="list5Export();" value="导出" class="btn btn-info">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px; display: none;" id="list5Data">
+				<h3 style="text-align: center; font-weight: bold;">分类开票汇总</h3>
+				<table id="showList5" class="table table-hover table-striped"></table>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="static/financeJs/statisticsCenterJs/list1.js"></script>
+	<script type="text/javascript" src="static/financeJs/statisticsCenterJs/list2.js"></script>
+	<script type="text/javascript" src="static/financeJs/statisticsCenterJs/list3.js"></script>
+	<script type="text/javascript" src="static/financeJs/statisticsCenterJs/list4.js"></script>
+	<script type="text/javascript" src="static/financeJs/statisticsCenterJs/list5.js"></script>
+	<script type="text/javascript" src="static/financeJs/statisticsCenterJs/general.js"></script>
+</body>
+</html>

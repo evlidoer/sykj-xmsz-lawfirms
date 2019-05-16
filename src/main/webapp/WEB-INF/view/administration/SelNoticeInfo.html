@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<base href="/lawfirms/" />
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/main_navyblue.css" />
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<script src="static/layui/layui.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+
+		<script type="text/javascript" src="static/js/bootstrap.js"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/table.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$.ajax({
+					type:"get",
+					url:"administration/selInfoById2/"+$.cookie("Save_Sel_SelNoticeInfo_ID"),
+					dataType:"json",
+					success:function(data){
+						$("#title").text(data.title);
+						$("#USERNAME").text("发布人: "+data.USERNAME);
+						$("#desc").text("详情:"+data.notice_desc);
+						$("#notice_accessoryurl").text(data.notice_accessoryurl)
+						$("#notice_releasetime").text("时间: "+ formatDate(data.notice_releasetime));
+					}
+				});
+			});
+			function formatDate(cellval) {
+			var dateVal = cellval + "";
+			if(cellval != null) {
+				var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+				var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+				var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+				var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+				var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+				return date.getFullYear() + "-" + month + "-" + currentDate;
+			}
+		}
+		</script>
+	</head>
+	<body id="content" style="padding-top: 41px;">
+		<section>
+			<style type="text/css">
+				.notice_page {
+					margin-top: 30px;
+					padding: 30px;
+					padding-bottom: 60px;
+					max-width: 1200px;
+					margin-bottom: 30px;
+				}
+				.notice_page h2 {
+					/*margin-top:0px;*/
+					padding: 0px 30px;
+					font-weight: bold;
+					color: #666;
+					text-align: center;
+					margin-bottom: 20px;
+				}
+				.notice_page hr {
+					margin-bottom: 10px;
+				}
+				.notice_page .content {
+					/*margin: 30px 20px 0px 20px;*/
+					/*padding: 30px 100px;*/
+					font-size: 1.15em;
+					line-height: 2em;
+					/*background:#5FC191;*/
+					/*background:#ededed;*/
+					/*background:#DEB887;*/
+					height: auto;
+					background-color: #fff;
+					/*color:#fff;*/
+					/*overflow: auto;*/
+				}
+				.notice_page .content p {
+					text-indent: 2em;
+					margin-top: 30px;
+					text-align: justify;
+				}
+				.editor {
+					font-size: 1em;
+					color: #767676;
+					width: 300px;
+					display: block;
+					margin: 0 auto;
+					text-align: center;
+				}
+			</style>
+			<div class="load1" id="loading" style="display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+			<header class="fixed_top">
+				<ol class="breadcrumb">
+						<a href="javascript:;history.go(-1)" class="btn btn-default" draggable="false">
+							<img src="static/img/back.png" draggable="false">
+						</a>
+					<li>公告通知</li>
+					<li class="active">详情</li>
+				</ol>
+			</header>
+			<div class="notice_page">
+				<h2 id="title">666</h2>
+
+				<div class="editor">
+					<span  id="notice_releasetime">时间：2019年04月11日</span>&nbsp;&nbsp;&nbsp;<span id="USERNAME">发布人：管理员</span>
+				</div>
+				<hr>
+				<div class="content">
+					<p id="desc">&nbsp;</p>
+				</div>
+
+				<div class="content" style="margin-bottom:20px; /* display:none" */ id="FileULDIV">
+					<p style="float:left;margin: 0;text-align: left;text-indent: 1em;">附件：</p>
+					<ul style="float: left" id="FileUL">
+						<li>
+						<span id="notice_accessoryurl"></span>
+						</li>
+					</ul>
+				</div>
+				<br>
+			</div>
+
+			<!-- 表单类组件外部盒子 -->
+			<script type="text/javascript" src="static/js/parts.js"></script>
+
+		</section>
+
+	</body>
+
+</html>

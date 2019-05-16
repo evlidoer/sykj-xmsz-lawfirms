@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<base href="/lawfirms/" />
+<meta charset="UTF-8">
+<title>湖北巨天律师事务所</title>
+<link rel="stylesheet" type="text/css"
+	href="static/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+<script src="static/js/jquery.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript"
+	charset="utf-8"></script>
+<link rel="stylesheet" type="text/css"
+	href="static/bootstrap-table/bootstrap-table.css" />
+<script src="static/bootstrap-table/bootstrap-table.js"
+	type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table-zh-CN.js"
+	type="text/javascript" charset="utf-8"></script>
+<script src="static/js/CityList.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/jquery.form.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/MouseOpen.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/WebSiteJs.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/jquery.validate.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/jquery.validate.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/messages_zh.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/echarts.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/parts.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+</head>
+<body id="content">
+	<section>
+
+		<!-- 浏览路径线 -->
+		<ol class="breadcrumb">
+			<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+			<a href="javascript:window.history.back()" class="btn btn-default"
+				draggable="false"> <img src="static/img/back.png"
+				draggable="false">
+			</a>
+			<li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+			<li><a class="active" draggable="false">付款方式</a></li>
+		</ol>
+<script>
+
+    
+    $.ajax({
+		type:"get",
+		url:"myCaseOperate3Show",
+		async:true,
+		success:function(data){
+			$("#id").val(data[0].id)
+			$("#case_propernum").html(data[0].case_propernum)
+			$("#dlf").html(data[0].case_agencyfee)
+			$("#zf").html(data[0].case_proxysal)
+		}
+		
+	})
+	
+	$(function(){
+		$("#btn_solid").on("click",function(){
+			
+			$.ajax({
+				type:"post",
+				url:"myCaseOperate3Up",
+				data:{id:$("#id").val(),PayPrice:$("#PayPrice1").val()},
+				async:true,
+				success:function(data){
+					if(data == "1"){
+						alert("提交成功")
+						$("#已添加记录").html($("#case_propernum").html())
+						$("#付款日期").html($("#EndTime").val())
+						$("#付款金额").html($("#PayPrice1").val())
+						$("#备注说明").html($("#Makes1").val())
+						window.location.href="myCase"
+					}
+				}
+				
+			})
+			
+		})
+	})
+	
+</script>
+		<script>
+		</script>
+
+		<form class="addTurn">
+						<input  type="hidden" id="id" >
+			<div class="grid_input_shell">
+				<div class="container">
+					<div class="row row_title">
+						<div class="col-xs-12">
+							<label class="text_border">录入付款方式</label>
+						</div>
+					</div>
+
+					<div class="row row_title" id="bodyhtml1">
+						<div class="col-xs-12">
+							案号：<label id="case_propernum"></label> 代理费：<label id="dlf"></label>元 交杂费：<label
+								id="zf"></label> 元
+						</div>
+					</div>
+
+					<div class="row row_title" id="bodyhtml1">
+						<div class="col-xs-12">
+							<label>付款方式：</label>
+
+							<div class="down_box">
+								<select name="PayType" id="PayType">
+									<option selected="selected" value="1">一次性付款</option>
+									<option value="2">分两次支付</option>
+									<option value="3">分三次支付</option>
+									<option value="4">分四次支付</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="row " id="bodyhtml1">
+						<div class="col-xs-12">
+							<input type="hidden" id="TLawyerPriceList">
+							<ul id="optionContainer">
+								<li>				
+								第 1 次付款：付款日期：<input id="EndTime" name="PayTime"type="text" class="form-control"
+									style="width: 150px; display: inline" lay-key="1">
+								应付金额： <input name="PayPrice" maxlength="8" type="text"
+									id="PayPrice1" class="form-control"
+									style="width: 150px; display: inline"
+									onkeyup="value=value.replace(/[^\d]/g,'');"> (元) 
+									备注说明 <input name="Makes" type="text" id="Makes1" class="form-control"
+									style="width: 300px; display: inline">
+								</li>
+							</ul>
+						</div>
+					</div>
+				<div class="col-xs-12">
+                    <label class="text_border">付款方式记录</label>
+                </div>
+                <div class="row ">
+                <div class="col-xs-12">
+
+    <table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0">
+        <!-- 表头 -->
+        <thead>
+            <tr>
+                <th title="已添加记录">已添加记录</th>
+                <th title="付款日期">付款日期</th>
+                <th title="付款金额">付款金额</th>
+                <th title="备注说明">备注说明</th>
+            </tr>
+        </thead>
+        <tbody>
+			<tr>
+                <th id="已添加记录"></th>
+                <th id="付款日期"></th>
+                <th id="付款金额"></th>
+                <th id="备注说明"></th>
+            </tr>
+        </tbody>
+    </table>
+
+                </div>
+            </div>
+					<div class="row">
+						<div class="col-xs-12">
+							<input type="button" id="btn_solid" value="确定提交" class="btn_solid">
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</form>
+
+
+	</section>
+
+
+	<script src="static/anjian/jquery.unobtrusive-ajax.js"
+		type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+    <script>
+    laydate.render({
+        elem: '#EndTime' //指定元素
+        , calendar: true
+        , type: 'date'
+    });
+</script>
+</body>
+</html>

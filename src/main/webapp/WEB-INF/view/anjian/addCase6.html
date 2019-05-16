@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html><head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>辽宁盛恒律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+     <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+ 	<script type="text/javascript" src="static/js/parts.js"></script>
+ <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+  
+    
+    
+</head>
+<script type="text/javascript">
+	    $(function () {
+	    	//案件信息
+	    	var anhao = $.cookie("anhao");
+	    	//alert(anhao)
+    	$("#onetable").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:'ajaxConflictOfInterestReview',
+			pagination:true,//显示分页
+			pageSize:3,//每页数据数
+			pageList:[3,5],//设置页面可显示的数据条数
+			pageNumber:1,//首页页码
+			sidePagination:'server',//设置为服务器端分页
+			//sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					offset:params.offset,
+					limit:params.limit,
+					anhao:anhao
+				 }
+			}, 
+			columns:[{
+				title:'序号',
+				formatter:function(value,row,index){
+					return index+1
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'案号',
+				field:'case_propernum'
+			},{
+				align: 'center', // 左右居中
+				title:'收案日期',
+				formatter:function(value,row,index){
+					return new Date(row.case_subtime).format("yyyy-MM-dd")
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'对方当事人',
+				field: 'case_opposite_parties'
+			},{
+				align: 'center', // 左右居中
+				title:'结案',
+				width:'60px',
+				formatter:function(value,row,index){
+						if(row.case_settle_status == 'Y') return '已结案';
+						if(row.case_settle_status == 'N') return '未结案';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'代理费',
+					field: 'case_agencyfee'
+			},{
+				align: 'center', // 左右居中
+				title:'已付款(元)',
+				field: 'case_paidsal'
+			},{
+				align: 'center', // 左右居中
+				title:'诉讼标的',
+				field: 'case_lawsuitobj'
+			},{
+				align: 'center', // 左右居中
+				title:'收案审批人',
+				field: 'emp_name'
+			}]
+		})
+//  		//查询(刷新表格)
+//			$("#btn").on("click",function(e){
+//				$("#onetable").bootstrapTable('refresh');//刷新
+//			});
+   
+	    
+//*************************************************************************************	    
+	//文书信息
+    	$("#twotable").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:'ajaxCaseSealApplyfor',
+			pagination:true,//显示分页
+			pageSize:4,//每页数据数
+			pageList:[3,4,5],//设置页面可显示的数据条数
+			pageNumber:1,//首页页码
+			sidePagination:'server',//设置为服务器端分页
+			//sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					offset:params.offset,
+					limit:params.limit,
+					anhao:anhao
+				 }
+			}, 
+			columns:[{
+				title:'序号',
+				formatter:function(value,row,index){
+					return index+1
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'涵号',
+				field:'sanum'
+			},{
+				align: 'center', // 左右居中
+				title:'领用日期',
+				formatter:function(value,row,index){
+					return new Date(row.applyfor_receive).format("yyyy-MM-dd")
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'领用人',
+				field: 'emp_name'
+			},{
+				align: 'center', // 左右居中
+				title:'用印事项',
+				width:'200px',
+				formatter:function(value,row,index){//dataSrc = "Print.pdf"
+					return '<a href="javascript:;"  onclick="fun(this)">'+row.applyfor_using_the_item+'</a>'
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'	收函方/委托人',
+				field: 'case_parties'
+			},{
+				align: 'center', // 左右居中
+				title:'审批状态',
+				field: 'applyfor_approval_status'
+			}]
+		})
+
+
+//*************************************************************************************	  
+ });
+	
+
+	    function fun(e){
+	        var dataSrc = $(e).attr('dataSrc');
+			var text = $(e).html();
+	           $.ajax({
+	               url: "pdf",
+	               type: "post",
+				   data: {fileName:text},
+	               success: function(data){
+	                  window.location.href = "static/pdfjs-2.0.943-dist/web/viewer.html?file=pdf/"+data;
+	               },
+	           });
+	       }
+	    
+	    
+	    	
+	    
+  Date.prototype.format = function(fmt) { 
+     var o = { 
+        "M+" : this.getMonth()+1,                 //月份 
+        "d+" : this.getDate(),                    //日 
+        "h+" : this.getHours(),                   //小时 
+        "m+" : this.getMinutes(),                 //分 
+        "s+" : this.getSeconds(),                 //秒 
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+        "S"  : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return fmt; 
+}
+
+</script>
+<body id="content">
+    <section>
+        
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">登记立案信息</a></li>
+</ol>
+
+<div class="grid_input_shell">
+    <div class="container">
+        <ul class="flow_line">
+            <li>1.选择案件类型</li>
+            <span>&gt;</span>
+            <li>2.利益冲突审查</li>
+            <span>&gt;</span>
+            <li>3.新增委托人</li>
+            <span>&gt;</span>
+            <li>4.登记立案信息</li>
+            <span>&gt;</span>
+            <li>5.立案文书上传</li>
+            <span>&gt;</span>
+            <li class="flow_line_now">6.收案审批</li>
+        </ul>
+        <form class="">
+            
+            
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">案件信息</label>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-xs-12">
+                    <table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="onetable">
+                    </table>
+                </div>
+            </div>
+
+
+
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">文书信息</label>
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-xs-12">
+                    <table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="twotable">
+                    </table>
+                </div>
+            </div> 
+        </form>
+    </div>
+</div>
+
+
+
+    </section>
+    
+
+<script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+
+</body></html>

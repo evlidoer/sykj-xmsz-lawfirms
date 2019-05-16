@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>辽宁盛恒律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(window).keyup(function(event) {
+				if(event.keyCode == 13) {
+					refresh();
+				}
+			});
+
+			function refresh() {
+				$("#myuser").bootstrapTable("refresh");
+			}
+			$(function() {
+				$("#myuser").bootstrapTable({
+					method: "get",
+					url: "Expressage/add/selUser", //?timer=" + new Date().getTime()
+					dataType: "json",
+					cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 3, //每页几条数据
+					pageList: [3, 6, 10],
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					/**
+					 * 参数传递
+					 * @param {Object} params
+					 */
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							title: $("#title").val()
+						}
+					},
+					columns: [{
+						title: "选择",
+						formatter: function(value, row, index, field) {
+							return '<input class = "layui-layer-close layui-layer-close1" type="radio" name="userID" id=' + row.userID + ' value=' + row.user_name + '>';
+						}
+					}, {
+						title: "姓名",
+						field: "user_name"
+					}, {
+						title: "手机号",
+						field: "user_phone"
+					}, {
+						title: "权限",
+						field: "rname"
+					}],
+					//height: $(window).height() - 150//自定义表格的高度
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+
+				$(document).on("click", "input[name='userID']", function() {
+					parent.$('#hr_sj_id_show').val($(this).val());
+					parent.$('input[name=hr_sj_id]').val($(this).attr("id"));
+					//window.parent.location.href = "goto/addressBook/add_ExpressageByID_id";
+					parent.layer.close(parent.layer.getFrameIndex(window.name)); //弹出层关闭
+					//$.cookie("Expressage_add_userArr", arr);
+					//	window.parent.location.reload();//刷新父窗口
+				})
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+			})
+		</script>
+	</head>
+
+	<body id="content" style="padding-bottom: 67px;">
+		<section>
+
+			<form action="/Users/ChooseList" class="container-fluid page_find" id="searchForm" method="post">
+				<div class="input-group">
+					<input type="text" class="form-control" id="title" name="title" placeholder="请输入姓名" aria-describedby="basic-addon1" style="width:300px">
+				</div>
+				<input type="button" value="检索" class="btn_solid" onclick="refresh()">
+			</form>
+			<div id="datas">
+				<input type="hidden" id="T" value="4">
+				<table id="myuser" class="table white table-hover table-fixed-head fixed" data-table-fixed-head-trigger="55.400001525878906" data-table-fixed-head-top="0">
+				</table>
+				<!--<script src="/Content/Js/table.js"></script>
+				<script>
+					var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+					var t = $("#T").val();
+					if(t == 1) {
+						$("input[name='userID']").click(function() {
+							parent.$('#FullName').val($(this).data('name'));
+							parent.$('#userId').val($(this).val());
+							parent.layer.close(index);
+						});
+					} else if(t == 3) {
+						$("input[name='userID']").click(function() {
+							parent.$('#CustName1').val($(this).data('name'));
+							parent.layer.close(index);
+						});
+					} else if(t == 4) {
+						$("input[name='userID']").click(function() {
+							parent.$('#ShouUidName').val($(this).data('name'));
+							parent.layer.close(index);
+						});
+					} else if(t == 5) {
+						$("input[name='userID']").click(function() {
+							parent.$('#GetUidName').val($(this).data('name'));
+							parent.layer.close(index);
+						});
+					} else if(t == 6) {
+						$("input[name='userID']").click(function() {
+							parent.$('#FaUid').val($(this).val());
+							parent.$('#FaUidName').val($(this).data('name'));
+							parent.layer.close(index);
+						});
+					} else if(t == 7) {
+						$("input[name='userID']").click(function() {
+							parent.$('#FaFullName').val($(this).data('name'));
+							parent.layer.close(index);
+						});
+					} else if(t == 8) {
+						$("input[name='userID']").click(function() {
+							var AcceptId = $(this).val();
+							var Cid = $("#Cid").val();
+
+							layer.msg('确定要转送吗？', {
+								time: 0 //不自动关闭
+									,
+								btn: ['确定', '取消'],
+								yes: function(index) {
+									//客户转移操作  
+									$.ajax({
+										type: "POST",
+										url: "/Custom/AjaxCustomTransfer",
+										data: {
+											"Ids": Cid,
+											"AcceptId": AcceptId
+										},
+										success: function(result) {
+											result = JSON.parse(result);
+											layer.msg(result.R, {
+												time: 3000
+											}, function() {
+												//parent.$("#search").click();
+												parent.layer.close(index);
+												window.parent.location.reload();
+											});
+										}
+									});
+
+									layer.close(index);
+								}
+							});
+						});
+					}
+
+					function ChkChoose() {
+						parent.layer.close(index);
+
+						//if (t == 2) {
+						//    var oUList = parent.$('#UList').val();
+						//    if (oUList != "0") {
+						//        parent.layer.close(index);
+						//    } else {
+						//        layer.msg("请选择审批用户", function () {
+						//            //关闭后的操作
+						//        });
+						//    }
+						//} else if (t == 9) {
+						//    var oUList = parent.$('#RUList').val();
+						//    if (oUList != "0") {
+						//        parent.layer.close(index);
+						//    } else {
+						//        layer.msg("请选择抄送用户", function () {
+						//            //关闭后的操作
+						//        });
+						//    }
+						//}
+					}
+
+					var s = "";
+					var ss = "";
+
+					function Chk() {
+						if($("#ChkId").is(":checked")) {
+							//取消
+							$("input:checkbox[name='userID']:checked").each(function() {
+								var id = $(this).val();
+								var name = $(this).data('name');
+
+								var UListOld = parent.$('#UList').val();
+								UListOld = UListOld.replace(id + ",", "");
+								parent.$('#UList').val(UListOld);
+
+								var UListStrOld = parent.$('#UListStr').val();
+								UListStrOld = UListStrOld.replace(name + ",", "");
+								parent.$('#UListStr').val(UListStrOld);
+
+							});
+						} else {
+							//选择
+							var oUList = parent.$('#UList').val();
+							var oUListStr = parent.$('#UListStr').val();
+							var s = "";
+							var ss = "";
+							$("input:checkbox[name='userID']").each(function() {
+								s += $(this).val() + ",";
+								ss += $(this).data('name') + ",";
+							});
+							if(s.length > 0) {
+								var c = s.substring(0, s.length - 1);
+								var n = ss.substring(0, ss.length - 1);
+
+								if(oUList != "0") {
+									parent.$('#UList').val(oUList + "," + c);
+									parent.$('#UListStr').val(oUListStr + "," + n);
+								} else {
+									parent.$('#UList').val(c);
+									parent.$('#UListStr').val(n);
+								}
+							}
+						}
+					}
+
+					$(function() {
+						var t = $("#T").val();
+						if(t == 2) {
+							var ChkUser = parent.$('#UList').val();
+							for(var i = 0; i < ChkUser.split(',').length; i++) {
+								$("#User" + ChkUser.split(',')[i]).attr("class", "input_checked");
+								$("#User" + ChkUser.split(',')[i]).attr("checked", "checked");
+							}
+						} else if(t == 9) {
+							var ChkUser = parent.$('#RUList').val();
+							for(var i = 0; i < ChkUser.split(',').length; i++) {
+								$("#User" + ChkUser.split(',')[i]).attr("class", "input_checked");
+								$("#User" + ChkUser.split(',')[i]).attr("checked", "checked");
+							}
+						}
+
+						$("input[name='userID']").click(function() {
+							if(t == 2) {
+								if($(this).is(":checked")) {
+									//选择
+									var id = $(this).val();
+									var name = $(this).data('name');
+
+									var UListOld = parent.$('#UList').val();
+									var UListStrOld = parent.$('#UListStr').val();
+									if(UListOld == "0") {
+										parent.$('#UList').val(id);
+										parent.$('#UListStr').val(name);
+									} else {
+										parent.$('#UList').val(UListOld + "," + id);
+										parent.$('#UListStr').val(UListStrOld + "," + name);
+									}
+								} else {
+									//取消 
+									var id = $(this).val();
+									var name = $(this).data('name');
+
+									var UListOld = parent.$('#UList').val();
+									var RStr = "";
+									for(var i = 0; i < UListOld.split(',').length; i++) {
+										if(id != UListOld.split(',')[i]) {
+											RStr += UListOld.split(',')[i] + ",";
+										}
+									}
+									if(RStr.length > 0) {
+										parent.$('#UList').val(RStr.substring(0, RStr.length - 1));
+									} else {
+										parent.$('#UList').val("0");
+									}
+
+									var UListStrOld = parent.$('#UListStr').val();
+									var RRStr = "";
+									for(var i = 0; i < UListStrOld.split(',').length; i++) {
+										if(name != UListStrOld.split(',')[i]) {
+											RRStr += UListStrOld.split(',')[i] + ",";
+										}
+									}
+									if(RRStr.length > 0) {
+										parent.$('#UListStr').val(RRStr.substring(0, RRStr.length - 1));
+									} else {
+										parent.$('#UListStr').val("");
+									}
+								}
+							} else if(t == 9) {
+								if($(this).is(":checked")) {
+									//选择
+									var id = $(this).val();
+									var name = $(this).data('name');
+
+									var UListOld = parent.$('#RUList').val();
+									var UListStrOld = parent.$('#RUListStr').val();
+									if(UListOld == "0") {
+										parent.$('#RUList').val(id);
+										parent.$('#RUListStr').val(name);
+									} else {
+										parent.$('#RUList').val(UListOld + "," + id);
+										parent.$('#RUListStr').val(UListStrOld + "," + name);
+									}
+								} else {
+									//取消 
+									var id = $(this).val();
+									var name = $(this).data('name');
+
+									var UListOld = parent.$('#RUList').val();
+									var RStr = "";
+									for(var i = 0; i < UListOld.split(',').length; i++) {
+										if(id != UListOld.split(',')[i]) {
+											RStr += UListOld.split(',')[i] + ",";
+										}
+									}
+									if(RStr.length > 0) {
+										parent.$('#RUList').val(RStr.substring(0, RStr.length - 1));
+									} else {
+										parent.$('#RUList').val("0");
+									}
+
+									var UListStrOld = parent.$('#RUListStr').val();
+									var RRStr = "";
+									for(var i = 0; i < UListStrOld.split(',').length; i++) {
+										if(name != UListStrOld.split(',')[i]) {
+											RRStr += UListStrOld.split(',')[i] + ",";
+										}
+									}
+									if(RRStr.length > 0) {
+										parent.$('#RUListStr').val(RRStr.substring(0, RRStr.length - 1));
+									} else {
+										parent.$('#RUListStr').val("");
+									}
+								}
+							}
+						});
+					});
+				</script>-->
+
+			</div>
+
+		</section>
+	</body>
+
+</html>

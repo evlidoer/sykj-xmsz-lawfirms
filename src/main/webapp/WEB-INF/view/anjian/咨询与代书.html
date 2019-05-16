@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+   <link rel="icon" href="/Content/icon/logo.ico" type="image/x-icon">
+    <!-- <script type="text/javascript" src="/Content/js/jquery_3.js"></script> -->
+	 <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/parts2.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/main_green.css"/>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+   	 <link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 使ie9及以下兼容媒体查询和html5标签 -->
+    <!--[if lte IE 9]>
+    　 <script src="/Content/js/html5shiv.min.js"></script>
+       <script src="/Content/js/respond.js"></script>
+    <![endif]-->
+
+    <!-- 兼容ie9 -->
+    <!--[if IE 9]>
+        <link rel="stylesheet" type="text/css" href="/Content/css/ie9.css">
+    <![endif]-->
+
+    <!-- 兼容ie8 -->
+    <!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="/Content/css/ie8down.css">
+        <script src="/Content/js/ie8.js"></script>
+	<![endif]-->
+
+</head>
+
+
+<body>
+    
+
+    <!-- 修改颜色界面 -->
+    <div class="new_view2" id="ui_color">
+        <ul class="new_view2_body">
+            <li class="btn" onclick="mainColor('blue', this)">松石蓝</li>
+            <li class="btn" onclick="mainColor('burlywood', this)">原木色</li>
+            <li class="btn" onclick="mainColor('green', this)">翡翠绿</li>
+            <li class="btn" onclick="mainColor('navyblue', this)">墨蓝</li>
+            <li class="btn" onclick="mainColor('dianqing', this)">靛青</li>
+            <li class="btn" onclick="mainColor('white', this)"><em class="tips-news">NEW</em>简洁白</li>
+        </ul>
+
+        <!-- 关闭按钮 icon -->
+        <a class="btn" onclick="newView2Close();" draggable="false">
+            <svg width="26px" height="26px" viewBox="0 0 20 20" version="1.1">
+                <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="" transform="translate(-1117.000000, -115.000000)" fill="#FFFFFF">
+                        <g id="Group" transform="translate(1127.000000, 125.000000) rotate(45.000000) translate(-1127.000000, -125.000000) translate(1114.000000, 112.000000)">
+                            <rect id="Rectangle-8" x="0" y="12" width="26" height="2"></rect>
+                            <rect id="Rectangle-8" transform="translate(13.000000, 13.000000) rotate(90.000000) translate(-13.000000, -13.000000) " x="0" y="12" width="26" height="2"></rect>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+            <svg width="26" height="26" class="ie8_icon" style="display: none;">
+                <image xlink:href="" src="/Content/icon/main_close.png?v=13231132" width="30" height="30"></image>
+            </svg>
+        </a>
+    </div>
+
+
+
+    <div class="view" id="view">
+
+        
+
+
+
+
+
+<!-- 左侧一级导航栏 -->
+<nav class="home_nav" id="home_nav" style="width: 140px">
+    <button class="home_nav_flex btn1_hover" id="home_btn_flex">
+
+        <!-- 展开一级菜单icon -->
+        <svg width="25px" height="12px" viewBox="0 0 25 12" version="1.1" style="display: none;">
+            <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.6">
+                <g id="主菜单-一级" transform="translate(-18.000000, -9.000000)" fill="#FFFFFF">
+                    <g id="Group-3" transform="translate(18.000000, 9.000000)">
+                        <polygon id="Triangle-2" transform="translate(20.000000, 6.000000) rotate(90.000000) translate(-20.000000, -6.000000)" points="20 1 26 11 14 11"></polygon>
+                        <polygon id="Triangle-2-Copy" transform="translate(5.000000, 6.000000) rotate(-90.000000) translate(-5.000000, -6.000000)" points="5 1 11 11 -1 11"></polygon>
+                    </g>
+                </g>
+            </g>
+        </svg>
+
+        <!-- 收起一级菜单icon -->
+        <svg width="25px" height="12px" viewBox="0 0 25 12" version="1.1">
+            <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.6">
+                <g id="主菜单-一级" transform="translate(-18.000000, -9.000000)" fill="#FFFFFF">
+                    <g id="Group-3" transform="translate(18.000000, 9.000000)">
+                        <polygon id="Triangle-2" transform="translate(5.000000, 6.000000) rotate(90.000000) translate(-20.000000, -6.000000)" points="20 1 26 11 14 11"></polygon>
+                        <polygon id="Triangle-2-Copy" transform="translate(20.000000, 6.000000) rotate(-90.000000) translate(-5.000000, -6.000000)" points="5 1 11 11 -1 11"></polygon>
+                    </g>
+                </g>
+            </g>
+        </svg>
+
+        <!-- ie8及以下兼容icon -->
+        <svg width="25" height="12" class="ie8_icon" style="display: none;">
+            <image xlink:href="" src="/content/icon/flex.png" width="25" height="12" style="margin-top: -4px;"></image>
+        </svg>
+    </button>
+
+    <!-- 菜单 <-->
+    <ul class="home_menu">
+        <li class="btn btn1_hover" onclick="toThisMenu(this, '/home/main')" data-toggle="tooltip" data-placement="right" title="首页">
+            <img style="margin-left: 0px;" src="/content/icon/home.png" width="30" height="26" draggable="false">
+            <span findthis="首页" style="display: block;">首页</span>
+        </li>
+
+            <li class="btn btn1_hover home_btn_on" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="案件">
+
+                      <img xlink:href="" src="/content/icon/anjian_white.png" width="32" class="normal" draggable="false">   <img xlink:href="" src="/content/icon/anjian.png" width="32" class="on" draggable="false">
+                <span style="display: block;">案件</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="审批">
+
+                 <img xlink:href="" src="/content/icon/shenpi_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/shenpi.png" width="32" class="on" draggable="false">
+                <span style="display: block;">审批</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="客户">
+
+                 <img xlink:href="" src="/content/icon/kehu_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/kehu.png" width="32" class="on" draggable="false">
+                <span style="display: block;">客户</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="日志">
+
+                <img xlink:href="" src="/content/icon/rizhi_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/rizhi.png" width="32" class="on" draggable="false">
+                <span style="display: block;">日志</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="行政">
+
+                <img xlink:href="" src="/content/icon/xingzheng_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/xingzheng.png" width="32" class="on" draggable="false">
+                <span style="display: block;">行政</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="档案">
+
+                 <img xlink:href="" src="/content/icon/dangan_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/dangan.png" width="32" class="on" draggable="false">
+                <span style="display: block;">档案</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="财务">
+
+                 <img xlink:href="" src="/content/icon/caiwu_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/caiwu.png" width="32" class="on" draggable="false">
+                <span style="display: block;">财务</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="统计">
+
+                 <img xlink:href="" src="/content/icon/tongji_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/tongji.png" width="32" class="on" draggable="false">
+                <span style="display: block;">统计</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="分析">
+
+                 <img xlink:href="" src="/content/icon/fenxi_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/fenxi.png" width="32" class="on" draggable="false">
+                <span style="display: block;">分析</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="人事">
+
+                 <img xlink:href="" src="/content/icon/renshi_white.png" width="32" class="normal" draggable="false">       <img xlink:href="" src="/content/icon/renshi.png" width="32" class="on" draggable="false">
+                <span style="display: block;">人事</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="考核上报">
+
+                  <img xlink:href="" src="/content/icon/kaohe_white.png" width="32" class="normal" draggable="false">         <img xlink:href="" src="/content/icon/kaohe.png" width="32" class="on" draggable="false">
+                <span style="display: block;">考核上报</span>
+            </li>
+            <li class="btn btn1_hover" onclick="toThisMenu(this)" data-toggle="tooltip" data-placement="right" title="图书借阅">
+
+                <img xlink:href="" src="/content/icon/nav_book_white.png" width="32" class="normal" draggable="false">
+                <span style="display: block;">图书借阅</span>
+            </li>
+
+    </ul>
+</nav>
+
+<!-- 二级菜单 -->
+<nav class="home_nav2" id="home_nav2" style="width: 180px;">
+    <div class="home_nav2_switch_shell">
+        <div class="btn home_nav2_switch" id="home_nav2_switch" data-toggle="tooltip" data-placement="right" data-original-title="试下Tab键" style="display: block;">
+            <img src="/Content/icon/icon_mainContent_arrow.png" draggable="false" class="home_nav2_close">
+        </div>
+    </div>
+    <ul>
+                <li class="now" style="height: 497px;">
+
+
+                        <p>基础功能</p>
+                                <button class="btn" onclick="toThisPage('/Case/CaseExam', this) ">利益冲突审查</button>
+                                <button class="btn" onclick="toThisPage('/Case/Choice', this) ">新增案件</button>
+                                <button class="btn" onclick="toThisPage('/Case/List?CaseType=1', this) ">我的案件</button>
+                                <button class="btn home_btn_on" onclick="toThisPage('/Zxds/List', this) ">咨询与代书</button>
+                                <button class="btn" onclick="toThisPage('/KaiTing/List', this) ">开庭/侦查/检察</button>
+                                <button class="btn" onclick="toThisPage('/CostLessen/List', this) ">费用减免申请记录</button>
+                                <button class="btn" onclick="toThisPage('/Case/ManualGenerate', this) ">用印申请</button>
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/Case/Import', this) ">批量案件导入</button>
+                                <button class="btn" onclick="toThisPage('/Case/ALLlist', this) ">所有案件</button>
+                                <button class="btn" onclick="toThisPage('/ActionAuth/ActionManage?Fid=98', this) ">管理案件</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+                        <p>基础功能</p>
+                                <button class="btn" onclick="toThisPage('/Audit/MyList', this) ">我的申请</button>
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/Audit/List2', this) ">审批中心</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+                        <p>基础功能</p>
+                                <button class="btn" onclick="toThisPage('/Custom/MyList', this) ">我的客户</button>
+                                <button class="btn" onclick="toThisPage('/Custom/DfdsrList', this) ">对方当事人</button>
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/Custom/AllList', this) ">所有客户</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+                        <p>基础功能</p>
+                                <button class="btn" onclick="toThisPage('/JobLog/List', this) ">我的工作日志</button>
+                                <button class="btn" onclick="toThisPage('/JobLog/Edit', this) ">添加工作日志</button>
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/JobLog/List?ListCols=1', this) ">全所工作日志</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+                        <p>基础功能</p>
+                                <button class="btn" onclick="toThisPage('/Message/MyGgList', this) ">公告通知</button>
+                                <button class="btn" onclick="toThisPage('/PhoneBook/List', this) ">通讯录</button>
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/Message/AllGgList', this) ">管理公告通知</button>
+                                <button class="btn" onclick="toThisPage('/QianDao/Index', this) ">签到管理</button>
+                                <button class="btn" onclick="toThisPage('/Message/CustMessList', this) ">建议投诉</button>
+                                <button class="btn" onclick="toThisPage('/ActionAuth/ActionManage?Fid=438', this) ">短信</button>
+                                <button class="btn" onclick="toThisPage('/Express/ReciveList', this) ">快递登记</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+                        <p>基础功能</p>
+                                <button class="btn" onclick="toThisPage('/PlaceOnFile/OnFile', this) ">电子归档</button>
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/PlaceOnFile/List', this) ">全所电子档案</button>
+                                <button class="btn" onclick="toThisPage('/LendFile/List', this) ">档案借阅</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+                        <p>基础功能</p>
+                                <button class="btn" onclick="toThisPage('/Finance/MyFinance', this) ">我的收支</button>
+                                <button class="btn" onclick="toThisPage('/Finance/MyInCome', this) ">我的收入</button>
+                                <button class="btn" onclick="toThisPage('/Finance/MyBill', this) ">我的发票</button>
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/Finance/CaseFinanace', this) ">案件收支录入</button>
+                                <button class="btn" onclick="toThisPage('/Finance/LsFinanace', this) ">律所收支录入</button>
+                                <button class="btn" onclick="toThisPage('/Finance/List', this) ">全所收支明细</button>
+                                <button class="btn" onclick="toThisPage('/Finance/ActApplyBill', this) ">代开发票</button>
+                                <button class="btn" onclick="toThisPage('/Finance/KpList', this) ">开具发票</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/Statistics/Finance', this) ">财务统计</button>
+                                <button class="btn" onclick="toThisPage('/Finance/MyInCome?U=1', this) ">执业人员财务统计</button>
+                                <button class="btn" onclick="toThisPage('/Statistics/SettleCase', this) ">收结案统计</button>
+                                <button class="btn" onclick="toThisPage('/Statistics/Official', this) ">用印统计</button>
+                                <button class="btn" onclick="toThisPage('/ActionAuth/ActionManage?Fid=140', this) ">综合统计中心</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/Analysis/Case', this) ">案件分析</button>
+                                <button class="btn" onclick="toThisPage('/Analysis/Finance', this) ">创收分析</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/Personnel/List', this) ">人事档案</button>
+                                <button class="btn" onclick="toThisPage('/Users/TeamManage', this) ">团队管理</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+
+                        <p>高级功能</p>
+                                <button class="btn" onclick="toThisPage('/ExamineManage/ExamineTable', this) ">年底考核</button>
+                                <button class="btn" onclick="toThisPage('/ExamineManage/StatisticsTable', this) ">年度统计</button>
+                                <button class="btn" onclick="toThisPage('/ExamineManage/DataReport', this) ">数据上报</button>
+
+                </li>
+                <li style="height: 497px;">
+
+
+                        <p>基础功能</p>
+                                <button class="btn" onclick="toThisPage('/BooksBorrowed/BooksManager?T=2', this) ">借阅图书</button>
+                                <button class="btn" onclick="toThisPage('/BooksBorrowed/MyList', this) ">我的借阅</button>
+
+
+                </li>
+
+    </ul>
+</nav>
+
+
+
+
+
+
+
+<!-- 右侧 url 内容显示区域 -->
+<div class="home_content">
+  
+    <iframe class="home_show" id="iframeBox" frameborder="no" src="/Zxds/List"></iframe>
+
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        var mainUrl = '/Home/Main';
+        var count = '12';
+        var leftView = '0';
+
+        if (leftView == 2) {
+            $("#iframeBox").attr("src", "/Home/welcome");
+
+        } else {
+            if (count <= 0 && (mainUrl == "" || mainUrl == "#")) {
+                $("#iframeBox").attr("src", "/Home/Main");
+            } else if (mainUrl != "" && mainUrl != "#") {
+                $("#iframeBox").attr("src", mainUrl);
+            } else {
+                if ($("#home_nav .btn:first").length == 1) {
+                    $("#home_nav .btn:first").click();
+                } else {
+                    $("#home_nav2 .btn:first").click();
+                }
+            }
+        }
+    });
+
+    function tabSwitchHomeNav2() {
+        if ($("#home_nav2_switch").is(':visible')) {
+            $("#home_nav2_switch").click();
+        }
+    }
+    
+</script>
+
+    </div>
+  
+   
+
+    <script type="text/javascript" src="/Content/js/baseFunction.js?v=13231132"></script>
+    <script type="text/javascript" src="/Content/js/main.js?v=13231132"></script>
+
+    
+    
+
+
+
+</body></html>

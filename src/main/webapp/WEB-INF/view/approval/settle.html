@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+    <script src="static/js/jquery-3.2.0.js"></script>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <link rel="stylesheet" href="static/css/laydate.css" id="layuicss-layer">
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script><link rel="stylesheet" id="layuicss-laydate">
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    <script src="static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+    	 	$.ajax({
+    		type:"get",
+    		url:"SettleSel/"+$.cookie("SettleId"),
+    		async:true,
+    		success:function(data){
+    			console.log(data)
+				$("#case_propernum").html(data[0].case_propernum)
+				$("#case_parties").html(data[0].case_parties)
+				$("#user_realname").html(data[0].user_realname)
+				$("#settle_application_date").html(data[0].settle_application_date)
+				$("#settleway").html(data[0].settleway)
+				$("#case_status").html(data[0].case_status)
+				$("#remark").html(data[0].remark)
+				
+				$("#settletime").html(data[0].settletime)
+				$.ajax({
+					type:"get",
+					url:"recordLawById/"+data[0].law_id,
+					async:false,
+					success:function(data2){
+						if(data2==0){
+							$("#record").html("未归档")
+						}else{
+							$("#record").html("已归档")
+							$("#recordId").htm(data2[0].id)
+						}
+					}
+				});
+    		}
+    	});
+    </script>
+    
+</head>
+<body>
+	<section>
+        
+
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading1" style="opacity: 5.55112e-17; display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb" style="background-color: white;">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">审批</a></li>
+    <li><a class="active" draggable="false">流程查看</a></li>
+</ol>
+
+<div class="grid_input_shell">
+    
+    <div>
+        <div class="row basic_info">
+            <div class="row row_title">
+
+
+                <label class="text_border">结案审批</label>
+                 
+            </div>
+
+
+
+<div class="row basic_info">
+    
+    <div>
+        <table class="table table-bordered">
+            <tbody><tr>
+                <td>案号：</td>
+                <td id="case_propernum"></td>
+                <td>委托人：</td>
+                <td id="case_parties"></td>
+                <td>申请人：</td>
+                <td id="user_realname"></td>
+            </tr>
+
+
+            <tr>
+                <td>申请日期：</td>
+                <td id="settle_application_date"></td>
+                <td>结案日期：</td>
+                <td id="settletime"></td>
+                <td>结案方式：</td>
+                <td id="settleway"></td>
+            </tr>
+
+
+            <tr>
+                <td>诉讼阶段：</td>
+                <td id="case_status"></td>
+                <td>纸质档案：</td>
+                <td id="record"></td>
+                <td>档案归档号：</td>
+                <td id="recordId"></td>
+            </tr>
+
+
+            <tr>
+                <td>结案说明:</td>
+                <td colspan="5" id="remark"></td>
+            </tr>
+        </tbody></table>
+    </div>
+
+</div>
+
+
+
+
+
+        </div>
+
+
+        <div class="row approval_record">
+            <div class="row row_title">
+                <label class="text_border">审批记录</label>
+            </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        <p>
+                            
+                        </p>
+                        <p> </p>
+                        <p> </p>
+                        <p>
+                        </p>
+                    </div>
+
+                </div>
+                            <div class="row">
+                    <div class="col-xs-10">
+                        <p>当前审批人:</p>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+    </section>
+</body>
+</html>

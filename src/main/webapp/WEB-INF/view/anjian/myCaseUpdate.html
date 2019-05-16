@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+   <html>
+   <head>
+   	<base href="/lawfirms/">
+    <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/parts2.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/main_green.css"/>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		 <link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/CityList.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.form.js" type="text/javascript" charset="utf-8"></script>	
+    <script src="static/js/MouseOpen.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/WebSiteJs.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/messages_zh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/parts.js" type="text/javascript" charset="utf-8"></script>
+  
+
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+<style>
+    .down_box2, .down_box2 select {
+        width: 200px !important;
+        display: inline-block !important;
+    }
+</style>
+<script>
+   
+
+    //移除disabled属性，form提交不然取不到值
+    function RemoveDisable() {
+        //$("#Begtime").removeAttr("disabled");
+        //$("#AyMake").removeAttr("disabled");
+        //$("#SWtr").removeAttr("disabled");
+        //$("#Ssbd").removeAttr("disabled");
+        //$("#Price").removeAttr("disabled");
+        //$("#PayCols").removeAttr("disabled");
+        //$("#IsBuTie").removeAttr("disabled");
+        //$("#BuTiePrice").removeAttr("disabled");
+    }
+
+
+
+</script>
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">登记立案信息</a></li>
+</ol>
+
+<form  id="upform">
+    <div class="grid_input_shell">
+        <div class="container">
+
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">基本信息</label>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for="">
+                        <em>*</em>
+                        案号：
+                    </label>
+                    <br>
+                    <input type="text" name="casePropernum" id="CaseYear"  readonly="'readonly'" class="form-control required" style="width:508px;display:inline-block">
+                </div>
+                <div class="col-xs-6">
+                    <label for="">
+                        <em>*</em>
+                        收案日期：
+                    </label>
+                    <input type="text" name="caseSubtime" id="Begtime"  class="form-control required" title="请选择收案日期" readonly="true" lay-key="1">
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <label for="">
+                        <em>*</em>
+                        案由：
+                    </label>
+                    <input type="text" name="caseCause" id="AyMake" value="qwe" onkeyup="MousePiPei(this,'4');" onfocus="MousePiPei(this,'4');" class="form-control required" title="请填写案由">
+                </div>
+                <div class="col-xs-6">
+                    <label for="">
+                        <em>*</em>
+                        第三人：
+                    </label>
+                    <input type="text" name="caseThirdParty" id="SWtr" value="234"  class="form-control required" title="请填写第三人" maxlength="600">
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <label for="">
+                            <label for="">当事人(多个当事人用,分隔)：</label>
+                    </label>
+                    <input type="text" name="caseParties" id="LxRen" value="admin" class="form-control required" title="请填写当事人" maxlength="300">
+                </div>
+                <div class="col-xs-6">
+                    <label for="">对方当事人：</label>
+                    <input type="text" name="caseoppositeparties" id="SDfdsr"  class="form-control required" title="请填写对方当事人" maxlength="300">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for="">
+                        <em>*</em>
+                        代理费：
+                    </label>
+                    <input type="text" name="caseAgencyfee" id="Price"  onblur="SetInputDouble(this,2);" class="form-control required" title="请填写代理费">
+                </div>
+
+                <div class="col-xs-6">
+                    <label for="">
+                        <em>*</em>
+                        补助金额：
+                    </label>
+                    <input type="text" name="caseSubsidysal" id="BuTiePrice"   class="form-control required" title="请填写补助金额">
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for="">
+                        <em>*</em>
+                        收费方式：
+                    </label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select id="PayCols" name="caseChargeWay" onchange="ClickPayCols();">
+                                <option value="">收费方式</option>
+                                    <option value="免费">免费</option>
+                                    <option value="计件收费">计件收费</option>
+                                    <option value="计时收费">计时收费</option>
+                                    <option value="按标的额比例收费" selected="'selected'">按标的额比例收费</option>
+                                    <option value="风险代理收费">风险代理收费</option>
+                                    <option value="标的+风险代理">标的+风险代理</option>
+                                    <option value="固定+风险代理">固定+风险代理</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <label for="">
+                        <em>*</em>
+                        是否享受政府补助：
+                    </label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select id="IsBuTie" id="caseSubsidy" name="caseSubsidy" class="required" title="请选择是否享受政府补助">
+                                <option value="">是否享受政府补贴</option>
+                                <option value="是">是</option>
+                                <option value="否" selected="selected">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row" id="TrFengXian" style="display: none">
+                <div class="col-xs-12">
+                    <label for="">
+                        <em>*</em>
+                        风险代理说明：
+                    </label>
+                    <input type="text" name="caseRemarks" id="FengXianMake" class="form-control required">
+
+                </div>
+            </div>
+
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">其他选填</label>
+                    <span class="input_display">展开</span>
+                </div>
+            </div>
+
+            <div class="input3_other">
+
+                   <!--  <div class="col-xs-6">
+                        <label for="">
+                            专属案号：
+                        </label>
+                        <input type="text" name="UserDefId" id="UserDefId" class="form-control required">
+                    </div> -->
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                            杂费：
+                        </label>
+                        <input type="text" name="caseProxysal" id="ZPrice"  class="form-control required">
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="">
+                            是否指派：
+                    <ul class="cue  display_inline float_right" title="" data-toggle="tooltip" data-placement="right auto" data-original-title="是否指派：案件是否由律所指派给律师办理！">
+                        <!-- 提示信息 -->
+                        <li></li>
+                        <li></li>
+                    </ul>
+                        </label>
+                        <div class="dropdown_box1">
+                            <div class="down_box">
+                                <select id="IsFrom" title="是否指派" name="caseAssign">
+                                    <option value="-1">请选择是否指派</option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                            受理部门：
+                        </label>
+                        <input type="text" name="caseAccept" id="Slfy"  class="form-control required">
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="">
+                            标的：
+                        </label>
+                        <input type="text" name="caseLawsuitobj" id="Ssbd" class="form-control required">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                            第三人：
+                        </label>
+                        <input type="text" name="caseThirdParty" id="DiSanRen" class="form-control required" maxlength="50">
+                    </div>
+
+
+                    <div class="col-xs-6">
+                        <label for="">
+                            办案地区：
+                        </label>
+                        <div class="dropdown_box1">
+                            <div class="down_box">
+                                <select id="Province" name="Province">
+                                    
+                                <option value="省/直辖市">省/直辖市</option><option value="安徽">安徽</option><option value="北京">北京</option><option value="福建">福建</option><option value="甘肃">甘肃</option><option value="广东">广东</option><option value="广西">广西</option><option value="贵州">贵州</option><option value="海南">海南</option><option value="河北">河北</option><option value="河南">河南</option><option value="黑龙江">黑龙江</option><option value="湖北">湖北</option><option value="湖南">湖南</option><option value="吉林">吉林</option><option value="江苏">江苏</option><option value="江西">江西</option><option value="辽宁">辽宁</option><option value="内蒙古">内蒙古</option><option value="宁夏">宁夏</option><option value="青海">青海</option><option value="山东">山东</option><option value="山西">山西</option><option value="陕西">陕西</option><option value="上海">上海</option><option value="四川">四川</option><option value="天津">天津</option><option value="西藏">西藏</option><option value="新疆">新疆</option><option value="云南">云南</option><option value="浙江">浙江</option><option value="重庆">重庆</option></select>
+                            </div>
+                            <div class="down_box">
+                                <select id="City" name="City">
+                                    
+                                <option value="地级市">地级市</option><option value="常州">常州</option><option value="淮安">淮安</option><option value="连云港">连云港</option><option value="南京">南京</option><option value="南通">南通</option><option value="苏州">苏州</option><option value="宿迁">宿迁</option><option value="泰州">泰州</option><option value="无锡">无锡</option><option value="徐州">徐州</option><option value="盐城">盐城</option><option value="扬州">扬州</option><option value="镇江">镇江</option></select>
+                            </div>
+                        </div>
+                        
+                        <i id="TbProvince"></i>
+                        <input type="hidden" id="HProvince" value="江苏">
+                        <input type="hidden" id="HCity" value="连云港">
+                        <select id="KaiPiao" name="KaiPiao" style="display: none;">
+                            <option value="1">开票</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" style="display:none" id="FileULDIV">
+                    <div class="col-xs-12">
+                        <ul style="float: left" id="FileUL">
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label for="">
+                            备注：
+                        </label>
+                        <textarea id="Des" name="caseRemarks" rows="3" cols="90" class="form-control required"></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            
+            <div id="_CityList_" style="width: 280px; display: none">
+                <span style="cursor: pointer; float: right;" onclick="JavaScript:_HideList_()"></span>
+                <div class="clear"></div>
+                <div id="Div_Txt" style="width: 280px;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <input type="button" id="save" class="btn_solid" value="确定提交"/>
+                    <!-- <button class="btn_hollow">开始检索</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+   
+    function ClickPayCols() {
+        var VPayDes = $("#PayCols").val();
+        if (VPayDes.indexOf("风险") != -1) {
+            //$$("TrFengXian").style.display = "block";
+            $("#TrFengXian").show();
+            $("#FengXianMake").attr("class", "form-control required");
+        }
+        else {
+            //$$("TrFengXian").style.display = "none";
+            $("#TrFengXian").hide();
+            $("#FengXianMake").attr("class", "form-control");
+        }
+    }
+
+
+    }
+
+
+</script>
+
+
+    </section>
+    
+	<script src="static/anjian/jquery.unobtrusive-ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+	<script type="text/javascript">
+	 var s = ["Province", "City"];
+	    var opt0 = ["省/直辖市", "地级市"];
+	    setup();
+	    if (document.getElementById("HProvince").value != "")
+	        document.getElementById(s[0]).value = document.getElementById("HProvince").value;
+	    change(1);
+	    if (document.getElementById("HCity").value != "")
+	        document.getElementById(s[1]).value = document.getElementById("HCity").value;
+
+	
+	
+		//显示数据
+		$(function(){
+			$.ajax({
+				type:"post",
+				url:"ajaxMyCasebyId",
+				async:true,
+				success:function(data){
+					console.log(data)	
+					$("#CaseYear").val(data[0].case_propernum);
+					$("#Begtime").val(new Date(data[0].case_subtime).format("yyyy-MM-dd"));
+					$("#AyMake").val(data[0].case_cause);
+					$("#SWtr").val(data[0].case_third_party);
+					$("#LxRen").val(data[0].case_parties);
+					$("#Price").val(data[0].case_agencyfee);
+					$("#BuTiePrice").val(data[0].case_subsidysal);
+					$("#PayCols").val(data[0].case_charge_way);
+					$("#IsBuTie").val(data[0].case_subsidy);
+					$("#FengXianMake").val(data[0].case_remarks);
+					$("#UserDefId").val(data[0].case_propernum);
+					$("#SDfdsr").val(data[0].case_opposite_parties);
+					$("#ZPrice").val(data[0].case_proxysal);
+					$("#IsFrom").val(data[0].case_assign);
+					$("#Slfy").val(data[0].case_accept);
+					$("#Ssbd").val(data[0].case_lawsuitobj);
+					$("#DiSanRen").val(data[0].case_third_party);
+					$("#Des").val(data[0].case_remarks);
+				}
+			});
+		
+			//提交
+				$("#save").on("click",function(){
+				$.ajax({
+					type:"post",
+					url:"myCaseUpdate",
+					data:$("#upform").serialize(),
+					async:true,
+					success:function(data){
+						if(data == '1'){
+							alert('修改成功')
+							window.location.href="myCase"
+						}
+					}
+				})
+			})
+	})
+		
+		
+	Date.prototype.format = function(fmt) { 
+		     var o = { 
+		        "M+" : this.getMonth()+1,                 //月份 
+		        "d+" : this.getDate(),                    //日 
+		        "h+" : this.getHours(),                   //小时 
+		        "m+" : this.getMinutes(),                 //分 
+		        "s+" : this.getSeconds(),                 //秒 
+		        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+		        "S"  : this.getMilliseconds()             //毫秒 
+		    }; 
+		    if(/(y+)/.test(fmt)) {
+		            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+		    }
+		     for(var k in o) {
+		        if(new RegExp("("+ k +")").test(fmt)){
+		             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+		         }
+		     }
+		    return fmt; 
+		}  
+	</script>
+</body></html>

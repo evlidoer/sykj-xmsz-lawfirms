@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+
+<html>
+
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>权限分配</title>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/jquery.treeTable.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.min.js?v=123121231312"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/layui/layui.all.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+
+				/** 
+				 * 	ajax 请求数据
+				 * 		修改表单	里数据
+				 */
+
+				$.ajax({
+					type: "get",
+					url: "sel/role/permissons/" + $.cookie("update_role_permisson_sel_ById"),
+					dataType: "json",
+					success: function(data) {
+						$("#id").val(data.id);
+						$("#rname").val(data.rname);
+						$("#remark").text(data.remark);
+						for(let i = 0; i < $(data.permission).length; i++) {
+							$("input[value=" + data.permission[i] + "]").prop("checked", true);
+							var pid = $("input[value=" + data.permission[i] + "]").attr("parentId");
+							if(pid != undefined) {
+								console.log($("tr[id=" + pid + "] input"))
+								$("tr[id=" + pid + "] input").prop("checked", true);
+							}
+						}
+					}
+				});
+
+				var len = 0;
+				$("input[type='checkbox']").on("click", function() {
+					len = 0;
+					len = $("input[name=CheckPower2]:checked").length;
+					layer.msg('当前选中权限个数 : ' + len);
+				});
+				//				$("input[type=checkbox]").on("click", function() {
+				//					var len = $("input[checked=checked]").length;
+				//					layer.msg('当前权限数量 : ' + len);
+				//				})
+
+				/**
+				 * ajax请求查找当前角色所拥有的权限
+				 * 		并赋值
+				 
+				$.ajax({
+					type:"get",
+					url:"/"+$.cookie("update_role_permisson_sel_ById"),
+					async:true
+				});*/
+			});
+		</script>
+	</head>
+
+	<body id="content">
+		<section>
+			<link href="static/css/layer.css" rel="stylesheet" />
+			<link href="static/layui/css/layui.css" rel="stylesheet" charset="utf-8" />
+			<script src="static/js/jquery.treeTable.js"></script>
+			<script>
+				$(function() {
+					var arrList = $(".rightTd");
+					var len = $(arrList).length;
+					for(let i = 0; i < len; i++) {
+						var $text = $(arrList[i]).text();
+						$(arrList[i]).html("<span class = 'myText' data-placement='top' data-toggle='tooltip' title = " + $text.split("。")[0] + ">" + $text + "</span>");
+					}
+					$(document).on("mouseover", ".rightTd", function() {
+						$("[data-toggle='tooltip']").tooltip();
+					})
+					$("#form").validate({
+						errorPlacement: function(error, element) {
+							if(element.attr("name") == "Cols") {
+								error.appendTo(element.parent().parent());
+							} else {
+								error.appendTo(element.parent());
+							}
+						}
+					});
+
+					//					$("#form").ajaxForm({
+					//						beforeSubmit: function() {
+					//							if($("#Title").val().length <= 0) {
+					//								layer.msg("请填写角色名称", function() {
+					//									//关闭后的操作
+					//								});
+					//								return false;
+					//							}
+					//
+					//							if($("#Cols").val().length == 0) {
+					//								layer.msg("请选择角色类型", function() {
+					//									//关闭后的操作
+					//								});
+					//								return false;
+					//							}
+					//							return true;
+					//							$("#save").text("正在提交...");
+					//						},
+					//						success: function(data) {
+					//							$("#save").text("确定提交");
+					//							data = JSON.parse(data);
+					//							layer.msg(data.R, {
+					//								time: 1500
+					//							}, function() {});
+					//							//if (data.R == "提交成功") {
+					//							//    if ($("#ID").val() != "0") {
+					//							//        layer.msg(data.R, {
+					//							//            time: 1000
+					//							//        }, function () {
+					//							//            //关闭后的操作
+					//							//            window.history.go(-1);
+					//							//        });
+					//							//    } else {
+					//							//        layer.msg(data.R, {
+					//							//            time: 1000
+					//							//        }, function () {
+					//							//            //关闭后的操作
+					//							//            //window.location.href = "/Users/PowerGroupsList";
+					//							//        });
+					//							//    }
+					//							//}
+					//						}
+					//					});
+
+					var option = {
+						theme: 'vsStyle',
+						expandLevel: 1,
+						expandable: false, //true 默认全部隐藏 false 全部展开 
+						beforeExpand: function($treeTable, id) {},
+						onSelect: function($treeTable, id) {
+							window.console && console.log('onSelect:' + id);
+						}
+					};
+					$('#treeTable1').treeTable(option);
+				});
+
+				function ck1(v) {
+					var id = $(v).attr("value");
+					var CheckPower2 = $("table").find("tr[pid='" + id + "']").find("input[name='CheckPower2']");
+
+					if($('#CheckPower' + id).is(':checked')) {
+						$(CheckPower2).prop('checked', true);
+						$(CheckPower2).addClass('input_checked');
+						var CheckPower3 = $("table").find("tr[topId='" + id + "']").find("input[name='CheckPower3']");
+
+						$(CheckPower3).prop('checked', true);
+						$(CheckPower3).addClass('input_checked');
+
+					} else {
+						$(CheckPower2).prop('checked', false);
+						$(CheckPower2).removeClass('input_checked');
+						var CheckPower3 = $("table").find("tr[topId='" + id + "']").find("input[name='CheckPower3']");
+						$(CheckPower3).prop('checked', false);
+						$(CheckPower3).removeClass('input_checked');
+					}
+				}
+
+				function ck2(v) {
+					var id = $(v).attr("value");
+
+					var CheckPower3 = $("table").find("tr[id='" + id + "']").find("input[name='CheckPower3']");
+					var CheckPower3list = $("table").find("tr[pid='" + id + "']").find("input[name='CheckPower3']");
+
+					if($('#CheckPower' + id).is(':checked')) {
+						$(CheckPower3list).prop('checked', true);
+						$(CheckPower3list).addClass('input_checked');
+						$(CheckPower3).prop('checked', true);
+						$(CheckPower3).addClass('input_checked');
+					} else {
+						$(CheckPower3list).prop('checked', false);
+						$(CheckPower3list).removeClass('input_checked');
+						$(CheckPower3).prop('checked', false);
+						$(CheckPower3).removeClass('input_checked');
+					}
+
+					var id = $(v).attr("parentId");
+					$("#CheckPower" + id).prop('checked', true);
+					$("#CheckPower" + id).addClass('input_checked');
+				}
+
+				function SelectAll(tempControl, St) {
+					var theBox = tempControl;
+					elem = theBox.form.elements;
+					len = 0;
+					for(i = 0; i < elem.length; i++) {
+						if(elem[i].type == "checkbox" && elem[i].id != "TStOver1" && elem[i].id != "TStOver2" && elem[i].id != "TStOver3") {
+							if(St == "1") {
+								//								if(elem[i].checked == false)
+								//									elem[i].click();
+								$("input[name=CheckPower1]").prop("checked", true);
+								$("input[name=CheckPower2]").prop("checked", true);
+
+							} else if(St == "2") {
+								elem[i].click();
+							} else {
+								//								if(elem[i].checked == true)
+								//									elem[i].click();
+								$("input[name=CheckPower1]").prop("checked", false);
+								$("input[name=CheckPower2]").prop("checked", false);
+							}
+						}
+					}
+					len = $("input[name=CheckPower2]:checked").length;
+					if(len > 1) {
+						len = len - 14;
+					}
+					layer.msg('当前选中权限个数 : ' + len);
+				}
+			</script>
+
+			<style>
+				.leftTd {
+					width: 20%;
+					font-size: 14px;
+					text-align: left;
+					text-align: left !important;
+				}
+				
+				.rightTd {
+					text-align: left;
+					font-size: 14px;
+					text-align: left;
+					text-align: left !important;
+				}
+				
+				td {
+					padding: 8px 8px !important;
+				}
+				
+				.table>thead>tr>td,
+				.table>tbody>tr>td,
+				.table>tfoot>tr>td {
+					padding: 8px;
+					line-height: 3.428571;
+					vertical-align: top;
+					border-top: 1px solid #ddd;
+				}
+			</style>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png" style="background-color: #f5f5f5;" />
+				</a>
+				<li>
+					<a href="javascript:void(0)">人事</a>
+				</li>
+				<li>
+					<a class="active">编辑角色</a>
+				</li>
+			</ol>
+
+			<form method="post">
+				<input id="id" name="id" type="hidden" />
+				<div class="shell todown">
+					<div class="all_box">
+						<p>
+							<font style="color: red">*</font>角色名称</p>
+						<input id="rname" name="rname" type="text" value="财务" class="form-control required" disabled="disabled" />
+					</div>
+					<div class="all_box">
+						<p>
+							<font style="color: red">*</font>角色描述</p>
+						<div class="dropdown_box1">
+							<div class="down_box">
+								<span id="remark">
+									
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="shell todown">
+
+					<div class="all_box">
+						<p>操作</p>
+
+						<input type="radio" name="TStOver" id="TStOver1" onclick="javascript: SelectAll(this, '1');" />全选
+
+						<input type="radio" name="TStOver" id="TStOver3" onclick="javascript: SelectAll(this, '3');" />反选
+
+					</div>
+
+				</div>
+				<div class="layui-tab" lay-filter="demo">
+
+					<ul class="layui-tab-title">
+
+						<li class="layui-this">案件</li>
+						<li class="">客户</li>
+						<li class="">财务</li>
+						<li class="">统计</li>
+						<li class="">审批</li>
+						<li class="">日志</li>
+						<li class="">行政</li>
+						<li class="">考核上报</li>
+						<li class="">系统管理</li>
+						<!-- 
+						<li class="">分析</li>
+						<li class="">应用商店</li>
+						 -->
+						<li class="">人事</li>
+						<li class="">档案</li>
+						<!--
+						<li class="">律所管理</li>
+						<li class="">知识文库</li>
+						<li class="">案源中心</li>
+						<li class="">办案工具</li>
+						<li class="">项目协作</li>
+						<li class="">小任务</li>
+						<li class="">图书借阅</li>
+						 -->
+					</ul>
+					<div class="layui-tab-content">
+
+						<div class="layui-tab-item layui-show">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_11">
+								<thead id="table_title">
+									<tr id="11">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="11"  onclick="ck1(this)"  id="CheckPower11"/>
+
+案件
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="13" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100103"    id="CheckPower13" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower13">我的案件</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">我的案件：查看自己的全部案件。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="16" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100109"    id="CheckPower16" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower16">所有案件</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">所有案件：查看律所全部案件。 使用人员：行政、内勤、财务、主任
+										</td>
+									</tr>
+									<tr id="41" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100102"    id="CheckPower41" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower41">新增案件</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">新增案件：在OA系统录入新案件。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="42" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100105"  
+                                        	  id="CheckPower42" onclick="ck2(this)" parentId="11"  />
+                                        	  
+                                        <label for="CheckPower42">开庭/侦查/检察</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">在办案件：查看还在办理的案件。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="47" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100106"    
+                                        	id="CheckPower47" onclick="ck2(this)" parentId="11"  />
+                                        	
+                                        <label for="CheckPower47">费用减免申请记录</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">费用减免申请记录：查看费用减免申请记录。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="61" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100101"    
+                                        	id="CheckPower61" onclick="ck2(this)" parentId="11"  />
+                                        	
+                                        <label for="CheckPower61">利益冲突审查</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">利益冲突审查： 一、双重代理型利益冲突，同一律师在同一案件中为双方当事人担任代理人。 二、同一律所型利益冲突，同一律所型利益冲突是指在同一律师事务所内部，有两个或多个律师分别为同一案件的双方当事人担任代理人。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="132" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100104"    id="CheckPower132" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower132">咨询与代书</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">咨询与代书：在OA系统中录入咨询或代书业务。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="132" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100110"    id="CheckPower132" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower132">管理案件</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">管理案件：在OA系统管理本系统所有案件。
+										</td>
+									</tr>
+									<tr id="132" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100108"    id="CheckPower132" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower132">批量案件导入</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">可通过excel直接将案件数据批量导入到系统中 为保证数据的规范性，此功能建议开放给行政或主任使用
+										</td>
+									</tr>
+									<tr id="132" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100107"    id="CheckPower132" 
+                                        		onclick="ck2(this)" parentId="11"  />
+                                        		
+                                        <label for="CheckPower132">用印申请</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">可通过excel直接将案件数据批量导入到系统中 为保证数据的规范性，此功能建议开放给行政或主任使用
+										</td>
+									</tr>
+									<!--<tr id="98" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="98"    id="CheckPower98" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower98">管理案件</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="465" pId="98" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck11" type="checkbox" name="CheckPower3" value="465"    id="CheckPower465" parentId="98"  parent2Id="11" onclick="ckParent(this)"/>
+                                        <label for="CheckPower465">删除案件</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="466" pId="98" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck11" type="checkbox" name="CheckPower3" value="466"    id="CheckPower466" parentId="98"  parent2Id="11" onclick="ckParent(this)"/>
+                                        <label for="CheckPower466">修改案号</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="467" pId="98" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck11" type="checkbox" name="CheckPower3" value="467"    id="CheckPower467" parentId="98"  parent2Id="11" onclick="ckParent(this)"/>
+                                        <label for="CheckPower467">修改案件</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="468" pId="98" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck11" type="checkbox" name="CheckPower3" value="468"    id="CheckPower468" parentId="98"  parent2Id="11" onclick="ckParent(this)"/>
+                                        <label for="CheckPower468">设置档案归档号</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="469" pId="98" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck11" type="checkbox" name="CheckPower3" value="469"    id="CheckPower469" parentId="98"  parent2Id="11" onclick="ckParent(this)"/>
+                                        <label for="CheckPower469">案件回收站</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="150" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="150"    id="CheckPower150" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower150">批量案件导入</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">可通过excel直接将案件数据批量导入到系统中 为保证数据的规范性，此功能建议开放给行政或主任使用
+										</td>
+									</tr>
+									<tr id="503" pId="11" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="503"    id="CheckPower503" onclick="ck2(this)" parentId="11"  />
+                                        <label for="CheckPower503">用印申请</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="1006" pId="503" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck11" type="checkbox" name="CheckPower3" value="1006"    id="CheckPower1006" parentId="503"  parent2Id="11" onclick="ckParent(this)"/>
+                                        <label for="CheckPower1006">用印记录</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="1007" pId="503" topId="11">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck11" type="checkbox" name="CheckPower3" value="1007"    id="CheckPower1007" parentId="503"  parent2Id="11" onclick="ckParent(this)"/>
+                                        <label for="CheckPower1007">用印申请</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>-->
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '11';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_17">
+								<thead id="table_title">
+									<tr id="17">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="17"  onclick="ck1(this)"  id="CheckPower17"/>
+
+客户
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="18" pId="17" topId="17">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100301" 
+                                        	   id="CheckPower18" onclick="ck2(this)" parentId="17"  />
+                                        	   
+                                        <label for="CheckPower18">我的客户</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">添加客户资料：添加委托人、当事人、对方当事人等资料。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="19" pId="17" topId="17">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100302"  
+                                        	  id="CheckPower19" onclick="ck2(this)" parentId="17"  />
+                                        	  
+                                        <label for="CheckPower19">对方当事人</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">管理客户资料：修改、删除委托人、当事人、对方当事人等资料。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="136" pId="17" topId="17">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100303"  
+                                        	  id="CheckPower136" onclick="ck2(this)" parentId="17"  />
+                                        	  
+                                        <label for="CheckPower136">所有客户</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">所有客户管理：查看律所的全部客户资料。 使用人员：行政、内勤、主任
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '17';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_32">
+								<thead id="table_title">
+									<tr id="32">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="32" onclick="ck1(this)"  id="CheckPower32"/>
+
+财务
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="31" pId="32" topId="32">
+										<td class="leftTd">
+											<span controller="true">
+
+	                                       		 <input type="checkbox" name="CheckPower2" value="100701" 
+	                                        	  id="CheckPower31" onclick="ck2(this)" parentId="32"  />
+	                                        	  
+	                                        	<label for="CheckPower31">代开发票</label>
+                                   			 </span>
+
+										</td>
+										<td class="rightTd">开具发票：财务人员可以直接开发票，无需律师申请发票。 使用人员：财务
+										</td>
+									</tr>
+									<tr id="35" pId="32" topId="32">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100703" 
+                                        	  id="CheckPower35" onclick="ck2(this)" parentId="32"  />
+                                        	  
+                                        <label for="CheckPower35">案件收支录入</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">案件收支录入：添加案件收入财务记录。 使用人员：财务
+										</td>
+									</tr>
+									<tr id="36" pId="32" topId="32">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100705" 
+                                        	  id="CheckPower36" onclick="ck2(this)" parentId="32"  />
+                                        	  
+                                        <label for="CheckPower36">律所收支录入</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">律所收支列表：查看律所全部的收入与支出清单。 使用人员：财务、主任、合伙人
+										</td>
+									</tr>
+									<tr id="37" pId="32" topId="32">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100708" 
+                                        	  id="CheckPower37" onclick="ck2(this)" parentId="32"  />
+                                        	  
+                                        <label for="CheckPower37">我的发票</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">我的发票申请：查看自己的开票记录。 使用人员：律师
+										</td>
+									</tr>
+									<tr id="38" pId="32" topId="32">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100704"  
+                                        	 id="CheckPower38" onclick="ck2(this)" parentId="32"  />
+                                        	 
+                                        <label for="CheckPower38">开具发票</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">开票管理：根据律师提交的申请开具发票。 使用人员：财务
+										</td>
+									</tr>
+									<tr id="39" pId="32" topId="32">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100702" 
+                                        	  id="CheckPower39" onclick="ck2(this)" parentId="32"  />
+                                        	  
+                                        <label for="CheckPower39">全所收支明细</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="62" pId="32" topId="32">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100706"
+                                        	   id="CheckPower62" onclick="ck2(this)" parentId="32"  />
+                                        	   
+                                        <label for="CheckPower62">我的收入</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">我的月收入：查看自己的月收入。 使用人员：全部人员
+										</td>
+									</tr>
+									<tr id="443" pId="32" topId="32">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100707"
+                                        	   id="CheckPower443" onclick="ck2(this)" parentId="32"  />
+                                        	   
+                                        <label for="CheckPower443">我的收支</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">我的收支明细：查看自己的各项收入与支出。 使用人员：全部人员</td>
+									</tr>
+									<!--<tr id="10207" pId="32" topId="32">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10207"    id="CheckPower10207" onclick="ck2(this)" parentId="32"  />
+                                        <label for="CheckPower10207">全所收支明细-查看</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>-->
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '32';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_46">
+								<thead id="table_title">
+									<tr id="46">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="46"  onclick="ck1(this)"  id="CheckPower46"/>
+
+统计
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="49" pId="46" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100801"
+                                        	    id="CheckPower49" onclick="ck2(this)" parentId="46"  />
+                                        	    
+                                        <label for="CheckPower49">财务统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">财务统计：统计查看律所全部收入与支出。 使用人员：财务、主任、合伙人
+										</td>
+									</tr>
+									<tr id="52" pId="46" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100803"
+                                        	    id="CheckPower52" onclick="ck2(this)" parentId="46"  />
+                                        	    
+                                        <label for="CheckPower52">收结案统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">年度收结案统计：统计查看年度收结案。 使用人员：行政、财务、主任
+										</td>
+									</tr>
+									<tr id="70" pId="46" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100805"
+                                        	    id="CheckPower70" onclick="ck2(this)" parentId="46"  />
+                                        	    
+                                        <label for="CheckPower70">用印统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">公函使用登记表：查看统计公函使用登记。 使用人员：行政、内勤、财务、主任
+										</td>
+									</tr>
+									<tr id="91" pId="46" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100802"
+                                        	    id="CheckPower91" onclick="ck2(this)" parentId="46"  />
+                                        	    
+                                        <label for="CheckPower91">执业人员财务统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="91" pId="46" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100804"
+                                        	    id="CheckPower91" onclick="ck2(this)" parentId="46"  />
+                                        	    
+                                        <label for="CheckPower91">综合统计中心</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">所有的财务统计</td>
+									</tr>
+
+									<!--<tr id="140" pId="46" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="140"    id="CheckPower140" onclick="ck2(this)" parentId="46"  />
+                                        <label for="CheckPower140">综合统计中心</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">所有的财务统计</td>
+									</tr>
+									<tr id="483" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="483"    id="CheckPower483" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower483">业务收费汇总表</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="484" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="484"    id="CheckPower484" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower484">个人业务总计汇总表</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="485" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="485"    id="CheckPower485" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower485">个人业务月份汇总表</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="486" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="486"    id="CheckPower486" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower486">出纳统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="487" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="487"    id="CheckPower487" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower487">分类开票汇总</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="488" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="488"    id="CheckPower488" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower488">费用支出表</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="489" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="489"    id="CheckPower489" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower489">法律顾问统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="490" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="490"    id="CheckPower490" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower490">诉讼标的统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10018" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="10018"    id="CheckPower10018" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower10018">律师积分统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10210" pId="140" topId="46">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck46" type="checkbox" name="CheckPower3" value="10210"    id="CheckPower10210" parentId="140"  parent2Id="46" onclick="ckParent(this)"/>
+                                        <label for="CheckPower10210">人员创收统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>-->
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '46';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_48">
+								<thead id="table_title">
+									<tr id="48">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="48"  onclick="ck1(this)"  id="CheckPower48"/>
+
+审批
+
+                                    </span>
+										</td>
+										<td class="rightTd">业务审批：审批费用减免申请、结案申请、归档保证金申请、退费申请等。 使用人员：行政、财务、主任
+										</td>
+
+									</tr>
+
+									<tr id="500" pId="48" topId="48">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100202"    id="CheckPower500" onclick="ck2(this)" parentId="48"  />
+                                        <label for="CheckPower500">审批中心</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="501" pId="48" topId="48">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100201"    id="CheckPower501" onclick="ck2(this)" parentId="48"  />
+                                        <label for="CheckPower501">我的申请</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<!--<tr id="10206" pId="48" topId="48">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10206"    id="CheckPower10206" onclick="ck2(this)" parentId="48"  />
+                                        <label for="CheckPower10206">抄送流程</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>-->
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '48';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_60">
+								<thead id="table_title">
+									<tr id="60">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="60"  onclick="ck1(this)"  id="CheckPower60"/>
+
+日志
+
+                                    </span>
+										</td>
+										<td class="rightTd">我的日程列表：查看管理自己的日程安排。 使用人员：全部人员
+										</td>
+
+									</tr>
+
+									<tr id="138" pId="60" topId="60">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100403"    id="CheckPower138" onclick="ck2(this)" parentId="60"  />
+                                        <label for="CheckPower138">全所工作日志</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">全所服务记录：查看律所全部案件的服务记录。 使用人员：行政、内勤、主任
+										</td>
+									</tr>
+									<tr id="141" pId="60" topId="60">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100402"    id="CheckPower141" onclick="ck2(this)" parentId="60"  />
+                                        <label for="CheckPower141">添加工作日志</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">个人工作日志的录入</td>
+									</tr>
+									<tr id="137" pId="60" topId="60">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100401"    id="CheckPower137" onclick="ck2(this)" parentId="60"  />
+                                        <label for="CheckPower137">我的工作日志</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">我的服务记录：查看案件的服务记录。 使用人员：律师
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '60';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_90">
+								<thead id="table_title">
+									<tr id="90">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="90"  onclick="ck1(this)"  id="CheckPower90"/>
+
+行政
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="57" pId="90" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100504"    id="CheckPower57" onclick="ck2(this)" parentId="90"  />
+                                        <label for="CheckPower57">签到管理</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">添加公告通知：发布律所公告通知。 使用人员：行政、主任
+										</td>
+									</tr>
+									<tr id="66" pId="90" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100501"    id="CheckPower66" onclick="ck2(this)" parentId="90"  />
+                                        <label for="CheckPower66">公告通知</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">公告通知：查看律所公告通知。 使用人员：全部人员
+										</td>
+									</tr>
+									<tr id="100" pId="90" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100502"    id="CheckPower100" onclick="ck2(this)" parentId="90"  />
+                                        <label for="CheckPower100">通讯录</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="165" pId="90" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100505"    id="CheckPower165" onclick="ck2(this)" parentId="90"  />
+                                        <label for="CheckPower165">建议投诉</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">查看委托人对律师或律所的意见和投诉，并可以回复</td>
+									</tr>
+									<!--<tr id="438" pId="90" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="438"    id="CheckPower438" onclick="ck2(this)" parentId="90"  />
+                                        <label for="CheckPower438">短信</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="1001" pId="438" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck90" type="checkbox" name="CheckPower3" value="1001"    id="CheckPower1001" parentId="438"  parent2Id="90" onclick="ckParent(this)"/>
+                                        <label for="CheckPower1001">短信群发</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="1002" pId="438" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck90" type="checkbox" name="CheckPower3" value="1002"    id="CheckPower1002" parentId="438"  parent2Id="90" onclick="ckParent(this)"/>
+                                        <label for="CheckPower1002">短信充值</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="1003" pId="438" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck90" type="checkbox" name="CheckPower3" value="1003"    id="CheckPower1003" parentId="438"  parent2Id="90" onclick="ckParent(this)"/>
+                                        <label for="CheckPower1003">短信充值记录</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="1004" pId="438" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck90" type="checkbox" name="CheckPower3" value="1004"    id="CheckPower1004" parentId="438"  parent2Id="90" onclick="ckParent(this)"/>
+                                        <label for="CheckPower1004">短信发送记录</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="1005" pId="438" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck90" type="checkbox" name="CheckPower3" value="1005"    id="CheckPower1005" parentId="438"  parent2Id="90" onclick="ckParent(this)"/>
+                                        <label for="CheckPower1005">全所短信发送记录</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>-->
+									<tr id="439" pId="90" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100506"    id="CheckPower439" onclick="ck2(this)" parentId="90"  />
+                                        <label for="CheckPower439">快递登记</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="502" pId="90" topId="90">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100503"    id="CheckPower502" onclick="ck2(this)" parentId="90"  />
+                                        <label for="CheckPower502">管理公告通知</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '90';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_94">
+								<thead id="table_title">
+									<tr id="94">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="94"  onclick="ck1(this)"  id="CheckPower94"/>
+
+考核上报
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="447" pId="94" topId="94">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="447"    id="CheckPower447" onclick="ck2(this)" parentId="94"  />
+                                        <label for="CheckPower447">年底考核</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="448" pId="94" topId="94">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="448"    id="CheckPower448" onclick="ck2(this)" parentId="94"  />
+                                        <label for="CheckPower448">年度统计</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="449" pId="94" topId="94">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="449"    id="CheckPower449" onclick="ck2(this)" parentId="94"  />
+                                        <label for="CheckPower449">数据上报</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '94';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_96">
+								<thead id="table_title">
+									<tr id="96">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="96"  onclick="ck1(this)"  id="CheckPower96"/>
+
+系统管理
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<!-- <tr id="26" pId="96" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="26"    id="CheckPower26" onclick="ck2(this)" parentId="96"  />
+                                        <label for="CheckPower26">文件管理</label>
+                                    </span> 
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>-->
+									<!-- <tr id="86" pId="96" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="86"    id="CheckPower86" onclick="ck2(this)" parentId="96"  />
+                                        <label for="CheckPower86">系统配置</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">系统配置：可以对OA系统各项参数进行系统配置，例如：案件类型、结案方式、公章使用、收支类别等。 使用人员：行政、主任、系统管理员。
+										</td>
+									</tr> -->
+									<tr id="97" pId="96" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="101101"    id="CheckPower97" onclick="ck2(this)" parentId="96"  />
+                                        <label for="CheckPower97">用户管理</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">用户管理ｖ：　直接操作所有用户，对用ｉ</td>
+									</tr>
+									<tr id="496" pId="96" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="101103"    id="CheckPower133" onclick="ck2(this)" parentId="96"  />
+                                        <label for="CheckPower133">角色管理</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">角色管理：可直接管理本系统所有权限,切勿随意分配该权限
+										</td>
+									</tr>
+									<tr id="463" pId="96" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="101102"    id="CheckPower463" onclick="ck2(this)" parentId="96"  />
+                                        <label for="CheckPower463">系统日志</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">系统日志 :　管理本系统所有ｌｏｇ</td>
+									</tr>
+									<tr id="496" pId="96" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100122"    id="CheckPower496" onclick="ck2(this)" parentId="96"  />
+                                        <label for="CheckPower496">审批流配置</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<!-- <tr id="497" pId="496" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck96" type="checkbox" name="CheckPower3" value="497"    id="CheckPower497" parentId="496"  parent2Id="96" onclick="ckParent(this)"/>
+                                        <label for="CheckPower497">流程配置</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="498" pId="496" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck96" type="checkbox" name="CheckPower3" value="498"    id="CheckPower498" parentId="496"  parent2Id="96" onclick="ckParent(this)"/>
+                                        <label for="CheckPower498">审批项目</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="499" pId="96" topId="96">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="499"    id="CheckPower499" onclick="ck2(this)" parentId="96"  />
+                                        <label for="CheckPower499">二级密码</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr> -->
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '96';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<!-- <div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_127">
+								<thead id="table_title">
+									<tr id="127">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="127"  onclick="ck1(this)"  id="CheckPower127"/>
+
+分析
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="128" pId="127" topId="127">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="128"    id="CheckPower128" onclick="ck2(this)" parentId="127"  />
+                                        <label for="CheckPower128">案件分析</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">案件数据分析：曲线图的方式对比分析近几年律所案件数量。 使用人员：财务、主任、合伙人
+										</td>
+									</tr>
+									<tr id="129" pId="127" topId="127">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="129"    id="CheckPower129" onclick="ck2(this)" parentId="127"  />
+                                        <label for="CheckPower129">创收分析</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd">创收数据分析：曲线图的方式对比分析近几年律所业务收入情况。 使用人员：财务、主任、合伙人
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '127';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div> -->
+						<!-- <div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_144">
+								<thead id="table_title">
+									<tr id="144">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="144"  onclick="ck1(this)"  id="CheckPower144"/>
+
+应用商店
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="476" pId="144" topId="144">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="476"    id="CheckPower476" onclick="ck2(this)" parentId="144"  />
+                                        <label for="CheckPower476">推荐产品</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="478" pId="144" topId="144">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="478"    id="CheckPower478" onclick="ck2(this)" parentId="144"  />
+                                        <label for="CheckPower478">我的订单</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="479" pId="144" topId="144">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="479"    id="CheckPower479" onclick="ck2(this)" parentId="144"  />
+                                        <label for="CheckPower479">发票</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10202" pId="144" topId="144">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10202"    id="CheckPower10202" onclick="ck2(this)" parentId="144"  />
+                                        <label for="CheckPower10202">充值</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '144';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div> -->
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_151">
+								<thead id="table_title">
+									<tr id="151">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="151"  onclick="ck1(this)"  id="CheckPower151"/>
+
+人事
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="445" pId="151" topId="151">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="101001"    id="CheckPower445" onclick="ck2(this)" parentId="151"  />
+                                        <label for="CheckPower445">人事档案</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="446" pId="151" topId="151">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="101002"    id="CheckPower446" onclick="ck2(this)" parentId="151"  />
+                                        <label for="CheckPower446">团队管理</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '151';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_171">
+								<thead id="table_title">
+									<tr id="171">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="171"  onclick="ck1(this)"  id="CheckPower171"/>
+
+档案
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="440" pId="171" topId="171">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100601"    id="CheckPower440" onclick="ck2(this)" parentId="171"  />
+                                        <label for="CheckPower440">电子归档</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="441" pId="171" topId="171">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100603"    id="CheckPower441" onclick="ck2(this)" parentId="171"  />
+                                        <label for="CheckPower441">全所电子档案</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="442" pId="171" topId="171">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="100604"    id="CheckPower442" onclick="ck2(this)" parentId="171"  />
+                                        <label for="CheckPower442">档案借阅</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '171';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_470">
+								<thead id="table_title">
+									<tr id="470">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="470"  onclick="ck1(this)"  id="CheckPower470"/>
+
+                                            <label for="CheckPower470">律所管理</label> 
+
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '470';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_471">
+								<thead id="table_title">
+									<tr id="471">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="471"  onclick="ck1(this)"  id="CheckPower471"/>
+
+知识文库
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="472" pId="471" topId="471">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="472"    id="CheckPower472" onclick="ck2(this)" parentId="471"  />
+                                        <label for="CheckPower472">内部知识库</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10204" pId="472" topId="471">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck471" type="checkbox" name="CheckPower3" value="10204"    id="CheckPower10204" parentId="472"  parent2Id="471" onclick="ckParent(this)"/>
+                                        <label for="CheckPower10204">知识库类别</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10205" pId="472" topId="471">
+										<td class="leftTd"><span controller="true">
+
+                                        <input topCkId="ck471" type="checkbox" name="CheckPower3" value="10205"    id="CheckPower10205" parentId="472"  parent2Id="471" onclick="ckParent(this)"/>
+                                        <label for="CheckPower10205">内部知识库</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="473" pId="471" topId="471">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="473"    id="CheckPower473" onclick="ck2(this)" parentId="471"  />
+                                        <label for="CheckPower473">共享知识库</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10203" pId="471" topId="471">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10203"    id="CheckPower10203" onclick="ck2(this)" parentId="471"  />
+                                        <label for="CheckPower10203">我的知识库</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '471';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_10000">
+								<thead id="table_title">
+									<tr id="10000">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="10000"  onclick="ck1(this)"  id="CheckPower10000"/>
+
+                                            <label for="CheckPower10000">案源中心</label> 
+
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '10000';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_10001">
+								<thead id="table_title">
+									<tr id="10001">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="10001"  onclick="ck1(this)"  id="CheckPower10001"/>
+
+办案工具
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="10002" pId="10001" topId="10001">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10002"    id="CheckPower10002" onclick="ck2(this)" parentId="10001"  />
+                                        <label for="CheckPower10002">案例法规</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10003" pId="10001" topId="10001">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10003"    id="CheckPower10003" onclick="ck2(this)" parentId="10001"  />
+                                        <label for="CheckPower10003">尽职调查</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10004" pId="10001" topId="10001">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10004"    id="CheckPower10004" onclick="ck2(this)" parentId="10001"  />
+                                        <label for="CheckPower10004">知识拓展</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10006" pId="10001" topId="10001">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10006"    id="CheckPower10006" onclick="ck2(this)" parentId="10001"  />
+                                        <label for="CheckPower10006">资本市场</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10201" pId="10001" topId="10001">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10201"    id="CheckPower10201" onclick="ck2(this)" parentId="10001"  />
+                                        <label for="CheckPower10201">默认推荐</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '10001';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_10211">
+								<thead id="table_title">
+									<tr id="10211">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="10211"  onclick="ck1(this)"  id="CheckPower10211"/>
+
+                                            <label for="CheckPower10211">项目协作</label> 
+
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '10211';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_10212">
+								<thead id="table_title">
+									<tr id="10212">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="10212"  onclick="ck1(this)"  id="CheckPower10212"/>
+
+                                            <label for="CheckPower10212">小任务</label> 
+
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '10212';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+						<div class="layui-tab-item ">
+
+							<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="treeTable1_10213">
+								<thead id="table_title">
+									<tr id="10213">
+										<td class="leftTd">
+											<span controller="true" style="width: 200px">
+                                        <input type="checkbox" name="CheckPower1" value="10213"  onclick="ck1(this)"  id="CheckPower10213"/>
+
+图书借阅
+
+                                    </span>
+										</td>
+										<td class="rightTd"></td>
+
+									</tr>
+
+									<tr id="10214" pId="10213" topId="10213">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10214"    id="CheckPower10214" onclick="ck2(this)" parentId="10213"  />
+                                        <label for="CheckPower10214">类别管理</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10215" pId="10213" topId="10213">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10215"    id="CheckPower10215" onclick="ck2(this)" parentId="10213"  />
+                                        <label for="CheckPower10215">图书管理</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10216" pId="10213" topId="10213">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10216"    id="CheckPower10216" onclick="ck2(this)" parentId="10213"  />
+                                        <label for="CheckPower10216">借阅管理</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10217" pId="10213" topId="10213">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10217"    id="CheckPower10217" onclick="ck2(this)" parentId="10213"  />
+                                        <label for="CheckPower10217">借阅图书</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10218" pId="10213" topId="10213">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10218"    id="CheckPower10218" onclick="ck2(this)" parentId="10213"  />
+                                        <label for="CheckPower10218">我的借阅</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+									<tr id="10219" pId="10213" topId="10213">
+										<td class="leftTd"><span controller="true">
+
+                                        <input type="checkbox" name="CheckPower2" value="10219"    id="CheckPower10219" onclick="ck2(this)" parentId="10213"  />
+                                        <label for="CheckPower10219">借阅审批</label>
+                                    </span>
+
+										</td>
+										<td class="rightTd"></td>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+
+							<script type="text/javascript">
+								var id = '10213';
+								var option = {
+									theme: 'vsStyle',
+									expandLevel: 3,
+
+									beforeExpand: function($treeTable, id) {},
+									onSelect: function($treeTable, id) {
+										window.console && console.log('onSelect:' + id);
+									}
+								};
+								$('#treeTable1_' + id).treeTable(option);
+
+								//option.theme = 'default';
+								//$('#treeTable2').treeTable(option);
+
+								function ckParent(v) {
+									var id = $(v).attr("parentId");
+									$("#CheckPower" + id).prop('checked', true);
+									$("#CheckPower" + id).addClass('input_checked');
+
+									var id2 = $(v).attr("parent2Id");
+									$("#CheckPower" + id2).prop('checked', true);
+									$("#CheckPower" + id2).addClass('input_checked');
+								}
+							</script>
+
+						</div>
+
+					</div>
+				</div>
+				<footer style="text-align: center">
+					<a href="javaScript:Sub()" class="btn_solid">确定提交</a>
+					<!--<input id="save" class="btn_solid" value="" />-->
+				</footer>
+			</form>
+
+			<script src="/Content/layer/layui.js" charset="utf-8"></script>
+			<script type="text/javascript" src="/Content/Js/table.js"></script>
+
+			<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+			<script>
+				$(function() {
+					layui.use('element', function() {
+						var element = layui.element;
+
+					});
+
+					$('.table td').unbind();
+				});
+			</script>
+
+		</section>
+
+		<script src="static/js/jquery.unobtrusive-ajax.js"></script>
+		<script type="text/javascript" src="static/js/baseFunction.js"></script>
+		<script type="text/javascript">
+			var strgetSelectValue = '';
+
+			function Sub() {
+				strgetSelectValue = '';
+				$("input[name=CheckPower2]:checked").each(function(j) {
+					if(j >= 0) {
+						strgetSelectValue += $(this).val() + ","
+					}
+				});
+				if (strgetSelectValue == ""){
+					layer.msg('请勾选需要添加的权限!');
+					return;
+				}
+					
+				var $formData = new FormData();
+				$formData.append("id", $("#id").val());
+				$formData.append("permission", strgetSelectValue);
+				$.ajax({
+					type: "post",
+					url: "role/permissons/modyfyPer",
+					data: $formData,
+					contentType: false, //禁止设置请求类型
+					processData: false, //禁止jquery对Data数据的处理,默认会处理,禁止的原因是,FormData已经帮我们做了处理
+					dataType: "json",
+					success: function(data) {
+						if(data == true) {
+							layer.msg('操作成功');
+							setTimeout(function() {
+								window.location.href = "goto/setting/userManager/roles";
+							}, 500);
+						} else {
+							layer.msg('操作失败,即将返回上一页');
+							setTimeout(function() {
+								window.location.href = "goto/setting/userManager/roles";
+							}, 500);
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.lawfirm.mapper.anjian.CaseMapper">
+	
+	
+	
+	<!-- 
+		审查   
+	 -->
+	 <select id="ConflictOfInterestReview" parameterType="map" resultType="map">
+			select * from case_law cl 
+			    inner join case_case_type cct on cct.id = cl.case_case_type_id
+				inner join hr_emp he on he.id=cl.system_approval_id
+				inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+					<if test="case_parties != null and case_parties != ''">and case_parties like '%${case_parties}%'</if>
+				<if test="case_opposite_parties != null and case_opposite_parties != ''">and case_opposite_parties like '%${case_opposite_parties}%'</if>
+		
+		</select>
+	 
+	 
+		<select id="findCase" parameterType="map" resultType="map">
+			select * from case_law cl 
+			    inner join case_case_type cct on cct.id = cl.case_case_type_id
+				inner join hr_emp he on he.id=cl.system_approval_id
+				inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+				<if test="anhao != null and anhao != ''">and case_propernum = #{anhao}</if>
+				<if test="paycols != null and paycols != ''">and case_paycols like '%${paycols}%'</if>
+				
+				<if test="case_parties != null and case_parties != ''">and case_parties like '%${case_parties}%'</if>
+				<if test="case_opposite_parties != null and case_opposite_parties != ''">and case_opposite_parties like '%${case_opposite_parties}%'</if>
+		
+				<if test="casePropernum != null and casePropernum != ''">and case_propernum like '%${casePropernum}%'</if>
+				<if test="caseApproveStatus != null and caseApproveStatus != ''">and case_approve_status like '%${caseApproveStatus}%'</if>
+				<if test="caseSettleStatus != null and caseSettleStatus != ''">and case_settle_status like '%${caseSettleStatus}%'</if>
+				<if test="caseAssign != null and caseAssign != ''">and case_assign like '%${caseAssign}%'</if>
+		</select>	
+	
+	
+	
+	
+	<!-- 
+		新增案件 addCase4  添加
+	 -->
+	 <insert id="addCaseLaw" parameterType="com.jt.lawfirm.bean.casea.Law" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+  		insert into case_law 
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+  			<if test="id != null">id,</if>
+  			<if test="caseParties != null">case_parties,</if>
+  			<if test="caseoppositeparties != null">case_opposite_parties,</if>
+  			<if test="caseThirdParty != null">case_third_party,</if>
+  			<if test="caseSuspect != null">case_suspect,</if>
+  			<if test="caseClash != null">case_clash,</if>
+  			<if test="caseCause != null">case_cause,</if>
+  			<if test="caseAccept != null">case_accept,</if>
+  			<if test="casefxMake != null">case_fxMake,</if>
+  			<if test="caseLawsuitobj != null">case_lawsuitobj,</if>
+  			<if test="casePayCols != null">case_paycols,</if>
+  			<if test="caseSubsidy != null">case_subsidy,</if>
+  			<if test="caseSubsidysal != null">case_subsidysal,</if>
+  			<if test="caseSettleStatus != null">case_settle_status,</if>
+  			<if test="casePlan != null">case_plan,</if>
+  			<if test="caseApproveStatus != null">case_approve_status,</if>
+  			<if test="caseAgencyfee != null">case_agencyfee,</if>
+  			<if test="caseProxysal != null">case_proxysal,</if>
+  			<if test="caseTransactionRegion != null">case_transaction_region,</if>
+  			<if test="caseAssign != null">case_assign,</if>
+  			<if test="casePaidsal != null">case_paidsal,</if>
+  			<if test="caseUnpaidsal != null">case_unpaidsal,</if>
+  			<if test="caseInvoiced != null">case_invoiced,</if>
+  			<if test="caseNotinvoiced != null">case_notinvoiced,</if>
+  			<if test="casePropernum != null">case_propernum,</if>
+  			<if test="caseCourt != null">case_court,</if>
+  			<if test="caseFilenumber != null">case_filenumber,</if>
+  			<if test="caseCorrelationFile != null">case_correlation_file,</if>
+  			<if test="caseSubmitter != null">case_submitter,</if>
+  			<if test="caseSubtime != null">case_subtime,</if>
+  			<if test="caseRecycle != null">case_recycle,</if>
+  			<if test="caseRemarks != null">case_remarks,</if>
+  			<if test="clientId != null">client_id,</if>
+  			<if test="caseAttorneyId != null">case_attorney_id,</if>
+  			<if test="caseStatus != null">case_status,</if>
+  			<if test="caseLawsuitStatus != null">case_lawsuit_status,</if>
+  			<if test="caseChargeWay != null">case_charge_way,</if>
+  			<if test="systemApprovalId != null">system_approval_id,</if>
+  			<if test="caseCaseTypeId != null">case_case_type_id,</if>
+  			<if test="caseSealApplyforID != null">case_seal_applyfor_id,</if>
+  			<if test="case_settle_date != null">case_settle_date,</if>
+	  			<if test="case_settle_way != null">case_settle_way,</if>
+  		</trim>
+  		<trim prefix="values(" suffix=")" suffixOverrides=",">
+  			<if test="id != null">#{id},</if>
+  			<if test="caseParties != null">#{caseParties},</if>
+  			<if test="caseoppositeparties != null">#{caseoppositeparties},</if>
+  			<if test="caseThirdParty != null">#{caseThirdParty},</if>
+  			<if test="caseSuspect != null">#{caseSuspect},</if>
+  			<if test="caseClash != null">#{caseClash},</if>
+  			<if test="caseCause != null">#{caseCause},</if>
+  			<if test="caseAccept != null">#{caseAccept},</if>
+  			<if test="casefxMake != null">#{casefxMake},</if>
+  			<if test="caseLawsuitobj != null">#{caseLawsuitobj},</if>
+  			<if test="casePayCols != null">#{casePayCols},</if>
+  			<if test="caseSubsidy != null">#{caseSubsidy},</if> 
+  			<if test="caseSubsidysal != null">#{caseSubsidysal},</if>
+  			<if test="caseSettleStatus != null">#{caseSettleStatus},</if>
+  			<if test="casePlan != null">#{casePlan},</if>
+  			<if test="caseApproveStatus != null">#{caseApproveStatus},</if>
+  			<if test="caseAgencyfee != null">#{caseAgencyfee},</if>
+  			<if test="caseProxysal != null">#{caseProxysal},</if>
+  			<if test="caseTransactionRegion != null">#{caseTransactionRegion},</if>
+  			<if test="caseAssign != null">#{caseAssign},</if>
+  			<if test="casePaidsal != null">#{casePaidsal},</if>
+  			<if test="caseUnpaidsal != null">#{caseUnpaidsal},</if>
+  			<if test="caseInvoiced != null">#{caseInvoiced},</if>
+  			<if test="caseNotinvoiced != null">#{caseNotinvoiced},</if>
+  			<if test="casePropernum != null">#{casePropernum},</if>
+  			<if test="caseCourt != null">#{caseCourt},</if>
+  			<if test="caseFilenumber != null">#{caseFilenumber},</if>
+  			<if test="caseCorrelationFile != null">#{caseCorrelationFile},</if>
+  			<if test="caseSubmitter != null">#{caseSubmitter},</if>
+  			<if test="caseSubtime != null">#{caseSubtime},</if>
+  			<if test="caseRecycle != null">#{caseRecycle},</if>
+  			<if test="caseRemarks != null">#{caseRemarks},</if>
+  			<if test="clientId != null">#{clientId},</if>
+  			<if test="caseAttorneyId != null">#{caseAttorneyId},</if>
+  			<if test="caseStatus != null">#{caseStatus},</if>
+  			<if test="caseLawsuitStatus != null">#{caseLawsuitStatus},</if>
+  			<if test="caseChargeWay != null">#{caseChargeWay},</if>
+  			<if test="systemApprovalId != null">#{systemApprovalId},</if>
+  			<if test="caseCaseTypeId != null">#{caseCaseTypeId},</if>
+  			<if test="caseSealApplyforID != null">#{caseSealApplyforID},</if>
+  			<if test="case_settle_date != null">#{case_settle_date},</if>
+	  			<if test="case_settle_way != null">#{case_settle_way},</if>
+  		</trim>
+  </insert>
+  
+  
+  
+  
+  <!-- 添加 咨询与代书  服务 记录表
+  		useGeneratedKeys：必须设置为true，否则无法获取到主键id。 
+			keyProperty：设置为POJO对象的主键id属性名称。 
+			keyColumn：设置为数据库记录的主键id字段名称。
+   -->
+  <insert id="CaseServiceLogAdd" parameterType="com.jt.lawfirm.bean.anjian.CaseServiceLog">
+		insert into case_service_log 
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+  			<if test="id != null">id,</if>
+  			<if test="clientid != null">client_id,</if>
+  			<if test="caselawid != null">case_law_id,</if>
+  			<if test="logservicetime != null">log_service_time,</if>
+  			<if test="logconsultservicetype != null">log_consult_service_type,</if>
+  			<if test="logservicecount != null">log_service_count,</if>
+  			<if test="logserviceprice != null">log_service_price,</if>
+  			<if test="logregistertime != null">log_register_time,</if>
+  		</trim>
+  		<trim prefix="values(" suffix=")" suffixOverrides=",">
+  			<if test="id != null">#{id},</if>
+  			<if test="clientid != null">#{clientid},</if>
+  			<if test="caselawid != null">#{caselawid},</if>
+  			<if test="logservicetime != null">#{logservicetime},</if>
+  			<if test="logconsultservicetype != null">#{logconsultservicetype},</if>
+  			<if test="logservicecount != null">#{logservicecount},</if>
+  			<if test="logserviceprice != null">#{logserviceprice},</if>
+  			<if test="logregistertime != null">#{logregistertime},</if>
+  		</trim>
+  </insert>
+  
+  
+  
+  <!-- adadCase5_1添加文书 -->
+  
+  	<insert id="addCaseSealApplyfor" parameterType="com.jt.lawfirm.bean.casea.CaseSealApplyfor">
+  		insert into case_seal_applyfor
+  			<trim prefix="(" suffix=")" suffixOverrides=",">
+  				<if test="id != null and id != ''">id,</if>
+	  			<if test="sanum != null and sanum != ''">sanum,</if>
+	  			<if test="case_law_id != null and case_law_id != ''">case_law_id,</if>
+	  			<if test="applyforRecipient != null and applyforRecipient != ''">applyfor_recipient,</if>
+	  			<if test="applyforReceive != null and applyforReceive != ''">applyfor_receive,</if>
+	  			<if test="applyforUsingTheItem != null and applyforUsingTheItem != ''">applyfor_using_the_item,</if>
+	  			<if test="applyforApprovalStatus != null and applyforApprovalStatus != ''">applyfor_approval_status,</if>
+  			</trim>
+  			<trim prefix="values(" suffix=")" suffixOverrides=",">
+	  			<if test="id != null and id != ''">#{id},</if>
+	  			<if test="sanum != null and sanum != ''">#{sanum},</if>
+	  			<if test="case_law_id != null and case_law_id != ''">#{case_law_id},</if>
+	  			<if test="applyforRecipient != null and applyforRecipient != ''">#{applyforRecipient},</if>
+	  			<if test="applyforReceive != null and applyforReceive != ''">#{applyforReceive},</if>
+	  			<if test="applyforUsingTheItem != null and applyforUsingTheItem != ''">#{applyforUsingTheItem},</if>
+	  			<if test="applyforApprovalStatus != null and applyforApprovalStatus != ''">#{applyforApprovalStatus},</if>
+  			</trim>
+  	</insert>
+	 
+	 <!-- 添加  case_cost_relief-->
+	 <insert id="addCaseCostRelief" parameterType="com.jt.lawfirm.bean.anjian.CaseCostRelief">
+  		insert into case_cost_relief
+  			<trim prefix="(" suffix=")" suffixOverrides=",">
+  				<if test="id != null and id != ''">id,</if>
+	  			<if test="caselawid != null and caselawid != ''">case_law_id,</if>
+	  			<if test="reliefproposer != null and reliefproposer != ''">relief_proposer,</if>
+	  			<if test="reliefcreditamount != null and reliefcreditamount != ''">relief_credit_amount,</if>
+	  			<if test="reliefapplicationdate != null and reliefapplicationdate != ''">relief_application_date,</if>
+	  			<if test="relieffor != null and relieffor != ''">relief_for,</if>
+	  			<if test="reliefapplication_forexemption != null and reliefapplication_forexemption != ''">relief_application_for_exemption,</if>
+	  			<if test="reliefapprovalstatus != null and reliefapprovalstatus != ''">relief_approval_status,</if>
+  			</trim>
+  			<trim prefix="values(" suffix=")" suffixOverrides=",">
+	  			<if test="id != null and id != ''">#{id},</if>
+	  			<if test="caselawid != null and caselawid != ''">#{caselawid},</if>
+	  			<if test="reliefproposer != null and reliefproposer != ''">#{reliefproposer},</if>
+	  			<if test="reliefcreditamount != null and reliefcreditamount != ''">#{reliefcreditamount},</if>
+	  			<if test="reliefapplicationdate != null and reliefapplicationdate != ''">#{reliefapplicationdate},</if>
+	  			<if test="relieffor != null and relieffor != ''">#{relieffor},</if>
+	  			<if test="reliefapplication_forexemption != null and reliefapplication_forexemption != ''">#{reliefapplication_forexemption},</if>
+	  			<if test="reliefapprovalstatus != null and reliefapprovalstatus != ''">#{reliefapprovalstatus},</if>
+  			</trim>
+  	</insert>
+	 
+	 
+	 
+	 <!-- 我的案件
+	 
+	 
+	  -->
+	 
+	 <select id="myCasefindCase" parameterType="map" resultType="map">
+			select * from case_law cl 
+			    inner join case_case_type cct on cct.id = cl.case_case_type_id
+				inner join hr_emp he on he.id=cl.system_approval_id
+				inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+				<if test="casePropernum != null and casePropernum != ''">and case_propernum = #{casePropernum}</if>
+				<if test="caseApproveStatus != null and caseApproveStatus != ''">and case_approve_status like '%${caseApproveStatus}%'</if>
+				
+				<if test="caseSettleStatus != null and caseSettleStatus != ''">and case_settle_status like '%${caseSettleStatus}%'</if>
+				<if test="caseCaseTypeId != null and caseCaseTypeId != ''">and case_case_type_id like '%${caseCaseTypeId}%'</if>
+		
+				<if test="caseAssign != null and caseAssign != ''">and case_assign = #{caseAssign}</if>
+				
+				<if test="btn2 != null and btn2 != ''">and case_settle_status like '%${btn2}%'</if>
+				<if test="btn3 != null and btn3 != ''">and case_settle_status like '%${btn3}%'</if>
+				<if test="btn4 != null and btn4 != ''">and case_assign = #{btn4}</if>
+				<if test="btn5 != null and btn5 != ''">and case_assign = #{btn5}</if>
+				<if test="btn6 != null and btn6 != ''">and case_settle_status like '%${btn6}%'</if>
+		</select>	
+	 
+	 <!-- 修改 -->
+	 
+	 
+	 <update id="myCaseUpdate" parameterType="map">
+		<trim  suffixOverrides=",">
+	  		update case_law set
+	  			<if test="caseParties != null">case_parties=#{caseParties},</if>
+	  			<if test="caseoppositeparties != null">case_opposite_parties=#{caseoppositeparties},</if>
+	  			<if test="caseThirdParty != null">case_third_party=#{caseThirdParty},</if>
+	  			<if test="caseSuspect != null">case_suspect=#{caseSuspect},</if>
+	  			<if test="caseClash != null">case_clash=#{caseClash},</if>
+	  			<if test="caseCause != null">case_cause=#{caseCause},</if>
+	  			<if test="caseAccept != null">case_accept=#{caseAccept},</if>
+	  			<if test="casefxMake != null">case_fxMake=#{casefxMake},</if>
+	  			<if test="caseLawsuitobj != null">case_lawsuitobj=#{caseLawsuitobj},</if>
+	  			<if test="casePayCols != null">case_paycols=#{casePayCols},</if>
+	  			<if test="caseSubsidy != null">case_subsidy=#{caseSubsidy},</if>
+	  			<if test="caseSubsidysal != null">case_subsidysal=#{caseSubsidysal},</if>
+	  			<if test="caseSettleStatus != null">case_settle_status=#{caseSettleStatus},</if>
+	  			<if test="casePlan != null">case_plan=#{casePlan},</if>
+	  			<if test="caseApproveStatus != null">case_approve_status=#{caseApproveStatus},</if>
+	  			<if test="caseAgencyfee != null">case_agencyfee=#{caseAgencyfee},</if>
+	  			<if test="caseProxysal != null">case_proxysal=#{caseProxysal},</if>
+	  			<if test="caseTransactionRegion != null">case_transaction_region=#{caseTransactionRegion},</if>
+	  			<if test="caseAssign != null">case_assign=#{caseAssign},</if>
+	  			<if test="casePaidsal != null">case_paidsal=#{casePaidsal},</if>
+	  			<if test="caseUnpaidsal != null">case_unpaidsal=#{caseUnpaidsal},</if>
+	  			<if test="caseInvoiced != null">case_invoiced=#{caseInvoiced},</if>
+	  			<if test="caseNotinvoiced != null">case_notinvoiced=#{caseNotinvoiced},</if>
+	  			<if test="casePropernum != null">case_propernum=#{casePropernum},</if>
+	  			<if test="caseCourt != null">case_court=#{caseCourt},</if>
+	  			<if test="caseFilenumber != null">case_filenumber=#{caseFilenumber},</if>
+	  			<if test="caseCorrelationFile != null">case_correlation_file=#{caseCorrelationFile},</if>
+	  			<if test="caseSubmitter != null">case_submitter=#{caseSubmitter},</if>
+	  			<if test="caseSubtime != null">case_subtime=#{caseSubtime},</if>
+	  			<if test="caseRecycle != null">case_recycle=#{caseRecycle},</if>
+	  			<if test="caseRemarks != null">case_remarks=#{caseRemarks},</if>
+	  			<if test="clientId != null">client_id=#{clientId},</if>
+	  			<if test="caseAttorneyId != null">case_attorney_id=#{caseAttorneyId},</if>
+	  			<if test="caseStatus != null">case_status=#{caseStatus},</if>
+	  			<if test="caseLawsuitStatus != null">case_lawsuit_status=#{caseLawsuitStatus},</if>
+	  			<if test="caseChargeWay != null">case_charge_way=#{caseChargeWay},</if>
+	  			<if test="systemApprovalId != null">system_approval_id=#{systemApprovalId},</if>
+	  			<if test="caseCaseTypeId != null">case_case_type_id=#{caseCaseTypeId},</if>
+	  			<if test="caseSealApplyforID != null">case_seal_applyfor_id=#{caseSealApplyforID},</if>
+	  			<if test="case_settle_date != null">case_settle_date=#{case_settle_date},</if>
+	  			<if test="case_settle_way != null">case_settle_way=#{case_settle_way},</if>
+  		</trim>
+  		<trim prefix="where">
+  			id=#{id}
+  		</trim>
+  	</update>
+	 
+	 
+	 
+	 
+	 <!-- 咨询与代书 -->
+	<select id="ConsultingGhostwritingShow" parameterType="map" resultType="map">
+		select * from case_service_log cs 
+					inner join case_law cl on cl.id = cs.case_law_id	
+					inner join hr_emp he on he.id=cl.system_approval_id
+					inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+					<if test="casePropernum != null and casePropernum != ''">and case_propernum like '%${casePropernum}%'</if>
+	</select>
+	
+	
+	
+	
+	
+	<!-- 用印 -->
+	<select id="ajaxCaseSealApplyfor" parameterType="map" resultType="map">
+		select * from case_seal_applyfor cs
+			inner join case_law cl on cl.id = cs.case_law_id
+			inner join hr_emp he on he.id=cl.system_approval_id
+			inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+			<if test="casePropernum != null and casePropernum != ''">and case_propernum like '%${casePropernum}%'</if>
+			<if test="applyfor_using_the_item != null and applyfor_using_the_item != ''">and applyfor_using_the_item like '%${applyfor_using_the_item}%'</if>
+			<if test="applyfor_approval_status != null and applyfor_approval_status != ''">and applyfor_approval_status like '%${applyfor_approval_status}%'</if>
+	</select>
+	
+</mapper>

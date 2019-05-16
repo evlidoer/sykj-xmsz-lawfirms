@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html>
+	<!-- <base /> -->
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="format-detection" content="telephone=no">
+		<title>律师事务所平台</title>
+		<script type="text/javascript" src="static/js/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link href="static/style/login/animator.min.css" type="text/css" rel="stylesheet">
+		<link href="static/style/login/supersized.min.css" rel="stylesheet">
+		<script src="static/layui/layui.all.js"></script>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+			}
+			
+			body {
+				animation: opacity 2s;
+				-moz-animation: opacity 2s;
+				-webkit-animation: opacity 2s;
+				-o-animation: opacity 2s;
+			}
+			
+			* {
+				font-family: Microsoft Yahei;
+				font-size: 14px;
+				color: #666;
+				margin: 0;
+				padding: 0;
+			}
+			
+			ul,
+			li,
+			dl,
+			dt {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			img {
+				border: none;
+			}
+			
+			a {
+				text-decoration: none;
+				color: #555555;
+			}
+			
+			a:hover {}
+			
+			input {
+				outline: none;
+			}
+			
+			.nomargin {
+				margin: 0 !important;
+			}
+			
+			.top_nav {
+				width: 80%;
+				min-width: 990px;
+				max-width: 1320px;
+				margin: 0 auto;
+			}
+			
+			#nav {
+				float: right;
+			}
+			
+			#nav ul li {
+				float: left;
+				position: relative;
+			}
+			
+			#nav ul li a {
+				display: inline-block;
+				margin: 0 15px;
+			}
+			
+			#nav ul li a:hover {
+				color: #5B93CD;
+			}
+			
+			#nav ul li.current a {
+				color: #5B93CD;
+				font-weight: bold;
+				border-bottom: 2px #5B93CD solid;
+			}
+			
+			#nav ul li.login a,
+			.nav ul li.share a.sharemain {
+				color: #fff;
+				display: inline-block;
+				padding: 0 10px;
+				height: 30px !important;
+				margin-top: 35px !important;
+				line-height: 30px !important;
+			}
+			
+			#nav ul li.login a {
+				background: #5B93CD;
+			}
+			
+			#nav ul li.login a:hover {
+				background: #427DB2;
+			}
+			
+			ul li a {
+				color: #fff;
+				height: 60px;
+				line-height: 60px;
+			}
+			
+			.overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				min-height: 600px;
+				max-height: 2000px;
+				background: #272532;
+				opacity: .4;
+				-ms-filter: ”progid:DXImageTransform.Microsoft.Alpha(Opacity=40)”;
+				filter: alpha(opacity=40);
+				z-index: -1;
+				-webkit-transition: all 0.75s ease-out;
+				-moz-transition: all 0.75s ease-out;
+				-o-transition: all 0.75s ease-out;
+				transition: all 0.75s ease-out;
+			}
+			
+			.box {
+				text-align: left;
+				display: table;
+				width: 100%;
+				height: 100%;
+				min-height: 600px;
+				max-height: 2000px;
+				margin: 0 auto;
+				position: relative;
+			}
+			
+			.box>div {
+				display: table-row;
+			}
+			
+			.header {
+				height: 60px;
+			}
+			
+			.main {
+				background: none;
+			}
+			
+			.main .content {
+				width: 100%;
+				display: table-cell;
+				margin: auto;
+				vertical-align: middle;
+			}
+			
+			.main .content .center {
+				width: 600px;
+				min-height: 320px;
+				max-height: 660px;
+				margin: auto;
+				padding: 60px;
+				background: url(images/rgba_bg.png);
+				behavior: expression(this.src=this.src ? this.src: this.currentStyle.backgroundImage.split('"')[1], this.style.background="none", this.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(src=" + this.src + ",sizingMethod='crop')");
+			}
+			
+			.main .content .center .login_box {
+				width: 60%;
+				margin: auto;
+				padding: 0;
+			}
+			
+			.welcome {
+				line-height: 90px;
+				text-align: center;
+			}
+			
+			.welcome img {
+				height: 44px;
+			}
+			
+			.form {
+				margin-bottom: 20px;
+			}
+			
+			.form div {
+				border-bottom: 1px #ccc solid;
+				height: 42px;
+				line-height: 42px;
+				color: #fff;
+			}
+			
+			.form div input {
+				border: none;
+				color: #fff !important;
+				background: transparent !important;
+				width: 260px;
+				outline: none;
+			}
+			
+			div.desctext {
+				width: 100%;
+				text-align: center;
+				color: #fff;
+				z-index: 3;
+			}
+			
+			.info {
+				display: none;
+			}
+			
+			div.word p {
+				line-height: 32px;
+				font-size: 16px;
+			}
+			
+			.other {
+				color: #666;
+				margin-bottom: 10px;
+			}
+			
+			.forget a {
+				color: #F6921E;
+			}
+			
+			.forget a:hover {
+				color: #C6701A;
+			}
+			
+			.btn {
+				margin-bottom: 10px;
+			}
+			
+			.login_tips {
+				color: #f00;
+				margin-bottom: 10px;
+			}
+			
+			.btn input {
+				width: 125px;
+				border-radius: 5px;
+				text-align: center;
+				height: 36px;
+				cursor: pointer;
+			}
+			
+			.btn .loginbtn {
+				background: #5B93CD;
+				color: #fff;
+				border: none;
+				float: left;
+			}
+			
+			.loginbtn {
+				width: 100% !important;
+			}
+			
+			.btn .loginbtn:hover {
+				background: #0099ff;
+				border-color: #0099ff;
+			}
+			
+			.btn .regbtn {
+				background: #F6921E;
+				color: #fff;
+				border: none;
+				float: right;
+			}
+			
+			.btn .regbtn:hover {
+				background: #C6701A;
+			}
+			
+			.form div input.phone_btn {
+				width: 40px;
+				margin-left: 4px;
+				background: #5B93CD;
+				color: #fff;
+				border: none;
+				line-height: 20px;
+				height: 24px;
+				cursor: pointer;
+			}
+			
+			.form div input.phone_btn:hover {
+				background: #0099ff;
+			}
+			
+			.footer {
+				height: 64px;
+				position: absolute;
+				bottom: 0px;
+				width: 100%;
+				background: url(images/rgba_bg.png);
+				behavior: expression(this.src=this.src ? this.src: this.currentStyle.backgroundImage.split('"')[1], this.style.background="none", this.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(src=" + this.src + ",sizingMethod='crop')");
+			}
+			
+			.bottom_erweima img {
+				width: 80px;
+			}
+			
+			.bottom_left {
+				float: left;
+				margin-right: 20px;
+			}
+			
+			.bottom_right {
+				float: right;
+				text-align: right;
+			}
+			
+			.bottom_left,
+			.bottom_right {
+				width: 50%;
+				color: #fff;
+				margin: 15px 0 0 !important;
+			}
+			
+			.copyright {
+				text-align: right;
+				font-size: 12px;
+				padding-right: 20px;
+				border-right: 1px #fff solid;
+				color: #fff !important;
+			}
+			
+			.contacts_tel {
+				font-size: 18px;
+				background: url(images/tellphone.png) no-repeat 20px 4px;
+				line-height: 38px;
+				text-align: left;
+				padding-left: 60px;
+				margin: 0;
+				color: #fff;
+			}
+			
+			.main_txt {
+				width: 100%;
+				text-align: center;
+				z-index: 3;
+			}
+			
+			.main_txt span a {
+				position: relative;
+				color: #fff;
+				-moz-transition: all 0.5s ease-in;
+				-webkit-transition: all 0.5s ease-in;
+				-o-transition: all 0.5s ease-in;
+				transition: all 0.5s ease-in;
+				display: inline-block;
+				border: 1px #ccc solid;
+				border-radius: 8px;
+				padding-left: 40px;
+				padding-right: 20px;
+				height: 35px;
+				line-height: 35px;
+				margin: 25px 0px 15px;
+			}
+			
+			.main_txt span a:hover {
+				-moz-transition: all 0.5s ease-in;
+				-webkit-transition: all 0.5s ease-in;
+				-o-transition: all 0.5s ease-in;
+				transition: all 0.5s ease-in;
+				border: 1px #F6921E solid;
+			}
+			
+			.erweima {
+				display: none;
+				width: 200px;
+				height: 220px;
+				right: 70px !important;
+				text-align: center;
+				background-color: #333;
+				padding: 20px;
+				position: absolute;
+				z-index: 999;
+				border-radius: 5px;
+				box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+				color: #fff;
+				font-size: 14px;
+				line-height: 1.6;
+				zoom: 1;
+				filter: alpha(opacity=90);
+				-moz-opacity: 0.9;
+				opacity: 0.9;
+				top: 5px;
+			}
+			
+			.erweima div.qrcode {
+				margin-bottom: 10px;
+				position: static;
+			}
+			
+			.erweima span {
+				font-size: 12px;
+				color: #ccc;
+			}
+			
+			input[type="button"],
+			input[type="submit"],
+			input[type="reset"] {
+				-webkit-appearance: none;
+			}
+			
+			input:-webkit-autofill,
+			input:-webkit-autofill:hover,
+			input:-webkit-autofill:focus input:-webkit-autofill,
+			textarea:-webkit-autofill,
+			textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+			select:-webkit-autofill,
+			select:-webkit-autofill:hover,
+			select:-webkit-autofill:focus {
+				border: none;
+				-webkit-text-fill-color: #000;
+				background: #fff !important;
+				-webkit-box-shadow: 0 0 0px 1000px #fff inset;
+				transition: background-color 5000s ease-in-out 0s;
+			}
+			
+			@media screen and (max-width: 1366px) {
+				.main .content .center {
+					margin-bottom: 150px;
+				}
+			}
+		</style>
+		<!--[if lt IE 8]>
+    <style type="text/css">
+        .header,
+        .footer { width: 100%; z-index: 3; position: absolute; }
+        .footer { bottom: 0; }        
+        .box { top: 0; display: inline-block; }
+        .main { display: inline-block; top: 50%; position: relative; }
+        .main .content { display: inline-block; top: -50%; position: relative; }
+    </style>
+    <![endif]-->
+
+	</head>
+
+	<body>
+		<div class="box">
+			<div class="main">
+				<div class="content">
+					<form id="loginForm" method="post">
+						<div class="center" id="login-right" style="right: 0px; position: relative;">
+							<div class="welcome">
+								<a href="javascript:;">
+									<a href="gotoindex">
+										<h1 style="color: white;">点击直接进</h1></a>
+									<h1 style="color: azure;font-size: 30px;">律所管理系统</h1>
+								</a>
+							</div>
+							<div class="login_box">
+								<div class="info">
+									<div class="m-wrap">
+										<span class="w-avatar">
+                                        <img src="static/style/login/lawer_photo.png" alt="用户头像" class="img" id="userPhoto"></span>
+									</div>
+								</div>
+								<div class="form">
+									<div>用户名：<input name="name" id="userID" autocomplete="off" isnull="false" type="text" value="请输入用户名" regexp="^([\u4e00-\u9fa5]{2,8})$|^(?!\d+$)^(?!@#|\.)([\w_@#.]{2,49}[a-z0-9])$" style="color: rgb(153, 153, 153);"></div>
+									<div>密　码：<input name="pwd" id="password" onpaste="return false;" autocomplete="off" isnull="false" type="password" value="" regexp="^[a-zA-Z0-9][\w\.!@#$%^&amp;*]{2,17}$"></div>
+								</div>
+								<div class="other">
+									<!-- <span style="float: left; color: #fff;">
+                                    <input id="rememberuser" name="rememberuser" type="checkbox" value="">
+                                    	记住我</span> -->
+									<!--<span class="forget" style="float: right"><a href="findpwd.aspx">忘记密码</a></span> -->
+									<div style="clear: both"></div>
+								</div>
+								<div id="login_tips" class="login_tips">&nbsp;</div>
+								<div class="btn">
+									<input id="login" type="button" class="loginbtn" value="登 录">
+
+									<div style="clear: both"></div>
+								</div>
+							</div>
+						</div>
+						<!-- <input type="hidden" name="RegisterSource" id="RegisterSource" value=""> -->
+					</form>
+				</div>
+			</div>
+
+			<div class="footer">
+				<div class="bottom_left">
+					<div class="copyright">
+						Copyright @ 2019 律师E通. All Rights Reserved.<br> 沪ICP备100780号
+					</div>
+				</div>
+				<div class="bottom_right">
+					<div class="contacts_tel">400 821 3228</div>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+		</div>
+		<div class="overlay"></div>
+		<script src="static/style/login/supersized.3.2.7.min.js"></script>
+		<script type="text/javascript">
+			jQuery(function($) {
+				$.supersized({
+					// Functionality
+					slide_interval: 4000, // Length between transitions
+					transition: 1, // 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+					transition_speed: 1000, // Speed of transition
+					performance: 1, // 0-Normal, 1-Hybrid speed/quality, 2-Optimizes image quality, 3-Optimizes transition speed // (Only works for Firefox/IE, not Webkit)
+
+					// Size & Position
+					min_width: 0, // Min width allowed (in pixels)
+					min_height: 0, // Min height allowed (in pixels)
+					vertical_center: 1, // Vertically center background
+					horizontal_center: 1, // Horizontally center background
+					fit_always: 0, // Image will never exceed browser width or height (Ignores min. dimensions)
+					fit_portrait: 0, // Portrait images will not exceed browser height
+					fit_landscape: 0, // Landscape images will not exceed browser width
+					// Components
+					slide_links: 'blank', // Individual links for each slide (Options: false, 'num', 'name', 'blank')
+					slides: [ // Slideshow Images
+						{
+							image: 'static/style/login/pic_0.jpg'
+						}, {
+							image: 'static/style/login/pic_1.jpg'
+						}, {
+							image: 'static/style/login/pic_2.jpg'
+						}, {
+							image: 'static/style/login/pic_3.jpg'
+						}
+					]
+				});
+			});
+
+			var datestmp = parseInt(new Date().valueOf() / 1000);
+			$(document).ready(function() {
+				if(getCookie("userID") != null && getCookie("userID") != "") {
+					$("#userID").css("color", "#333");
+					$("#userID").val(getCookie("userID"));
+					$("#rememberuser").attr("checked", "checked");
+					$("#rememberuser").val(1);
+				}
+				if(getCookie("userPhoto") != null && getCookie("userPhoto") != "" && getCookie("userID") != null && getCookie("userID") != "") {
+					$("#userPhoto").attr("src", getCookie("userPhoto") + "?" + datestmp);
+				}
+				$("#userID").focusin(function() {
+					if($(this).val() == "请输入用户名") {
+						$(this).val("");
+						$(this).css("color", "#333");
+					}
+				});
+				$("#userID").focusout(function() {
+					if($(this).val() == "") {
+						$(this).val("请输入用户名");
+						$(this).css("color", "#999");
+					}
+				});
+			});
+
+			$(function() {
+				//文本框失去焦点后
+				$("form :input[isnull='false']").blur(function() {
+					var $currobj = $(this);
+					var currobjid = $currobj.attr("id");
+					var $tips = $("#login_tips");
+					var $currobjval = $(this).val().replace(/(^\s*)|(\s*$)/g, "").replace("请输入用户名", "");
+					if(currobjid == "userID" && $currobjval == "") {
+						$("#userPhoto").attr("src", "images/lawer_photo.png");
+						$tips.html("用户名不能为空");
+					} else {
+						if(currobjid == "userID") {
+							$tips.html($tips.html().replace("用户名不能为空", "&nbsp;"));
+						}
+						switch(currobjid) {
+							case 'userID':
+								//验证用户名                       
+								if(Exec($currobjval, $currobj.attr("regexp"))) {
+									$tips.html($tips.html().replace("对不起，您输入的用户名不符合规则", "&nbsp;"));
+									if($currobjval == getCookie("userID")) {
+										$("#userPhoto").attr("src", getCookie("userPhoto") + "?" + datestmp);
+									}
+								} else {
+									$tips.html("对不起，您输入的用户名不符合规则");
+								}
+								break;
+
+							default:
+								if($("#userID").val().replace(/(^\s*)|(\s*$)/g, "").replace("请输入用户名", "") != "" && $currobj.attr("type") != "submit") {
+									$tips.html("&nbsp;");
+								}
+								break;
+						}
+					}
+				}) //.keyup(function () {
+				//if ($(this).val().replace(/(^\s*)|(\s*$)/g, "").length > 0) {
+				//    $(this).triggerHandler("blur");
+				//}
+				//});
+				$("form :input[type=checkbox]").click(function() {
+					var $currobj = $(this);
+					if($currobj.is(":checked")) {
+						$currobj.val(1);
+					} else {
+						$currobj.val("");
+					}
+				});
+				//提交，最终验证。
+				$('#login').click(function() {
+					$("form :input[isnull='false']").trigger("blur");
+					var numError = $('#login_tips').html().replace(/(^\s*)|(\s*$)/g, "").replace("&nbsp;", "").length;
+					if(numError) {
+						flash('#login-right', 8, 10, 100);
+						return false;
+					} else {
+						return true;
+					}
+				});
+
+					
+				
+					if(window.self!=window.top){
+						top.location.href='goto/loginto'
+					}
+				
+				
+			})
+		</script>
+		<script>
+			var createCookie = function(name, value, days) {
+				var expires;
+				if(days) {
+					var date = new Date();
+					date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+					expires = "; expires=" + date.toGMTString();
+				} else {
+					expires = "";
+				}
+				document.cookie = name + "=" + value + expires + "; path=/";
+			}
+
+			function getCookie(c_name) {
+				if(document.cookie.length > 0) {
+					c_start = document.cookie.indexOf(c_name + "=");
+					if(c_start != -1) {
+						c_start = c_start + c_name.length + 1;
+						c_end = document.cookie.indexOf(";", c_start);
+						if(c_end == -1) {
+							c_end = document.cookie.length;
+						}
+						return decodeURIComponent(document.cookie.substring(c_start, c_end)); //unescape
+					}
+				}
+				return "";
+			}
+
+			function clearCookie(name) {
+				createCookie(name, "", -1);
+			}
+
+			function Exec(op, reg) {
+				return new RegExp(reg, "g").test(op);
+			}
+
+			/*
+			 * 
+			 * obj控件
+			 * time震动时间长——短循环长度
+			 * wh震动幅度px
+			 * fx动画速度s
+			 */
+			function flash(obj, time, wh, fx) {
+				$(function() {
+					var $panel = $(obj);
+					var offset = $panel.offset() - $panel.width();
+					var x = offset.right;
+					var y = offset.top;
+					for(var i = 1; i <= time; i++) {
+						if(i % 2 == 0) {
+							$panel.animate({
+								right: '+' + wh + 'px'
+							}, fx);
+						} else {
+							$panel.animate({
+								right: '-' + wh + 'px'
+							}, fx);
+						}
+					}
+					$panel.animate({
+						right: 0
+					}, fx);
+					$panel.offset({
+						top: y,
+						right: x
+					});
+				})
+			}
+		</script>
+
+		<ul id="supersized" class="quality" style="visibility: visible;">
+			<li class="slide-0" style="visibility: visible; opacity: 1;">
+				<a target="_blank"><img src="static/style/login/pic_0.jpg" style="width: 1349px; left: 0px; top: -300px; height: 903.83px;"></a>
+			</li>
+			<li class="slide-1 prevslide" style="visibility: visible; opacity: 1;">
+				<a target="_blank"><img src="static/style/login/pic_1.jpg" style="width: 1349px; left: 0px; top: -300px; height: 903.83px;"></a>
+			</li>
+			<li class="slide-2 activeslide" style="visibility: visible; opacity: 1;">
+				<a target="_blank"><img src="static/style/login/pic_2.jpg" style="width: 1349px; height: 903.83px; left: 0px; top: -300px;"></a>
+			</li>
+			<li class="slide-3" style="visibility: visible; opacity: 1;">
+				<a target="_blank"><img src="static/style/login/pic_3.jpg" style="width: 1349px; height: 903.83px; left: 0px; top: -300px;"></a>
+			</li>
+		</ul>
+	</body>
+	<script src="static/js/md5.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		function login() {
+			if($("input[name=name]").val().trim() == "") {
+				return;
+			}
+			if($("input[name=pwd]").val().trim() == "") {
+				return;
+			}
+			var pwd  = $("input[name=pwd]").val()+$("input[name=name]").val();
+			console.log(md5(pwd))
+			$("input[name=pwd]").val(md5(pwd));
+			$.ajax({
+				type: "post",
+				url: "loginRequest",
+				data: $("form").serialize(),
+				dataType: "json",
+				success: function(data) {
+					console.log(data)
+					if(data["200"] != undefined) {
+						window.location.href = "goto/" + data["200"];
+						return;
+					} else if(data["404"] != undefined) {
+						layer.msg("用户名或密码错误!", {
+							icon: 5,
+							time: 1000
+						});
+						return;
+					} else if(data["303"] != undefined) {
+						window.location.href = "goto/" + data["303"];
+					}
+				}
+			});
+		}
+		$(function() {
+			
+			
+			$(document).keyup(function(event) {
+				if(event.keyCode == 13) {
+					login();
+				}
+			});
+			$("#login").on("click", function() {
+				login();
+			})
+		});
+	</script>
+
+</html>

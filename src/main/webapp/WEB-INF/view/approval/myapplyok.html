@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+    <meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+    <meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <script src="static/js/jquery-3.2.0.js"></script>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/layer/layer.js"></script>
+    <link rel="stylesheet" href="static/css/laydate.css" id="layuicss-layer">
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script><link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    <script src="static/js/layui.js" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css">
+    	th{
+    		text-align: center;
+    	}
+    </style>
+    <script type="text/javascript">
+    	
+    		function showmodel(id){
+			$.cookie("gotocognizance_id",id);
+				layer.open({
+					title: '人员选择',
+					type: 2,
+					area: ['80%', '100%'],
+					fixed: false, //不固定
+					maxmin: true,
+					content: 'gotolawdetail',
+		})
+		
+	}
+    	
+    	
+    		function Sel(id){
+			$.cookie("gotocognizance_id",id)
+			window.location.href="gotoapproveLaw"
+		
+		}
+    	
+    	
+    	$(function(){
+    		$("#jiansuo11").on("click",function(){
+        		$("#table").bootstrapTable("refresh");
+        	})
+        	
+        	
+        	$("#SearchType").change(function(){
+        		var type = $("#SearchType").val()
+        		if(type==0){
+        			$("#xuanze").attr("name","case_submitter")
+        		}else if(type==1){
+        			$("#xuanze").attr("name","case_propernum")
+        		}
+        	})
+        	
+    		$("#table").bootstrapTable({
+    		url:"Approval",	
+			dataType:"json",
+			method:"get",
+			pagination:true, //开启分页
+			pageNumber:1,  //默认显示第几页
+			pageSize:5,    //每页几条数据
+			pageList:[1,2,3,4,5,6,7,8,9,10],
+			sidePagination:"server", //client 前台分页，server后台分页 
+			queryParams:function(params){
+					return {
+						offset:params.offset,
+						limit: params.limit,
+						casePropernum: $("input[name='case_propernum']").val(),
+						caseApproveStatus:$("#IsOver").val(),
+						caseSubmitter: $("input[name='case_submitter']").val(),
+						caseTypeId:$("#SubCols").val(),
+						StartcaseSubtime:$("#stime").val(),
+						EndcaseSubtime:$("#etime").val()
+					}
+				},
+			columns:[{
+				title:"checkbox",
+				halign: "center",
+				checkbox:true,
+				field:'checkbox'
+				
+			},{
+				title:"案号",
+				halign: "center",
+				width:"300px",
+				formatter:function(value,row,index){
+					return "<a href='javaScript:showmodel("+ row.id +")'>"+row.case_propernum+"</a>"
+				}
+				
+				},{
+					title:"委托人",
+					halign:"center",
+					field:"case_parties"
+				},{
+					title:"对方当事人",
+					halign:"center",
+					field:"case_opposite_parties"
+				},{
+					title:"诉讼标的",
+					halign:"center",
+					field:"case_lawsuitobj"
+				},{
+					title:"承办律师",
+					halign:"center",
+					field:"emp_name"
+				},{
+					title:"代理费",
+					halign:"center",
+					field:"case_agencyfee"
+				},{
+					title:"收费方式",
+					halign:"center",
+					field:"case_paycols"
+				},{
+					title:"提交人",
+					halign:"center",
+					field:"case_submitter"
+				},{
+					title:"业务子类型",
+					halign: "center",
+					field:"case_type_name"
+				},{
+					title:"审批状态",
+					halign: "center",
+					formatter:function(value,row,index){
+						if(row.case_approve_status=="N"){
+							return "待审批"
+						}else if(row.case_approve_status=="Y"){
+							return "已审批"
+						}else if(row.case_approve_status=="O"){
+							return "审批未通过"
+						}
+					}
+				},{
+					title:"提交时间",
+					halign:"center",
+					field:"case_subtime"
+				},{
+					title:"操作",
+					halign: "center",
+					formatter:function(value,row,index,field){
+						var oSel
+						if(row.case_approve_status=="N"){
+							oSel = "<a href='javaScript:Sel("+row.id+")' target='myiframe'>审批</a>"
+						}else if(row.case_approve_status=="Y"){
+							oSel = "<p>已审批</p>"
+						}else if(row.case_approve_status=="O"){
+							oSel = "<p>审批未通过</p>"
+						}
+						
+						return oSel;
+					}
+				}
+				]
+    		})
+    	})
+    	
+    </script>
+</head>
+ 
+<body id="content" style="overflow: scroll;">
+
+    <section>
+
+
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb" style="background-color: white;">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">审批</a></li>
+    <li><a class="active" draggable="false">流程审批</a></li>
+    
+</ol>
+
+<!-- 选项卡 -->
+<ul class="tab">
+    <li><a href="gotomyapplyok" class="tab_on" draggable="false" target="myiframe">收案审批</a></li>
+    <li><a href="gotobuniok" class="" draggable="false" target="myiframe">业务审批</a></li>
+    <li><a href="gotosealok" class="" draggable="false" target="myiframe">用印审批</a></li>
+    
+</ul>
+
+<form action="" class="container-fluid page_find" id="searchForm" method="post">
+<input type="hidden" value="" id="SubColsV">
+        <div class="input-group">
+        <input type="text" class="form-control" id="xuanze" name="case_submitter" aria-describedby="basic-addon1">
+    </div>
+    <div class="down_box">
+        <select name="SearchType" id="SearchType">
+            <option value="0">提交人</option>
+            <option value="1">案号</option>
+       
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="IsOver" id="IsOver">
+            <option value="">请选择审批状态</option>
+            <option value="N">待审批</option>
+            <option value="Y">审批通过</option>
+            <option value="Z">审批未通过</option>
+        </select>
+    </div>    <div class="down_box">
+        <select name="SubCols" id="SubCols">
+        <option value="">请选择子业务类型</option>
+        	<option value="1001">民事案件</option>
+        	<option value="1002">刑事案件</option>
+        	<option value="1003">行政案件</option>
+        	<option value="1004">非诉讼法律事务</option>
+        	<option value="1005">法律顾问</option>
+        	<option value="1006">法律援助</option>
+        	<option value="1007">执行案件</option>
+        	<option value="1008">中保案件</option>
+        	<option value="1009">仲裁案件</option>
+        	<option value="1010">破产案件</option>
+        	<option value="1011">咨询代写文书</option>
+        </select>
+    </div>
+    <span>&nbsp;&nbsp;&nbsp;提交时间：</span>
+    <div class="input-group">
+        <input type="text" class="form-control Wdate" id="stime" name="stime" aria-describedby="basic-addon1" value="" lay-key="1">
+    </div>
+    <div class="input-group">
+        <input type="text" class="form-control Wdate" id="etime" name="etime" aria-describedby="basic-addon1" value="" lay-key="2">
+    </div>
+    <input type="button" class="btn_solid" value="开始检索" id="jiansuo11"> 
+    <br>
+</form>
+
+<div id="datas">
+
+<!-- 检索工具 -->
+<input type="hidden" id="ColsId" value="1">
+
+<input type="hidden" id="AuditIds" value="403645,403259,400649,400562,400514,400434,400308,397800,400310,396885 ">
+
+	<table  id="table" style="text-align: center;">
+	
+ 
+
+	</table>
+
+
+
+
+<script>
+   
+ 
+
+    function AuditBatch(stat) {
+        var ids = "";
+        var ids2 = "";
+        $.each($('input[name="ID"]:checkbox:checked'), function () {
+            if ($(this).data("stat") == 0) {
+                ids += $(this).val() + ",";
+            } else {
+                ids2 += $(this).val() + ",";
+            }
+        });
+        ids = ids.substring(0, ids.length - 1);
+        var cols = $("#Cols").val();
+        if (ids.length > 0) {
+            layer.msg('确认要批量审批吗？', {
+                time: 0 //不自动关闭
+                , btn: ['确定', '取消']
+                , yes: function (index) {
+                    layer.close(index);
+                    layer.msg("审批中,请稍候...", { time: 60000 }, function () {
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Audit/AuditBatch",
+                        data: { "Ids": ids, "Stat": stat },
+                        success: function (result) {
+                            result = JSON.parse(result);
+                            layer.msg(result.R, { time: 3000 }, function () {
+                                if ("审批完成" == result.R) {
+                                    //关闭后的操作
+                                    window.location.href = "/Audit/List2?Cols=" + cols;
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            if (ids2.length > 0) {
+                layer.msg('当前选择数据已审批，请重新选择', function () {
+                    //关闭后的操作
+                });
+            } else {
+                layer.msg('请选择要审批的数据', function () {
+                    //关闭后的操作
+                });
+            }
+        }
+    }
+
+    function IsZzGd(stat) {
+        var ms = "";
+        if (stat == 0) {
+            ms = "确定要取消纸质归档吗？";
+        } else {
+            ms = "确定要设置纸质归档吗？";
+        }
+        var ids = "";
+        $.each($('input[name="ID"]:checkbox:checked'), function () {
+            ids += $(this).val() + ",";
+        });
+        ids = ids.substring(0, ids.length - 1);
+        var cols = $("#Cols").val();
+        if (ids.length > 0) {
+            layer.msg(ms, {
+                time: 0 //不自动关闭
+                , btn: ['确定', '取消']
+                , yes: function (index) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Audit/IsZzGd",
+                        data: { "Ids": ids, "Stat": stat },
+                        success: function (result) {
+                            result = JSON.parse(result);
+                            layer.msg(result.R, { time: 1000 }, function () {
+                                if ("操作完成" == result.R) {
+                                    //关闭后的操作
+                                    window.location.href = "/Audit/List2?Cols=" + cols;
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            layer.msg('请选择要操作的数据', function () {
+                //关闭后的操作
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        var cols = $("#ColsId").val();
+
+        if (cols == 1) {
+            var idsArry = $("#AuditIds").val().split(",");
+            for (i = 0; i < idsArry.length ; i++) {
+                var id = idsArry[i];
+                $.ajax({
+                    type: "POST",
+                    url: "/Audit/AuditChongTu",
+                    data: { "ID": id },
+                    async: true,
+                    success: function (result) {
+                        $("#ChongTu" + result.id).html(result.ct);
+                    }
+                });
+            }
+        }
+
+        if (cols == 3) {
+            var idsArry = $("#AuditIds").val().split(",");
+            for (i = 0; i < idsArry.length ; i++) {
+                var id = idsArry[i];
+                $.ajax({
+                    type: "POST",
+                    url: "/Audit/AuditOffTitle",
+                    data: { "ID": id },
+                    async: true,
+                    success: function (result) {
+                        if (result.ct.length > 50) {
+                            var ttt = result.ct.substring(0, 50) + "...";
+                            $("#WenShu" + result.id).html(ttt);
+                        }
+                        else {
+                            $("#WenShu" + result.id).html(result.ct);
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+</script>
+
+</div>
+<script>
+    laydate.render({
+        elem: '#stime' //指定元素
+        , calendar: true
+        , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#etime' //指定元素
+         , calendar: true
+         , type: 'date'
+    });
+
+    $(function () {
+      
+    });
+</script>
+
+
+    </section>
+    
+<script type="text/javascript">
+	$(function(){
+		
+	
+		$("#WtrTitle").on("click",function(){
+				$("#myiframewww").css("display","block")
+				$(".modal-body").css("display","none")
+		})
+		$('#AllDiv').on('hidden.bs.modal',function () {
+			$("#myiframewww").css("display","none")
+			$(".modal-body").css("display","block")
+        });
+	})
+
+</script>
+<div class="modal fade bs-example-modal-lg" id="AllDiv" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    	<div class="modal-content">
+    		<div class="modal-header">
+        <div class="modal-title">
+            <label class="text_border">基本资料</label>
+
+        </div>
+	</div>
+	
+	<iframe name="myiframewww" id = "myiframewww" style="display: none;" scrolling="auto" width="100%" height="1000px"></iframe>
+        
+
+		<div class="row_title">
+                        <label class="text_border">用印记录</label>
+                    </div>
+                    <div id="row11">
+                        <table class="table table-hover table-bordered" id="sealtable" style="text-align: center;">
+                         		
+                         </table>
+				
+					</div>
+				</div>
+				
+					<br /><br /><br /><br />
+
+            </div>
+
+        </div>
+     </div>
+    </div>
+   </div>
+</div>
+
+<div class="layui-layer-move"></div>
+<script type="text/javascript">
+	
+		
+</script>
+
+
+</body>
+
+</html>

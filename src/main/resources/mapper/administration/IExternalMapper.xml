@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.jt.lawfirm.mapper.administration.IExternalMapper">
+	
+	<select id="selExternaAll"
+		resultType="com.jt.lawfirm.bean.administration.External" parameterType="java.util.Map">
+		select * from adm_external
+		where status = "Y"
+		<if test="title != null and title != ''">
+			and
+			external_companyname like #{title}
+			or 
+			dept like #{title}
+			or 
+			external_cellphonenumber like #{title}
+			or 
+			external_contacts like #{title}
+		</if>
+	</select>
+	
+	<update id="deleteExternalById" parameterType="int">
+		update adm_external set status = "N" where id = #{id}
+	</update>
+</mapper>

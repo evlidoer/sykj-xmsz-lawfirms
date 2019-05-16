@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>辽宁盛恒律师事务所</title>
+     <meta http-equiv="“Content-Security-Policy”" content="“upgrade-insecure-requests”">  
+    <meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+    <meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_white.css">
+    <script src="static/bootstarp/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="static/bootstarp/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/layer/layer.js"></script><link rel="stylesheet" href="https://shengheng.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script><link rel="stylesheet" href="https://shengheng.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+</head>
+<body id="content">
+    <section>
+        
+
+<script type="text/javascript">
+    var v1 = '0';
+    var v2 = '0';
+    var rm = '0';
+    var op = '0';
+
+	    function MineCases() {
+		layer.open({
+			title: '案件信息',
+			type: 2,
+			area: ['80%', '80%'],
+			fixed: false, //不固定
+			maxmin: true,
+			content: 'goto/addressBook/upd_ExpressageByID_id/lawSel',
+		});
+	}
+
+
+    $(function () {
+    	
+    	$("#save").on("click",function(){
+    		$.ajax({
+    			type:"post",
+    			url:"addcalendar",
+    			async:true,
+    			data:$("#form").serialize(),
+    			success:function(data){
+    					window.parent.location.reload();
+    					parent.layer.close(index);
+                    }
+    			})
+    		});
+    	})
+    	
+    	
+    	
+        $("#form").validate({
+            errorPlacement: function (error, element) {
+                if (element.context.tagName == 'SELECT') {
+                    $(element).css('color', '#3a3a3a');
+                }
+                if (element.attr("name") == "V1" || element.attr("name") == "V2") {
+                    error.appendTo(element.parent().parent().parent().find("label"));
+                } else {
+                    element.parent().find("label").after(error);
+                }
+            }
+        });
+
+
+        if (v1 != "0") {
+            $("#V1").val(v1);
+        }
+        if (rm != "0") {
+            $("#RemindDate").val(rm);
+        }
+        if (op != "0") {
+            $("#OpenStat").val(op);
+        }
+        $("#V1").change();
+
+        // var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+   
+
+
+    //KE.show({
+    //    id: 'Des',
+    //    cssPath: './index.css'
+    //});
+
+    function CaseChoose() {
+        $("#LECase").hide();
+        layer.open({
+            title: '案件选择',
+            type: 2,
+            area: ['85%', '70%'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: '/CaseChoose/List'//T=1 案件收支类别
+        });
+    }
+
+
+    function GetTV2(obj) {
+        var value1 = $(obj).val();
+     							
+        
+        $.ajax({
+            type: "POST",
+            url: "/Message/GetTV2",
+            data: { "Fid": $(obj).val() },
+            success: function (result) {
+                for (var i = 0; i < result.colsList.length; i++) {
+                    if (result.colsList[i]["ID"] == v2) {
+                        $("#V2").append("<option value='" + result.colsList[i]["ID"] + "' selected = 'selected'>" + result.colsList[i]["Title"] + "</option>");
+                    } else {
+                        $("#V2").append("<option value='" + result.colsList[i]["ID"] + "'>" + result.colsList[i]["Title"] + "</option>");
+                    }
+                }
+            }
+        });
+        if (value1 == "3") {
+            $("#UList").show();
+        } else {
+            $("#UList").hide();
+
+        }
+    }
+</script>
+
+<!-- 使ie9及以下兼容媒体查询和html5标签 -->
+<!--[if lt IE 9]>
+    　 <script src="/Content/js/html5shiv.min.js"></script>
+       <script src="/Content/js/respond.js"></script>
+    <![endif]-->
+
+<!-- 兼容ie8 -->
+<!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="/Content/css/ie8down.css">
+	<![endif]-->
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+<!-- 表单类组件外部盒子 -->
+
+<form action="" class="shell todown" enctype="" id="form" method="post">   
+	<input type="hidden" value="0" name="ID" id="ID"> 
+    <input type="hidden" id="NewID" name="NewID" value="0">
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">事件详情</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>日历类型：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select name="calendartype" id="V1" onchange="GetTV2(this)" class="required" title="请选择日历类型">
+                                 <option value="">选择类型</option>
+                                 <option value="个人日历">个人日历</option> 
+                                 <option value="公开日历">公开日历</option> 
+                                 <option value="协同日历">协同日历</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>工作类别：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select name="worktype" id="V2" class="required" title="请选择工作类别">
+                            	<option value="">选择类别</option>
+                            	<option value="客户拜访">客户拜访</option>
+									<option value="商务谈判">商务谈判</option>
+									<option value="法律咨询">法律咨询</option>
+									<option value="案例/资料检索">案例/资料检索</option>
+									<option value="法律文书起草/修改">法律文书起草/修改</option>
+									<option value="调查取证">调查取证</option>
+									<option value="案件研讨">案件研讨</option>
+									<option value="刑案律师会见">刑案律师会见</option>
+									<option value="诉讼/仲裁出庭">诉讼/仲裁出庭</option>
+									<option value="信访/社区/法援律师值班">信访/社区/法援律师值班</option>
+									<option value="律所会议">律所会议</option>
+									<option value="学习交流">学习交流</option>
+									<option value="协会会议/培训">协会会议/培训</option>
+									<option value="司法行政会议/活动">司法行政会议/活动</option>
+									<option value="人大/政协/党派活动">人大/政协/党派活动</option>
+									<option value="出国考察">出国考察</option>
+									<option value="旅游福利<">旅游福利</option>
+									<option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for=""><em>*</em>事件名称：</label>
+                    <input type="text" name="eventname" id="Title" class="form-control required" title="请填写事件名称" maxlength="100">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>开始时间：</label>
+                    <input id="BegTime" maxlength="20" name="starttime" type="text" title="请选择开始时间" readonly="true" class="form-control required" value="" lay-key="1">
+                </div>
+                <div class="col-xs-6" id="DivSort">
+                    <label for=""><em>*</em>结束时间：</label>
+                    <input id="EndTime" maxlength="20" name="endtime" type="text" title="请选择结束时间" readonly="true" class="form-control required" value="" lay-key="2">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for="">提前提醒：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select name="" id="RemindDate">
+                                <option value="0">无</option>
+                                <option value="5">5 分钟</option>
+                                <option value="10">10 分钟</option>
+                                <option value="15">15 分钟</option>
+                                <option value="30">30 分钟</option>
+                                <option value="45">45 分钟</option>
+                                <option value="60">1 小时</option>
+                                <option value="90">1.5 小时</option>
+                                <option value="120">2 小时</option>
+                                <option value="150">2.5 小时</option>
+                                <option value="180">3 小时</option>
+                                <option value="240">4 小时</option>
+                                <option value="300">5 小时</option>
+                                <option value="360">6 小时</option>
+                                <option value="420">7 小时</option>
+                                <option value="480">8 小时</option>
+                                <option value="540">9 小时</option>
+                                <option value="600">10 小时</option>
+                                <option value="660">11 小时</option>
+                                <option value="720">12 小时</option>
+                                <option value="1080">18 小时</option>
+                                <option value="1440">1 天</option>
+                                <option value="2880">2 天</option>
+                                <option value="4320">3 天</option>
+                                <option value="5760">4 天</option>
+                                <option value="10080">1 周</option>
+                                <option value="20160">2 周</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+								<div class="col-xs-6">
+									<label>案件：</label>
+									<input type="text" id="law_id_show" class="form-control dfinput t_hui" readonly="true" onclick="MineCases()" value="" />
+									<input name="law_id" type="hidden">
+								</div>
+							</div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for=""><em>*</em>描述：</label>
+                    <textarea id="Des" name="describe" class="form-control required"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for="">地点：</label>
+                    <input type="text" id="Address" name="place" class="form-control " value="" maxlength="50">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>对委托人公开：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select name="publicstatus" id="OpenStat">
+                                <option value="不公开">不公开</option>
+                                <option value="公开">公开</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                </div>
+            </div>
+
+            <div class="row" id="UList" style="display: none">
+                <div class="col-xs-12">
+                    <label for=""><em>*</em>协同人员：</label>
+                    <br>
+                    <input onclick="setUList();JobEditCheckExist('1')" value="1" type="checkbox" name="uList" id="userList1"><label for="userList1">管理员</label><input onclick="setUList();JobEditCheckExist('10511')" value="10511" type="checkbox" name="uList" id="userList10511"><label for="userList10511">李雪</label><input onclick="setUList();JobEditCheckExist('10512')" value="10512" type="checkbox" name="uList" id="userList10512"><label for="userList10512">郑伟</label><input onclick="setUList();JobEditCheckExist('10513')" value="10513" type="checkbox" name="uList" id="userList10513"><label for="userList10513">李丽梅</label><input onclick="setUList();JobEditCheckExist('10514')" value="10514" type="checkbox" name="uList" id="userList10514"><label for="userList10514">曾令夫</label><input onclick="setUList();JobEditCheckExist('10515')" value="10515" type="checkbox" name="uList" id="userList10515"><label for="userList10515">杨雨龙</label><input onclick="setUList();JobEditCheckExist('10516')" value="10516" type="checkbox" name="uList" id="userList10516"><label for="userList10516">许慧娟</label><input onclick="setUList();JobEditCheckExist('10517')" value="10517" type="checkbox" name="uList" id="userList10517"><label for="userList10517">夏青</label><input onclick="setUList();JobEditCheckExist('10518')" value="10518" type="checkbox" name="uList" id="userList10518"><label for="userList10518">孟庆峰</label><input onclick="setUList();JobEditCheckExist('10519')" value="10519" type="checkbox" name="uList" id="userList10519"><label for="userList10519">吴兰兰</label><input onclick="setUList();JobEditCheckExist('10520')" value="10520" type="checkbox" name="uList" id="userList10520"><label for="userList10520">杨雨</label><input onclick="setUList();JobEditCheckExist('10521')" value="10521" type="checkbox" name="uList" id="userList10521"><label for="userList10521">苏德辉</label><input onclick="setUList();JobEditCheckExist('10522')" value="10522" type="checkbox" name="uList" id="userList10522"><label for="userList10522">鲁长林</label><input onclick="setUList();JobEditCheckExist('10523')" value="10523" type="checkbox" name="uList" id="userList10523"><label for="userList10523">钱馨竹</label><input onclick="setUList();JobEditCheckExist('10524')" value="10524" type="checkbox" name="uList" id="userList10524"><label for="userList10524">高媛媛</label><input onclick="setUList();JobEditCheckExist('10525')" value="10525" type="checkbox" name="uList" id="userList10525"><label for="userList10525">刘泽</label><input onclick="setUList();JobEditCheckExist('10526')" value="10526" type="checkbox" name="uList" id="userList10526"><label for="userList10526">乔延宏</label><input onclick="setUList();JobEditCheckExist('10527')" value="10527" type="checkbox" name="uList" id="userList10527"><label for="userList10527">李毓晨</label><input onclick="setUList();JobEditCheckExist('10528')" value="10528" type="checkbox" name="uList" id="userList10528"><label for="userList10528">刘浩</label><input onclick="setUList();JobEditCheckExist('10529')" value="10529" type="checkbox" name="uList" id="userList10529"><label for="userList10529">李明远</label><input onclick="setUList();JobEditCheckExist('10530')" value="10530" type="checkbox" name="uList" id="userList10530"><label for="userList10530">鲁佳音</label><input onclick="setUList();JobEditCheckExist('10531')" value="10531" type="checkbox" name="uList" id="userList10531"><label for="userList10531">董博</label><input onclick="setUList();JobEditCheckExist('10532')" value="10532" type="checkbox" name="uList" id="userList10532"><label for="userList10532">杜惠清</label><input onclick="setUList();JobEditCheckExist('10533')" value="10533" type="checkbox" name="uList" id="userList10533"><label for="userList10533">田志虎</label><input onclick="setUList();JobEditCheckExist('10534')" value="10534" type="checkbox" name="uList" id="userList10534"><label for="userList10534">李兴</label><input onclick="setUList();JobEditCheckExist('10535')" value="10535" type="checkbox" name="uList" id="userList10535"><label for="userList10535">盛红福</label><input onclick="setUList();JobEditCheckExist('10536')" value="10536" type="checkbox" name="uList" id="userList10536"><label for="userList10536">张旭</label><input onclick="setUList();JobEditCheckExist('10537')" value="10537" type="checkbox" name="uList" id="userList10537"><label for="userList10537">吕哲</label><input onclick="setUList();JobEditCheckExist('10538')" value="10538" type="checkbox" name="uList" id="userList10538"><label for="userList10538">吴磊</label><input onclick="setUList();JobEditCheckExist('10539')" value="10539" type="checkbox" name="uList" id="userList10539"><label for="userList10539">徐锋镖</label>
+                    <input name="UsersList" id="UsersList" type="hidden">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <input type="button" id="save" class="btn_solid" value="确定提交"></input>
+                </div>
+            </div>
+        </div>
+    </div> 
+</form>
+<script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+<script type="text/javascript">
+	
+	$(function(){
+		 laydate.render({
+        elem: '#BegTime', //指定元素
+        calendar: true,
+        type: 'datetime',
+        format: 'yyyy-MM-dd HH:mm'
+    });
+    laydate.render({
+        elem: '#EndTime', //指定元素
+        calendar: true,
+        type: 'datetime',
+        format: 'yyyy-MM-dd HH:mm'
+    });
+	})
+	
+    function setUList() {
+        var uList = ",";
+        $("input[name='uList']:checked").each(function () {
+            uList += $(this).val() + ",";
+            $("#UsersList").val(uList);
+        });
+    }
+
+    function JobEditCheckExist(uid) {
+        if ($("#V1").val() == "3") {
+            if ($('#userList' + uid).is(':checked')) {
+                if ($("#BegTime").val().length > 0 && $("#EndTime").val().length > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Message/JobEditCheckExist",
+                        data: { "ID": $("#ID").val(), "Uid": uid, "BTime": $("#BegTime").val(), "ETime": $("#EndTime").val() },
+                        success: function (data) {
+                            data = JSON.parse(data);
+                            if (data.R.length > 0) {
+                                layer.msg(data.R + ",日历事件在时间上有冲突,请确认", {
+                                    time: 1500
+                                }, function () {
+
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    layer.msg("请选择日历开始时间和结束时间", {
+                        time: 1500
+                    }, function () {
+                        var uList = ",";
+                        $("input[name='uList']:checked").each(function () {
+                            uList += $(this).val() + ",";
+                        }); 
+                        for (var i = 0; i <= uList.split(',').length ; i++) { 
+                            if (uList.split(',')[i].length > 0) {
+                                $("#userList" + uList.split(',')[i]).removeAttr("class");
+                                $("#userList" + uList.split(',')[i]).removeAttr("checked");
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+   
+</script>
+
+
+    </section>
+    
+
+
+
+</body>
+</html>

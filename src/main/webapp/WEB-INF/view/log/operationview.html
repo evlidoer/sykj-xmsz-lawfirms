@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<base href="/lawfirms/" />
+
+		<head>
+			<meta charset="UTF-8">
+			<title>湖北巨天律师事务所</title>
+			<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+			<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+			<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+			<script src="static/js/jquery.min.js"></script>
+			<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+			<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+			<script type="text/javascript">
+			function sel(id){
+		     	$.cookie("gotocognizance_id",id, {
+					expires: 30,
+					path: '/lawfirms'
+				});
+		     	window.location.href="gocognizance"
+		     }
+
+				function changeDateFormat(cellval) {
+				var dateVal = cellval + "";
+				if(cellval != null) {
+					var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+					var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+					var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+					var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+					var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+					var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+					return date.getFullYear() + "-" + month + "-" + currentDate;
+				}
+			}
+				$(function() {
+					
+					$.ajax({
+						type: "get",
+						url: "goto/log/operationview/info/" + $.cookie("sel_logshowByID_id"),
+						dataType: "json",
+						success: function(data) {
+							console.log(data)
+							$("#log_type_logname").text(data[0].log_type_logname);//日志类型
+							$("#case_propernum").text(data[0].case_propernum);//案件
+							$("#case_propernum").attr("href",href = "javaScript:sel("+data[0].case_law_id+")");//案件
+							$("#client").text(data[0].client);//客户名称
+							$("#joblog_startTime").text(changeDateFormat(data[0].joblog_startTime));//开始时间
+							$("#joblog_reportedTime").text(changeDateFormat(data[0].joblog_reportedTime));//自报时间
+							$("#addresslist_state").text(data[0].addresslist_state);//公开状态
+							$("#joblog_file").text(data[0].joblog_file);//相关附件地址
+							$("#joblog_text").text(data[0].joblog_text);//工作描述
+							
+
+						}
+					});
+				})
+			</script>
+		</head>
+
+		<!--
+	作者：二乐
+	描述：我的工作日志-操作-查看 
+-->
+
+		<body id="content">
+			<section>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">日志管理</a>
+				</li>
+				<li>
+					<a class="active">查看工作日志</a>
+				</li>
+			</ol>
+				<div class="case_detail container">
+					<div class="row row_title">
+						<div class="shell text_group">
+							<div class="my_grid">
+								<div class="all_box text_box">
+									日志类型：
+									<p id="log_type_logname"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									案件：
+									<p ><a href="#" id="case_propernum"></a></p>
+								</div>
+							</div>
+							
+							<div class="my_grid">
+								<div class="all_box text_box">
+									客户名称：
+									<p id="client"></p>
+								</div>
+							</div>
+
+							
+							<div class="my_grid">
+								<div class="all_box text_box">
+									起始时间：
+									<p id="joblog_startTime"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									自报时间：
+									<p id="joblog_reportedTime"></p>
+								</div>
+							</div>
+
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									公开状态：
+									<p id="addresslist_state"></p>
+								</div>
+							</div>
+							
+							
+							<div class="my_grid">
+								<div class="all_box text_box">
+									相关附件地址：
+									<p id="joblog_file"></p>
+								</div>
+							</div>
+							
+							<div class="all_box text_box">
+								备注：
+								<p id="joblog_text"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</section>
+
+		</body>
+
+</html>

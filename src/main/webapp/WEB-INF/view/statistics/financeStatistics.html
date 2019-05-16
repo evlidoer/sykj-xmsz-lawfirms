@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<base href="../../lawfirms" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>财务统计</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.form-group,
+			.btn-group {
+				margin-top: 5px;
+			}
+			.msg>div{
+				margin-left: 10px;
+			}
+			.msg>div>div{
+				margin-left: 20px;
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+					<ol class="breadcrumb">
+						<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+						<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+						<span class="glyphicon glyphicon-menu-left" ></span>
+					</button>
+						<li class="breadcrumb-li-one">
+							<a>统计</a>
+						</li>
+						<li>
+							<a>财务统计</a>
+						</li>
+					</ol>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 10px;">
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<div class="form-inline">
+						<div class="form-group">
+							<input type="text" class="form-control Time" placeholder="起始时间: yyyy-MM-dd" id="startTime" />
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control Time " placeholder="结束时间: yyyy-MM-dd" id="endTime" />
+						</div>
+						<div class="form-group" style="margin-right: 170px;">
+							<input type="button" onclick="retrieve();" value="检索" class="btn btn-success">
+						</div>
+						<div class="btn-group">
+							<button type="button" onclick="queryCurrentData(1);" class="btn btn-primary">近一个月</button>
+						</div>
+						<div class="btn-group">
+							<button type="button" onclick="queryCurrentData(3);" class="btn btn-info">近三个月</button>
+						</div>
+						<div class="btn-group">
+							<button type="button" onclick="queryCurrentData(6);" class="btn btn-warning">近半年</button>
+						</div>
+						<div class="btn-group">
+							<button type="button" onclick="queryCurrentData(12);" class="btn btn-danger">近一年</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" id="monthly" style="margin-top: 15px; display: none;">
+				<div class="col-lg-8 col-sm-8 col-md-8 col-sm-offset-2 msg" style="border: 1px solid #bbb; ">
+					<h4 style="text-align: center; font-weight: bold; font-size: 17px; margin-top: 25px;">事务所财务统计报表</h4>
+					<div style="margin-top: 25px;">
+						统计时间：<span id="startTimeSpan"></span> 至 <span id="endTimeSpan"></span>
+					</div>
+					<div>
+						<h5 style="font-weight: bold;">一、全所律师业务收入 合计：<span id="1001">0</span>元</h5>
+						<div>1、律师业务收入：<span id="100101">0</span>元</div>
+						<div>2、指派业务收入：<span id="100102">0</span>元</div>
+						<div>3、咨询、代书、承办人收入：<span id="100103">0</span>元</div>
+						<div>4、其他收入（差旅费…）：<span id="100104">0</span>元</div>
+					</div>
+					<div>
+						<h5 style="font-weight: bold;">二、其他经营收入 合计：<span id="1002">0</span>元</h5>
+						<div>1、办公室使用费用：<span id="100201">0</span>元</div>
+						<div>2、管理费收入：<span id="100202">0</span>元</div>
+						<div>3、其他收入（含个人会费、养老费等）：<span id="100203">0</span>元</div>
+					</div>
+					<div>
+						<h5 style="font-weight: bold;">三、律师酬金支出 合计：<span id="1003">0</span>元</h5>
+						<div>1、律师酬金：<span id="100301">0</span>元</div>
+						<div>2、指派案源法律部10%及案源佣金30%：<span id="100302">0</span>元</div>
+					</div>
+					<div>
+						<h5 style="font-weight: bold;">四、事务所现金支出 合计：<span id="1004">0</span>元</h5>
+						<div>1、行政人员工资：<span id="100401">0</span>元</div>
+						<div>2、固定资产支出：<span id="100402">0</span>元</div>
+						<div>3、活动、福利（含党支部活动、旅游、年会等）支出：<span id="100403">0</span>元</div>
+						<div>4、其他（含当事人退费、奖励、培训费、年终奖等）：<span id="100404">0</span>元</div>
+					</div>
+					<div>
+						<h5 style="font-weight: bold;">五、事务所银行支出 合计：<span id="1005">0</span>元</h5>
+						<div>1、税金支出：<span id="100501">0</span>元</div>
+						<div>2、社保费用：0元</div>
+						<div>3、房租支出：0元</div>
+						<div>4、电话费支出：0元</div>
+						<div>5、水电费支出：0元</div>
+						<div>6、POS当月1%手续费支出：0元</div>
+						<div>7、其他（含年检团体、个人会费、审计费等）：0元</div>
+					</div>
+					<div>
+						<h5 style="font-weight: bold;">事务所收益、盈亏统计：<span id="sum">0</span>元</h5>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 15px; display: none;" id="butt">
+				<div class="col-lg-8 col-sm-8 col-md-8 col-sm-offset-2" style="text-align: center; margin-bottom: 120px;">
+					<button type="button" class="btn btn-success" onclick="printlns();">打印</button>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function printlns(){
+				var oldstr = document.body.innerHTML;
+				console.log($("#monthly").html());
+				document.body.innerHTML = $("#monthly").html();
+				window.print(); 
+				document.body.innerHTML = oldstr;
+				return false;
+			}	
+		
+			lay('.Time').each(function() {
+				laydate.render({
+					elem : this,
+					trigger : 'click'
+				});
+			});
+			
+			function retrieve() {
+				if($("#startTime").val() == '' || $("#endTime").val() == ''){
+					alert("请选择完整的时间段");
+					$("#monthly").hide();
+					$("#butt").hide();
+					return;
+				}
+				$("#startTimeSpan").html("").html($("#startTime").val());
+				$("#endTimeSpan").html("").html($("#endTime").val());
+				$.ajax({
+					type:"get",
+					url:"statistics/finance/inout",
+					async:true,
+					data: "startTime=" + $("#startTime").val() + "&endTime=" + $("#endTime").val(),
+					success :function(msg){
+						$(".msg div div span").html("0");
+						var $1001 = 0;
+						var $100103 = 0;
+						var $1002 = 0;
+						var $1003 = 0;
+						var $1004 = 0;
+						var $1005 = 0;
+						var $sum = 0;
+						$(msg).each(function(len, val){
+							if(val.cw_pid == 1001 || val.id == 1001 || val.cw_pid == 100103) $1001 += val.money;
+							if(val.cw_pid == 1002 || val.id == 1002) $1002 += Math.abs(val.money);
+							if(val.cw_pid == 1003 || val.id == 1003) $1003 += Math.abs(val.money);
+							if(val.cw_pid == 1004 || val.id == 1004) $1004 += Math.abs(val.money);
+							if(val.cw_pid == 1005 || val.id == 1005) $1005 += Math.abs(val.money);
+							if(val.cw_pid == 100103 || val.id == 100103) $100103 += Math.abs(val.money);
+							$("#" + val.id).html("0").html(Math.abs(val.money));
+						});
+						$("#1001").html("0").html($1001);
+						$("#1002").html("0").html($1002);
+						$("#1003").html("0").html(Math.abs($1003));
+						$("#1004").html("0").html(Math.abs($1004));
+						$("#1005").html("0").html(Math.abs($1005));
+						$("#100103").html("0").html($100103);
+						$sum = $sum + $1001 + $1002 - $1003 - $1004 - $1005;
+						$("#sum").html("0").html($sum);
+						$("#monthly").show();
+						$("#butt").show();
+					}
+				});
+			}
+			
+			function queryCurrentData(num) {
+				var dateNew = new Date($.ajax({
+					async : false
+				}).getResponseHeader("Date"));
+				var longDate = num * 30;
+				if (longDate == 360)
+					longDate = 365;
+				var dateLast = new Date(dateNew - longDate * 24 * 60 * 60 * 1000);
+				$("#startTime").val(
+						dateLast.getFullYear()
+								+ "-"
+								+ ((dateLast.getMonth() + 1) < 10 ? ("0" + (dateLast
+										.getMonth() + 1)) : (dateLast.getMonth() + 1))
+								+ "-"
+								+ (dateLast.getDate() < 10 ? ("0" + dateLast.getDate())
+										: dateLast.getDate()));
+				$("#endTime").val(
+						dateNew.getFullYear()
+								+ "-"
+								+ ((dateNew.getMonth() + 1) < 10 ? ("0" + (dateNew
+										.getMonth() + 1)) : (dateNew.getMonth() + 1))
+								+ "-"
+								+ (dateNew.getDate() < 10 ? ("0" + dateNew.getDate())
+										: dateNew.getDate()));
+				retrieve();
+			}
+		</script>
+	</body>
+
+</html>

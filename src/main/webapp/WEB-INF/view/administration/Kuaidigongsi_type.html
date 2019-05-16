@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<script src="static/js/laydate.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="static/layui/layui.all.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			input:focus {
+				outline: hidden;
+			}
+		</style>
+		<script type="text/javascript">
+			$(function() {
+				var arr = null;
+				var $arr = $.cookie("kaidi_addOrUpd_kd");
+				$.cookie("kaidi_addOrUpd",null)
+				if($arr != -1) {
+					arr = $arr.split(',');
+					$("input[name=id]").val(arr[0]);
+					$("input[name=name]").val(arr[1]);
+				}
+			
+			$(document).on("click","input[type=button]",function() {
+				if($("input[name=name]").val().trim() === '') {
+					layer.msg('名称不能为空!', {time: 3000, icon:6});
+					return;
+				}
+				if(arr != null) {
+					$.ajax({
+						type: "post",
+						url: "Expressage/updateExpressageCompanyType",
+						data: $("form").serialize() + "&_method=put",
+						success: function() {
+							window.history.go(-1);
+						}
+					});
+				} else {
+					$.ajax({
+						type: "post",
+						url: "Expressage/updateExpressageCompanyType_add",
+						data: $("form").serialize(),
+						success: function() {
+							window.history.go(-1);
+						}
+					});
+				}
+			});
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="" style="margin-left: 50px;text-align:center;">
+			<h3>基本信息</h3>
+			<br><br><br>
+			<form method="post" style="margin-top: 35px;">
+				<input type="hidden" name="id" />
+				<input type="text" name="name" placeholder="名称" class="form-control required" title="请填写名称" style="outline:none;;width: 45%;display: inline-block;">
+				<input class="form-control" type="button" value="修改/添加" style="width: 15%;display: inline-block;" />
+			</form>
+		</div>
+	</body>
+
+</html>

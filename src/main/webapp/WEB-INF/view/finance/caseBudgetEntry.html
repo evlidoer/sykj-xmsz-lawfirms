@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<base href="../../lawfirms" />
+<head>
+<meta charset="UTF-8">
+<title>案件收支录入</title>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+<link rel="stylesheet" type="text/css" href="static/css/bs/docs.css" />
+<link rel="stylesheet" type="text/css" href="static/css/bs/patch.css" />
+
+<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+	.form-group,
+	.btn-group {
+		margin-top: 5px;
+	}
+	#showTable tr td:first-child{
+		text-align: center;
+	}
+	.sv1{
+		color: red;
+	}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+				<ol class="breadcrumb">
+					<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+					<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+					<span class="glyphicon glyphicon-menu-left" ></span>
+				</button>
+					<li class="breadcrumb-li-one">
+						<a>财务</a>
+					</li>
+					<li>
+						<a>案件收支录入</a>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 5px;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+				<div class="bs-callout bs-callout-info">
+					<h6 style="font-weight: bold; font-size: 14px;">案件收支</h6>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 5px; margin-top: 50px;">
+			<div class="col-lg-12 col-sm-12 col-md-12">
+				<div class="row">
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+						    	<span style="color: red;">*</span>
+								<span>案件:</span>
+								<span class="sv1" id="anjian"></span>
+						    </label>
+						    <input type="hidden" id="lawId"/>
+						    <input type="hidden" id="dailiMoney"/>
+						    <input type="hidden" id="yesKaip"/>
+						    <input type="hidden" id="lvshi"/>
+						    <input type="button" class="form-control" onclick="$('#showTable').bootstrapTable('refresh');" value="选择案件"
+						    	data-toggle="modal" id="lawName" data-target=".bs-example-modal-lg"
+						    	style="text-align: left; box-shadow:0 0 0px; border-color:#ccc;">
+						</div>
+					</div>
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+								<span>已收款:</span>
+						    </label>
+						    <input type="text" disabled="disabled" class="form-control" id="money" style="border: 0px; box-shadow:inset 0 0px 0px; background-color: white;">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+						    	<span style="color: red;">*</span>
+								<span>收款金额：</span>
+								<span class="sv1" id="jinge"></span>
+						    </label>
+						    <input type="text" onblur="$('#jinge').html('');" id="getMoney" class="form-control">
+						</div>
+					</div>
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+						    	<span style="color: red;">*</span>
+								<span>收款日期：</span>
+								<span class="sv1" id="dateTime"></span>
+						    </label>
+						    <input type="text" onblur="$('#dateTime').html('');" id="getTime" class="form-control">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+							<input type="button" onclick="onclickDown();" value="下一步" class="btn btn-success">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="showModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	    <div class="modal-dialog modal-lg" role="document">
+	    	<div class="modal-content">
+		   		<div class="modal-header">
+	       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        		<h4 class="modal-title">选择案件</h4>
+	      		</div>
+	      		<div class="modal-body">
+	      			<div class="container-fluid">
+	      				<div class="row">
+	      					<div class="col-lg-12 col-sm-12 col-md-12 form-inline">
+	      						<div class="form-group">
+								    <input type="text" class="form-control" id="caseId">
+								</div>
+								<div class="form-group">
+								    <select class="form-control" id="souId">
+								    	<option value="1">案号搜索</option>
+						                <option value="2">委托人搜索</option>
+						                <option value="3">对方当事人搜索</option>
+						                <option value="4">案由搜索</option>
+						                <option value="5">承办律师搜索</option>
+						                <option value="6">受理法院搜索</option>
+								    </select>
+								</div>
+								<div class="form-group">
+									<input type="button" onclick="$('#showTable').bootstrapTable('refresh');" 
+										value="检索" class="btn btn-success">
+								</div>
+	      					</div>
+	      				</div>
+	      				<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+	      					<div class="col-lg-12 col-sm-12 col-md-12 form-inline">
+	      						<table id="showTable"></table>
+	      					</div>
+	      				</div>
+	      			</div>
+	     		 </div>
+	      	</div>
+	   </div>
+	</div>
+	<script type="text/javascript">
+			
+		laydate.render({
+			elem: '#getTime',
+			value: new Date()
+		});
+	
+		function clickRadio(obj){
+			$("#lawId").val($(obj[0]).find("input").val());
+			$("#lawName").val($(obj[0]).find("td")[1].innerHTML);
+			$("#money").val($(obj[0]).find("td")[5].innerHTML + "元");
+			$("#yesKaip").val($(obj[0]).find("td")[6].innerHTML);
+			$("#dailiMoney").val($(obj[0]).find("td")[4].innerHTML);
+			$("#lvshi").val($(obj[0]).find("td")[7].innerHTML);
+			$("#showModal").modal("hide");
+			$("#anjian").html("");
+		}
+	
+		$("#showTable").bootstrapTable({
+			url : "finance/caseEntry/lawData",
+			method : 'get',
+			dataType : "json",
+			striped : true, // 是否显示行间隔色
+			pageNumber : 1, // 初始化加载第一页
+			pagination : true, // 是否分页
+			sidePagination : 'server', // server:服务器端分页|client：前端分页
+			pageSize : 9, // 单页记录数
+			pageList : [], // 可选择单页记录数
+			queryParams : function(params) { // 上传服务器的参数
+				var temp = {
+					limit : params.limit, // 每页显示数量
+					offset : params.offset, // SQL语句起始索引
+					caseId : $("#caseId").val(),
+					souId : $("#souId").val()
+				};
+				return temp;
+			},
+			columns : [ {
+				title : "选择",
+				formatter:function(val,row,len){
+					return "<input type='radio' name='clid' onclick='clickRadio($(this).parent().parent())' value='"+row.csid+"'/>";
+				}
+			}, {
+				title : "案号",
+				field : "propernum"
+			}, {
+				title : "委托人",
+				field : "parties"
+			}, {
+				title : "对方当事人",
+				field : "oparties"
+			}, {
+				title : "代理费",
+				formatter:function(val,row,len){
+					var ii = 0;
+					if(row.agencyfee == undefined) return ii.toFixed(2);
+					return parseFloat(row.agencyfee).toFixed(2);
+				}
+			}, {
+				title : "已到款",
+				formatter:function(val,row,len){
+					var ii = 0;
+					if(row.moneyNum == undefined) return ii.toFixed(2);
+					return parseFloat(row.moneyNum).toFixed(2);
+				}
+			}, {
+				title : "已开票",
+				formatter:function(val,row,len){
+					return parseFloat(row.money).toFixed(2);
+				}
+			},{
+				title : "承办律师",
+				field : "lawyer"
+			},{
+				title : "收案日期",
+				formatter : function(val, row, len) {
+				var cwInoutDate = new Date(row.subtime);
+				var cwMonth = cwInoutDate.getMonth() + 1;
+				var cwDate = cwInoutDate.getDate();
+				var returnVal = cwInoutDate.getFullYear()
+						+ "-"
+						+ (cwMonth < 10 ? ("0" + cwMonth)
+								: cwMonth)
+						+ "-"
+						+ (cwDate < 10 ? ("0" + cwDate)
+								: cwDate);
+				return returnVal;
+			}
+			}]
+		});
+		
+		function onclickDown(){
+			var i = true;
+			if($("#lawId").val().trim() == ''){
+				$("#anjian").html("").html("请选择案件");
+				i = false;
+			}
+			if($("#getMoney").val().trim() == ''){
+				$("#jinge").html("").html("请填写收支金额");
+				i = false;
+			}
+			if($("#getTime").val().trim() == ''){
+				$("#dateTime").html("").html("请选择收支日期");
+				i = false;
+			}
+			if(i) window.location.href = "finance/caseEntry/showAdd?lawId=" + $("#lawId").val() + "&getMoney=" + $("#getMoney").val()
+					+"&getTime=" + $("#getTime").val() + "&yesKaip=" + $("#yesKaip").val() + "&dailiMoney=" + $("#dailiMoney").val() +
+					"&money=" + $("#money").val() + "&lvshi=" + $("#lvshi").val();
+		}
+	</script>
+</body>
+</html>

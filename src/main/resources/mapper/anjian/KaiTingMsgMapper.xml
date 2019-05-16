@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.lawfirm.mapper.anjian.KaiTingMsgMapper">
+	
+	<!-- 开庭 添加信息 -->
+	<insert id="CasecHoldAHearingFormAdd" parameterType="com.jt.lawfirm.bean.anjian.CasecHoldAHearing">
+		insert into case_hold_a_hearing 
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+  			<if test="id != null">id,</if>
+  			<if test="caselawid != null and caselawid != ''">case_law_id,</if>
+  			<if test="hearingconsignor != null and hearingconsignor != ''">hearing_consignor,</if>
+  			<if test="hearingapprovalprocedure != null and hearingapprovalprocedure != ''">hearing_approval_procedure,</if>
+  			<if test="hearingaccreditationtime != null and hearingaccreditationtime != ''">hearing_accreditation_time,</if>
+  			<if test="hearingholdacouttime != null and hearingholdacouttime != ''">hearing_hold_a_cout_time,</if>
+  			<if test="hearingacquittime != null and hearingacquittime != ''">hearing_acquit_time,</if>
+  			<if test="hearingappealtime != null and hearingappealtime != ''">hearing_appeal_time,</if>
+  			<if test="hearingoffice != null and hearingoffice != ''">hearing_office,</if>
+  			<if test="hearingcourt != null and hearingcourt != ''">hearing_court,</if>
+  			<if test="hearingholdacoutstatus != null and hearingholdacoutstatus != ''">hearing_hold_a_cout_status,</if>
+  			<if test="hearingjude != null and hearingjude != ''">hearing_jude,</if>
+  			<if test="hearingjudgetel != null and hearingjudgetel != ''">hearing_judge_tel,</if>
+  			<if test="hearingcourtclerk != null and hearingcourtclerk != ''">hearing_court_clerk,</if>
+  			<if test="hearingcourtclerktel != null and hearingcourtclerktel != ''">hearing_court_clerk_tel,</if>
+  			<if test="hearingremark != null and hearingremark != ''">hearing_remark,</if>
+  		</trim>
+  		<trim prefix="values(" suffix=")" suffixOverrides=",">
+  			<if test="id != null">#{id},</if>
+  			<if test="caselawid != null and caselawid != ''">#{caselawid},</if>
+  			<if test="hearingconsignor != null and hearingconsignor != ''">#{hearingconsignor},</if>
+  			<if test="hearingapprovalprocedure != null and hearingapprovalprocedure != ''">#{hearingapprovalprocedure},</if>
+  			<if test="hearingaccreditationtime != null and hearingaccreditationtime != ''">#{hearingaccreditationtime},</if>
+  			<if test="hearingholdacouttime != null and hearingholdacouttime != ''">#{hearingholdacouttime},</if>
+  			<if test="hearingacquittime != null and hearingacquittime != ''">#{hearingacquittime},</if>
+  			<if test="hearingappealtime != null and hearingappealtime != ''">#{hearingappealtime},</if>
+  			<if test="hearingoffice != null and hearingoffice != ''">#{hearingoffice},</if>
+  			<if test="hearingcourt != null and hearingcourt != ''">#{hearingcourt},</if>
+  			<if test="hearingholdacoutstatus != null and hearingholdacoutstatus != ''">#{hearingholdacoutstatus},</if>
+  			<if test="hearingjude != null and hearingjude != ''">#{hearingjude},</if>
+  			<if test="hearingjudgetel != null and hearingjudgetel != ''">#{hearingjudgetel},</if>
+  			<if test="hearingcourtclerk != null and hearingcourtclerk != ''">#{hearingcourtclerk},</if>
+  			<if test="hearingcourtclerktel != null and hearingcourtclerktel != ''">#{hearingcourtclerktel},</if>
+  			<if test="hearingremark != null and hearingremark != ''">#{hearingremark},</if>
+  		</trim>
+	</insert>
+	
+	<!-- //侦察 添加信息 -->
+		<insert id="kaitingMsgZCAdd" parameterType="com.jt.lawfirm.bean.anjian.CaseInvestigation">
+		insert into case_investigation 
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+  			<if test="id != null and id != ''">id,</if>
+  			<if test="caseLawId != null and caseLawId != ''">case_law_id,</if>
+  			<if test="investigationOffice != null and investigationOffice != ''">investigation_office,</if>
+  			<if test="investigationNo != null and investigationNo != ''">investigation_no,</if>
+  			<if test="investigationDept != null and investigationDept != ''">investigation_dept,</if>
+  			<if test="investigationUndertaker != null and investigationUndertaker != ''">investigation_undertaker,</if>
+  			<if test="investigationCriminalTime != null and investigationCriminalTime != ''">investigation_criminal_time,</if>
+  			<if test="investigationArrestTime != null and investigationArrestTime != ''">investigation_arrest_time,</if>
+  			<if test="investigationTel != null and investigationTel != ''">investigation_tel,</if>
+  			<if test="investigationDeadline != null and investigationDeadline != ''">investigation_deadline,</if>
+  			<if test="investigationSupplementDeadline != null and investigationSupplementDeadline != ''">investigation_supplement_deadline,</if>
+  			<if test="investigationSecondarySupplementary != null and investigationSecondarySupplementary != ''">investigation_secondary_supplementary,</if>
+  			<if test="investigationRemark != null and investigationRemark != ''">investigation_remark,</if>
+  		</trim>
+  		<trim prefix="values(" suffix=")" suffixOverrides=",">
+  			<if test="id != null and id != ''">#{id},</if>
+  			<if test="caseLawId != null and caseLawId != ''">#{caseLawId},</if>
+  			<if test="investigationOffice != null and investigationOffice != ''">#{investigationOffice},</if>
+  			<if test="investigationNo != null and investigationNo != ''">#{investigationNo},</if>
+  			<if test="investigationDept != null and investigationDept != ''">#{investigationDept},</if>
+  			<if test="investigationUndertaker != null and investigationUndertaker != ''">#{investigationUndertaker},</if>
+  			<if test="investigationCriminalTime != null and investigationCriminalTime != ''">#{investigationCriminalTime},</if>
+  			<if test="investigationArrestTime != null and investigationArrestTime != ''">#{investigationArrestTime},</if>
+  			<if test="investigationTel != null and investigationTel != ''">#{investigationTel},</if>
+  			<if test="investigationDeadline != null and investigationDeadline != ''">#{investigationDeadline},</if>
+  			<if test="investigationSupplementDeadline != null and investigationSupplementDeadline != ''">#{investigationSupplementDeadline},</if>
+  			<if test="investigationSecondarySupplementary != null and investigationSecondarySupplementary != ''">#{investigationSecondarySupplementary},</if>
+  			<if test="investigationRemark != null and investigationRemark != ''">#{investigationRemark},</if>
+  		</trim>
+	</insert>
+	
+	
+	
+		<!-- //检查 添加信息 -->
+		<insert id="kaitingMsgJCAdd" parameterType="com.jt.lawfirm.bean.anjian.CaseProcuratorialWork">
+		insert into case_procuratorial_work 
+  		<trim prefix="(" suffix=")" suffixOverrides=",">
+  			<if test="id != null and id != ''">id,</if>
+  			<if test="caseLawId != null and caseLawId != ''">case_law_id,</if>
+  			<if test="workOffice != null and workOffice != ''">work_office,</if>
+  			<if test="workDept != null and workDept != ''">work_dept,</if>
+  			<if test="workUndertaker != null and workUndertaker != ''">work_undertaker,</if>
+  			<if test="workTel != null and workTel != ''">work_tel,</if>
+  			<if test="workInvestigateProsecuteime != null and workInvestigateProsecuteime != ''">work_investigate_prosecute_time,</if>
+  		</trim>
+  		<trim prefix="values(" suffix=")" suffixOverrides=",">
+  			<if test="id != null and id != ''">#{id},</if>
+  			<if test="caseLawId != null and caseLawId != ''">#{caseLawId},</if>
+  			<if test="workOffice != null and workOffice != ''">#{workOffice},</if>
+  			<if test="workDept != null and workDept != ''">#{workDept},</if>
+  			<if test="workUndertaker != null and workUndertaker != ''">#{workUndertaker},</if>
+  			<if test="workTel != null and workTel != ''">#{workTel},</if>
+  			<if test="workInvestigateProsecuteime != null and workInvestigateProsecuteime != ''">#{workInvestigateProsecuteime},</if>
+  		</trim>
+	</insert>
+	
+	
+	
+	<!-- 开庭select -->
+	<select id="casecHoldAHearingShow" parameterType="map" resultType="map">
+		select * from  case_hold_a_hearing ch
+				inner join case_law cl on cl.id = ch.case_law_id 
+				inner join case_case_type cct on cct.id = cl.case_case_type_id 
+				inner join hr_emp he on he.id=cl.system_approval_id 
+				inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+				<if test="casePropernum != null and casePropernum != ''">and case_propernum like '%${casePropernum}%'</if>
+				<if test="hearingcourt != null and hearingcourt != ''">and hearing_court like '%${hearingcourt}%'</if>
+				<if test="hearingholdacoutstatus != null and hearingholdacoutstatus != ''">and hearing_hold_a_cout_status like '%${hearingholdacoutstatus}%'</if>
+	</select>
+	
+	<!-- 侦查 -->
+	<select id="zhenChaShow" parameterType="map" resultType="map">
+		select * from  case_investigation ci 
+			inner join case_law cl on cl.id = ci.case_law_id
+			inner join case_case_type cct on cct.id = cl.case_case_type_id
+			inner join hr_emp he on he.id=cl.system_approval_id
+			inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+			<if test="casePropernum != null and casePropernum != ''">and case_propernum like '%${casePropernum}%'</if>
+				<if test="investigationOffice != null and investigationOffice != ''">and investigation_office like '%${investigationOffice}%'</if>
+	</select>
+	
+	<!-- jian查 -->
+	<select id="JianChaShow" parameterType="map" resultType="map">
+		select * from  case_procuratorial_work cp
+				inner join case_law cl on cl.id = cp.case_law_id 
+				inner join case_case_type cct on cct.id = cl.case_case_type_id
+				inner join hr_emp he on he.id=cl.system_approval_id 
+				inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+			<if test="casePropernum != null and casePropernum != ''">and case_propernum like '%${casePropernum}%'</if>
+				<if test="workOffice != null and workOffice != ''">and work_office like '%${workOffice}%'</if>
+	</select>
+	
+</mapper>

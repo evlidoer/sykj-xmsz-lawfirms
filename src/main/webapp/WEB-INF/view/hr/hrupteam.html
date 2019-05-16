@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+	<base href="../../lawfirms"/>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css"/>
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#big{
+				font-size: 15px;
+			}
+			#mysc{
+				font-size: 15px;
+			}
+			.xzk{
+				width: 20px;height: 20px;vertical-align: middle;background-repeat: no-repeat;margin: 0 8px;
+			}
+			ul{
+				list-style:none;
+			}
+			input checkbox{
+				width: 20px;
+				height: 20px;
+				vertical-align: middle;
+				background-repeat: no-repeat;
+				margin: 0 8px;
+			}
+			.upload{position: relative;width: 80px;height: 18px;line-height: 18px;text-align: center;
+                    padding: 0px 5px;-webkit-border-radius: 2px;border-radius: 2px;
+                    margin: 0 auto;
+                    }
+            .upload form{width:100%;position:absolute; left:0; top:0;opacity:0; filter:alpha(opacity=0);}
+            .upload form input{width: 100%;}
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid" id="big">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<ol class="breadcrumb" style="background-color: #fff;">
+					<a class="btn btn-default" draggable="false" style="border: 0px;" onclick="javascript:window.history.back();">
+						<img src="static/img/back.png" draggable="false" style="height: 40px; width: 40px;"/>
+					</a>
+					<li>
+						<a draggable="false">人事</a>
+					</li>
+					<li>
+						<a class="active" draggable="false">编辑团队</a>
+					</li>
+				</ol>
+				</div>
+			</div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">编辑团队</font>
+			</div>
+		</div>
+		<form class="form-inline" id="teamupform">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6">
+					<p>
+						<font style="color: red;">*</font>团队名称:
+					</p>
+					<p>
+						<input type="text"  class="form-control" id="teamName" name="teamName" placeholder="团队名称" />
+					</p>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6">
+					<p>
+						<font style="color: red;">*</font>团队负责人:
+					</p>
+					<p>
+						<input type="button"  name="teamPrincipal" style="text-align: left; box-shadow: 0 0 0px; border-color: #ccc; width: 100%;" onclick="showfzr();" class="form-control" data-toggle="modal" data-target="#fzr" id="fzrinput" />
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<p>
+						<font style="color: red;">*</font>团队成员:
+					</p>
+					<p>
+						<input type="button" name="teamMember" style="text-align: left; box-shadow: 0 0 0px; border-color: #ccc; width: 100%;" onclick="showcy();" class="form-control" data-toggle="modal" data-target="#cy" id="cyinput"  />
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<p>
+						团队介绍:
+					</p>
+					<p>
+						<textarea rows="3" cols="185px" name="teamIntro" id="teamIntro"></textarea>
+					</p>
+				</div>
+			</div>
+		</form>
+			<div class="row">
+				<div class="col-lg-12">
+					<center>
+						<input type="button" class="btn btn-success btn-sm" value="确认提交" onclick="uptijiao();" />
+					</center>
+				</div>
+			</div>
+	</div>
+		
+		<!--团队显示负责人模态框开始-->
+<div class="modal fade" id="fzr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">团队负责人</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="fzrform">
+	      	<div class="row">
+	      		<div class="col-lg-12 col-md-12 col-sm-12">
+	      			<input type="text" id="username" class="form-control"  placeholder="用户名/姓名/手机号码" />
+	      			<input type="button" class="btn btn-primary btn-sm" onclick="fzrjs();" value="检索" />
+	      		</div>
+	      		<div class="col-lg-12 col-md-12 col-sm-12">
+	      			<table class="tab" id="tablefzr"></table>
+	      		</div>
+	      	</div>
+      	</form>
+      </div>
+    </div>
+  </div>
+ </div>
+ 
+ <div class="modal fade" id="cy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">团队成员</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline">
+	      	<div class="row">
+	      		<div class="col-lg-12 col-md-12 col-sm-12">
+	      			<input type="text"  id="usercy" class="form-control" placeholder="用户名/姓名/手机号码" />
+	      			<input type="button" class="btn btn-primary btn-sm" onclick="cyjs();" value="检索" />
+	      		</div>
+	      	</div>
+	      	<div class="row">
+	      		<div class="col-lg-12 col-md-12 col-sm-12">
+	      			<table class="tab" id="tablecy"></table>
+	      		</div>
+	      	</div>
+	      	<div class="row">
+	      		<div class="col-lg-12 col-md-12 col-sm-12">
+	      			<center>
+	      				<input type="button"  class="btn btn-primary btn-sm" onclick="userok();" value="确认提交" />
+	      			</center>
+	      		</div>
+	      	</div>
+	    </form>	
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+	<!--团队显示负责人结束-->
+	</body>
+	<script type="text/javascript">
+		var overAllIds = new Array();  //全局数组              // 全局保存选中行的对象
+
+		function examine(type,datas){            
+		    if(type.indexOf('uncheck')==-1){    
+		        $.each(datas,function(i,v){
+		           // 添加时，判断一行或多行的 id 是否已经在数组里 不存则添加　
+		　　　　　overAllIds.push(v.userRealname);
+		　　　　});
+		    }else{
+		        $.each(datas,function(i,v){
+		            overAllIds.splice(overAllIds.indexOf(v.userRealname),1);    //删除取消选中行
+		        });
+		    }
+		    
+		}
+		$(function  () {
+			var id = window.location.search;
+			var arr = id.split("=");
+			$.ajax({
+				type:"get",
+				url:"hr/team/selectbyid/"+arr[1],
+				dataType: "json",
+				success:function (data) {
+					$("#teamName").val(data[0].teamName)
+					$("#fzrinput").val(data[0].teamPrincipal)
+					$("#cyinput").val(data[0].teamMember)
+					$("#teamIntro").val(data[0].teamIntro)
+				}
+			});
+		})
+		
+		
+		function fzrjs () {
+				$("#tablefzr").bootstrapTable("refresh")
+		}
+		function cyjs () {
+				$("#tablecy").bootstrapTable("refresh")
+		}
+		function uptijiao () {
+			var id = window.location.search;
+			var arr = id.split("=");
+				if ($("#teamName").val()=='') {
+				alert("团队名称为空")
+				return;
+			} 
+			if ($("#fzrinput").val()=='') {
+				alert("团队负责人为空")
+				return;
+			} 
+			if ($("#cyinput").val()=='') {
+				alert("团队成员为空")
+				return;
+			} 
+			$.ajax({
+				type:"get",
+				url:"hr/team/upteam",
+				dataType: "json",
+				data:{
+					"teamName":$("#teamName").val(),
+					"teamPrincipal":$("#fzrinput").val(),
+					"teamMember":$("#cyinput").val(),
+					"teamIntro":$("#teamIntro").val(),
+					"id":arr[1]
+					},
+				success :function  (data) {
+							if(data.status == "yes"){
+								$("#teamName").val("");
+								$("#fzrinput").val("");
+								$("#cyinput").val("");
+								$("#teamIntro").val("");
+								alert("修改成功")
+								window.location.href = "hr/index/showteam";
+							}else{
+								alert("修改失败")
+							}
+						}
+			});
+	}
+		function clickRadio(obj){
+				$("#fzrinput").val($(obj[0]).find("td")[2].innerHTML);
+				$("#fzr").modal("hide");
+				$("#username").val("");
+		}
+		
+		function userok () {
+			var arr = new Array();
+			$.each(overAllIds, function(len,val) {
+				arr[len] = val
+			});
+			$("#cyinput").val(arr)
+			$("#cy").modal("hide");
+		}
+		
+		
+		function showfzr () {
+			$("#tablefzr").bootstrapTable({
+				type:"get",
+				url:"hr/team/selectuser",
+				dataType: "json",
+				singleSelect: true,
+				striped : true, //是否显示行间隔色
+				pageNumber : 1, //初始化加载第一页
+				pagination : true,//是否分页
+				sidePagination : 'server',//server:服务器端分页|client：前端分页
+				pageSize : 12,//单页记录数
+				pageList : [ 6, 12, 18, 24 ],//可选择单页记录数
+				queryParams:function(params){
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							string: $("#username").val()
+					}
+				},
+				columns:[{
+					title:"选择",
+					formatter:function(val,row,len){
+					return "<input type='radio' name='clid' onclick='clickRadio($(this).parent().parent())' value='"+row.csid+"'/>";
+				}
+				},{
+					title:"用户名",
+					field:"userName"
+				},{
+					title:"姓名",
+					field:"userRealname"
+				},{
+					title:"手机号码",
+					field:"userPhone"
+				}]
+				});
+		}
+		
+		
+		function showcy () {
+			$("#tablecy").bootstrapTable({
+				type:"get",
+				url:"hr/team/selectuser",
+				dataType: "json",
+				striped : true, //是否显示行间隔色
+				pageNumber : 1, //初始化加载第一页
+				pagination : true,//是否分页
+				sidePagination : 'server',//server:服务器端分页|client：前端分页
+				pageSize : 12,//单页记录数
+				pageList : [ 6, 12, 18, 24 ],//可选择单页记录数
+				queryParams:function(params){
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							string: $("#usercy").val()
+					}
+				},
+				columns:[{
+					title:"选择",
+					checkbox: true
+				},{
+					title:"用户名",
+					field:"userName"
+				},{
+					title:"姓名",
+					field:"userRealname"
+				},{
+					title:"手机号码",
+					field:"userPhone"
+				}]
+				});
+				
+				 $('#tablecy').on('uncheck.bs.table check.bs.table check-all.bs.table uncheck-all.bs.table',function(e,rows){
+				        var datas = $.isArray(rows) ? rows : [rows];  // 点击时获取选中的行或取消选中的行
+				        examine(e.type,datas);                              // 保存到全局 Array() 里
+				      
+				  });
+		}
+		
+		
+	</script>
+</html>

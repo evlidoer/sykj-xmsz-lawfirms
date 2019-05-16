@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html><head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/parts2.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/main_green.css"/>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	 <link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/CityList.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.form.js" type="text/javascript" charset="utf-8"></script>	
+    <script src="static/js/MouseOpen.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/WebSiteJs.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/messages_zh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/parts.js" type="text/javascript" charset="utf-8"></script>
+  
+</head>
+<body id="content">
+    <section>
+        
+<!-- me --><script type="text/javascript">
+	
+		$(function(){
+			$.ajax({
+				type:"get",
+				url:"myCaseEmpshow",
+				datatype:"json",
+				async:true,
+				success:function(data){
+					console.log(data)
+					$("#casePropernum").val(data[0].case_propernum)
+					$("#caseParties").val(data[0].case_parties)
+					$("#caseCause").val(data[0].case_cause)
+					$("#caseLawsuitStatus").val(data[0].case_lawsuit_status)
+					$("#caseStatus").val(data[0].case_status)
+					$("#casePaidsal").val(data[0].case_paidsal)
+					$("#caseAgencyfee").val(data[0].case_agencyfee)
+					$("#emp_name").val(data[0].emp_name)
+					$("#caselawid").val(data[0].id)
+				}
+			});
+		})
+		
+		
+		
+		function check(){
+			var reliefproposer = $("#emp_name").val();//申请人
+			var reliefcreditamount = $("#reliefcreditamount").val();
+			if(reliefproposer.trim().length <= 0){
+				alert("申请人不能为空")
+				return false;
+			}else if(reliefcreditamount.trim().length <= 0){
+				alert("金额不能为空")
+				return false;
+			}else if($("#STime").val().length<=0){
+				alert("请填写申请日期")
+				return false;
+			}
+			return true;
+		  }
+</script>
+	
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">费用减免申请</a></li>
+</ol>
+<form  action="myCaseSubmit" method="post" onsubmit="return check(this)" enctype="multipart/form-data"  id="form" >    
+	<input name="caselawid" type="hidden" id="caselawid" class="textw" value="20190400011">   
+	<input name="PageCols" type="hidden" id="PageCols" class="textw" value="">
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">案件信息</label>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-xs-12">
+                    <div class="shell text_group">
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                        	 案号：<p>
+                               	 <input style="border: 0px" name="casePropernum" id="casePropernum"/>
+                               	 	</p>
+                            </div>
+                        </div>
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                                委托人：<p><input style="border: 0px" name="caseParties" id="caseParties"/></p>
+                            </div>
+                        </div>
+
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                                案由：<p><input style="border: 0px" name="caseCause" id="caseCause"/></p>
+                            </div>
+                        </div>
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                                已付金额：<p>
+                                <input style="border: 0px" name="casePaidsal" id="casePaidsal"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                                代理费：<p><input style="border: 0px" name="caseAgencyfee" id="caseAgencyfee"/></p>
+                            </div>
+                        </div>
+
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                                已经申请减免：<p>0 元</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">减免申请</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label>申请人：</label>
+                    <input title="请填写申请人" name="reliefproposer" type="text" id="emp_name"  class="form-control required" >
+                </div>
+
+                <div class="col-xs-6">
+                    <label>申请减免金额：</label>
+                    <input title="请填写申请减免金额" name=reliefcreditamount type="text" id="reliefcreditamount" class="form-control required" maxlength="8" >
+                </div>
+            </div>
+
+            <div class="row ">
+                <div class="col-xs-6">
+                    <label>申请日期：</label>
+                    <input title="请填写申请日期" name="reliefapplicationdate" type="text" id="STime"  class="form-control required" lay-key="1">
+                </div>
+
+<!--                 <div class="col-xs-6">
+                    <label>
+                        减免申请单：
+                        <a href="/CaseOperate/DrawBackTemp?CaseId=20190400011&amp;colsID=1001" target="_blank" draggable="false">&gt;&gt;下载模板</a>
+                    </label>
+                    <input type="file" name="reliefapplication_forexemption" class="reliefapplication_forexemption " onchange="CheckUpFile('.jpg,.jpeg,.png,.gif,.bmp,.doc,.docx,.xls',this);">
+                </div> -->
+            </div>
+
+            <div class="row ">
+                <div class="col-xs-12">
+                    <label>减免事由：</label>
+                    <textarea name="relieffor" id="relieffor" rows="3" cols="100" class="form-control"></textarea>
+                </div>
+            </div>
+
+
+            <div class="row ">
+                <div class="col-xs-12">
+                     <button id="save" class="btn_solid">确定提交</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<script>
+    laydate.render({
+        elem: '#STime' //指定元素
+   , calendar: true
+   , type: 'date'
+    });
+</script>
+
+    </section>
+    
+
+<script src="static/anjian/jquery.unobtrusive-ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+
+</body></html>

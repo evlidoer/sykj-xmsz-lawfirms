@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的电子文档</title>
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_white.css">
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.min.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/layui/layui.js"></script>
+		<script type="text/javascript" src="static/layui/layui.all.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+				function del(id) {
+				layer.confirm("请问是否确定删除，删除后不可恢复？", {
+					btn: ["确定", "取消"] //按钮
+				}, function(index) {
+					$.ajax({
+						type: "DELETE",
+						url: "record/DainZiGuiDang/MyDocumentSel_Byid/" + id,
+						dataType: "json",
+						success: function(data) {
+							if(data == true) {
+								layer.close(index);
+								layer.msg("操作成功!", {
+									icon: 1,
+									time: 1000
+								});
+								setTimeout(function() {
+									refresh();
+								}, 1000);
+							} else {
+								layer.msg("删除失败!即将跳转至显示页面", {
+									icon: 5,
+									time: 1000
+								});
+								setTimeout(function() {
+									refresh();
+								}, 3000);
+							}
+						}
+					});
+
+				}, function() {
+
+				});
+			}
+			function Sel(id) {
+				$.cookie("sel_info_MyDocumentinfoByid", id, {
+					expires: 30,
+					path: '/lawfirms'
+				});
+				window.location.href = "goto/record/MyDocumentinfo";
+			}
+			$(function() {
+				var i = 0;
+				var myleft = 86;
+				var mytop = 188;
+				$("#MyDoc").bootstrapTable({
+					method: "get",
+					url: "record/DainZiGuiDang/MyDocumentSelall",
+					dataType: "json",
+					cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 10, //每页几条数据
+					/* pageList: [3, 6, 10], */
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							title: $("#title").val()
+						}
+					},
+					columns: [{
+						title: "案号",
+						formatter: function(value, row, index) {
+							return '<a href = "#">' + row.case_propernum + '</>'
+						}
+					}, {
+						title: "归档文件",
+						field: "file_name"
+					}, {
+						title: "上传人呢",
+						field: "emp_name"
+					}, {
+						title: "最后更新日期",
+						formatter: function(value, row, index) {
+							return changeDateFormat(row.file_upload_date);
+						}
+					}, {
+						title: "操作",
+						formatter: function(value, row, index, field) {
+							return " <button title = '删除'  class='layui-btn layui-btn-danger' onclick ='javaScript:del(" + row.id + ");'><i class='layui-icon'></i></button>";
+						}
+					}],
+					//height: $(window).height() - 150//自定义表格的高度
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+
+				/**
+				 * 查询按钮刷新表格
+				 */
+				$("#ref").on("click", function() {
+					refresh();
+				})
+				/**
+				 *  回车事件刷新表格
+				 */
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+				$(document).on("click", ".MyBtu1", function() {
+					$(this).css("display", "none")
+					$(this).next().css("display", "block");
+				});
+				$(document).on("click", ".MyBtu2", function() {
+					$(this).parent().css("display", "none")
+					$(this).parent().parent().children(".MyBtu1").css("display", "inline-block");
+				})
+				/**
+				 * 转换日期格式(时间戳转换为datetime格式)
+				 */
+				function changeDateFormat(cellval) {
+					var dateVal = cellval + "";
+					if(cellval != null) {
+						var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+						var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+						var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+						var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+						var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+						var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+						return date.getFullYear() + "-" + month + "-" + currentDate;
+					}
+				}
+			});
+
+			function refresh() {
+				$("#MyDoc").bootstrapTable("refresh");
+			}
+		</script>
+	</head>
+
+	<body id="content">
+		<section>
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading">
+				<div class="loader">Loading...</div>
+			</div>
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">文档管理</a>
+				</li>
+				<li>
+					<a class="active">我的电子文档</a>
+				</li>
+			</ol>
+			<form action="/PlaceOnFile/List" class="container-fluid page_find" id="searchForm" method="post" onclick="Sys.Mvc.AsyncForm.handleClick(this, new Sys.UI.DomEvent(event));" onsubmit="Sys.Mvc.AsyncForm.handleSubmit(this, new Sys.UI.DomEvent(event), { insertionMode: Sys.Mvc.InsertionMode.replace, updateTargetId: &#39;s&#39; });">
+				<div class="input-group">
+					<input type="text" name="title" id="title" class="form-control" placeholder="案号 / 归档文件 / 上传人" />
+				</div>
+				<!--<div class="down_box">
+					<select name="SearchType">
+						<option value="1">案号搜索</option>
+						<option value="7">案由搜索</option>
+						<option value="3">委托人/嫌疑人搜索</option>
+						<option value="4">对方当事人搜索</option>
+						<option value="6">受理法院搜索</option>
+					</select>
+				</div>-->
+				<input type="button" id="ref" value="检索" class="btn_solid" />
+			</form>
+			<div id="datas">
+				<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="MyDoc">
+				</table>
+		</section>
+	</body>
+
+</html>

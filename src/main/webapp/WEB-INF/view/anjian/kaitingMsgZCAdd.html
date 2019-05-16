@@ -1,0 +1,346 @@
+
+<html><head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>侦查添加</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+    <link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+    
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/laydate/default/laydate.css"/>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/layui/lay/modules/laydate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    
+    <script src="static/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+   <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+<script>
+    $(function () {
+    	/* 
+		我的案件 操作 跳过来的 
+		*/
+	var anhao = $.cookie("ZhenChaCase_propernum");
+	var id = $.cookie("ZhenChaId");
+	if(id != 'null' && id != ''){
+		$("#CaseId").val(anhao);
+		$("#caselawid").val(id);
+		$("#CaseId").attr("type","hidden");
+		$("#aj").append('<input name="CaseId" type="text" id="aaa" class="form-control required" title="请选择案件" readonly="true">')
+		$("#aaa").val(anhao);
+	}
+    	
+    	
+    	
+    	
+        $("#form").validate({
+            errorPlacement: function (error, element) {
+                element.parent().find("label").after(error);
+            }
+        });
+    });
+
+    $("#form").ajaxForm({
+        beforeSubmit: function () {
+            if ($("#CaseId").val().length <= 0) {
+                layer.msg("请选择案件", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#LxRen").val().length <= 0) {
+                layer.msg("请填写承办人", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#Phone").val().length <= 0) {
+                layer.msg("请填写联系电话", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            return true;
+          
+        },
+        success: function (data) {
+       		if(data=="true"){
+       			alert("提交成功")
+       		 	//关闭后的操作
+                window.location.href = "kaitingMsg";
+       		}else{
+       			alert("提交失败")
+       		}
+           
+           
+        }
+    });
+
+    //显示弹出框
+    function CaseChoose() {
+        layer.open({
+            title: '案件选择',
+            type: 2,
+           area: ['80%', '80%'],
+            fixed: false, //不固定
+           maxmin: true,
+            content: 'xiaotable'
+        });
+    }
+</script>
+
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">开庭/侦查/检察</a></li>
+    <li><a class="active" draggable="false">侦查机关</a></li>
+</ol>
+<form action="kaitingMsgZCAdd" id="form" method="post">    
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">基本信息</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12" id="aj">
+                    <label><em>*</em>案件：</label>
+                    <input name="CaseId" type="text" id="CaseId"  onclick="CaseChoose();" class="form-control required" title="请选择案件" readonly="true">
+               		 <input type="hidden" id="caselawid"   name="id"  /><!-- 案件id -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label><em>*</em>承办人：</label>
+                    <input type="text" name="investigationUndertaker" id="LxRen" value="" class="form-control required" title="请填写承办人">
+                </div>
+
+                <div class="col-xs-6">
+                    <label><em>*</em>联系电话：</label>
+                    <input type="text" name="investigationTel" id="Phone" value="" class="form-control required" title="请填写联系电话">
+                </div>
+            </div>
+
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">其他选填</label>
+                    <span class="input_display">展开</span>
+                </div>
+            </div>
+
+            <div class="input3_other" style="display: none;">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>办案机关：</label>
+                        <div class="dropdown_box1">
+                            <div class="down_box">
+                                <select style="display: inline-block" id="Province" name="Province" class="selct_1">
+                                    
+                                <option value="省/直辖市">省/直辖市</option><option value="安徽">安徽</option><option value="北京">北京</option><option value="福建">福建</option><option value="甘肃">甘肃</option><option value="广东">广东</option><option value="广西">广西</option><option value="贵州">贵州</option><option value="海南">海南</option><option value="河北">河北</option><option value="河南">河南</option><option value="黑龙江">黑龙江</option><option value="湖北">湖北</option><option value="湖南">湖南</option><option value="吉林">吉林</option><option value="江苏">江苏</option><option value="江西">江西</option><option value="辽宁">辽宁</option><option value="内蒙古">内蒙古</option><option value="宁夏">宁夏</option><option value="青海">青海</option><option value="山东">山东</option><option value="山西">山西</option><option value="陕西">陕西</option><option value="上海">上海</option><option value="四川">四川</option><option value="天津">天津</option><option value="西藏">西藏</option><option value="新疆">新疆</option><option value="云南">云南</option><option value="浙江">浙江</option><option value="重庆">重庆</option></select>
+                            </div>
+                            <div class="down_box">
+                                <select style="display: inline-block" id="Capital" name="Capital" class="selct_1">
+                                    
+                                <option value="地级市">地级市</option><option value="常州">常州</option><option value="淮安">淮安</option><option value="连云港">连云港</option><option value="南京">南京</option><option value="南通">南通</option><option value="苏州">苏州</option><option value="宿迁">宿迁</option><option value="泰州">泰州</option><option value="无锡">无锡</option><option value="徐州">徐州</option><option value="盐城">盐城</option><option value="扬州">扬州</option><option value="镇江">镇江</option></select>
+                            </div>
+                            <div class="down_box">
+                                <select style="display: inline-block" id="City" name="investigationOffice" class="selct_1">
+                                    
+                                <option value="县级市/区">县级市/区</option><option value="常州市">常州市</option><option value="金坛市">金坛市</option><option value="溧阳市">溧阳市</option></select>
+                            </div>
+                            <div class="down_box">
+                                <i id="TbProvince"></i>
+                                <input name="HProvince" type="hidden" id="HProvince" value="江苏">
+                                <input name="HCapital" type="hidden" id="HCapital">
+                                <input name="HCity" type="hidden" id="HCity" value="">
+                                <div class="dropdown_box1">
+                                    <div class="down_box">
+                                        <select name="investigationOffice" id="Title">
+                                            <option value="公安局">公安局</option>
+                                            <option value="反贪局">反贪局</option>
+                                            <option value="看守所">看守所</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>侦查案号：</label>
+                        <input type="text" name="investigationNo" id="ZhenChaNums" value="" class="form-control">
+                    </div>
+
+                    <div class="col-xs-6">
+                        <label>部门：</label>
+                        <input type="text" name="investigationDept" id="BuMen" value="" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>刑拘时间：</label>
+                        <input type="text" name="investigationCriminalTime" id="XjDate" value="" class="form-control" readonly="true" lay-key="1">
+                    </div>
+
+                    <div class="col-xs-6">
+                        <label>逮捕时间：</label>
+                        <input type="text" name="investigationArrestTime" id="DbDate" value="" class="form-control" readonly="true" lay-key="2">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>&nbsp;&nbsp;&nbsp;&nbsp;侦查期限：</label>
+                        <input style="width: 30%;display: inline-block" type="text" name="ZcBegDate" id="ZcBegDate" value="" class="form-control" readonly="true" lay-key="3">
+                        <label>至</label>
+                        <input style="width: 30%;display: inline-block" type="text" name="investigationDeadline" id="ZcEndDate" value="" class="form-control" readonly="true" lay-key="4">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>补充侦查期限：</label>
+                        <input style="width: 30%;display: inline-block" type="text" name="ZcBegDate1" id="ZcBegDate1" value="" class="form-control" readonly="true" lay-key="5">
+                        <label>至</label>
+                        <input style="width: 30%;display: inline-block" type="text" name="investigationSupplementDeadline" id="ZcEndDate1" value="" class="form-control" readonly="true" lay-key="6">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>二次补充侦查：</label>
+                        <input style="width: 30%;display: inline-block" type="text" name="ZcBegDate2" id="ZcBegDate2" value="" class="form-control" readonly="true" lay-key="7">
+                        <label>至</label>
+                        <input style="width: 30%;display: inline-block" type="text" name="investigationSecondarySupplementary" id="ZcEndDate2" value="" class="form-control" readonly="true" lay-key="8">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>备注：</label>
+                        <textarea id="Des" name="investigationRemark" class="form-control" rows="3" cols="90"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid">确定提交</button>
+                    <!-- <button class="btn_hollow">开始检索</button> -->
+                </div>
+            </div>
+
+        </div>
+    </div> 
+    <script type="text/javascript">
+        var s = ["Province", "Capital", "City"];
+        var opt0 = ["省/直辖市", "地级市", "县级市/区"];
+        setup();
+        if (document.getElementById("HProvince").value != "") {
+            document.getElementById(s[0]).value = document.getElementById("HProvince").value;
+            change(1);
+        }
+        if (document.getElementById("HCapital").value != "") {
+            document.getElementById(s[1]).value = document.getElementById("HCapital").value;
+            change(2);
+        }
+        if (document.getElementById("HCity").value != "") {
+            document.getElementById(s[2]).value = document.getElementById("HCity").value;
+        }
+
+    </script>
+</form>
+ 
+
+<script>
+    laydate.render({
+        elem: '#XjDate' //指定元素
+      , calendar: true
+      , type: 'date'
+    });
+
+
+    laydate.render({
+        elem: '#DbDate' //指定元素
+       , calendar: true
+       , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#ZcBegDate' //指定元素
+      , calendar: true
+      , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#ZcEndDate' //指定元素
+     , calendar: true
+     , type: 'date'
+    });
+
+
+    laydate.render({
+        elem: '#ZcBegDate1' //指定元素
+    , calendar: true
+    , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#ZcEndDate1' //指定元素
+  , calendar: true
+  , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#ZcBegDate2' //指定元素
+, calendar: true
+, type: 'date'
+    });
+
+    laydate.render({
+        elem: '#ZcEndDate2' //指定元素
+, calendar: true
+, type: 'date'
+    });
+</script>
+
+    </section>
+    
+
+<script type="text/javascript" src="/WebResource.axd?d=0zd9Y-1nbqhtJETSjGdh4dGa2On7CjnrzzvirF6QSJmTOs9YvYuJMoAGTMZmXwYQKE4244xgjjNQeYPte1ABvh7NiWltqI0qvlWa5LmygrvXKqpZygL7IiTETaU3tRLo6avG77vdVFuiCjI-0sIORcrrQfg1&amp;t=636736440675645877"></script>
+    <script src="/Content/Scripts/jquery.unobtrusive-ajax.js?v=12321312313"></script>
+    <script type="text/javascript" src="/Content/js/baseFunction.js?v=12321312313"></script>
+
+
+</body></html>

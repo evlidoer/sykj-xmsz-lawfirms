@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>辽宁盛恒律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+
+	<body id="content" style="padding-bottom: 128px;">
+		<section>
+
+			<form action="/CaseChoose/List" class="container-fluid page_find" id="searchForm" method="post" onclick="Sys.Mvc.AsyncForm.handleClick(this, new Sys.UI.DomEvent(event));" onsubmit="Sys.Mvc.AsyncForm.handleSubmit(this, new Sys.UI.DomEvent(event), { insertionMode: Sys.Mvc.InsertionMode.replace, updateTargetId: 's' });">
+				<div class="input-group">
+					<input type="text" name="SearchStr" id="SearchStr" class="form-control">
+				</div>
+				<div class="down_box">
+					<select name="SearchType">
+						<option value="1">案号搜索</option>
+						<option value="3">委托人搜索</option>
+						<option value="4">对方当事人搜索</option>
+						<option value="7">案由搜索</option>
+						<option value="5">承办律师搜索</option>
+						<option value="6">受理法院搜索</option>
+					</select>
+				</div>
+				<input type="submit" value="检索" class="btn_solid">
+			</form>
+			<div id="datas">
+				<table id="tab" class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="55.400001525878906" data-table-fixed-head-top="0">
+				</table>
+				<script type="text/javascript">
+					function refresh() {
+						$("#tab").bootstrapTable("refresh");
+					}
+					$(function() {
+						$("#tab").bootstrapTable({
+							method: "get",
+							url: "Expressage/sellaw", //?timer=" + new Date().getTime()
+							dataType: "json",
+							cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+							pagination: true, //开启分页
+							pageNumber: 1, //默认显示第几页
+							pageSize: 10, //每页几条数据
+							pageList: [10],
+							sidePagination: "server", //client 前台分页，server后台分页 	
+							/**
+							 * 参数传递
+							 * @param {Object} params
+							 */
+							queryParams: function(params) {
+								return {
+									offset: params.offset,
+									limit: params.limit,
+									title: $("#title").val()
+								}
+							},
+							columns: [{
+								title: "选择",
+								formatter: function(value, row, index, field) {
+									return '<input class = "layui-layer-close layui-layer-close1" type="radio" name="userID" id=' + row.id + ' value=' + row.case_propernum + '>';
+								}
+							}, {
+								title: "案号",
+								field: "case_propernum"
+							}, {
+								title: "对方当事人",
+								field: "case_opposite_parties"
+							}, {
+								title: "代理费",
+								field: "case_agencyfee"
+							}, {
+								title: "已到款",
+								field: "case_paidsal"
+							}, {
+								title: "已开票",
+								field: "case_invoiced"
+							}, {
+								title: "承办律师",
+								field: "emp_name"
+							}, {
+								title: "收案日期",
+								field: "case_subtime"
+							}],
+							//height: $(window).height() - 150//自定义表格的高度
+						}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+
+						$(document).on("click", "input[name='userID']", function() {
+							parent.$('#law_id_show').val($(this).val());
+							parent.$('input[name=law_id]').val($(this).attr("id"));
+							//window.parent.location.href = "goto/addressBook/add_ExpressageByID_id";
+							parent.layer.close(parent.layer.getFrameIndex(window.name)); //弹出层关闭
+							//$.cookie("Expressage_add_userArr", arr);
+							//	window.parent.location.reload();//刷新父窗口
+						})
+						$(document).keyup(function(event) {
+							if(event.keyCode == 13) {
+								refresh();
+							}
+						});
+					})
+				</script>
+
+				<!--<script src="/Content/Js/table.js"></script>
+				<script>
+					var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+					$("input[name='CaseID']").click(function() {
+						var CaseValue = $(this).attr("CaseIDValue");
+						//案件费用信息 代理费\已到款项\已开发票
+						var Fy = $(this).attr("Fy");
+
+						var T = $("#T").val();
+						if(T == 1) {
+							//案件收支选择案件操作
+							parent.$('#CaseIdTxt').val($(this).val());
+							parent.$('#CaseId').val($(this).attr("CaseIDValue"));
+							parent.$('#DLPrice').text(Fy.split(",")[0] + "元");
+							parent.$('#YSPrice1').text(Fy.split(",")[1] + "元");
+							parent.$('#YSPrice').text(Fy.split(",")[1] + "元（已经收到的款）");
+							parent.$('#FpPrice').text(Fy.split(",")[2] + "元 (已经开出的发票）");
+							//此处调用父页面函数
+							//parent.LoadCaseInCome(CaseValue);
+						} else if(T == 2) {
+							var Cbls = $(this).attr("Cbls");
+							//代开发票
+							parent.$('#CaseIdTxt').val($(this).val());
+							parent.$('#CaseId').val($(this).attr("CaseIDValue"));
+
+							parent.$('#Cbls').text(Cbls);
+							parent.$('#DLPrice').text(Fy.split(",")[0] + "元");
+							parent.$('#YSPrice').text(Fy.split(",")[1] + "元（已经收到的款）");
+							parent.$('#FpPrice').text(Fy.split(",")[2] + "元 (已经开出的发票）");
+							//此处调用父页面函数
+							parent.LoadOther(CaseValue);
+						} else if(T == 3) {
+							//设置案件归档号，管理案件
+							parent.$('#CaseId').val($(this).val());
+							parent.$('#CaseIdValue').val($(this).attr("CaseIDValue"));
+							if(Fy.split(",")[3] != "") {
+								parent.$('#GdNums').val(Fy.split(",")[3]);
+							} else {
+								parent.$('#GdNums').val($("#GdNum").val());
+							}
+						} else if(T == 4) {
+							//发件管理
+							parent.$('#CaseName').val($(this).val());
+							parent.$('#CaseId').val($(this).attr("CaseIDValue"));
+						} else if(T == 5) {
+							//发件管理
+							parent.$('#CaseName').val($(this).val());
+							parent.$('#CaseId').val($(this).attr("CaseIDValue"));
+						} else if(T == 6) {
+							//借档管理
+							var Jy = $(this).attr("Jy");
+							parent.$('#CaseId').val($(this).val());
+							parent.$('#Wtr').text(Jy.split("|")[0]);
+							parent.$('#Cbls').text(Jy.split("|")[1]);
+							parent.$('#Gdh').text(Jy.split("|")[2]);
+						} else if(T == 7) {
+							//协同使用
+							parent.$('#CaseId').val($(this).val());
+							parent.$('#AyMake').val($(this).attr("aymake"));
+							parent.$('#Dlf').val($(this).attr("Dlf"));
+							parent.$('#SsBd').val($(this).attr("ssbd"));
+							parent.$('#SsDw').val($(this).attr("ssdw"));
+
+							var sscx = $(this).attr("sscx");
+
+							if(sscx.split(',').length > 0) {
+								var obj = sscx.split(',').length - 1;
+								var vals = sscx.split(',')[obj];
+								parent.$('#SsJd').val(vals);
+							} else {
+								parent.$('#SsJd').val($(this).attr(sscx));
+							}
+						} else {
+							parent.$('#CaseIdValue').val($(this).attr("CaseIDValue"));
+							parent.$('#CaseId').val($(this).val());
+							if(parent.$('#NewCaseId').length > 0) {
+								parent.$('#NewCaseId').val($(this).val());
+							}
+						}
+						parent.layer.close(index);
+
+						if($("#needRefresh").val() == "1") {
+							window.parent.location.href = "/PlaceOnFile/OnFile?needChoose=1&CaseId=" + $(this).attr("CaseIDValue");
+						}
+					});
+				</script>-->
+
+			</div>
+
+		</section>
+	</body>
+
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+    
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/laydate/default/laydate.css"/>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/layui/lay/modules/laydate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    
+   
+
+
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+<script>
+    function CaseChoose() {
+        $("#Tips").hide();
+        layer.open({
+            title: '案件选择',
+            type: 2,
+            area: ['80%', '80%'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: 'xiaotable'
+        });
+    }
+
+    function CaseDel() {
+        if ($("#CaseId").val().length <= 0) {
+            $("#Tips").show();
+        } else {
+            $("#Tips").hide();
+            layer.msg('确认要删除此案件吗,删除后无法恢复？', {
+                time: 0 //不自动关闭
+            , btn: ['确定', '取消']
+            , yes: function (index) {
+                layer.close(index);
+                $.ajax({
+                    type: "POST",
+                    url: "DelLaw",
+                    data: { "id": $("#caselawid").val() },
+                    success: function (result) {
+                        result = JSON.parse(result);
+                            window.location.href = "ManageCase5";
+                    }
+                });
+            }
+            });
+        }
+    }
+
+
+    $(function () {
+        //$("#form").validate({
+        //    errorPlacement: function (error, element) {
+        //        if (element.context.tagName == 'SELECT') {
+        //            $(element).css('color', '#3a3a3a');
+        //        }
+        //        else {
+        //            element.parent().find("label").after(error);
+        //        }
+        //    }
+        //});
+
+        //$("#form").ajaxForm({
+        //    beforeSubmit: function () {
+        //        layer.msg('确认要删除此案件吗？', {
+        //            time: 0 //不自动关闭
+        //            , btn: ['确定', '取消']
+        //            , yes: function (index) {
+
+        //                if ($("#CaseId").val().length <= 0) {
+        //                    layer.msg("请选择案件", function () {
+        //                        //关闭后的操作
+        //                    });
+        //                    return false;
+        //                }
+        //                return true;
+        //                $("#save").text("正在删除...");
+        //                layer.close(index);
+
+        //            }
+        //        });
+        //    },
+        //    success: function (data) {
+        //        $("#save").text("确定删除");
+        //        data = JSON.parse(data);
+        //        layer.msg(data.R, {
+        //            time: 1000
+        //        }, function () {
+        //            //关闭后的操作
+        //            layer.msg(result.R, { time: 2000 }, function () {
+
+        //            });
+        //        });
+        //        if (data.Stat == 0) {
+        //            location.href = '/CaseManage/CaseRecycle';
+        //        }
+        //    }
+        //});
+    });
+</script>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="/Content/icon/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">删除案件</a></li>
+</ol>
+<ul class="tab">
+        <a href="ManageCase" draggable="false" >修改案件</a>
+        <a href="ManageCase2" draggable="false">修改案号</a>
+        <a href="ManageCase3" draggable="false" >设置档案归档号</a>
+        <a href="ManageCase4" draggable="false" class="tab_on">删除案件</a>
+        <a href="ManageCase5" draggable="false">案件回收站</a>
+</ul>
+<script type="text/javascript">
+   
+</script>
+
+<div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">删除案件</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>案件：</label><span id="Tips" class="error" style="display: none">请选择案件</span>
+                   <input type="hidden" id="caselawid"   name="id"  /><!-- 案件id -->
+                    <input name="CaseId" type="text" id="CaseId" value="" class="form-control required" title="请选择案件" onclick="CaseChoose()" readonly="true">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid" onclick="CaseDel()">确定删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+ 
+
+    </section>
+    
+
+<script type="text/javascript" src="/WebResource.axd?d=0zd9Y-1nbqhtJETSjGdh4dGa2On7CjnrzzvirF6QSJmTOs9YvYuJMoAGTMZmXwYQKE4244xgjjNQeYPte1ABvh7NiWltqI0qvlWa5LmygrvXKqpZygL7IiTETaU3tRLo6avG77vdVFuiCjI-0sIORcrrQfg1&amp;t=636736440675645877"></script>
+    <script src="/Content/Scripts/jquery.unobtrusive-ajax.js?v=12321312313"></script>
+    <script type="text/javascript" src="/Content/js/baseFunction.js?v=12321312313"></script>
+
+
+</body></html>

@@ -1,0 +1,481 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css">
+  	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/layer.css"/>
+	<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css"/>
+	<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+	<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>    
+    <script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/laydate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body id="content">
+    <section>
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default">
+        <img src="static/img/back.png">
+    </a>
+
+    <li><a href="javascript:void(0)">案件</a></li>
+    <li><a class="active">法院开庭信息</a></li>
+</ol>
+<script type="text/javascript">
+	$(function(){
+		/*
+		 	内容一
+		 * */
+		   $("#table").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded;charset=UTF-8',
+			url:'ajaxCasecHoldAHearing',
+			pagination:true,//显示分页
+			pageSize:3,//每页数据数
+			pageList:[3,4,5],//设置页面可显示的数据条数
+			pageNumber:1,//首页页码
+			//sidePagination:'server',//设置为服务器端分页
+			sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					//offset:params.offset,
+					//limit:params.limit,
+					"casePropernum":$("#case_propernum").val(),
+					"hearingcourt":$("#hearing_court").val(),
+					"hearingholdacoutstatus":$("#Stat").val()
+				 }
+			}, 
+			columns:[{
+				title:'序号',
+				formatter:function(value,row,index){
+					return index+1
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'案号',
+				field:'case_propernum'
+			},{
+				align: 'center', // 左右居中
+				title:'当事人',
+				field: 'case_parties'
+			},{
+				align: 'center', // 左右居中
+				title:'开庭状态',
+				field: 'hearing_hold_a_cout_status'
+			},{
+				align: 'center', // 左右居中
+				title:'审批程序',
+				field: 'hearing_approval_procedure'
+			},{
+				align: 'center', // 左右居中
+				title:'立案日期',
+				formatter:function(value,row,index){
+					if(row.hearing_accreditation_time!=null)return new Date(row.hearing_accreditation_time).format("yyyy-MM-dd")
+					else return null
+				}	
+			},{
+				align: 'center', // 左右居中
+				title:'开庭日期',
+				formatter:function(value,row,index){
+					if(row.hearing_hold_a_cout_time!=null)return new Date(row.hearing_hold_a_cout_time).format("yyyy-MM-dd")
+					else return null
+				}		
+			},{
+				align: 'center', // 左右居中
+				title:'法庭',
+				field: 'hearing_court'
+			},{
+				align: 'center', // 左右居中
+				title:'操作',
+				formatter:function(value,row,index){
+					
+					return '<a href="javascript:delKaiTing('+row.id+');">删除</a>'
+				}
+			}]
+		})
+		
+		
+		//查询(刷新表格)
+		$("#searchForm").on("click",".btn_solid",function(e){
+			$("#table").bootstrapTable('refresh');//刷新
+			$("#case_propernum").val("")
+			$("#hearing_court").val("")
+			$("#Stat").val("")
+		});
+		
+		/* 
+			侦查机关************************************************************************************************
+		*/
+		   $("#onetable").bootstrapTable({
+				method:'post',
+				dataType:'json',
+				contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+				url:'ajaxZhenCha',
+				pagination:true,//显示分页
+				pageSize:3,//每页数据数
+				pageList:[3,4,5],//设置页面可显示的数据条数
+				pageNumber:1,//首页页码
+				//sidePagination:'server',//设置为服务器端分页
+				sidePagination: 'client',
+				 queryParams:function(params){//向后台传值
+					return{
+						//offset:params.offset,
+						//limit:params.limit,
+						"casePropernum":$("#onecase_propernum").val(),
+						"investigationOffice":$("#investigationOffice").val()
+					 }
+				}, 
+				columns:[{
+					title:'序号',
+					formatter:function(value,row,index){
+						return index+1
+					}
+				},{
+					align: 'center', // 左右居中
+					title:'案号',
+					field:'case_propernum'
+				},{
+					align: 'center', // 左右居中
+					title:'办案机关',
+					field: 'investigation_office'
+				},{
+					align: 'center', // 左右居中
+					title:'侦查案号',
+					field: 'investigation_no'
+				},{
+					align: 'center', // 左右居中
+					title:'部门',
+					field: 'investigation_dept'
+				},{
+					align: 'center', // 左右居中
+					title:'承办人',
+					field: 'investigation_undertaker'
+				},{
+					align: 'center', // 左右居中
+					title:'刑拘时间',
+					formatter:function(value,row,index){
+						if(row.investigation_criminal_time!=null)return new Date(row.investigation_criminal_time).format("yyyy-MM-dd")
+						else return null
+					}
+				},{
+					align: 'center', // 左右居中
+					title:'逮捕时间',
+					formatter:function(value,row,index){
+						if(row.investigation_arrest_time!=null)return new Date(row.investigation_arrest_time).format("yyyy-MM-dd")
+						else return null
+					}		
+				},{
+					align: 'center', // 左右居中
+					title:'联系电话',
+					field: 'investigation_tel'
+				},{
+					align: 'center', // 左右居中
+					title:'侦查期限',
+					field: 'investigation_deadline'
+				},{
+					align: 'center', // 左右居中
+					title:'操作',
+					formatter:function(value,row,index){
+						
+						return '<a href="javascript:delZhenCha('+row.id+');">删除</a>'
+					}
+				}]
+			})
+			
+			
+			//查询(刷新表格)
+			$("#oneForm").on("click","#onebtn",function(e){
+				$("#onetable").bootstrapTable('refresh');//刷新
+				$("#onecase_propernum").val("")
+				$("#investigationOffice").val("")
+			});
+		
+		   /* 
+			检查机关************************************************************************************************
+		*/
+		   $("#twotable").bootstrapTable({
+				method:'post',
+				dataType:'json',
+				contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+				url:'ajaxJianCha',
+				pagination:true,//显示分页
+				pageSize:3,//每页数据数
+				pageList:[3,4,5],//设置页面可显示的数据条数
+				pageNumber:1,//首页页码
+				//sidePagination:'server',//设置为服务器端分页
+				sidePagination: 'client',
+				 queryParams:function(params){//向后台传值
+					return{
+						//offset:params.offset,
+						//limit:params.limit,
+						"casePropernum":$("#twocase_propernum").val(),
+						"workOffice":$("#workOffice").val()
+					 }
+				}, 
+				columns:[{
+					title:'序号',
+					formatter:function(value,row,index){
+						return index+1
+					}
+				},{
+					align: 'center', // 左右居中
+					title:'案号',
+					field:'case_propernum'
+				},{
+					align: 'center', // 左右居中
+					title:'检查机关',
+					field: 'work_office'
+				},{
+					align: 'center', // 左右居中
+					title:'部门',
+					field: 'work_dept'
+				},{
+					align: 'center', // 左右居中
+					title:'承办人',
+					field: 'work_undertaker'
+				},{
+					align: 'center', // 左右居中
+					title:'联系电话',
+					field: 'work_tel'
+				},{
+					align: 'center', // 左右居中
+					title:'审查起诉时间',
+					formatter:function(value,row,index){
+						if(row.work_investigate_prosecute_time!=null)return new Date(row.work_investigate_prosecute_time).format("yyyy-MM-dd")
+						else return null
+					}
+				},{
+					align: 'center', // 左右居中
+					title:'操作',
+					formatter:function(value,row,index){
+						return '<a href="javascript:delJianCha('+row.id+');">删除</a>'
+					}
+				}]
+			})
+			
+			
+			//查询(刷新表格)
+			$("#twoForm").on("click","#twobtn",function(e){
+				$("#twotable").bootstrapTable('refresh');//刷新
+				$("#twocase_propernum").val("")
+				$("#workOffice").val("")
+			});
+	})
+	
+	//删除
+	function delKaiTing(id){
+		var boo = confirm("删除后不能恢复,确定删除?")
+		if(boo == true){
+			$.ajax({
+				type:"get",
+				url:"delKaiTing/"+id,
+				async:true,
+				success:function(data){
+					if(data == true){
+						$("#table").bootstrapTable('refresh');//刷新
+						alert('删除成功');
+					}
+				}
+			});
+		}
+	}
+	function delZhenCha(id){
+		var boo = confirm("删除后不能恢复,确定删除?")
+		if(boo == true){
+			$.ajax({
+				type:"get",
+				url:"delZhenCha/"+id,
+				async:true,
+				success:function(data){
+					if(data == true){
+						$("#onetable").bootstrapTable('refresh');//刷新
+						alert('删除成功');
+					}
+				}
+			});
+		}
+	}
+	
+	function delJianCha(id){
+		var boo = confirm("删除后不能恢复,确定删除?")
+		if(boo == true){
+			$.ajax({
+				type:"get",
+				url:"delJianCha/"+id,
+				async:true,
+				success:function(data){
+					if(data == true){
+						$("#twotable").bootstrapTable('refresh');//刷新
+						alert('删除成功');
+					}
+				}
+			});
+		}
+	}
+		
+	//kaiting
+		function kaitingMsgAdd(){
+			$.cookie("kaitingCase_propernum",null);
+			$.cookie("kaitingId",null);
+			window.location.href='kaitingMsgAdd';
+		}
+	
+	//侦查
+		 function ZhenCha(){
+				$.cookie("ZhenChaCase_propernum",null)
+		    	$.cookie("ZhenChaId",null)
+		    	window.location.href='scoutAdd';
+		 } 
+		//检查
+		 function JianCha(){
+		    $.cookie("JianChaCase_propernum",null)
+		    $.cookie("JianChaId",null)
+		    window.location.href='examineAdd';
+		 } 	
+Date.prototype.format = function(fmt) { 
+     var o = { 
+        "M+" : this.getMonth()+1,                 //月份 
+        "d+" : this.getDate(),                    //日 
+        "h+" : this.getHours(),                   //小时 
+        "m+" : this.getMinutes(),                 //分 
+        "s+" : this.getSeconds(),                 //秒 
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+        "S"  : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return fmt; 
+}   
+
+
+	
+</script>
+<script>
+//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+	
+<div class="layui-tab">
+  <ul class="layui-tab-title tab">
+   		 <li class="layui-this">法院开庭信息</li>
+          <li>侦查机关</li>
+          <li>检察机关</li>
+  </ul>
+  <div class="layui-tab-content">
+   		<div class="layui-tab-item layui-show"><!-- n内容一 -->
+			<div id="datas">  
+					<form class="container-fluid page_find" id="searchForm" >   
+						<div class="input-group">
+					   	 <input type="text" name="case_propernum" id="case_propernum" class="form-control" />
+					    </div> 
+					    <div class="down_box">
+					        <select name="SearchType" id="SearchType"> 
+					            <option value="1">案号搜索</option>
+					        </select>
+					    </div>
+					    <div class="input-group">
+					   	 <input type="text" name="hearing_court" id="hearing_court" class="form-control" />
+					    </div> 
+					    <div class="down_box">
+					        <select name="SearchType" id="SearchType"> 
+					            <option value="1">法庭搜索</option>
+					        </select>
+					    </div>
+					    <div class="down_box">
+					        <select name="Stat" id="Stat">
+					            <option value="">选择开庭状态</option>
+					            <option value="已开庭">已开庭</option>
+					            <option value="未开庭">未开庭</option>
+					        </select>
+					    </div>
+					    <input type="button" value="检索" class="btn_solid" />
+					    <a href="javascript:kaitingMsgAdd();" class="btn_hollow" style="margin-left: 80px;" >添加</a>
+					<!-- 开庭信息 -->
+					<table class="table white table-hover table-fixed-head" id="table">
+					</table>
+				</form>
+			</div>
+		</div>
+    <div class="layui-tab-item"><!-- n内容二 -->
+			<div id="datas">
+				<!--侦查机关 -->
+					<form class="container-fluid page_find" id="oneForm" >   
+						<div class="input-group">
+					   	 <input type="text" name="case_propernum" id="onecase_propernum" class="form-control" />
+					    </div> 
+					    <div class="down_box">
+					        <select name="SearchType" id="SearchType"> 
+					            <option value="1">案号搜索</option>
+					        </select>
+					    </div>
+					    <div class="input-group">
+					   	 <input type="text" name="investigationOffice" id="investigationOffice" class="form-control" />
+					    </div> 
+					    <div class="down_box">
+					        <select name="SearchType" id="SearchType"> 
+					            <option value="1">办案机关</option>
+					        </select>
+					    </div>
+					    <input type="button" value="检索" class="btn_solid" id="onebtn"/>
+					    <a href="javascript:ZhenCha();" class="btn_hollow" style="margin-left: 80px;" >添加</a>
+					<!-- 开庭信息 -->
+					<table class="table white table-hover table-fixed-head" id="onetable">
+					</table>
+				</form>
+			</div>
+
+	</div>
+    <div class="layui-tab-item"><!-- n内容三 -->
+			<div id="datas">
+				<!--检察机关 -->
+					<form class="container-fluid page_find" id="twoForm" >   
+						<div class="input-group">
+					   	 <input type="text" name="case_propernum" id="twocase_propernum" class="form-control" />
+					    </div> 
+					    <div class="down_box">
+					        <select name="SearchType" id="SearchType"> 
+					            <option value="1">案号搜索</option>
+					        </select>
+					    </div>
+					    <div class="input-group">
+					   	 <input type="text" name="workOffice" id="workOffice" class="form-control" />
+					    </div> 
+					    <div class="down_box">
+					        <select name="SearchType" id="SearchType"> 
+					            <option value="1">检察机关</option>
+					        </select>
+					    </div>
+					    <input type="button" value="检索" class="btn_solid" id="twobtn"/>
+					    <a href="javascript:JianCha();" class="btn_hollow" style="margin-left: 80px;" >添加</a>
+					<!-- 开庭信息 -->
+					<table class="table white table-hover table-fixed-head" id="twotable">
+					</table>
+				</form>
+			</div>
+	</div>
+  </div>
+</div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>辽宁盛恒律师事务所</title>
+		<link rel="stylesheet" type="text/css" href="static/css/parts3.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.all.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+				$("input[name=id]").val($.cookie("upd_info_userManager_byId"))
+				$.ajax({
+					type: "get",
+					url: "goto/setting/userManager/selByid/" + $.cookie("upd_info_userManager_byId"),
+					datatype: "json",
+					success: function(data) {
+						$("input[name=user_name]").val(data.user_name);
+						$("input[name=user_realname]").val(data.user_realname);
+						$("input[name=rname]").val(data.rname);
+						$("#user_phone").val(data.user_phone);
+						$("#user_desc").val(data.user_desc);
+						$("input[name=user_status]").val();
+						data.user_status == "Y" ? $("input[value='Y']").attr("checked", "checked") : $("input[value='N']").attr("checked", "checked");
+						data.emp_sex == "M" ? $("input[value='M']").attr("checked", "checked") : $("input[value='F']").attr("checked", "checked");
+						$.ajax({
+							type: "get",
+							url: "setting/roles/sel",
+							dataType: "json",
+							success: function(data) {
+								console.log(data);
+								for(let i = 0; i < data.length; i++) {
+									if(data[i].rname == data.rname) {
+										$("#role_id").append("<option selected='selected' value = " + data[i].id + ">" + data[i].rname + "</option>")
+									} else {
+										$("#role_id").append("<option value = " + data[i].id + ">" + data[i].rname + "</option>")
+									}
+								}
+							}
+						});
+					}
+				});
+			});
+		</script>
+		<style type="text/css">
+			input[type="radio"],
+			input[type="checkbox"] {
+				margin: -3px 6px 0;
+				line-height: normal;
+			}
+		</style>
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">人事</a>
+				</li>
+				<li>
+					<a class="active">编辑用户</a>
+				</li>
+			</ol>
+
+			<form class=" " enctype="multipart/form-data" id="form" method="post">
+				<div class="grid_input_shell">
+					<div class="container">
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">基本资料</label>
+							</div>
+						</div>
+						<div id="father">
+							<div class="row">
+								<div class="col-xs-6">
+									<label for=""><em>*</em>账号：</label>
+									<input type="text" data-placement="top" data-toggle="tooltip" title="请填写账号 " name="user_name" class="form-control required " />
+
+								</div>
+
+								<div class="col-xs-6 ">
+									<label for=" "><em>*</em>密码：</label>
+									<input type="password" title="请填写密码" data-placement="top" data-toggle="tooltip" name="user_pwd" readonly onfocus="this.removeAttribute('readonly');" value="" class="form-control " />
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-6 ">
+									<label for=" "><em>*</em>手机：</label>
+									<input type="text" name="user_phone " data-placement="top" data-toggle="tooltip" id="user_phone" class="form-control required isMobile" title="请填写手机号码" maxlength="11" />
+
+								</div>
+							</div>
+
+							<div class="row">
+								<!--<div class="col-xs-6">
+									<label for=" "><em>*</em>性别：</label>
+									<input data-placement="top" data-toggle="tooltip" checked="checked" name="emp_sex" type="radio" title="男" value="F" /> 男
+									<input data-placement="top" data-toggle="tooltip" name="emp_sex" type="radio" value="M" title="女" /> 女
+								</div>-->
+
+								<div class="col-xs-6">
+									<label for="">是否在职：</label>
+									<input data-placement="top" data-toggle="tooltip" name="user_status" type="radio" value="Y" title="在职" /> 在职
+									<input data-placement="top" data-toggle="tooltip" name="user_status" type="radio" value="N" title="离职" /> 离职
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-6">
+									<label for=""><em>*</em>用户组：</label>
+									<div class="dropdown_box1">
+										<div class="down_box">
+											<select id="role_id" name="role_id" class="required" data-placement="top" data-toggle="tooltip" title="请选择用户组">
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" id="id" name="id" />
+<input type="hidden" id="user_desc" name="user_desc" />
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<input type="button" id="save" class="btn_solid" value="确定提交" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<script src="static/js/md5.min.js" type="text/javascript" charset="utf-8"></script>
+				<script>
+					$(document).on("mouseover", "input", function() {
+						$("[data-toggle='tooltip']").tooltip();
+					})
+					$(document).on("mouseover", "select", function() {
+						$("[data-toggle='tooltip']").tooltip();
+					})
+					$(function() {
+						$("#save").on("click", function() {
+							var arr = $("#father").find("input[type=text]")
+							var len = $(arr).length;
+							for(let i = 0; i < len; i++) {
+								if($(arr[i]).val().trim() == '') {
+									var str = $(arr[i]).prev().text();
+									layer.msg(str.substr(1) + '  为必填选项 ');
+									return;
+								}
+							}
+							/* if(!(/^1[34578]\d{9}$/.test($("input[name=user_phone]").val()))) {
+								layer.msg('请输入合法手机号');
+								return;
+							} */
+							if($("input[name=user_name]").val() == "") {
+								layer.msg('用户名不能为空!');
+								$("input[name=user_pwd]").val("");
+								return;
+							}
+							if($("input[name=user_pwd]").val() == "") {
+								layer.msg('密码不能为空');
+								return;
+							}
+							var pwd = $("input[name=user_pwd]").val() + $("input[name=user_name]").val();
+							console.log(md5(pwd))
+							$("input[name=user_pwd]").val(md5(pwd));
+							$("input[name=user_desc]").val(md5(pwd));
+							$.ajax({
+								type: "post",
+								url: "setting/user/upduser",
+								data: $("form").serialize(),
+								success: function(data) {
+									if(data == true){
+										window.history.go(-1);
+									}else{
+										layer.msg('操作失败');
+									}
+								}
+							});
+						})
+					})
+				</script>
+			</form>
+		</section>
+	</body>
+
+</html>

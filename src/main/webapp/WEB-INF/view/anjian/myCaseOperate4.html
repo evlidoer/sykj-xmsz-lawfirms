@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html><head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/parts2.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/main_green.css"/>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	 <link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/CityList.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.form.js" type="text/javascript" charset="utf-8"></script>	
+    <script src="static/js/MouseOpen.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/WebSiteJs.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/messages_zh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/parts.js" type="text/javascript" charset="utf-8"></script>
+  
+</head>
+<body id="content">
+    <section>
+        
+<!-- me --><script type="text/javascript">
+	
+		$(function(){
+			$.ajax({
+				type:"get",
+				url:"myCaseOperate4show",
+				datatype:"json",
+				async:true,
+				success:function(data){
+					console.log(data)
+					$("#casePropernum").val(data[0].case_propernum)
+					$("#case_parties").val(data[0].case_parties)
+					$("#caseCause").val(data[0].case_cause)
+					$("#case_case_type_id").val(data[0].case_type_name)
+					//連接案件類別表
+				}
+			});
+			
+			
+			
+			//修改
+			 $("#save").on("click",function(){
+					$.ajax({
+						type:"post",
+						url:"myCaseOperate4Up",
+						data:{id:$("#id").val(),case_settle_way:$("#EndCols").val(),case_settle_date:$("#EndTime").val()},
+						async:true,
+						success:function(data){
+							if(data=="1"){
+								alert("提交成功")
+								window.location.href="myCase"
+							}
+						}
+						
+					})
+				}) 
+		})
+		
+
+
+</script>
+	
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">結案</a></li>
+</ol>
+<form    id="form" >    
+	 
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">案件信息</label>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-xs-12">
+                    <div class="shell text_group">
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                        	 案号：<p>
+                               	 <input style="border: 0px" name="caselawid" id="casePropernum"/>
+                               	 	<input name="id" type="hidden" id="id" class="textw">  
+                               	 	</p>
+                            </div>
+                        </div>
+
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                                委托人/当事人：<p><input style="border: 0px" name="case_parties" id="case_parties" readonly="readonly"/></p>
+                            </div>
+                        </div>
+
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                                案由：<p><input style="border: 0px" name="caseCause" id="caseCause" readonly="readonly"/></p>
+                            </div>
+                        </div>
+                        <div class="my_grid">
+                            <div class="all_box text_box">
+                               案件類別：<p>
+                                <input style="border: 0px" name="caseCaseTypeId" id="case_case_type_id"/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+			<div class="row ">
+                <div class="col-xs-6">
+                    <label><em>*</em>结案方式：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select name="EndCols" id="EndCols" title="请选择结案方式" class="required">
+                                <option value="">选择结案方式</option>
+                                    <option value="3">调解</option>
+                                    <option value="1">判决</option>
+                                    <option value="2">撤诉</option>
+                                    <option value="6">其他方式</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-3">
+                    <label><em>*</em>结案日期：</label>
+                    <input id="EndTime" name="EndTime" type="text" value="" class="form-control required" title="请选择结案日期" readonly="true" lay-key="1">
+                </div>
+            </div>
+
+			<div class="row ">
+                <div class="col-xs-12">
+                    <label>
+                        备注说明：
+                         
+                    </label>
+                    <textarea id="Des" name="Des" class="form-control" rows="3" cols="90"></textarea>
+
+                </div>
+            </div>
+            
+ 
+            
+            <div class="row ">
+                <div class="col-xs-12">
+                    <input class="btn_solid" id="save" type="button" value="确定提交" />
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</form>
+
+
+
+    </section>
+    <script>
+    laydate.render({
+        elem: '#EndTime' //指定元素
+        , calendar: true
+        , type: 'date'
+    });
+</script>
+
+<script src="static/anjian/jquery.unobtrusive-ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+
+</body></html>

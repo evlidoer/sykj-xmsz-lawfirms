@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+     <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+ 	<script type="text/javascript" src="static/js/parts.js"></script>
+ <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+ 
+</head>
+<script type="text/javascript">
+		$(function () {
+			//文书信息
+	    	$("#twotable").bootstrapTable({
+				method:'post',
+				dataType:'json',
+				contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+				url:'ajaxCaseSealApplyfor',
+				pagination:true,//显示分页
+				pageSize:3,//每页数据数
+				pageList:[3,5],//设置页面可显示的数据条数
+				pageNumber:1,//首页页码
+				sidePagination:'server',//设置为服务器端分页
+				//sidePagination: 'client',
+				 queryParams:function(params){//向后台传值
+					return{
+						offset:params.offset,
+						limit:params.limit,
+						casePropernum:$("#Title").val(),
+						applyfor_using_the_item:$("#applyfor_using_the_item").val(),
+						applyfor_approval_status:$("#applyfor_approval_status").val()
+					 }
+				}, 
+				columns:[{
+					title:'序号',
+					formatter:function(value,row,index){
+						return index+1
+					}
+				},{
+					align: 'center', // 左右居中
+					title:'涵号',
+					field:'sanum'
+				},{
+					align: 'center', // 左右居中
+					title:'案号',
+					field:'case_propernum'
+				},{
+					align: 'center', // 左右居中
+					title:'领用日期',
+					formatter:function(value,row,index){
+						return new Date(row.applyfor_receive).format("yyyy-MM-dd")
+					}
+				},{
+					align: 'center', // 左右居中
+					title:'领用人',
+					field: 'emp_name'
+				},{
+					align: 'center', // 左右居中
+					title:'用印事项',
+					width:'200px',
+					field:'applyfor_using_the_item'
+				},{
+					align: 'center', // 左右居中
+					title:'审批状态',
+					field: 'applyfor_approval_status'
+				},{
+					align: 'center', // 左右居中
+					title:'操作',
+					formatter:function(value,row,index){
+						return '<a  href="javascript:delbtn('+row.id+');"  class="btn_solid">删除</a>';
+					}
+				}]
+			})
+			
+			
+			
+			//查询(刷新表格)
+			$("#twobtn").on("click",function(e){
+				$("#twotable").bootstrapTable('refresh');//刷新
+				$("#Title").val("");
+			});
+
+		})
+	
+		
+		
+			function delbtn(sannum){
+		               var a= confirm("确定删除?") 
+		               if(a==true){
+							$.ajax({
+					            type: "get",
+					            url: "delCaseSealApplyfor/"+sannum,
+					            async: true,
+					            success: function (data) {
+					            	$("#twotable").bootstrapTable('refresh');//刷新
+					            	alert("删除成功")
+					            }
+							 });
+						}else{
+								
+						}
+				}
+		
+		
+		
+		//格式化时间
+	    Date.prototype.format = function(fmt) { 
+	        var o = { 
+	           "M+" : this.getMonth()+1,                 //月份 
+	           "d+" : this.getDate(),                    //日 
+	           "h+" : this.getHours(),                   //小时 
+	           "m+" : this.getMinutes(),                 //分 
+	           "s+" : this.getSeconds(),                 //秒 
+	           "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+	           "S"  : this.getMilliseconds()             //毫秒 
+	       }; 
+	       if(/(y+)/.test(fmt)) {
+	               fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+	       }
+	        for(var k in o) {
+	           if(new RegExp("("+ k +")").test(fmt)){
+	                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+	            }
+	        }
+	       return fmt; 
+	   } 
+</script>
+<body id="content" style="padding-bottom: 66px;">
+    <section>
+        
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件</a></li>
+    <li><a class="active" draggable="false">用印记录</a></li>
+</ol>
+
+ 
+<ul class="tab">
+        <a href="yongyin3" class="tab_on">用印记录</a>
+        <a href="yongyin1" draggable="false">用印申请</a>
+</ul>
+
+
+<form  class="container-fluid page_find" id="searchForm"  >    
+	<div class="input-group">
+        <input type="text" name="Title" id="Title" class="form-control">
+    </div> 
+    <div class="down_box">
+        <select name="SearchType" class="selct_1">
+            <option value="2">案号搜索</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="applyfor_using_the_item" id="applyfor_using_the_item" class="selct_1">
+            <option value="">用印事项</option>
+            	<option value="律师调查专用介绍信">律师调查专用介绍信</option>
+                <option value="律师见证">律师见证</option>
+                <option value="委托代理合同">委托代理合同</option>
+                <option value="授权委托书（民商等）">授权委托书（民商等）</option>
+                <option value="结案登记表">结案登记表</option>
+                <option value="收案审批表">收案审批表</option>
+                <option value="公函">公函</option>
+                <option value="介绍信">介绍信</option>
+                <option value="律师函">律师函</option>
+                <option value="非诉">非诉</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="applyfor_approval_status" id="applyfor_approval_status" class="selct_1">
+            <option value="">审批状态</option>
+            <option value="未审批">未审批</option>
+            <option value="已审批">已审批</option>
+        </select>
+    </div>
+    <input type="button" id='twobtn' value="检索" class="btn_solid">
+</form>
+
+<div id="datas">
+	<table id="twotable">
+	</table>
+</div>
+
+    </section>
+    
+
+<script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+<script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+
+</body></html>

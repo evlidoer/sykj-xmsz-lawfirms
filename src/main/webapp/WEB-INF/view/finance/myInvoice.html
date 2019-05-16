@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<base href="../../lawfirms" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的发票</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.form-group,
+			.btn-group {
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+					<ol class="breadcrumb">
+						<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+						<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+						<span class="glyphicon glyphicon-menu-left" ></span>
+					</button>
+						<li class="breadcrumb-li-one">
+							<a>财务</a>
+						</li>
+						<li>
+							<a>我的发票</a>
+						</li>
+					</ol>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<div class="form-inline">
+						<div class="form-group">
+							<input type="text" class="form-control" id="caseId">
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="caseIdNum">
+								<option value="0">案号</option>
+								<option value="1">发票抬头</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="kStatus">
+								<option value="-1">开票状态</option>
+								<option value="Y">已开</option>
+								<option value="N">未开</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="kType">
+								<option value="-1">发票类型</option>
+								<option value="1">增值税专用发票</option>
+								<option value="2">增值税普通发票</option>
+								<option value="3">普通机打发票</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="kProject">
+								<option value="-1">开票项目</option>
+								<option value="1">法律代理费</option>
+								<option value="2">法律顾问费</option>
+								<option value="3">咨询费</option>
+								<option value="4">法务托管费</option>
+								<option value="5">非诉</option>
+								<option value="6">其他(备注中填写)</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="cType">
+								<option value="-1">案件类型</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<div class="form-inline">
+						<div class="form-group">
+							申请时间&nbsp;&nbsp;
+							<input type="text" class="form-control Time" placeholder="起始时间:  yyyy-MM-dd" id="startTime" />
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control Time " placeholder="结束时间:  yyyy-MM-dd" id="endTime" />
+						</div>
+						<div class="form-group">
+							<input type="button" onclick="$('#showInvoice').bootstrapTable('refresh');" value="检索" class="btn btn-success">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 7px;">
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<table id="showInvoice"></table>
+				</div>
+			</div>
+		</div>
+		<script src="static/financeJs/myInvoice.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

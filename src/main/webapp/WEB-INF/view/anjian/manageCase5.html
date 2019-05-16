@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html><head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>辽宁盛恒律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+     <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+ 	<script type="text/javascript" src="static/js/parts.js"></script>
+ <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+   
+   
+
+
+    
+    
+</head>
+<body id="content" style="padding-bottom: 61px;">
+    <section>
+        
+
+<script>
+    $(function () {
+        $("#CaseCol").change(function () {
+            $("#Ay").empty();
+            $("#Ay").append("<option value='-1'>选择案件分类</option>");
+            var cols = $("#TCols").val();
+            $.ajax({
+                type: "POST",
+                url: "/Case/CaseCols2",
+                data: { "Cols": $(this).val() },
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $("#Ay").append("<option value='" + result[i]["ID"] + "'>" + result[i]["Title"] + "</option>");
+                    }
+                }
+            });
+        });
+    }); 
+    
+    
+    
+
+   
+</script>
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+ 
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="/Content/icon/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">案件回收站</a></li>
+</ol>
+
+<!-- 选项卡 -->
+<ul class="tab">
+      <a href="ManageCase" draggable="false" >修改案件</a>
+        <a href="ManageCase2" draggable="false">修改案号</a>
+        <a href="ManageCase3" draggable="false" >设置档案归档号</a>
+        <a href="ManageCase4" draggable="false" >删除案件</a>
+        <a href="ManageCase5" draggable="false" class="tab_on">案件回收站</a>
+</ul>
+<script type="text/javascript">
+  $(function () {
+    	$("#table").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:'lawHistroy',
+			//pagination:true,//显示分页
+			//pageSize:3,//每页数据数
+			//pageList:[3,5],//设置页面可显示的数据条数
+			//pageNumber:1,//首页页码
+			//sidePagination:'server',//设置为服务器端分页
+			//sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					//offset:params.offset,
+					//limit:params.limit,
+					Title:$("#Title").val()
+				 }
+			}, 
+			columns:[{
+				title:'序号',
+				formatter:function(value,row,index){
+					return index+1
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'案号',
+				field:'case_propernum'
+			},{
+				align: 'center', // 左右居中
+				title:'收案日期',
+				formatter:function(value,row,index){
+					return new Date(row.case_subtime).format("yyyy-MM-dd")
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'对方当事人',
+				field: 'case_opposite_parties'
+			},{
+				align: 'center', // 左右居中
+				title:'结案',
+				width:'60px',
+				formatter:function(value,row,index){
+						if(row.case_settle_status == 'Y') return '已结案';
+						if(row.case_settle_status == 'N') return '未结案';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'代理费',
+					field: 'case_agencyfee'
+			},{
+				align: 'center', // 左右居中
+				title:'已付款(元)',
+				field: 'case_paidsal'
+			},{
+				align: 'center', // 左右居中
+				title:'诉讼标的',
+				field: 'case_lawsuitobj'
+			},{
+				align: 'center', // 左右居中
+				title:'收案审批人',
+				field: 'emp_name'
+			}]
+		})
+    		//查询(刷新表格)
+			$("#btn").on("click",function(e){
+				$("#table").bootstrapTable('refresh');//刷新
+			});
+    	
+    	
+    	
+    	 Date.prototype.format = function(fmt) { 
+             var o = { 
+                "M+" : this.getMonth()+1,                 //月份 
+                "d+" : this.getDate(),                    //日 
+                "h+" : this.getHours(),                   //小时 
+                "m+" : this.getMinutes(),                 //分 
+                "s+" : this.getSeconds(),                 //秒 
+                "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+                "S"  : this.getMilliseconds()             //毫秒 
+            }; 
+            if(/(y+)/.test(fmt)) {
+                    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+            }
+             for(var k in o) {
+                if(new RegExp("("+ k +")").test(fmt)){
+                     fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                 }
+             }
+            return fmt; 
+        }   
+    });
+</script>
+
+
+
+<form  class="container-fluid page_find" id="searchForm" >
+    <div class="input-group">
+        <input type="text" name="Title" id="Title" class="form-control">
+    </div>
+    <div class="down_box">
+        <select >
+            <option value="1">案号搜索</option>
+        </select>
+    </div> 
+    <input type="button" value="检索" id="btn" class="btn_solid">
+</form>
+
+
+<div id="datas">
+<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="145" data-table-fixed-head-top="0" id="table">
+</table>
+</div>
+
+    </section>
+    
+
+<script type="text/javascript" src="/WebResource.axd?d=0zd9Y-1nbqhtJETSjGdh4dGa2On7CjnrzzvirF6QSJmTOs9YvYuJMoAGTMZmXwYQKE4244xgjjNQeYPte1ABvh7NiWltqI0qvlWa5LmygrvXKqpZygL7IiTETaU3tRLo6avG77vdVFuiCjI-0sIORcrrQfg1&amp;t=636736440675645877"></script>
+    <script src="/Content/Scripts/jquery.unobtrusive-ajax.js?v=12321312313"></script>
+    <script type="text/javascript" src="/Content/js/baseFunction.js?v=12321312313"></script>
+
+
+</body></html>

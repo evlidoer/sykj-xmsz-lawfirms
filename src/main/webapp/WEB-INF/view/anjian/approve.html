@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+  <link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+ 	 <script src="static/js/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/laydate.js" type="text/javascript" charset="utf-8"></script>
+
+    <style type="text/css">
+    	
+    </style>
+</head>
+<body id="content">
+    <section>
+        
+<script>
+    $(function () {
+        $("#form").validate({
+            errorPlacement: function (error, element) {
+                if (element.context.tagName == 'SELECT') {
+                    $(element).css('color', '#3a3a3a');
+                }
+
+                element.parent().find("label").after(error);
+            }
+        });
+
+
+        $("#form").ajaxForm({
+            beforeSubmit: function () {
+                //if ($("#Fid").val() != "0") {
+                //    if ($("#UList").val() == "0" && $("#RList").val() == "0") {
+                //        layer.msg("角色或人员请至少选择一项", function () {
+                //            //关闭后的操作
+                //        });
+                //        return false;
+                //    }
+                //}
+                $("#save").text("正在提交...");
+            },
+            success: function (data) {
+                $("#save").text("确定提交");
+                data = JSON.parse(data);
+                layer.msg(data.R, {
+                    time: 1500
+                }, function () {
+                    if (data.R == "提交成功") {
+                        if ($("#ID").val() != "0") {
+                            //window.history.go(-1);
+                            window.location.href = "/WorkFlow/ListFlow";
+                        } else {
+                            window.location.href = "/WorkFlow/ListFlow";
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    function UserChoose() {
+        layer.open({
+            title: '人员选择',
+            type: 2,
+            area: ['80%', '80%'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: ''
+        });
+    }
+
+
+
+    function RemoveDisable() {
+        $("#Fid").removeAttr("disabled");
+    }
+
+</script>
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">流程配置</a></li>
+    <li><a class="active" draggable="false">流程编辑</a></li>
+</ol>
+<form  class="shell todown" id="form"  onsubmit="RemoveDisable();">    <input id="ID" name="ID" type="hidden" value="0">
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">流程配置</label>
+                </div>
+            </div>
+           
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>流程名称：</label>
+                    <input type="text" name="Title" id="Title" value="" class="form-control required" title="请填写流程名称" maxlength="100">
+                </div>
+            </div>
+
+            <!-- <div class="row" id="DivUList" style="display: block;">
+                <div class="col-xs-12">
+                    <label for="">审批人员：</label>
+                   <input type="button"  name="teamMember" id="cyinput" style="text-align: left; box-shadow: 0 0 0px; border-color: #ccc; width: 100%;" onclick="showcy();" class="form-control" data-toggle="modal" data-target="#cy"   />
+                </div>
+            </div> -->
+								 <div class="row" id="sprow">
+					                <div class="col-xs-6">
+					                	<label for="">&nbsp;</label>
+					                    <ul id="optionContainer">
+					                        <li>
+					                       <div class="dropdown_box1" style="width: 600px">
+                       						 <div class="down_box">
+                            					<label for="">审批角色：</label>
+						                            <select name="Sort" id="Sort"  class="valid">
+						                                    <option value="超级管理员 ">超级管理员 </option>
+						                                    <option value="主任">主任</option>
+						                                    <option value="行政">行政</option>
+						                                    <option value="律师 ">律师 </option>
+						                                    <option value="财务">财务</option>
+						                            </select>
+						                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="add" href="javascript:void(0)" onclick="myaddRow_Lawyer();">增加一行</a>
+						                        </div>
+						                    </div>
+					                            
+					                        </li>
+					                    </ul>
+					                </div>
+					            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <input type="button" id="save" class="btn_solid" value="确定提交">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<!--模态框-->
+ <div class="modal fade" id="cy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span><tton>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline">
+	      	<div class="row">
+	      		<div class="col-lg-12 col-md-12 col-sm-12">
+	      			<table class="tab" id="tablecy"></table>
+	      		</div>
+	      	</div>
+	    </form>	
+      </div>
+    </div>
+  </div>
+ </div>
+<script>
+
+
+	
+	
+    $(function () {
+
+            $("#Sort").attr("class", "form-control required");
+
+           $("#save").on("click",function(){
+        	   var name = $("#Title").val()
+        	   var a = $("#Sort").val()
+        	    var a2 = $("#Sort2").val()
+        	     var a3 = $("#Sort3").val()
+        	      var a4 = $("#Sort4").val()
+        	       var a5 = $("#Sort5").val()
+        	  		
+        	      /*  var startEvent = {
+        	       	"id": "startEvent",
+					"name": '开始',
+					"type": "Start"
+        	       }
+        	      var endEvent = {
+        	        "id": "endEvent",
+					"name": '结束',
+				   	"type": "End"
+        	       }  */
+        	         var arrtask = new Array();
+        	  		 var arrsequenceFlow = new Array();
+        	   $("select[name=Sort]").each(function(i,obj){
+        		   //i+=1;
+        		   var task ={
+        	   			"id": "task"+i,
+						"name": $(this).val(),
+						"type": "userTask"
+        	   		}
+        		   var sourceRef = "task"+i;
+        		   var targetRef = "task"+i;
+        		   if(i!=0){
+        		   	 sourceRef = "task"+(i-1);
+        		   }
+        		   if(i==0){
+        			   sourceRef = "startEvent";
+        		   }
+        		   
+        		   /*if(i== $("select[name=Sort]").length-1){
+        			   targetRef = "endEvent";
+        		   }*/
+        		  var  sequenceFlow = {
+        				"id": "flow"+i,
+        				"sourceRef": sourceRef,
+        				"targetRef": targetRef,
+        				"conditionExpression": null,
+        				"name": null,
+        				"type": null
+        			}
+        		  arrtask.push(task);
+        		  arrsequenceFlow.push(sequenceFlow);
+        	   })
+        	   for (var i = 0; i < arrtask.length; i++) {
+					var array_element = arrtask[i];
+					console.log(array_element)
+				}
+        	   for (var i = 0; i < arrsequenceFlow.length; i++) {
+					var array_element = arrsequenceFlow[i];
+					console.log(array_element)
+				}
+        	  	/*  MyProcess = {
+        	       	"startEvent":startEvent,
+        	       	"endEvent":endEvent
+        	       } */
+        	   var userTask = JSON.stringify(arrtask);
+        	   /alert($("select[name=Sort]").length-1 + "--" +i)
+        	   var end = $("select[name=Sort]").length-1;
+        	   var sequenceFlow = JSON.stringify(arrsequenceFlow);
+        	   			$.ajax({
+    							type:"post",
+    							url:"addLApprove",
+    							async:true,
+    							data:{userTask:userTask,name:name,sequenceFlow:sequenceFlow,end:end},
+    							success:function(data){
+    								if(data == "1")
+    								alert("设置成功")
+    							}
+    						})
+        	   
+           })
+            
+            
+            
+            
+    });
+
+    function clearUser() {
+        $("#UList").val("");
+        $("#UListStr").val("");
+    }
+    
+
+    
+    /*aaaa*/
+    function showcy () {
+			$("#tablecy").bootstrapTable({
+				type:"get",
+				url:"hr/team/selectuser",
+				dataType: "json",
+				//设置true将禁止多选
+				singleSelect : true,
+				striped : true, //是否显示行间隔色
+				pageNumber : 1, //初始化加载第一页
+				pagination : true,//是否分页
+				sidePagination : 'server',//server:服务器端分页|client：前端分页
+				pageSize : 12,//单页记录数
+				pageList : [ 6, 12, 18, 24 ],//可选择单页记录数
+				queryParams:function(params){
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							string: $("#usercy").val()
+					}
+				},
+				columns:[{
+					title:"选择",
+					checkbox: true
+				},{
+					title:"姓名",
+					field:"empName"
+				},{
+					title:"手机号码",
+					field:"empPhone"
+				}],
+				//点击checkbox触发事件
+				 onCheck:function(row){
+				 	//获取选中的一行值
+					 var a= $("#tablecy").bootstrapTable("getSelections");
+						console.log(a[0].empName)
+						$("#cyinput").val(a[0].empName)
+						$("#cy").modal("hide");
+			     }
+				});
+				
+		}
+
+var rowCount = 1;  //行数默认4行  
+function myaddRow_Lawyer() {
+    if (rowCount <= 4) {
+        rowCount++;
+        
+       									var VHtml = '<li id="option'+rowCount+'">';
+					                     VHtml +=  '<div class="dropdown_box1" >';
+                       						VHtml += '<div class="down_box">';
+                            				VHtml +=	'<label for="">'+rowCount+'审批角色：</label>';
+						                      VHtml +=     '<select name="Sort" id="Sort'+rowCount+'"  class="valid">' ;
+						                        VHtml +=           '<option value="超级管理员 ">超级管理员 </option>' ;
+						                       VHtml +=            '<option value="主任">主任</option>' ;
+						                         VHtml +=          '<option value="行政">行政</option>';
+						                         VHtml +=          '<option value="律师 ">律师 </option>' ;
+						                         VHtml +=          '<option value="财务">财务</option>' ;
+						                         VHtml +=  '</select>' ;
+						                         VHtml +=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="delete" onclick=delRow_Lawyer(_tempid)>删除</a>';
+						                       VHtml += '</div>';
+						                   VHtml += '</div>';
+					                       VHtml += '</li>';
+        
+        VHtml = VHtml.replace(/_tempid/g, rowCount);
+
+        $('#optionContainer').append(VHtml);
+       
+    } else {
+        alert("最多5个节点")
+    }
+
+}
+//删除行  
+function delRow_Lawyer(rowIndex) {
+    $("#option"+rowCount).remove();
+    rowCount--;
+}
+</script>
+
+    </section>
+    
+
+
+
+</body></html>
+
+ 						

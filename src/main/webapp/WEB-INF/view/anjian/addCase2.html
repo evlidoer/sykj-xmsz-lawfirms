@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<base href="/lawfirms/" />
+<head>
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_navyblue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/LyJs.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<section>
+	<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">利益冲突审查</a></li>
+</ol>
+<ul class="flow_line">
+    <li >1.选择案件类型</li>
+    <span>&gt;</span>
+    <li class="flow_line_now">2.利益冲突审查</li>
+    <span>&gt;</span>
+    <li>3.新增委托人</li>
+    <span>&gt;</span>
+    <li>4.登记立案信息</li>
+    <span>&gt;</span>
+    <li>5.立案文书上传</li>
+    <span>&gt;</span>
+    <li>6.收案审批</li>
+</ul>
+</script>
+<form  class="shell todown" id="form">   
+	<input type="hidden" id="EditLinks" name="EditLinks" value="">
+
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">
+                     		   利益冲突审查
+                    </label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                            <em>*</em>委托人/当事人：
+                        </label>
+                        <input type="text" name="Wtr" id="Wtr" value="" class="form-control required" title="请填写委托人/当事人">
+                    </div>
+                    <div class="col-xs-6">
+                            <label for="">
+                                <em>*</em>对方当事人：
+                            </label> 
+                        <input type="text" name="DWtr" id="DWtr" value="" class="form-control required" title="请填写对方当事人">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="button" id="btn" value="立即检测" class="btn_solid">
+                        <a href="addCase3" class="btn_solid">添加当事人</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+						 <table id="onetable" class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="table" style="border-left: 1px dotted #ededed;">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</section>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+		<title>辽宁盛恒律师事务所</title>
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.min.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/layui/layui.js"></script>
+		<script type="text/javascript" src="static/layui/layui.all.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$.fn.serializeObject = function() {
+				var o = {};
+				var a = this.serializeArray();
+				$.each(a, function() {
+					if(o[this.name]) {
+						if(!o[this.name].push) {
+							o[this.name] = [o[this.name]];
+						}
+						o[this.name].push(this.value || '');
+					} else {
+						o[this.name] = this.value || '';
+					}
+				});
+				return o;
+			}
+			$(function() {
+				$("#id").val($.cookie("upd_F_ExpressageSelById"));
+				$.ajax({
+					type:"get",
+					url:"Expressage/selFById/"+$.cookie("upd_F_ExpressageSelById"),
+					dataType:"json",
+					success:function(data){
+						console.log(data);
+						//收件人
+						$("#user_id_show").val(data.emp_name);
+						$("input[name=user_id]").val(data.user_id);
+						//收件时间
+						$("#fj_date").val(data.fj_date);
+						//快递公司
+						$("input[name=company]").val(data.company);
+						$("#company").val(data.gs_name);
+						//快件类型
+						$("#kdtype").val(data.kd_type)
+						$("input[name=kdtype]").val(data.kdtype)
+						//案件
+						$("#law_id_show").val(data.case_propernum);
+						$("input[name=law_id]").val(data.law_id)
+						//领件人
+						$("#hr_sj_id_show").val(data.sjname);
+						$("input[name=hr_sj_id]").val(data.hr_sj_id);
+						//想关文件
+						if(data.path != '' && data.path != null) {
+							$("#fileName").text(data.path);
+						}
+						//领件时间
+						$("#lj_date").val(data.lj_date);
+						//解说
+						$("#sjdesc").val(data.sjdesc);
+						//快递费
+						$("input[name=kdmonery]").val(data.kdmonery);
+						//电话
+						$("input[name=whophone]").val(data.whophone);
+						//
+						$("input[name=dizhi]").val(data.dizhi);
+						
+						//
+						$("input[name=danwei]").val(data.danwei);
+						
+						$("input[name=danhao]").val(data.danhao);
+					}
+				});
+				$("#tijiao").on("click", function() {
+					var $formData = new FormData();
+					$formData.append("mypath",$("#path")[0].files[0]);
+					var params = $("#form").serializeObject(); //将表单序列化为JSON对象
+					$formData.append("kdManagerF",JSON.stringify(params));
+					$.ajax({
+						type: "post",
+						url: "modyfyF/byid",
+						data: $formData,
+						contentType: false, //禁止设置请求类型
+						processData: false, //禁止jquery对Data数据的处理,默认会处理,禁止的原因是,FormData已经帮我们做了处理
+						dataType: "json",
+						success:function(data){
+							if (data == true){
+								layer.msg("操作成功", {
+									icon: 1,
+									time: 1200
+								});
+								setTimeout(function() {
+									window.location.href = "goto/administration/FJExpressage";
+								}, 1300);
+							}else{
+								layer.msg("操作失败,请等待.......", {
+									icon: 5,
+									time: 1200
+								});
+							}
+						}
+					});
+				})
+				//获取文件名方式二 
+				function getFileName(file) { //通过第二种方式获取文件名
+					var arr = file.split('\\'); //通过\分隔字符串，成字符串数组
+					return arr[arr.length - 1]; //取最后一个，就是文件名
+				}
+				//上传文件处理
+				var fileUpdate_button = document.getElementById("fileUpdate-button");
+				var fileUpdate_input = document.getElementById("path");
+				fileUpdate_button.onclick = function() {
+					fileUpdate_input.click();
+				}
+				$("#path").on("change", function() {
+					var urlName = $("#path").val();
+					$("#fileName").text(getFileName(urlName));
+					$("#noticeAccessoryurl").val(getFileName(urlName));
+				})
+				layui.use('laydate', function() {
+					var laydate = layui.laydate;
+					//执行一个laydate实例
+					laydate.render({
+						elem: '#fj_date' //指定元素
+					});
+					laydate.render({
+						elem: '#lj_date' //指定元素
+					});
+				});
+			})
+
+			function SelectUser() {
+				layer.open({
+					title: '收件人',
+					type: 2,
+					area: ['60%', '60%'],
+					fixed: false, //不固定
+					maxmin: true,
+					content: 'goto/addressBook/upd_ExpressageByID_id/selUer'
+				});
+			}
+
+			function SelectUser2() {
+				layer.open({
+					title: '领件人',
+					type: 2,
+					area: ['60%', '60%'],
+					fixed: false, //不固定
+					maxmin: true,
+					content: 'goto/addressBook/upd_ExpressageByID_id/selUer_2'
+				});
+			}
+
+			function KuaiDiSel() {
+				layer.open({
+					title: '快递公司管理',
+					type: 2,
+					area: ['60%', '60%'],
+					fixed: false, //不固定
+					maxmin: false,
+					content: 'goto/addressBook/upd_ExpressageByID_id/Kuaisel'
+				});
+			}
+
+			function colsWindow() {
+				layer.open({
+					title: '快递类型管理',
+					type: 2,
+					area: ['60%', '60%'],
+					fixed: false, //不固定
+					maxmin: true,
+					content: 'goto/addressBook/upd_ExpressageByID_id/typeSel'
+				});
+			}
+
+			function MineCases() {
+				layer.open({
+					title: '案件信息',
+					type: 2,
+					area: ['80%', '80%'],
+					fixed: false, //不固定
+					maxmin: true,
+					content: 'goto/addressBook/upd_ExpressageByID_id/lawSel',
+				});
+			}
+		</script>
+		<style type="text/css">
+			.layui-upload-drag .layui-icon {
+				font-size: 30px;
+				color: #009688;
+				padding-top: -15px;
+				margin-top: 2px;
+			}
+		</style>
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">行政</a>
+				</li>
+				<li>
+					<a class="active">编辑收件</a>
+				</li>
+			</ol>
+
+			<form enctype="multipart/form-data" id="form" method="post">
+			<input type = "hidden" id = "id" name = " id">
+				<div class="grid_input_shell">
+					<div class="container">
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">基本资料：</label>
+							</div>
+						</div>
+
+						<div class="row ">
+							<div class="col-xs-6">
+								<label><em>*</em>发件人： </label>
+								<br />
+								<input lay-verify="person" type="text" id="user_id_show" class="form-control dfinput t_hui required" title="请填写收件人" />
+								<input name="user_id" type="hidden">
+								<button class="btn_solid" onclick="SelectUser()" type="button">选择收件人</button>
+							</div>
+							<div class="col-xs-6">
+								<label><em>*</em>发件日期：</label>
+								<input name="fj_date" type="text" id="fj_date" class="Wdate t_edit form-control required date" readonly="true" value="" title="请选择收件日期" lay-verify="date">
+							</div>
+						</div>
+						<div class="row ">
+							<div class="col-xs-6">
+								<label><em>*</em>快递公司：</label>
+								<input type="text" class="form-control dfinput t_hui required" id="company" readonly="true" onclick="KuaiDiSel()" value="" title="请填写收件来源" />
+								<input type="hidden" name="company" value="" />
+							</div>
+							<div class="col-xs-6">
+								<label><em>*</em>快件类型：</label>
+								<input type="text" class="form-control  required" id="kdtype" readonly="true" value="" onclick="colsWindow()" />
+								<input type="hidden" name="kdtype" value="" />
+							</div>
+							
+							<div class="col-xs-6">
+								<label>收件人： </label>
+								<br />
+								<input type="text" id="hr_sj_id_show" class="form-control" value="" />
+								<input name="hr_sj_id" type="hidden">
+								<button class="btn_solid" onclick="SelectUser2()" type="button">选择领件人</button>
+							</div>
+						</div>
+
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">其他选填</label>
+								<span class="input_display">展开</span>
+							</div>
+						</div>
+
+						<div class="input3_other">
+							<div class="row ">
+								<div class="col-xs-6">
+									<label>案件：</label>
+									<input type="text" id="law_id_show" class="form-control dfinput t_hui" readonly="true" onclick="MineCases()" value="" />
+									<input name="law_id" type="hidden">
+								</div>
+								<div class="col-xs-6">
+									<label>快递单号：</label>
+									<input type="text" name="danhao" class="form-control" onblur="SetInputDouble(this,2)" />
+								</div>
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-6">
+									<label>快递费：</label>
+									<input type="text" name="kdmonery" class="form-control" onblur="SetInputDouble(this,2)" />
+								</div>
+
+								<div class="col-xs-6">
+									<label>收件单位： </label>
+									<input type="text" name="danwei" class="form-control">
+								</div>
+							</div>
+
+							<div class="col-xs-6" style="padding-left: 24px;">
+								<label>收件地址：</label>
+								<input type="text" name="dizhi" class="form-control">
+							</div>
+
+							<div class="col-xs-6">
+								<label>联系电话： </label>
+								<input type="text" name="whophone" class="form-control">
+							</div>
+
+							<div class="row ">
+								<div class="col-xs-6">
+									<label for="">
+                         		   相关文件： 
+                        	</label>
+									<br />
+									<div title="请填选择文件" class="layui-upload-drag" id="fileUpdate-button" style="width: 200px;height: 35px;margin-left: 31px;">
+										<i class="layui-icon"></i>
+										<p id="fileName">点击上传，或将文件拖拽到此处</p>
+									</div>
+									<input type="file" id="path" style="display: none" />
+								</div>
+
+								<div class="col-xs-6">
+									<label>领件时间：</label>
+									<input name="lj_date" type="text" id="lj_date" class="Wdate t_edit form-control" readonly="true" value="">
+								</div>
+							</div>
+
+							<div class="row" style="display:none" id="FileULDIV">
+								<div class="col-xs-12">
+									<ul style="float: left" id="FileUL">
+									</ul>
+								</div>
+							</div>
+
+							<div class="row ">
+							</div>
+							<div class="row ">
+								<div class="col-xs-12">
+									<label>其他备注说明：</label>
+									<textarea name="sjdesc" id="sjdesc" rows="3" cols="90" class="form-control"></textarea>
+								</div>
+							</div>
+						</div>
+
+						<div class="row ">
+							<div class="col-xs-12">
+								<a class="btn_solid" id="tijiao">提交</a>
+								<a class="btn_solid" onclick="fanhui()">取消</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</section>
+	</body>
+	<script type="text/javascript">
+		function fanhui() {
+			window.location.href = document.referrer;
+		}
+	</script>
+
+</html>

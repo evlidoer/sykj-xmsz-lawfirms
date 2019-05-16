@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.jt.lawfirm.mapper.administration.INoticeMapper">
+	
+	<select id="selNoticeAll"
+		resultType="com.jt.lawfirm.bean.administration.Notice" parameterType="java.util.Map">
+		select n.*,u.user_name USERNAME from adm_notice n
+			inner join system_user u on n.system_user_id = u.id
+			where 1 = 1
+		<if test="title != null and title != ''">
+			and n.title like #{title}
+		</if>
+		<if test="etime != null and etime != ''">
+			and n.notice_notificationendtime = #{etime}
+		</if>
+		<if test="stime != null and stime != ''">
+			and n.notice_notificationtime = #{stime}
+		</if>
+		and notice_status = 'Y' order by n.id desc 
+	</select>
+	
+	<select id="selInfoById"
+		resultType="java.util.Map" parameterType="int">
+		select n.*,u.user_name USERNAME from adm_notice n
+			inner join system_user u on n.system_user_id = u.id
+			where n.id = #{id}
+	</select>
+</mapper>

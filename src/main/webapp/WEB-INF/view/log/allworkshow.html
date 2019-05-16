@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+		<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+		<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+		<script src="static/js/jquery.min.js"></script>
+		<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+		<script type="text/javascript" src="static/js/bootstrap.js"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/layer.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.min.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/layDate5.0.9/laydate.js"></script>
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+<!--
+	作者：二乐
+	描述：全所工作日志 首页
+-->
+		<script type="text/javascript">
+			function sel(id) {
+				$.cookie("sel_allworkshowByID_id", id, {
+					expires: 30,
+					path: '/lawfirms'
+				});
+				//查看
+				window.location.href = "/lawfirms/goto/log/allworkjourna";
+			}
+
+			
+
+			function changeDateFormat(cellval) {
+				var dateVal = cellval + "";
+				if(cellval != null) {
+					var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+					var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+					var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+					var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+					var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+					var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+					return date.getFullYear() + "-" + month + "-" + currentDate;
+				}
+			}
+
+			function refresh() {
+				$("#table").bootstrapTable("refresh");
+			}
+
+			$(function() {
+				$("#ref").on("click", function() {
+					refresh();
+				})
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+
+				var i = 0;
+				var myleft = 100;
+				var mytop = 18
+
+				$("#table").bootstrapTable({
+					method: "get",
+					url: "/lawfirms/log/allworkshow",
+					dataType: "json",
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 8, //每页几条数据
+					sidePagination: "client", //client 前台分页，server后台分页 
+					queryParams: function(params) {
+						return {
+							Title: $("#Title").val(),
+							stime: $("#stime").val(),
+							etime: $("#etime").val(),
+							addresslist_state: $("#addresslist_state").val()
+						}
+					},
+					columns: [{
+						title: "日志类型",
+						field: "log_type_logname"
+					}, {
+						title: "案号",
+						field: "case_propernum"
+					}, {
+						title: "客户名称",
+						field: "client"
+					}, {
+						title: "开始时间",
+
+						formatter: function(value, row, index) {
+							return changeDateFormat(row.joblog_startTime)
+						}
+
+					}, {
+						title: "自报时间",
+
+						formatter: function(value, row, index) {
+							return changeDateFormat(row.joblog_reportedTime)
+						}
+					}, {
+						title: "工作描述",
+						field: "joblog_text"
+					}, {
+						title: "公开状态",
+						field: "addresslist_state"
+					}, {
+						title: "操作",
+						
+						//操作菜单
+						formatter: function(value, row, index) {
+							if(i + 1 === index) {
+								mytop += 42
+								i++;
+							}
+							return '<a href="javaScript:sel(' + row.id + ')" draggable="false"  class="btn_hollow btn_solid data-value="1695">查看</a>';
+						}
+
+					}]
+
+				});
+
+				$(document).on("click", ".facaidan", function() {
+					$(this).text("收起")
+					if($(this).next().css("display") == "none") {
+						$(this).next().css("display", "inline-block")
+					} else {
+						$(this).text("菜单")
+						$(this).next().css("display", "none")
+					}
+				});
+
+			});
+		</script>
+	</head>
+
+	<body id="content">
+		<section>
+
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">日志</a>
+				</li>
+				<li>
+					<a class="active">工作日志</a>
+				</li>
+			</ol>			<form action="/JobLog/List" class="container-fluid page_find" id="searchForm" method="post">
+				<div class="input-group">
+					<input type="text" name="Title" id="Title" class="form-control" placeholder="案号/客户名称搜索" />
+				</div>
+				<div class="down_box">
+					<select id="addresslist_state" name="addresslist_state">
+						<option value=''>选择公开状态</option>
+						<option value="已公开">已公开</option>
+						<option value="未公开">未公开</option>
+					</select>
+				</div>
+				开始
+				<div class="input-group">
+					<input type="text" class="form-control" id="stime" name="stime" aria-describedby="basic-addon1" realvalue="">
+				</div>
+				至
+				<div class="input-group">
+					<input type="text" class="form-control" id="etime" name="etime" aria-describedby="basic-addon1" realvalue="">
+				</div>
+				<input type="button" id="ref" value="检索" class="btn_solid" />
+				
+			</form>
+
+			<div id="datas">
+
+				<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="table">
+					<thead id="table_title">
+						<tr>
+							<th>日志类型</th>
+							<th>案号</th>
+							<th>客户名称</th>
+							<th>开始时间</th>
+							<th>自报时间</th>
+							<th>工作描述</th>
+							<th>公开状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+
+				<footer>
+					<!-- 按钮操作 -->
+
+					<!-- 页码跳转 -->
+
+					<!--MvcPager v3.0.1 for ASP.NET MVC 4.0+ ? 2009-2015 Webdiyer (http://en.webdiyer.com)-->
+					<ul class="pagination" data-ajax="true" data-ajax-dataformid="#searchForm" data-ajax-method="Post" data-ajax-update="#datas" data-invalidpageerrmsg="Page index is invalid" data-outrangeerrmsg="Page index is out of range" data-pagecount="0" data-pageindexbox="#pib" data-pageparameter="pages" data-pagerid="Webdiyer.MvcPager" data-urlformat="/JobLog/List?pages=__pages__" id="bootstrappager" style="float:left"></ul>
+					<!--MvcPager v3.0.1 for ASP.NET MVC 4.0+ ? 2009-2015 Webdiyer (http://en.webdiyer.com)-->
+
+					<!--<div class="btn-toolbar" role="toolbar" aria-label="...">
+						<p class="toolbar_text">共 <em>0</em> 条，当前第 <em>1</em> 页，共 <em>0</em> 页</p>
+					</div>-->
+				</footer>	
+			</div>
+
+			<script>
+				laydate.render({
+					elem: '#stime' //指定元素
+						,
+					calendar: true,
+					type: 'date'
+				});
+
+				laydate.render({
+					elem: '#etime' //指定元素
+						,
+					calendar: true,
+					type: 'date'
+				});
+
+				function Export() {
+					var b = Check();
+					if(b) {
+						window.location.href = "/JobLog/JobLogExport?Title=" +
+							$("#Title").val() +
+							"&SearchType=" +
+							$("#SearchType").val() +
+							"&LogType=" +
+							$("#LogType").val() +
+							"&CaseCol=" +
+							$("#CaseCol").val() +
+							"&OpenStat=" +
+							$("#OpenStat").val() +
+							"&BegTime=" +
+							$("#BegTime").val() +
+							"&EndTime=" +
+							$("#EndTime").val() +
+							"&ListCols=" + 0 + "";
+
+						$("#export").attr('disabled', true);
+						$("#export").attr('value', '正在导出....');
+
+						setTimeout(exportOp, 20000);
+					}
+				}
+
+				function GetDateDiff(startDate, endDate) {
+					var startTime = new Date(Date.parse(startDate.replace(/-/g, "/"))).getTime();
+					var endTime = new Date(Date.parse(endDate.replace(/-/g, "/"))).getTime();
+					var days = Math.abs((startTime - endTime)) / (1000 * 60 * 60 * 24);
+					return days;
+				}
+
+				function Check() {
+					if($("#BegTime").val().length <= 0) {
+						layer.msg("请选择导出数据开始日期", function() {
+							//关闭后的操作
+						});
+						return false;
+					}
+					if($("#EndTime").val().length <= 0) {
+						layer.msg("请选择导出数据结束日期", function() {
+							//关闭后的操作
+						});
+						return false;
+					}
+					if(GetDateDiff($("#BegTime").val(), $("#EndTime").val()) >= 366) {
+						layer.msg("最多只允许导出一年的数据，请重新选择", function() {
+							//关闭后的操作
+						});
+						return false;
+					}
+					return true;
+				}
+
+				function exportOp() {
+					$("#export").attr('value', '导出');
+					$("#export").attr('disabled', false);
+				}
+			</script>
+
+		</section>
+	</body>
+
+</html>

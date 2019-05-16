@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css">
+  	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_blue.css"/>	  
+	<link rel="stylesheet" type="text/css" href="static/css/layer.css"/>
+	<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css"/>
+	<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+	<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>    
+     <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layui.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/layui/lay/modules/laydate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body id="content">
+    <section>
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default">
+        <img src="static/img/back.png">
+    </a>
+
+    <li><a href="javascript:void(0)">案件</a></li>
+    <li><a class="active">所有案件</a></li>
+</ol>
+<script type="text/javascript">
+		/*
+		 	内容一
+		 * */
+	$(function () {
+    	$("#onetable").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:'ajaxConflictOfInterestReview',
+			pagination:true,//显示分页
+			pageSize:3,//每页数据数
+			pageList:[3,5],//设置页面可显示的数据条数
+			pageNumber:1,//首页页码
+			sidePagination:'server',//设置为服务器端分页
+			//sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					offset:params.offset,
+					limit:params.limit,
+					casePropernum:$("#Title").val(),
+					caseApproveStatus:$("#caseApproveStatus").val(),
+					caseSettleStatus:$("#caseSettleStatus").val(),
+					//caseSubtime:$("#test2").val(),
+					caseAssign:$("#caseAssign").val()
+					 
+				 }
+			}, 
+			columns:[{
+				title:'序号',
+				formatter:function(value,row,index){
+					return index+1
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'案号',
+				width:"200px",
+				field:'case_propernum'
+			},{
+				align: 'center', // 左右居中
+				title:'收案日期',
+				formatter:function(value,row,index){
+					return new Date(row.case_subtime).format("yyyy-MM-dd")
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'对方当事人',
+				field: 'case_opposite_parties'
+			},{
+				align: 'center', // 左右居中
+				title:'结案',
+				width:'60px',
+				formatter:function(value,row,index){
+						if(row.case_settle_status == 'Y') return '已结案';
+						if(row.case_settle_status == 'N') return '未结案';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'代理费',
+					field: 'case_agencyfee'
+			},{
+				align: 'center', // 左右居中
+				title:'已付款(元)',
+				field: 'case_paidsal'
+			},{
+				align: 'center', // 左右居中
+				title:'档案状态',
+				formatter:function(value,row,index){
+						if(row.case_clash == 'Y') return '已归档';
+						if(row.case_clash == 'N') return '未归档';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'合同状态',
+				formatter:function(value,row,index){
+						if(row.case_recycle == 'Y') return '已归档';
+						if(row.case_recycle == 'N') return '未归档';
+				}
+			},
+			/* {
+				align: 'center', // 左右居中
+				title:'诉讼标的',
+				field: 'case_lawsuitobj'
+			}, */
+			{
+				align: 'center', // 左右居中
+				title:'收案审批人',
+				field: 'emp_name'
+			},{
+				align: 'center', // 左右居中
+				title:'收案审批',
+				formatter:function(value,row,index){
+						if(row.case_approve_status == 'Y') return '已审批';
+						if(row.case_approve_status == 'N') return '未审批';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'操作',
+				formatter:function(value,row,index){
+					if(row.case_approve_status == 'Y') {
+						var a= '<div class="btn_hollow case_set" data-value="20190100731">操作</div>';
+						 a+='<ul class="small_menu" id="set_20190100731" style="left: auto; right: 80px; top: 250px; display: none;">';
+					     a+=    "<li><a href='javascript:WholeCaseCZ1("+JSON.stringify(row)+")' draggable='false'>添加入款记录</a></li>";
+					     a+=    "<li><a href='javascript:WholeCaseCZ2("+JSON.stringify(row)+")' draggable='false'>发票申请</a></li>";
+					     if(row.case_recycle == 'Y'){
+						     	a+=    "<li><a href='javascript:WholeCaseCZ3("+JSON.stringify(row)+")' draggable='false' id='AZzGd_1'>取消合同归档</a></li>";
+						     }else if(row.case_recycle == 'N'){
+						    	 a+=    "<li><a href='javascript:WholeCaseCZ3("+JSON.stringify(row)+")' draggable='false' id='AZzGd_1'>合同归档</a></li>";
+						     }
+					     if(row.case_clash == 'Y'){
+					     		 a+=    "<li><a href='javascript:WholeCaseCZ4("+JSON.stringify(row)+")' draggable='false' id='DAGD'>取消档案归档</a></li>";
+						     }else if(row.case_clash == 'N'){
+							     a+=    "<li><a href='javascript:WholeCaseCZ4("+JSON.stringify(row)+")' draggable='false' id='DAGD'>档案归档</a></li>";
+						     }
+					     a+= 	"<li><a href='ManageCase3' draggable='false'>设置档案号</a></li>";
+					     a+='</ul>';
+					    return a;
+					}else if(row.case_approve_status == 'N') {
+						return '';
+					}
+					
+			}
+				
+			}]
+   	 });
+    	
+		    	//点击操作显示
+		    	$("table").on("click",".case_set",function(){
+		    		var a = $(this).siblings().css("display");
+		    		if(a == "none"){
+		    			$(this).siblings().css("display","block")
+		    		}
+		    	})
+		    	//操作 移除消失
+		    	$("table").on("mouseleave","ul",function(){
+		    		var a = $(this).css("display");
+		    		if(a == "block"){
+		    			$(this).css("display","none")
+		    		}
+		    	})
+		    	
+		 	
+		   
+		   
+		    	
+   //_-------------------------------------------------------------------------------
+   		
+   		 $("#twotable").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:'ajaxConflictOfInterestReview',
+			pagination:true,//显示分页
+			pageSize:3,//每页数据数
+			pageList:[3,5],//设置页面可显示的数据条数
+			pageNumber:1,//首页页码
+			sidePagination:'server',//设置为服务器端分页
+			//sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					offset:params.offset,
+					limit:params.limit,
+					casePropernum:$("#Title").val(),
+					caseApproveStatus:$("#caseApproveStatus").val(),
+					caseSettleStatus:'N',
+					//caseSubtime:$("#test2").val(),
+					caseAssign:$("#caseAssign").val()
+				 }
+			}, 
+			columns:[{
+				title:'序号',
+				formatter:function(value,row,index){
+					return index+1
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'案号',
+				width:"200px",
+				field:'case_propernum'
+			},{
+				align: 'center', // 左右居中
+				title:'收案日期',
+				formatter:function(value,row,index){
+					return new Date(row.case_subtime).format("yyyy-MM-dd")
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'对方当事人',
+				field: 'case_opposite_parties'
+			},{
+				align: 'center', // 左右居中
+				title:'结案',
+				width:'60px',
+				formatter:function(value,row,index){
+						if(row.case_settle_status == 'Y') return '已结案';
+						if(row.case_settle_status == 'N') return '未结案';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'代理费',
+					field: 'case_agencyfee'
+			},{
+				align: 'center', // 左右居中
+				title:'已付款(元)',
+				field: 'case_paidsal'
+			},{
+				align: 'center', // 左右居中
+				title:'诉讼标的',
+				field: 'case_lawsuitobj'
+			},{
+				align: 'center', // 左右居中
+				title:'收案审批人',
+				field: 'emp_name'
+			},{
+				align: 'center', // 左右居中
+				title:'收费方式',
+				field: 'case_paycols'
+			},{
+				align: 'center', // 左右居中
+				title:'收案审批',
+				formatter:function(value,row,index){
+						if(row.case_approve_status == 'Y') return '已审批';
+						if(row.case_approve_status == 'N') return '未审批';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'档案状态',
+				formatter:function(value,row,index){
+						if(row.case_clash == 'Y') return '已归档';
+						if(row.case_clash == 'N') return '未归档';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'合同状态',
+				formatter:function(value,row,index){
+						if(row.case_recycle == 'Y') return '已归档';
+						if(row.case_recycle == 'N') return '未归档';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'操作',
+				formatter:function(value,row,index){
+					if(row.case_approve_status == 'Y') {
+						var a= '<div class="btn_hollow case_set" data-value="20190100731">操作</div>';
+						 a+='<ul class="small_menu" id="set_20190100731" style="left: auto; right: 80px; top: 250px; display: none;">';
+					     a+=    "<li><a href='javascript:WholeCaseCZ1("+JSON.stringify(row)+")' draggable='false'>添加入款记录</a></li>";
+					     a+=    "<li><a href='javascript:WholeCaseCZ2("+JSON.stringify(row)+")' draggable='false'>发票申请</a></li>";
+					     if(row.case_recycle == 'Y'){
+						     	a+=    "<li><a href='javascript:WholeCaseCZ3("+JSON.stringify(row)+")' draggable='false' id='AZzGd_1'>取消合同归档</a></li>";
+						     }else if(row.case_recycle == 'N'){
+						    	 a+=    "<li><a href='javascript:WholeCaseCZ3("+JSON.stringify(row)+")' draggable='false' id='AZzGd_1'>合同归档</a></li>";
+						     }
+					     if(row.case_clash == 'Y'){
+					     		 a+=    "<li><a href='javascript:WholeCaseCZ4("+JSON.stringify(row)+")' draggable='false' id='DAGD'>取消档案归档</a></li>";
+						     }else if(row.case_clash == 'N'){
+							     a+=    "<li><a href='javascript:WholeCaseCZ4("+JSON.stringify(row)+")' draggable='false' id='DAGD'>档案归档</a></li>";
+						     }
+					     a+= 	"<li><a href='ManageCase3' draggable='false'>设置档案号</a></li>";
+					     a+='</ul>';
+					    return a;
+					}else if(row.case_approve_status == 'N') {
+						return '';
+					}
+			}
+				
+			}]
+   	 });
+   	//----------------------------------------------------------------------------------
+   	
+   		  $("#santable").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:'ajaxConflictOfInterestReview',
+			pagination:true,//显示分页
+			pageSize:3,//每页数据数
+			pageList:[3,5],//设置页面可显示的数据条数
+			pageNumber:1,//首页页码
+			sidePagination:'server',//设置为服务器端分页
+			//sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					offset:params.offset,
+					limit:params.limit,
+					casePropernum:$("#Title").val(),
+					caseApproveStatus:$("#caseApproveStatus").val(),
+					caseSettleStatus:$("#caseSettleStatus").val(),
+					//caseSubtime:$("#test2").val(),
+					caseAssign:$("#caseAssign").val()
+				 }
+			}, 
+			columns:[{
+				title:'序号',
+				formatter:function(value,row,index){
+					return index+1
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'案号',
+				width:"200px",
+				field:'case_propernum'
+			},{
+				align: 'center', // 左右居中
+				title:'收案日期',
+				formatter:function(value,row,index){
+					return new Date(row.case_subtime).format("yyyy-MM-dd")
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'对方当事人',
+				field: 'case_opposite_parties'
+			},{
+				align: 'center', // 左右居中
+				title:'结案',
+				width:'60px',
+				formatter:function(value,row,index){
+						if(row.case_settle_status == 'Y') return '已结案';
+						if(row.case_settle_status == 'N') return '未结案';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'代理费',
+					field: 'case_agencyfee'
+			},{
+				align: 'center', // 左右居中
+				title:'已付款(元)',
+				field: 'case_paidsal'
+			},{
+				align: 'center', // 左右居中
+				title:'诉讼标的',
+				field: 'case_lawsuitobj'
+			},{
+				align: 'center', // 左右居中
+				title:'收案审批人',
+				field: 'emp_name'
+			},{
+				align: 'center', // 左右居中
+				title:'收案审批',
+				formatter:function(value,row,index){
+						if(row.case_approve_status == 'Y') return '审批通过';
+						if(row.case_approve_status == 'N') return '未审批';
+						if(row.case_approve_status == 'N') return '审批未审批';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'档案状态',
+				formatter:function(value,row,index){
+						if(row.case_clash == 'Y') return '已归档';
+						if(row.case_clash == 'N') return '未归档';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'合同状态',
+				formatter:function(value,row,index){
+						if(row.case_recycle == 'Y') return '已归档';
+						if(row.case_recycle == 'N') return '未归档';
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'操作',
+				formatter:function(value,row,index){
+					if(row.case_approve_status == 'Y') {
+						var a= '<div class="btn_hollow case_set" data-value="20190100731">操作</div>';
+						 a+='<ul class="small_menu" id="set_20190100731" style="left: auto; right: 80px; top: 250px; display: none;">';
+					     a+=    "<li><a href='javascript:WholeCaseCZ1("+JSON.stringify(row)+")' draggable='false'>添加入款记录</a></li>";
+					     a+=    "<li><a href='javascript:WholeCaseCZ2("+JSON.stringify(row)+")' draggable='false'>发票申请</a></li>";
+					     if(row.case_recycle == 'Y'){
+						     	a+=    "<li><a href='javascript:WholeCaseCZ3("+JSON.stringify(row)+")' draggable='false' id='AZzGd_1'>取消合同归档</a></li>";
+						     }else if(row.case_recycle == 'N'){
+						    	 a+=    "<li><a href='javascript:WholeCaseCZ3("+JSON.stringify(row)+")' draggable='false' id='AZzGd_1'>合同归档</a></li>";
+						     }
+					     if(row.case_clash == 'Y'){
+					     		 a+=    "<li><a href='javascript:WholeCaseCZ4("+JSON.stringify(row)+")' draggable='false' id='DAGD'>取消档案归档</a></li>";
+						     }else if(row.case_clash == 'N'){
+							     a+=    "<li><a href='javascript:WholeCaseCZ4("+JSON.stringify(row)+")' draggable='false' id='DAGD'>档案归档</a></li>";
+						     }
+					     a+= 	"<li><a href='ManageCase3' draggable='false'>设置档案号</a></li>";
+					     a+='</ul>';
+					    return a;
+					}else if(row.case_approve_status == 'N') {
+						return '';
+					}
+			}
+				
+			}]
+   	 });
+   	
+   	//-------------------------------------------------------------------------------------
+    	//查询(刷新表格)
+		$("#oneseach").on("click",function(e){
+			$("#onetable").bootstrapTable('refresh');//刷新
+			$("#Title").val("")
+		});
+    	//查询(刷新表格)
+		$("#twoseach").on("click",function(e){
+			$("#twotable").bootstrapTable('refresh');//刷新
+			$("#Title").val("")
+		});
+		//查询(刷新表格)
+		$("#sanseach").on("click",function(e){
+			$("#santable").bootstrapTable('refresh');//刷新
+			$("#Title").val("")
+		});
+    	
+	});
+		
+	//---------------------------------------------------
+		//案件收支录入
+	function WholeCaseCZ1(row) {
+		$.cookie("id",row.id);
+		$.cookie("case_propernum",row.case_propernum);//案号
+		$.cookie("case_agencyfee",row.case_agencyfee); //代理费
+		$.cookie("case_paidsal",row.case_paidsal);	//已付款
+		$.cookie("case_invoiced",row.case_invoiced); //#已开票金额
+		$.cookie("emp_name",row.emp_name); //律师
+		window.location.href='WholeCaseCZ1';
+	} 
+	//---------------------------------------------------
+	//发票申请
+	function WholeCaseCZ2(row) {
+		$.cookie("id",row.id);
+		$.cookie("case_propernum",row.case_propernum);
+		$.cookie("case_agencyfee",row.case_agencyfee);
+		$.cookie("case_paidsal",row.case_paidsal);
+		$.cookie("caseInvoiced",row.caseInvoiced);
+		$.cookie("client",row.client);		//客户
+		window.location.href='WholeCaseCZ2';
+	} 	
+		
+	//---------------------------------------------------	
+		
+	//合同归档
+    function HTGDAjax(id, v) {
+       $.ajax({
+            type: "POST",
+            url: "WholeCaseCZ3",
+            data: { "id": id, "case_recycle": v },
+            success: function (result) {
+                    //关闭后的操作
+                    if (result == true) {
+                    	 $("table").bootstrapTable('refresh');//刷新 
+                        alert("设置成功")
+                    }
+            }
+        });
+    }
+    
+    function WholeCaseCZ3(row) {
+    	if(row.case_recycle == 'Y'){
+    		HTGDAjax(row.id, 'N');
+    	}else{
+    		HTGDAjax(row.id, 'Y');
+    	}
+    }
+  //---------------------------------------------------
+	//档案状态 case_clash
+    function DAGDAjax(id, v) {
+       $.ajax({
+            type: "POST",
+            url: "WholeCaseCZ4",
+            data: { "id": id, "case_clash": v },
+            success: function (result) {
+                    //关闭后的操作
+                    if (result == true) {
+                    	$("table").bootstrapTable('refresh');//刷新
+                        alert("设置成功")
+                    }
+            }
+        });
+    }
+    
+    function WholeCaseCZ4(row) {
+    	if(row.case_clash == 'Y'){
+    		DAGDAjax(row.id, 'N');
+    	}else{
+    		DAGDAjax(row.id, 'Y');
+    	}
+    }
+	
+	
+	
+	
+	
+//---------------------------------------------------	
+		
+	Date.prototype.format = function(fmt) { 
+     var o = { 
+        "M+" : this.getMonth()+1,                 //月份 
+        "d+" : this.getDate(),                    //日 
+        "h+" : this.getHours(),                   //小时 
+        "m+" : this.getMinutes(),                 //分 
+        "s+" : this.getSeconds(),                 //秒 
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+        "S"  : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return fmt; 
+}   
+</script>
+<script>
+//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
+});
+</script>
+
+	
+<div class="layui-tab">
+  <ul class="layui-tab-title tab">
+   		 <li class="layui-this">全所案件</li>
+          <li>全所待收款案件</li>
+          <li>全所案件汇总</li>
+  </ul>
+
+  <div class="layui-tab-content">
+   		<div class="layui-tab-item layui-show"><!-- n内容一 -->
+   				<form  class="container-fluid page_find" id="searchForm">   
+   				  <div class="input-group">
+				        <input type="text" name="casePropernum" id="Title" class="form-control">
+				    </div>
+				    <div class="down_box">
+				        <select name="">
+				            <option>案号搜索</option>
+				        </select>
+				    </div>
+				    <div class="down_box">
+				        <select name="caseApproveStatus" id="caseApproveStatus">
+				            <option value="">选择收案状态</option>
+				            <option value="N">未审批</option>
+				            <option value="Y">审批通过</option>
+				            <option value="N">审批未通过</option>
+				        </select>
+				    </div>
+				    <div class="down_box">
+				        <select name="caseSettleStatus" id="caseSettleStatus">
+				            <option value="">选择结案状态</option>
+				            <option value="N">未结案</option>
+				            <option value="Y">已结案</option>
+				        </select>
+				    </div>
+				    <!-- <div class="down_box">
+					        <div class="layui-inline">
+						      <div class="layui-input-inline">
+						        <input type="text" value="2019" name="caseSubtime" class="layui-input" id="test2" >
+						      </div>
+						    </div>
+				    </div>  -->
+				    <div class="down_box">
+				        <select id="IsFrom" name="caseAssign" id="caseAssign">
+				            <option value="">是否指派</option>
+				                <option value="Y">是</option>                
+				                <option value="N">否</option>                
+				        </select>
+				    </div>
+				    <input type="button" value="检索" id="oneseach" class="btn_solid">
+				</form>
+			<div id="datas">  
+					<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="203" data-table-fixed-head-top="0" id="onetable">
+					</table>
+			</div>
+		</div>
+    <div class="layui-tab-item"><!-- n内容二 -->
+    			   				<form  class="container-fluid page_find" id="searchForm">   
+   				  <div class="input-group">
+				        <input type="text" name="casePropernum" id="Title" class="form-control">
+				    </div>
+				    <div class="down_box">
+				        <select name="">
+				            <option>案号搜索</option>
+				        </select>
+				    </div>
+				    <div class="down_box">
+				        <select name="caseApproveStatus" id="caseApproveStatus">
+				            <option value="">选择收案状态</option>
+				            <option value="N">未审批</option>
+				            <option value="Y">审批通过</option>
+				            <option value="N">审批未通过</option>
+				        </select>
+				    </div>
+				    <div class="down_box">
+				        <select name="caseSettleStatus" id="caseSettleStatus">
+				            <option value="">选择结案状态</option>
+				            <option value="N">未结案</option>
+				            <option value="Y">已结案</option>
+				        </select>
+				    </div>
+				    <div class="down_box">
+					        <div class="layui-inline">
+						      <div class="layui-input-inline">
+						        <input type="text" value="2019" name="caseSubtime" class="layui-input" id="test2" >
+						      </div>
+						    </div>
+				    </div> 
+				    <div class="down_box">
+				        <select id="IsFrom" name="caseAssign" id="caseAssign">
+				            <option value="">是否指派</option>
+				                <option value="Y">是</option>                
+				                <option value="N">否</option>                
+				        </select>
+				    </div>
+				    <input type="button" value="检索" id="oneseach" class="btn_solid">
+				</form>
+			<div id="datas">
+					<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="203" data-table-fixed-head-top="0" id="twotable">
+					</table>
+			</div>
+
+	</div>
+    <div class="layui-tab-item"><!-- n内容三 -->
+    		   				<form  class="container-fluid page_find" id="searchForm">   
+   				  <div class="input-group">
+				        <input type="text" name="casePropernum" id="Title" class="form-control">
+				    </div>
+				    <div class="down_box">
+				        <select name="">
+				            <option>案号搜索</option>
+				        </select>
+				    </div>
+				    <div class="down_box">
+				        <select name="caseApproveStatus" id="caseApproveStatus">
+				            <option value="">选择收案状态</option>
+				            <option value="N">未审批</option>
+				            <option value="Y">审批通过</option>
+				            <option value="N">审批未通过</option>
+				        </select>
+				    </div>
+				    <div class="down_box">
+				        <select name="caseSettleStatus" id="caseSettleStatus">
+				            <option value="">选择结案状态</option>
+				            <option value="N">未结案</option>
+				            <option value="Y">已结案</option>
+				        </select>
+				    </div>
+				    <div class="down_box">
+					        <div class="layui-inline">
+						      <div class="layui-input-inline">
+						        <input type="text" value="2019" name="caseSubtime" class="layui-input" id="test2" >
+						      </div>
+						    </div>
+				    </div> 
+				    <div class="down_box">
+				        <select id="IsFrom" name="caseAssign" id="caseAssign">
+				            <option value="">是否指派</option>
+				                <option value="Y">是</option>                
+				                <option value="N">否</option>                
+				        </select>
+				    </div>
+				    <input type="button" value="检索" id="oneseach" class="btn_solid">
+				</form>
+			<div id="datas">
+					<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="203" data-table-fixed-head-top="0" id="santable">
+					</table>
+			</div>
+	</div>
+  </div>
+</div>
+    </section>
+
+<script>
+layui.use('laydate', function(){
+	  var laydate = layui.laydate;
+	  
+    laydate.render({
+        elem: '#BegTime' //指定元素
+        , calendar: true
+        , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#EndTime' //指定元素
+        , calendar: true
+        , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#JaBegTime' //指定元素
+        , calendar: true
+        , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#JaEndTime' //指定元素
+        , calendar: true
+        , type: 'date'
+    });
+    laydate.render({
+        elem: '#test2' //指定元素
+        , calendar: true
+        , type: 'year'
+    });
+})
+</script>
+</body>
+</html>

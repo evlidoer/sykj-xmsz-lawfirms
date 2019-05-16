@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<base href="../../lawfirms" />
+<head>
+<meta charset="UTF-8">
+<title>律所收支录入</title>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+<link rel="stylesheet" type="text/css" href="static/css/bs/docs.css" />
+<link rel="stylesheet" type="text/css" href="static/css/bs/patch.css" />
+
+<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+	.form-group,
+	.btn-group {
+		margin-top: 5px;
+	}
+	#auto_div
+        {
+            display: none;
+            width: 70%;
+            border: 1px #74c0f9 solid;
+            border-radius: 0px 0px 5px 5px; 
+            background: #FFFFFF;
+            position: absolute;
+            top: 64px;
+            left: 16px;
+            color: #323232;
+            z-index: 1000;
+        }
+    .sv1{
+    	color: red;
+    }
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+				<ol class="breadcrumb">
+					<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+					<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+					<span class="glyphicon glyphicon-menu-left" ></span>
+				</button>
+					<li class="breadcrumb-li-one">
+						<a>财务</a>
+					</li>
+					<li>
+						<a>律所收支录入</a>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 5px;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+				<div class="bs-callout bs-callout-info">
+					<h6 style="font-weight: bold; font-size: 14px;">律所收支</h6>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 5px; margin-top: 50px;">
+			<div class="col-lg-12 col-sm-12 col-md-12">
+				<div class="row">
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+						    	<span style="color: red;">*</span>
+								<span>收支日期:</span>
+								<span class="sv1" id="getTimeSpan"></span>
+						    </label>
+						    <input class="form-control" id="getTime" onclick="$('#getTimeSpan').html('')">
+						</div>
+					</div>
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+						    	<span style="color: red;">*</span>
+								<span>收支金额:</span>
+								<span class="sv1" id="getmoneySpan"></span>
+						    </label>
+						    <input type="text" class="form-control" oninput="$('#getmoneySpan').html('');" id="getmoney"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 col-md-12">
+				<div class="row">
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+						    	<span style="color: red;">*</span>
+								<span>收支人:</span>
+								<span class="sv1" id="properSpan"></span>
+						    </label>
+						    <input id="properId" type="hidden">
+						    <input id="properUp" type="hidden">
+						    <input class="form-control" id="proper" oninput="selNames($(this).val());">
+						    <div id="auto_div">
+						    </div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+						    	<span style="color: red;">*</span>
+								<span>收支类别:</span>
+								<span class="sv1" id="inTypeSpan"></span>
+						    </label>
+						    <select class="form-control" id="inType" onchange="$('#inTypeSpan').html('')">
+						    	<option value="-1">选择收支类别</option>
+						    </select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 col-md-12">
+				<div class="row">
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+								<span>付款人:</span>
+						    </label>
+						    <input class="form-control" id="moneyProper">
+						</div>
+					</div>
+					<div class="col-lg-4 col-sm-4 col-md-4">
+						<div class="form-group">
+						    <label>
+						    	<span style="color: red;">*</span>
+								<span>支付方式:</span>
+								<span class="sv1" id="payTypeSpan"></span>
+						    </label>
+						    <select class="form-control" id="payType" onchange="$('#payTypeSpan').html('')">
+						    	<option value="-1">选择支付方式</option>
+						    	<option value="转账支票">转账支票</option>
+						    	<option value="电汇">电汇</option>
+						    	<option value="网银">网银</option>
+						    	<option value="Pos机">Pos机</option>
+						    	<option value="现金">现金</option>
+						    </select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8 col-sm-8 col-md-8">
+				<div class="form-group">
+				    <label>
+						<span>备注:</span>
+				    </label>
+				    <textarea class="form-control" id="desc" style="min-width: 100%; max-width:100%;
+				    	max-height: 90px; min-height: 90px;"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-4 col-sm-4 col-md-4">
+				<div class="form-group">
+					<input type="button" onclick="clickSubmit();" value="确认提交" class="btn btn-success">
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function iTypeEach(lower, id, arr) {
+			arr.forEach(function(val, len, array) {
+				if (id == val.cwPid) {
+					var ssid = val.id;
+					$("#inType").append(
+							'<option value="' + val.id + '">' + lower
+									+ "&nbsp;-&nbsp;&nbsp;-&nbsp;" + val.cwName
+									+ '</option>');
+					delete arr[len];
+					iTypeEach(lower + '&nbsp;-&nbsp;&nbsp;-&nbsp;', ssid, arr);
+				}
+			});
+		}
+		
+		function clickSubmit(){
+			var bol = true;
+			if($("#getTime").val() == ""){
+				$("#getTimeSpan").html("").html("请填写收支日期");
+				bol = false;
+			}
+			if($("#getmoney").val() == ""){
+				$("#getmoneySpan").html("").html("请填写收支金额");
+				bol = false;
+			}
+			if($("#proper").val() == ""){
+				$("#properSpan").html("").html("请填写收支人");
+				bol = false;
+			}else if($("#properUp").val() != $("#proper").val()){
+				$("#properSpan").html("").html("请填写正确的收支人");
+				bol = false;
+			}
+			if($("#inType").val() == "-1"){
+				$("#inTypeSpan").html("").html("请选择收支类别");
+				bol = false;
+			}
+			if($("#payType").val() == "-1"){
+				$("#payTypeSpan").html("").html("请选择支付方式");
+				bol = false;
+			}
+			if(bol) addAjax();
+		}
+		
+		function addAjax(){
+			$.ajax({
+				type : "post",
+				url : "finance/lawEntry/addInout",
+				async : true,
+				dataType : "json",
+				data: "getTime=" + $("#getTime").val() + "&getmoney=" + $("#getmoney").val() + "&properId=" + $("#properId").val()
+					+ "&inType=" + $("#inType").val() + "&payType=" + $("#payType").val() + "&moneyProper=" + $("#moneyProper").val()
+					+ "&desc=" + $("#desc").val(),
+				success : function(value) { 
+					if(value.status == "no") alert("提交失败,请重试");
+					if(value.status == "yes"){
+						alert("提交成功");
+						location = location;
+					}
+				}
+			});
+		}
+		
+		$.ajax({
+			type : "get",
+			url : "finance/lawEntry/iType",
+			async : true,
+			dataType : "json",
+			success : function(data) {
+				data.forEach(function(val, len, arr) {
+					var sid = val.id;
+					$("#inType").append(
+							'<option value="' + val.id + '">' + val.cwName
+									+ '</option>');
+					delete arr[len];
+					iTypeEach('&nbsp;&nbsp', sid, arr);
+				});
+			}
+		});
+		
+		laydate.render({
+			elem: '#getTime',
+			value: new Date()
+		});
+		
+		var perVal = "";
+		function selNames(val){
+			$("#properSpan").html("");
+			if(perVal == val) return;
+			perVal = val;
+			if(val.split("'").length != 1) return;
+			$("#auto_div").html("");
+			$.ajax({
+				type : "get",
+				url : "finance/lawEntry/names",
+				async : true,
+				dataType : "json",
+				data : "name=" + val,
+				beforeSend:function(XMLHttpRequest){
+					$("#auto_div").html("").html("&nbsp;&nbsp;&nbsp;搜索中...");
+					$("#auto_div").show();
+		        },success : function(value) {
+		        	$("#auto_div").html("");
+					var $ul = $("<ul style='margin-top: 5px; margin-bottom: 5px margin-left:0px;padding-left:0px; list-style: none;'></ul>");
+					if(value.length == 0) {
+						$("#auto_div").html("&nbsp;&nbsp;&nbsp;未找到此律师,律师名称输入不正确");
+						$("#auto_div").show();
+						return;
+					}
+					$(value).each(function(len, obj){
+						if(obj.empName == val){
+							$("#properId").val(obj.id);
+							$("#properUp").val(obj.empName);
+						}
+						$ul.append("<li style='color:red; height: 23px; padding-left:10px;' onclick='onclickName(this);'"  
+							+ " onmouseover='setCss(this);' onmouseout='setCssOut(this);' value='" + obj.id + "'>"+obj.empName+"</li>");
+					});
+					$("#auto_div").html("").append($ul);
+					$("#auto_div").show();
+				},error:function(XMLHttpRequest,textStatus,errorThrown){
+					$("#auto_div").html("").html("&nbsp;&nbsp;&nbsp;网络异常");
+					$("#auto_div").show();
+		        }
+			});
+		}
+		
+		function setCss(obj){
+			$(obj).css("background-color","#dddddd").css("cursor","pointer");
+		}	
+		function setCssOut(obj){
+			$(obj).css("background-color","#ffffff");
+		}
+		function onclickName(obj){
+			$("#proper").val($(obj).html());
+			$("#properId").val($(obj).attr("value"));
+			$("#properUp").val($(obj).html());
+			$("#auto_div").hide();
+		}
+		$("body").click(function(e) {
+			if($(e.target).attr("id") != 'proper' && $(e.target).attr("id") != 'auto_div'){
+				$("#auto_div").hide();
+			}
+	    });
+	</script>
+</body>
+</html>

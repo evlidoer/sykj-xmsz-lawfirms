@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+    <meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化" />
+    <meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css?v=68673868678">
+    <link id="main_link" rel="stylesheet" type="text/css" href="../css/parts2.css?v=201381130">
+
+    <link id="main_link2" rel="stylesheet" type="text/css" href="../css/main_blue.css?v=123121231312">
+  
+
+    <!-- 使ie9及以下兼容媒体查询和html5标签 -->
+    <!--[if lte IE 9]>
+    　  <script src="../sysjs/html5shiv.min.js"></script>
+        <script src="../sysjs/respond.js"></script>
+    <![endif]-->
+
+    <!-- 兼容ie9 -->
+    <!--[if IE 9]>
+        <link rel="stylesheet" type="text/css" href="../css/ie9.css">
+    <![endif]-->
+
+    <!-- 兼容ie8 -->
+    <!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="../css/ie8down.css">
+	<![endif]-->
+
+
+
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+
+<style type="text/css">
+    #SearchMore {
+        margin: 0 -10px;
+    }
+
+        #SearchMore > li {
+            width: 50%;
+            padding: 0 10px;
+            float: left;
+        }
+
+        #SearchMore select {
+            margin: 0;
+            width: 100%;
+        }
+
+        #SearchMore .form-control {
+            width: 100%;
+        }
+
+        #SearchMore .half_start,
+        #SearchMore .half_end {
+            width: 50%;
+            float: left;
+        }
+
+        #SearchMore .half_start {
+            border-radius: 4px 0 0 4px;
+        }
+
+        #SearchMore .half_end {
+            border-radius: 0 4px 4px 0;
+            border-left: transparent;
+        }
+
+    .page_find .btn-default {
+        border-radius: 4px;
+    }
+
+
+    * {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .pop {
+        display: none;
+        max-width: 800px;
+        max-height: 80%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        padding: 25px;
+        border-radius: 4px;
+        background-color: #fff;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, .1);
+        overflow: auto;
+    }
+
+    .pop-top {
+        height: 40px;
+        width: 100%;
+        border-bottom: 1px #E5E5E5 solid;
+        font-size: 16px;
+    }
+
+        .pop-top h2 {
+            float: left;
+            display: block;
+        }
+
+        .pop-top span {
+            float: right;
+            cursor: pointer;
+            font-weight: bold;
+            display: black;
+        }
+
+    .pop-foot {
+        height: 50px;
+        line-height: 50px;
+        width: 100%;
+        border-top: 1px #E5E5E5 solid;
+        text-align: right;
+    }
+
+    .pop-cancel, .pop-ok {
+        padding: 8px 15px;
+        margin: 15px 5px;
+        border: none;
+        border-radius: 4px;
+        background-color: #337AB7;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .pop-cancel {
+        background-color: #FFF;
+        border: 1px #CECECE solid;
+        color: #000;
+    }
+
+    .pop-content {
+        height: 380px;
+    }
+
+    .pop-content-left {
+        float: left;
+    }
+
+    .pop-content-right {
+        width: 310px;
+        float: left;
+        padding-top: 20px;
+        padding-left: 20px;
+        font-size: 16px;
+        line-height: 35px;
+    }
+
+    .bgPop {
+        display: none;
+        position: fixed;
+        z-index: 129;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.5);
+    }
+</style>
+
+
+
+<!-- 页面加载动画 -->
+<!--<div class="load1" id="loading">
+    <div class="loader">Loading...</div>
+</div>-->
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <button type="button" class="btn btn-default" onclick="javascript:history.back(-1);return false;">
+        <img src="../icon/back.png">
+    </button>
+    <li><a>案件</a></li>
+    <li class="active">全所案件</li>
+</ol>
+
+<!-- 选项卡 -->
+<ul class="tab">
+    <a href="/Case/ALLlist" class="tab_on">全所案件</a>
+    <a href="/Case/Receivables?ListCols=1">全所待收款案件</a>
+    
+    <a href="/CaseSummary/List?U=1">全所案件汇总</a>
+</ul>
+
+<form action="/Case/List" class="container-fluid page_find" id="searchForm" method="post" onclick="Sys.Mvc.AsyncForm.handleClick(this, new Sys.UI.DomEvent(event));" onsubmit="Sys.Mvc.AsyncForm.handleSubmit(this, new Sys.UI.DomEvent(event), { insertionMode: Sys.Mvc.InsertionMode.replace, updateTargetId: &#39;datas&#39; });">    <input type="hidden" name="BaoHanUrl" id="BaoHanUrl"  value="http://baohan.elvshi.cn/ServiceLogin.aspx?FullName=管理员&amp;WUid=1799&amp;Uid=1&amp;Phone=18767505962&amp;sign=4B22900693B25C32ECE109909C756E1D"/>    <div class="input-group">
+        <input type="text" name="Title" id="Title" class="form-control" />
+    </div>
+    <div class="down_box">
+        <select name="SearchType">
+            <option value="3">委托人/嫌疑人搜索</option>
+            <option value="4">对方当事人搜索</option>
+            <option value="1">案号搜索</option>
+            <option value="8">专属案号搜索</option>
+            <option value="7">案由搜索</option>
+            <option value="5">承办律师搜索</option>
+            <option value="6">受理法院搜索</option>
+            <option value="9">归档号搜索</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="Stat">
+            <option value="-1">选择收案状态</option>
+            <option value="0">待审批</option>
+            <option value="1">审批通过</option>
+            <option value="2">审批未通过</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="jieStat">
+            <option value="-1">选择结案状态</option>
+            <option value="0">未结案</option>
+            <option value="1">已结案</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="CaseCol" id="CaseCol">
+            <option value="-1">案件类型</option>
+                <option value="1">民事案件</option>
+                <option value="2">刑事案件</option>
+                <option value="3">行政案件</option>
+                <option value="4">非诉讼法律事务</option>
+                <option value="5">法律顾问</option>
+                <option value="6">法律援助</option>
+                <option value="7">执行案件</option>
+                <option value="8">中保案件</option>
+                <option value="9">仲裁案件</option>
+                <option value="11">破产案件</option>
+                <option value="10">咨询代写文书</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="Ay" id="Ay">
+            <option selected="selected" value="-1">选择案件分类</option>
+        </select>
+    </div>
+    <div class="down_box">
+        <select id="CaseYear" name="CaseYear">
+            <option value="">案件年份</option>
+
+                <option value="2019" >2019年案</option>
+                <option value="2018" >2018年案</option>
+                <option value="2017" >2017年案</option>
+                <option value="2016" >2016年案</option>
+                <option value="2015" >2015年案</option>
+                <option value="2014" >2014年案</option>
+        </select>
+    </div> 
+    <div class="down_box">
+        <select id="IsFrom" name="IsFrom">
+            <option value="-1">是否指派</option>
+                <option value="1">是</option>                
+                <option value="0">否</option>                
+        </select>
+    </div>
+    <div class="down_box">
+        <select name="Sort">
+            <option value="-1">自定义排序</option>
+            <option value="1">登记时间从高到低</option>
+            <option value="2">登记时间从低到高</option>
+            <option value="3">收案时间从高到低</option>
+            <option value="4">收案时间从低到高</option>
+            <option value="5">案号从高到低</option>
+            <option value="6">案号从低到高</option>
+        </select>
+    </div>
+    <input type="submit" value="检索" class="btn_solid" onclick="ClearSearch()" />
+    <a href="javascript:void(0)" class="click_pop btn btn-default">高级检索</a> 
+    <!--遮罩层-->
+    <div class="bgPop">
+        <div class="pop">
+            <div class="pop-top">
+                高级检索<span class="pop-close">Ｘ</span>
+            </div>
+            <ul id="SearchMore">
+                <li>
+                    <p>委托人手机：</p>
+                    <input type="text" name="WtrMobile" id="WtrMobile" class="form-control" />
+                </li>
+
+                <li>
+                    <p>委托人固话：</p>
+                    <input type="text" name="WtrPhone" id="WtrPhone" class="form-control" />
+                </li>
+
+
+                <li>
+                    <p>身份证号码：</p>
+                    <input type="text" name="IdCard" id="IdCard" class="form-control" />
+                </li>
+
+                <li>
+                    <p>营业执照号：</p>
+                    <input type="text" name="UNums" id="UNums" class="form-control" />
+                </li>
+
+
+                <li>
+                    <p>代理费区间：</p>
+                    <input id="BPrice" name="BPrice" class="form-control half_start" type="text" value="" onblur="SetInputDouble(this,2);" />
+                    <input id="EPrice" name="EPrice" class="form-control half_end" type="text" value="" onblur="SetInputDouble(this,2);" />
+                </li>
+
+                <li>
+                    <p>已收费区间：</p>
+                    <input id="BSPrice" name="BSPrice" class="form-control half_start" type="text" value="" onblur="SetInputDouble(this,2);" />
+                    <input id="ESPrice" name="ESPrice" class="form-control half_end" type="text" value="" onblur="SetInputDouble(this,2);" />
+                </li>
+
+                <li>
+                    <p>已开票区间：</p>
+                    <input id="BPPrice" name="BPPrice" class="form-control half_start" type="text" value="" onblur="SetInputDouble(this,2);" />
+                    <input id="EPPrice" name="EPPrice" class="form-control half_end" type="text" value="" onblur="SetInputDouble(this,2);" />
+                </li>
+
+                <li>
+                    <p>合同是否归档：</p>
+                    <select name="IsZzGd" id="IsZzGd">
+                        <option value="-1">不限</option>
+                        <option value="0">未归档</option>
+                        <option value="1">已归档</option>
+                    </select>
+                </li>
+
+                <li>
+                    <p>档案是否归档：</p>
+                    <select name="IsDaGd" id="IsDaGd">
+                        <option value="-1">不限</option>
+                        <option value="0">未归档</option>
+                        <option value="1">已归档</option>
+                    </select>
+                </li>
+
+                <li>
+                    <p>收费方式：</p>
+                    <select id="PayCols" name="PayCols">
+                        <option value="">全部</option>
+                            <option value="免费" >免费</option>
+                            <option value="计件收费" >计件收费</option>
+                            <option value="计时收费" >计时收费</option>
+                            <option value="按标的额比例收费" >按标的额比例收费</option>
+                            <option value="风险代理收费" >风险代理收费</option>
+                            <option value="标的+风险代理" >标的+风险代理</option>
+                            <option value="固定+风险代理" >固定+风险代理</option>
+                    </select>
+                </li>
+
+                <li>
+                    <p>收案日期：</p>
+                    <input id="BegTime" name="BegTime" class="form-control half_start" type="text" value="" />
+                    <input id="EndTime" name="EndTime" class="form-control half_end" type="text" value="" />
+                </li>
+
+                <li>
+                    <p>结案日期：</p>
+                    <input id="JaBegTime" name="JaBegTime" class="form-control select_time half_start" type="text" value="" />
+                    <input id="JaEndTime" name="JaEndTime" class="form-control select_time half_end" type="text" value="" />
+                </li>
+
+            </ul>
+
+            <div style="padding-top: 20px; float: left; width: 100%;">
+                <input type="submit" value="检索" class="btn_solid input_submit" onclick="$('.bgPop,.pop').hide();" />
+            </div>
+
+
+        </div>
+    </div>
+</form>
+
+
+<div id="datas">
+
+<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="table">
+    <!-- 表头 -->
+    <thead id="table_title">
+        <tr>
+            <th>案号</th>
+            <th>收案日期</th>
+            <th>委托人</th>
+            <th>对方当事人</th>
+            <th>承办律师</th>
+            <th>结案</th>
+            <th>代理费(元)</th>
+            <th>已付款(元)</th>
+            <th>已开票(元)</th>
+            <th>收案审批</th>
+            <th>收案审批人</th>
+            <th>合同</th>
+            <th>档案</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+
+    <!-- 表体 -->
+    <tbody>
+            <tr id="20190100041">
+                <td class="casenum"><a href="/Case/CaseDes?CaseId=20190100041">2019（民）第0004号
+                </a></td>
+                <td>2019-04-10</td>
+                <td>111(aaa)</td>
+                <td>aa</td>
+                <td>管理员</td>
+                <td>未结案</td>
+                <td>3000.00</td>
+                <td>3000</td>
+                <td><font style='color:red; font-weight:bold '>0</font></td>
+
+                <td>已审批</td>
+                <td>管理员</td>
+                <td  id="ZzGd_20190100041"><span style='color:red'>✘</span></td>
+                <td  id="DaGd_20190100041"><span style='color:red'>✘</span></td>
+
+                <td>
+                        <div class="btn_hollow case_set" data-value="20190100041">操作</div>
+                    <!-- 右键菜单 -->
+                </td>
+            </tr>
+            <tr id="20190100031">
+                <td class="casenum"><a href="/Case/CaseDes?CaseId=20190100031">2019（民）第0003号
+                </a></td>
+                <td>2019-04-10</td>
+                <td>111</td>
+                <td>aaaa</td>
+                <td>管理员</td>
+                <td>未结案</td>
+                <td>3000.00</td>
+                <td>0</td>
+                <td><font style='color:red; font-weight:bold '>0</font></td>
+
+                <td><span style='color:#1F7CBA'>待审批</span></td>
+                <td></td>
+                <td  id="ZzGd_20190100031"><span style='color:red'>✘</span></td>
+                <td  id="DaGd_20190100031"><span style='color:red'>✘</span></td>
+
+                <td>
+                    <!-- 右键菜单 -->
+                </td>
+            </tr>
+            <tr id="20190100021">
+                <td class="casenum"><a href="/Case/CaseDes?CaseId=20190100021">2019（民）第0002号
+                </a></td>
+                <td>2019-04-10</td>
+                <td>111</td>
+                <td>111</td>
+                <td>管理员</td>
+                <td>未结案</td>
+                <td>3000.00</td>
+                <td>0</td>
+                <td><font style='color:red; font-weight:bold '>0</font></td>
+
+                <td><span style='color:#1F7CBA'>待审批</span></td>
+                <td></td>
+                <td  id="ZzGd_20190100021"><span style='color:red'>✘</span></td>
+                <td  id="DaGd_20190100021"><span style='color:red'>✘</span></td>
+
+                <td>
+                    <!-- 右键菜单 -->
+                </td>
+            </tr>
+            <tr id="20190100011">
+                <td class="casenum"><a href="/Case/CaseDes?CaseId=20190100011">2019（民）第0001号
+                </a></td>
+                <td>2019-04-30</td>
+                <td>张小兰(张大木头)</td>
+                <td>印度阿三</td>
+                <td>管理员</td>
+                <td>未结案</td>
+                <td>100000.00</td>
+                <td>100000</td>
+                <td><font style='color:red; font-weight:bold '>0</font></td>
+
+                <td>已审批</td>
+                <td>管理员</td>
+                <td  id="ZzGd_20190100011"><span style='color:red'>✘</span></td>
+                <td  id="DaGd_20190100011"><span style='color:red'>✘</span></td>
+
+                <td>
+                        <div class="btn_hollow case_set" data-value="20190100011">操作</div>
+                    <!-- 右键菜单 -->
+                </td>
+            </tr>
+    </tbody>
+</table>
+
+
+    <ul class="small_menu" id="set_20190100041">
+        <li><a href="javascript:CaseInCome('20190100041')">添加入款记录</a></li>
+        <li><a href="javascript:BillApply('20190100041')">申请发票</a></li>
+            <li><a href="javascript:HTGD(20190100041,1)" id="AZzGd_20190100041">合同归档</a></li>
+
+            <li><a href="javascript:DAGD(20190100041,1)" id="ADaGd_20190100041">档案归档</a></li>
+        
+            <li><a href="/CaseManage/CaseSetGd?CaseId=20190100041"  >设置归档号</a></li>
+
+    </ul>
+    <ul class="small_menu" id="set_20190100011">
+        <li><a href="javascript:CaseInCome('20190100011')">添加入款记录</a></li>
+        <li><a href="javascript:BillApply('20190100011')">申请发票</a></li>
+            <li><a href="javascript:HTGD(20190100011,1)" id="AZzGd_20190100011">合同归档</a></li>
+
+            <li><a href="javascript:DAGD(20190100011,1)" id="ADaGd_20190100011">档案归档</a></li>
+        
+            <li><a href="/CaseManage/CaseSetGd?CaseId=20190100011"  >设置归档号</a></li>
+
+    </ul>
+<footer>
+    <!-- 按钮操作 -->
+    
+    <!-- 页码跳转 -->
+
+
+
+    
+<!--MvcPager v3.0.1 for ASP.NET MVC 4.0+ © 2009-2015 Webdiyer (http://en.webdiyer.com)-->
+<ul class="pagination" data-ajax="true" data-ajax-dataformid="#searchForm" data-ajax-method="Post" data-ajax-update="#datas" data-invalidpageerrmsg="Page index is invalid" data-outrangeerrmsg="Page index is out of range" data-pagecount="1" data-pageindexbox="#pib" data-pageparameter="pages" data-pagerid="Webdiyer.MvcPager" data-urlformat="/Case/ALLlist?pages=__pages__" id="bootstrappager" style="float:left"></ul>
+<!--MvcPager v3.0.1 for ASP.NET MVC 4.0+ © 2009-2015 Webdiyer (http://en.webdiyer.com)-->
+
+
+    <div class="btn-toolbar" role="toolbar" aria-label="...">
+        <p class="toolbar_text">共 <em>4</em> 条，当前第 <em>1</em> 页，共 <em>1</em> 页</p>
+    </div>
+</footer>
+
+
+
+</div>
+
+
+
+    </section>
+    
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<!--
+			bootstarp table 导入
+		-->
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.js"></script>
+		<style type="text/css">
+		</style>
+		<script type="text/javascript">
+			$(function(){
+				$.ajax({
+					type:"get",
+					url:"/"+$.cookie("sel_info_MyDocumentinfoByid"),
+					dataType:"json",
+					success:function(data){
+						console.log(data);
+						
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class="row row_title">
+			<label class="text_border">基本资料</label>
+			<div class="shell text_group">
+				<div class="my_grid">
+					<div class="all_box text_box">
+						文件名称：
+						<p id="folder_name"></p>
+					</div>
+				</div>
+
+				<div class="my_grid">
+					<div class="all_box text_box">
+						文件归档：
+						<p id="expressage_sendaunit"></p>
+					</div>
+				</div>
+
+				<div class="my_grid">
+					<div class="all_box text_box">
+						文件：
+						<p id="file_path"></p>
+					</div>
+				</div>
+
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+
+				<div class="my_grid">
+					<div class="all_box text_box">
+						发件人：
+						<p id="emp_name"></p>
+					</div>
+				</div>
+				<div class="my_grid">
+					<div class="all_box text_box">
+						最后更新日期：
+						<p id="file_upload_data"></p>
+					</div>
+				</div>
+
+				<br />
+				<br />
+				<br />
+				<br />
+				<br />
+
+				<label for=""> 相关文件：<a href=""></a> </label>
+				<!--<div class="row ">
+					<div class="col-xs-6">
+						<label for=""> 相关文件： </label>
+						<br />
+						<div title="请填选择文件" class="layui-upload-drag" id="fileUpdate-button" style="width: 200px;height: 35px;margin-left: 31px;">
+							<i class="layui-icon"></i>
+							<p id="fileName">点击上传，或将文件拖拽到此处</p>
+						</div>
+						<input type="file" id="path" style="display: none" />
+					</div>
+				</div>
+				<input type="hidden" name="noticeAccessoryurl" id="noticeAccessoryurl" />
+				<input type="file" name="file" id="file" style="display: none" />
+				<script type="text/javascript">
+					//获取文件名方式二 
+					function getFileName(file) { //通过第二种方式获取文件名
+						var arr = file.split('\\'); //通过\分隔字符串，成字符串数组
+						return arr[arr.length - 1]; //取最后一个，就是文件名
+					}
+					//上传文件处理
+					var fileUpdate_button = document.getElementById("fileUpdate-button");
+					var fileUpdate_input = document.getElementById("file");
+					fileUpdate_button.onclick = function() {
+						fileUpdate_input.click();
+					}
+					$("#file").on("change", function() {
+						var urlName = $("#file").val();
+						$("#fileName").text(getFileName(urlName));
+						$("#noticeAccessoryurl").val(getFileName(urlName));
+					})
+				</script>-->
+			</div>
+	</body>
+
+</html>

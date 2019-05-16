@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<base href="/lawfirms/" />
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+		<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+		<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+		<script src="static/js/jquery.min.js"></script>
+		<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css">
+		<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_white.css">
+		<script src="static/bootstarp/js/jquery-3.3.1.js"></script>
+		<script type="text/javascript" src="static/bootstarp/js/bootstrap.js"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/layer/layer.js"></script>
+		<link rel="stylesheet" href="https://shengheng.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.min.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/layDate5.0.9/laydate.js"></script>
+		<link rel="stylesheet" href="https://shengheng.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<!--
+    	作者：offline
+    	描述：添加工作日志首页
+    -->
+	<!--//所务工作日志" data-selectcust="0" data-selectcase="0">所务工作日志</option>
+//<option value="客户开发" data-selectcust="1" data-selectcase="0">客户开发</option>
+//<option value="个人工作日志-->
+
+	<body id="content">
+		<section>
+			<script>
+				
+				function addrili(){
+					$.ajax({
+						type:"post",
+						url:"add/addlog",
+						async:true,
+						data:$("#form").serialize(),
+						success:function(data){
+							if(data==1){
+								alert('添加成功')
+								window.location.href='goto/log/allworkjourna'
+							}else{
+								alert('添加失败')
+							}
+							
+						}
+					});
+				}
+				
+				$(function() {
+					document.getElementById("V1")[0].selected = true;
+					$("#V1").change(function() {
+						var v1 = $("#V1").val()
+						if(v1 == 1) {
+							alert(1)
+							$("#LiCase").show();
+							$("#divclient").hide();
+							$("#V2").empty();
+							$("#V2").append("<option value=''>请选择详细类别</option>" +
+								"<option value='客户拜访'>客户拜访</option>" +
+								"<option value='商务谈判'>商务谈判</option>" +
+								"<option value='法律咨询'>法律咨询</option>" +
+								"<option value='案例/资料检索'>案例/资料检索</option>" +
+								"<option value='法律文书起草/修改'>法律文书起草/修改 </option>" +
+								"<option value='调查取证'>调查取证</option>" +
+								"<option value='案件研讨'>案件研讨</option>" +
+								"<option value='刑案律师会见'>刑案律师会见</option>" +
+								"<option value='诉讼/仲裁出庭'>诉讼/仲裁出庭</option>" +
+								"<option value='信访/社区/法援律 师值班'>信访/社区/法援律 师值班</option>" +
+								"<option value='其他'>其他</option>"
+							)
+
+						} else if(v1 == 2) {
+							$("#LiCase").hide();
+							$("#divclient").hide();
+							$("#V2").empty();
+							$("#V2").append(
+								"<option value=''>请选择详细类别</option>" +
+								"<option value='律所会议'>律所会议</option>" +
+								"<option value='学习交流'>学习交流</option>" +
+								"<option value='协会会议/培训'>协会会议/培训</option>" +
+								"<option value='司法行政会议/活动 '>司法行政会议/活动   </option>" +
+								"<option value='人大/政协/党派活 动'>人大/政协/党派活 动</option>" +
+								"<option value='出国考察'>出国考察</option>" +
+								"<option value='旅游福利'>旅游福利</option>" +
+								"<option value='其他'>其他</option>"
+							)
+
+						} else if(v1 == 3) {
+							alert(3)
+							$("#divclient").show();
+							$("#V2").empty();
+							$("#V2").append("<option value=''>请选择详细类别</option>" +
+								"<option value='资料收集'>资料收集</option>" +
+								"<option value='客户拜访'>客户拜访</option>" +
+								"<option value='商务谈判'>商务谈判</option>" +
+								"<option value='确定合作'>确定合作</option>" +
+								"<option value='其他'>其他</option>"
+							)
+							$("#LiCase").hide();
+						} else if(v1 == 4) {
+							$("#LiCase").hide();
+							$("#divclient").hide();
+							$("#V2").empty();
+							$("#V2").append("<option value=''>请选择详细类别</option>" +
+								"<option value='其他'>其他</option>"
+							)
+						}
+					})
+						
+					if($.cookie("client_log_name") != undefined && $.cookie("client_log_id") != undefined) {
+						$("#clientName").val($.cookie('client_log_name'))
+						$("#clientid").val($.cookie('client_log_id'))
+						document.getElementById("V1")[2].selected = true;
+						$("#V1").trigger("change");
+							$.cookie('client_log_id', '', { expires: -1 ,'path':'/'});
+							$.cookie('client_log_name', '', { expires: -1,'path':'/' });
+						
+					}
+
+					
+					$.ajax({
+						type: "POST",
+						url: "/JobLog/TV2",
+						data: {
+							"Fid": $('#V1').val()
+						},
+						success: function(result) {
+							result = JSON.parse(result);
+							for(var i = 0; i < result.list.length; i++) {
+								var s = "selected='selected'";
+								if(result.list[i]["ID"] == v2) {
+									$("#V2").append("<option value='" + result.list[i]["ID"] + "' selected='selected'>" + result.list[i]["Title"] + "</option>");
+								} else {
+									$("#V2").append("<option value='" + result.list[i]["ID"] + "'>" + result.list[i]["Title"] + "</option>");
+								}
+							}
+						}
+					});
+
+					/*//详细类别联动
+					$("#V1").change(function() {
+						scust = $(this).find("option:selected").data("selectcust");
+						scase = $(this).find("option:selected").data("selectcase");
+						ShowCaseOrCust(scust, scase);
+						$("#V2").empty();
+						$("#V2").append("<option value=''>请选择详细类别</option>");
+						$.ajax({
+							type: "POST",
+							url: "/JobLog/TV2",
+							data: {
+								"Fid": $(this).val()
+							},
+							success: function(result) {
+								result = JSON.parse(result);
+								for(var i = 0; i < result.list.length; i++) {
+									$("#V2").append("<option value='" + result.list[i]["ID"] + "'>" + result.list[i]["Title"] + "</option>");
+								}
+							}
+						});
+					});*/
+
+				});
+
+				function ShowCaseOrCust(scust, scase) {
+					if(scase == "0") {
+						$("#LiCase").hide();
+						$("#CaseId").attr("class", "form-control");
+					} else {
+						$("#LiCase").show();
+						$("#CustName").attr("class", "form-control required");
+
+					}
+
+					if(scust == "0") {
+						$("#LiCustName").hide();
+						$("#CustName").attr("class", "form-control");
+					} else {
+						$("#LiCustName").show();
+						$("#CustName").attr("class", "form-control required");
+					}
+				}
+
+				function MineCases() {
+					layer.open({
+						title: '案件信息',
+						type: 2,
+						area: ['80%', '80%'],
+						fixed: false, //不固定
+						maxmin: true,
+						content: 'goto/addressBook/upd_ExpressageByID_id/lawSel',
+					});
+				}
+
+				function CustomChoose() {
+					layer.open({
+						title: '客户信息',
+						type: 2,
+						area: ['80%', '80%'],
+						fixed: false, //不固定
+						maxmin: true,
+						content: 'gotoclientSelname',
+					});
+				}
+			</script>
+			<!--页面加载动画-->
+			<div class="load1" id="loading">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">日志管理</a>
+				</li>
+				<li>
+					<a class="active">日志添加</a>
+				</li>
+			</ol>
+			<form action="" class="shell todown" id="form" method="post">
+				<input type="hidden" name="ID" id="ID" value="0" />
+				<input type="hidden" name="FilePath" value="" />
+				<div class="grid_input_shell">
+					<div class="container">
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">日志编辑</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+								<label for=""><em>*</em>日志类型：</label>
+								<div class="dropdown_box1">
+									<div class="down_box">
+										<select name="logtypeId" id="V1">
+											<option value="1">业务工作日志</option>
+											<option value="2">所务工作日志</option>
+											<option value="3">客户开发</option>
+											<option value="4">个人工作日志</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-6">
+								<label for=""><em>*</em>详细类别：</label>
+								<div class="dropdown_box1">
+									<div class="down_box">
+										<select id="V2" name="detail" class="required" title="请选择详细类别">
+											<option value=''>请选择详细类别</option>
+											<option value='客户拜访'>客户拜访</option>
+											<option value='商务谈判'>商务谈判</option>
+											<option value='法律咨询'>法律咨询</option>
+											<option value='案例/资料检索'>案例/资料检索</option>
+											<option value='法律文书起草/修改'>法律文书起草/修改 </option>
+											<option value='调查取证'>调查取证</option>
+											<option value='案件研讨'>案件研讨</option>
+											<option value='刑案律师会见'>刑案律师会见</option>
+											<option value='诉讼/仲裁出庭'>诉讼/仲裁出庭</option>
+											<option value='信访/社区/法援律 师值班'>信访/社区/法援律 师值班</option>
+											<option value='其他'>其他</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<!--   <div class="col-xs-6">
+                    <label for=""><em>*</em>详细类别：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select id="V2" name="V2" class="required" title="请选择详细类别">
+                                <option value="">请选择详细类别</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>-->
+							<div class="col-xs-6" id="LiCase" style="display: none">
+								<label for=""><em>*</em>案件：</label>
+								<input type="text" id="law_id_show" class="form-control dfinput t_hui" readonly="true" onclick="MineCases()" value="" />
+								<input name="law_id" type="hidden">
+							</div>
+
+						</div>
+						<div class="row">
+
+							<div class="col-xs-6" id="divclient" style="display: none;">
+								<label for=""><em>*</em>客户名称：</label>
+								<br />
+								<input id="clientName" name="clientName" class="form-control required" value="" type="text" title="请填写客户名称" />
+								<input type="hidden" name="cliendId" id="clientid" value="0" />
+								<input class="btn_solid" id="" onclick="CustomChoose()" type="button" value="选择客户"></input>
+							</div>
+
+							<div class="col-xs-6">
+								<label for=""><em>*</em>相关地址：</label>
+								<input type="text" name="joblogFile" id="joblog_file" class="form-control required" placeholder="请填写相关地址" />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-6">
+								<label for=""><em>*</em>开始时间：</label>
+								<input id="BegTime" name="joblogStartTime" class="form-control required" value="" type="text" placeholder="请选择开始时间" readonly="true" />
+							</div>
+
+							<div class="col-xs-6">
+								<label for=""><em>*</em>自报时长：</label>
+								<input id="TMinute" name="joblogReportedTime" class="form-control required" value="" type="text" placeholder="请选择自报时间" readonly="true" />
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-6">
+								<label for=""><em>*</em>公开状态：</label>
+								<input type="radio" name="addresslistState" value="不公开" checked="checked" /><label>不公开</label>
+								<input type="radio" name="addresslistState" value="公开" /><label>公开</label>
+								<label style="color: red; width: 350px;">提示：公开后，客户可通过自主查询来查询服务记录</label>
+							</div>
+
+							<div class="col-xs-6">
+								<label for="">相关文件：</label>
+								<input type="file" name="filedata" class="file" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<label for=""><em>*</em>工作描述：</label>
+								<textarea id="Des" name="joblogText" class="form-control" rows="3" cols="90" placeholder="请添加工作描述"></textarea>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-12">
+								<input type="button" onclick="addrili()" class="btn_solid" value="确定提交"></input>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+
+			<script>
+				laydate.render({
+					elem: '#BegTime' //指定元素
+						,
+					calendar: true,
+					type: 'date',
+					format: 'yyyy-MM-dd',
+
+				});
+				laydate.render({
+					elem: '#TMinute' //指定元素
+						,
+					calendar: true,
+					type: 'date',
+					format: 'yyyy-MM-dd',
+
+				});
+			</script>
+		</section>
+
+	</body>
+
+</html>

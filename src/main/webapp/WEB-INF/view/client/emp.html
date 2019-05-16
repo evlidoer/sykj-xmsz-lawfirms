@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<script type="text/javascript" src="static/layui/layui.all.js"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts3.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css" />
+		<script src="static/bootstarp/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/echarts.min.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+</head>
+<body id="content" style="padding-bottom: 66px;">
+    <section>
+        
+
+
+<form action="" class="container-fluid page_find" id="searchForm" method="post" >
+    <div class="input-group">
+        <input type="text" class="form-control" id="title" name="title" placeholder="请输入姓名" aria-describedby="basic-addon1" style="width:300px; height:35px;">
+    </div> 
+    <input type="button" value="检索" class="btn_solid" id="jiansuo77">
+</form>
+<div id="datas">
+
+<input type="hidden" id="T" value="8">
+
+<table class="table white table-hover table-fixed-head fixed" data-table-fixed-head-trigger="55" data-table-fixed-head-top="0" id="table">
+    
+</table>
+
+<script>
+
+    $(function () {
+    	$("#jiansuo77").on("click",function(){
+    		$("#table").bootstrapTable("refresh")
+    	})
+    	
+    	$("#table").bootstrapTable({
+					method: "get",
+					url: "empSelect",
+					dataType: "json",
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 8, //每页几条数据
+					pageList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+					sidePagination: "server", //client 前台分页，server后台分页 
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							empname:$("#title").val()
+						}
+					},
+					columns: [{
+						title:"选择",
+						formatter:function(value,row,index){
+							return "<input type='radio' name = 'userID'  onchange='test(this)' value='"+row.id+"' data-name='"+row.emp_name+"'>"
+						}
+					}, {
+						title: "姓名",
+						field: "emp_name"
+					}, {
+						title: "手机号",
+						field: "emp_phone"
+					}, {
+						title: "提成组",
+						field:""
+					}, {
+						title: "权限组",
+						field: "remark"
+					
+					}]
+
+				})
+    	
+
+    
+    });
+    
+    function test(row){
+    	console.log(row)
+    	var clientid = $.cookie("emp_client_id");
+		var empid = $(row).val();
+		layer.msg('确认要转送吗？', {
+        time: 0,
+        btn: ['确认', '取消'],
+        yes:function(index){
+        	$.ajax({
+			type:"get",
+			url:"updateempclient",
+			data:{"clientid":clientid,"empid":empid},
+			async:true,
+			success:function(data){
+		 if(data == 1){	
+        layer.msg("转送成功！");
+        layer.alert("转送成功！",function(){
+            window.parent.location.reload();//刷新父页面
+            parent.layer.close(index);//关闭弹出层
+        });
+   		 } else{
+      	  layer.msg("转送失败！");
+  	  }
+
+			}
+		});
+        }
+      });
+		
+    }
+</script>
+
+</div>
+
+    </section>
+</body>
+</html>

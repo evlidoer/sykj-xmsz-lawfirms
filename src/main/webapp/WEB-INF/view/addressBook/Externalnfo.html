@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/layer/theme/default/layer.css?v=3.1.1" id="layuicss-layer">
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/laydate.js"></script>
+		<link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+				$.ajax({
+					type: "get",
+					url: "external/selInfo/"+$.cookie("Save_Sel_ExternalInfo_ID"),
+					dataType:"json",
+					success: function(data) {
+						console.log(data+"-----------------------------------------");
+						$("#externalComment").text(data.externalComment);
+						$("#externalPostbox").text(data.externalPostbox);
+						$("#externalFamily").text(data.externalFamily);
+						$("#externalFax").text(data.externalFax);
+						$("#externalTelephone").text(data.externalTelephone);
+						$("#externalCellphonenumber").text(data.externalCellphonenumber);
+						$("#externalContacts").text(data.externalContacts);
+						$("#jobtitle").text(data.jobtitle)
+						$("#dept").text(data.dept);
+						$("#externalCompanyname").text(data.externalCompanyname);
+					}
+				});
+			});
+		</script>
+		<!-- 使ie9及以下兼容媒体查询和html5标签 -->
+		<!--[if lte IE 9]>
+    　  <script src="/Content/js/html5shiv.min.js"></script>
+        <script src="/Content/js/respond.js"></script>
+    <![endif]-->
+
+		<!-- 兼容ie9 -->
+		<!--[if IE 9]>
+        <link rel="stylesheet" type="text/css" href="/Content/css/ie9.css">
+    <![endif]-->
+
+		<!-- 兼容ie8 -->
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="/Content/css/ie8down.css">
+	<![endif]-->
+
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="static/img/back.png" draggable="false" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)" draggable="false">行政</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">联系人详情</a>
+				</li>
+			</ol>
+
+			<form action="/PhoneBook/AjaxEditPhoneSiFa?is_ajax=ajax" class="" enctype="multipart/form-data" id="form" method="post">
+				<div class="case_detail container">
+					<div class="row row_title">
+						<label class="text_border">基本资料</label>
+						<div class="shell text_group">
+							<div class="my_grid">
+								<div class="all_box text_box">
+									单位名称：
+									<p id="externalCompanyname"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									联系人：
+									<p id="externalContacts"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									手机号码：
+									<p title="" id="externalCellphonenumber"></p>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="row row_title">
+						<label class="text_border">详细资料</label>
+						<div class="shell text_group">
+							<div class="my_grid">
+								<div class="all_box text_box">
+									部门：
+									<p id="dept"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									职位：
+									<p id="jobtitle"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									固定电话：
+									<p title="" id="externalTelephone"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									邮箱：
+									<p id="externalPostbox"></p>
+								</div>
+							</div>
+
+							<div class="my_grid">
+								<div class="all_box text_box">
+									传真：
+									<p id="externalFax"></p>
+								</div>
+							</div>
+
+							<div class="all_box text_box">
+								详细地址：
+								<p id="externalFamily"></p>
+							</div>
+
+							<div class="all_box text_box">
+								备注：
+								<p id="externalComment"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<input type="hidden" id="ID" name="ID" value="751">
+			</form>
+		</section>
+	</body>
+
+</html>

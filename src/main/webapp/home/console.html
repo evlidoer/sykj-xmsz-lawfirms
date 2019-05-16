@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html class="js cssanimations"><head>
+    <meta charset="UTF-8">
+    <title>辽宁盛恒律师事务所</title>
+    <meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+    <meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <link rel="stylesheet" type="text/css" href="../static/bootstarp/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="../static/css/parts2.css">
+    <link id="main_link2" rel="stylesheet" type="text/css" href="../static/css/main_blue.css">
+    <script src="../static/bootstarp/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="../static/bootstarp/js/bootstrap.js"></script>
+    <script src="../static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="../static/js/jquery.form.js"></script>
+    <script src="../static/js/MouseOpen.js"></script>
+    <script src="../static/js/WebSiteJs.js"></script>
+    <script src="../static/layer/layer.js"></script>
+    <link rel="stylesheet" href="../static/css/layer.css" id="layuicss-layer">
+    <script src="../static/js/jquery.validate.js"></script>
+    <script src="../static/js/jquery.validate.min.js"></script>
+    <script src="../static/js/messages_zh.jsg"></script>
+    <script src="../static/js/laydate.js"></script>
+    <link rel="stylesheet" href="../static/css/laydate.css" id="layuicss-laydate">
+    <script src="../static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="../static/js/parts.js"></script>
+</head>
+<body id="content">
+    <section>
+        
+
+
+<style>
+    .layout2_shadow {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 9;
+        transition: all 0.2s ease-out;
+    }
+
+    .layout2_inputarea {
+        width: 600px;
+        background: #fff;
+        z-index: 10;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-left: -300px;
+        margin-top: -204px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        border-radius: 4px;
+        border: 1px solid #d9d9d9;
+    }
+
+    .layout2_title {
+        line-height: 44px;
+        padding: 0 44px;
+        font-size: 16px;
+        background-color: #ededed;
+        border-bottom: 1px solid #ededed;
+        border-radius: 4px 4px 0 0;
+        position: relative;
+    }
+
+        .layout2_title::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 12px;
+            margin: auto;
+            width: 24px;
+            height: 24px;
+            background-image: url(/Content/icon/icon_maintips.png?v=12313123);
+        }
+
+    .layout2_input {
+        margin: 20px 10px 0 30px;
+        width: 200px;
+        height: 400px;
+        font-size: 14px;
+        padding-left: 8px;
+    }
+
+    .layout2_button {
+    }
+
+    .layout2_body {
+        filter: blur(10px);
+    }
+
+    .layui-layer-dialog .layui-layer-padding {
+        padding: 0;
+        overflow-y: hidden;
+    }
+
+    .layui-layer-dialog .layui-layer-content .layui-layer-ico {
+        top: 40%;
+    }
+
+    .layui-layer-content a {
+        color: blue;
+    }
+
+        .layui-layer-content a:hover {
+            color: black;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+    .layout2_inputarea .layui-layer-content .title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 12px 20px;
+        border-bottom: 1px solid #ededed;
+        box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+
+    .layout2_inputarea .layui-layer-content .detail {
+        text-overflow: ellipsis;
+        margin: 0;
+        padding: 20px;
+        text-indent: 2em;
+        height: 251px;
+        overflow: auto;
+        text-align: justify;
+    }
+
+    .layout2_inputarea .hometips_btnbox {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        border-top: 1px solid #ededed;
+        padding: 4px 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+
+        .layout2_inputarea .hometips_btnbox li {
+            float: left;
+            width: 25%;
+            padding: 10px;
+        }
+
+            .layout2_inputarea .hometips_btnbox li .btn_solid {
+                width: 100%;
+            }
+
+    .layout2_inputarea .daoqitz {
+        line-height: 150px;
+        padding: 0 0 0 60px;
+        font-size: 18px;
+    }
+
+    .home-todown {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        z-index: 10;
+        width: 24px;
+        margin-left: -12px;
+    }
+</style>
+<script src="../static/js/moment-with-locales.min.js"></script>
+<script src="../static/js/hys-manager-main.js"></script>
+<link href="../static/css/fullcalendar.min.css" rel="stylesheet">
+<link href="../static/css/font-awesome.min.css" rel="stylesheet">
+<script src="../static/js/fullcalendar.all.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+
+        // 用户向下滚动页面时隐藏下箭头闪烁提示
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 400) {
+                $(".home-todown").fadeOut(200);
+            }
+        });
+
+    })
+
+
+    function reloads() {
+        $('#calendar').fullCalendar('refetchEvents');
+    }
+
+
+    function DataChoose(value, type) {
+        var width = '80%';
+        var height = '75%';
+        var titles = '添加日历事件';
+        var url = '/Message/ChooseEdit?time=' + value;
+
+        if (type == 2) {
+            if (value.indexOf('-') > -1) {
+                url = '/KaiTing/Des?id=' + value.split('-')[0] + "&S=1";
+            } else {
+                url = '/Message/JobChooseDetail?id=' + value;
+            }
+            width = '70%';
+            height = '55%';
+            titles = '日历事项详情';
+        }
+        var open = layer.open({
+            title: titles,
+            type: 2,
+            area: [width, height],
+            maxmin: true,
+            fixed: true, //不固定
+            shadeClose: true, //开启遮罩关闭
+            content: url //T=1 案件收支类别
+        });
+        //window.location.href = url;
+        $('#calendar').fullCalendar('refetchEvents');
+    }
+
+    var formatDateTime = function (date) {
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        var minute = date.getMinutes();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
+    };
+    $(document).ready(function () {
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'title',
+                center: 'prevYear,prev,next,nextYear,today',
+                right: ''
+            },
+            weekends: true,
+            editable: false,
+            defaultView: 'month',
+            lazyFetching: false,
+            defaultDate: '2019-05-06',
+            minTime: '06:00:00',
+            defaultTimedEventDuration: '01:00:00',
+            navLinks: true, // can click day/week names to navigate views
+            selectable: true,
+            slotEventOverlap: false,
+            selectOverlap: false,
+            timeFormat: 'HH:mm',
+            height: 800,
+            businessHours: {
+                start: '06:00',
+                end: '23:00',
+                dow: [1, 2, 3, 4, 5]
+            },
+            eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+
+
+
+                //layer.msg('确认要更改事项的日期吗？', {
+                //    time: 0 //不自动关闭
+                //    , btn: ['确定', '取消']
+                //    , yes: function (index) {
+                //        layer.close(index);
+                //        revertFunc();
+                //        //$.ajax({
+                //        //    type: "POST",
+                //        //    url: "/Finance/FinanaceDel",
+                //        //    data: { "ID": id },
+                //        //    success: function (result) {
+                //        //        layer.msg(result.R, { time: 1000 }, function () {
+                //        //            //关闭后的操作
+                //        //            if (result.R == "删除成功") {
+                //        //                $("#" + id).remove();
+                //        //            }
+                //        //        });
+                //        //    }
+                //        //});
+
+                //    }
+                //    , btn2: function (index) {
+                //        revertFunc();
+                //        layer.close(index);
+                //    }
+                //});
+                //alert(parseInt(dayDelta));
+
+
+                //$.post("do.php?action=drag", {
+                //        id: event.id,
+                //        daydiff: dayDelta,
+                //        minudiff: minuteDelta,
+                //        allday: allDay
+                //    }, function(msg) {
+                //        if (msg != 1) {
+                //            alert(msg);
+                //            revertFunc(); //恢复原状
+                //        }
+                //    });
+            },
+            selectHelper: true,
+            select: function (start, end, allDay, jsEvent, view) {
+                var dStar = new Date(start);
+                var dEnd = new Date(end);
+                var starTime = formatDateTime(dStar);
+                var endTime = formatDateTime(dEnd);
+                var duration = (dEnd.getTime() - new Date(start).getTime()) / 60000;
+                //location.href = "/Administration/Board/Edit.aspx?star=" + starTime + "&end=" + endTime + "&mm=" + duration;
+                //// 弹框选择会议类型
+                //$('#dlg-new-meeting-title').html('预订' + date + '测试' + startTime);
+                //$('#dlg-new-meeting-link-s').attr('href', '/meetings/d/' + date + '/r/2DuYnXmBhKomx7VG2frQf9/new?startTime=' + startTime + '&duration=' + duration);
+                //$('#dlg-new-meeting-link-i').attr('href', '/meetings/d/' + date + '/r/2DuYnXmBhKomx7VG2frQf9/new-interview?startTime=' + startTime + '&duration=' + duration);
+                //$('#dlg-new-meeting-link-c').attr('href', '/meetings/d/' + date + '/r/2DuYnXmBhKomx7VG2frQf9/new-customer?startTime=' + startTime + '&duration=' + duration);
+                //$('#new-meeting-dlg').modal({ width: "280px" });
+                //$('#calendar').fullCalendar('refetchEvents');
+            },
+            eventClick: function (calEvent, jsEvent, view) {
+                setValue();
+            },
+            viewRender: function (view, element) {
+                document.cookie = "lbview=" + view.name + "; path=/";
+            },
+            dayClick: function (date, jsEvent, view, resourceObj) {
+                DataChoose(date.format(), 1);
+            },
+            timezone: 'local',
+            eventLimit: true, // allow "more" link when too many events
+            eventMouseover: function (event) {
+                //do something here...
+                var eTop = $(this).offset().top;
+                var eRight = $(this).offset().left;
+                $('#retreatdiv').css({ 'top': eTop + 'px', 'left': eRight + 100 + 'px' }).show();
+                $('#retreatdiv').html(event.title);
+                // ...
+            },
+            eventMouseout: function (event) {
+                //do something here...
+                $('#retreatdiv').hide();
+                // ...
+            },
+            eventClick: function (event) {
+                var id = event.ID;
+                DataChoose(id, 2);
+            },
+            events: function (start, end, timezone, callback) {
+                var date = this.getDate().format();
+                $.ajax({
+                    url: '/Message/MyDataList?v=' + diu_Randomize(1, 100),
+                    data: {
+                        data: date,
+                    },
+                    success: function (jsons) { // 获取当前月的数据
+                        var events = [];
+                        for (var i = 0; i < jsons.list.length; i++) {
+                            events.push({
+                                ID: jsons.list[i]["ID"],
+                                title: jsons.list[i]["Title"],
+                                start: jsons.list[i]["BegTime"],
+                                end: jsons.list[i]["EndTime"],
+                                backgroundColor: jsons.list[i]["Color"],
+                                textColor: jsons.list[i]["Color"] == "#FFFF00" ? 'black' : '',
+                            });
+                        }
+                        callback(events);
+                    }
+                });
+            }
+        });
+        $('.fc-right').append('<label class="check_more"><a href="/Home/Data">更多 +</a></label>');
+
+        //当天的颜色
+        //$(".fc-today").css('backgroundColor', '#FF0000');  
+
+        //明天的颜色
+        //var time1 = '';
+        //$("td[data-date='" + time1 + "']").css('backgroundColor', '#FFFF00'); 
+
+        //后天的颜色
+        //var time2 = '2019-05-08';
+        //$("td[data-date='" + time2 + "']").css('backgroundColor', '#0000FF');
+    });
+    //随机数   
+    function diu_Randomize(b, e) {
+        if (!b && b != 0 || !e) { return "?"; }
+        return Math.floor((Math.random() * e) + b);
+    }
+    function setValue() {
+        $('#calendar').fullCalendar('refetchEvents');
+    }
+
+</script>
+
+<!-- 使ie9及以下兼容媒体查询和html5标签 -->
+<!--[if lt IE 9]>
+        <script src="/Content/js/html5shiv.min.js"></script>
+        <script src="/Content/js/respond.js"></script>
+    <![endif]-->
+<!-- 兼容ie8 -->
+<!--[if lte IE 8]>
+        <link rel="stylesheet" type="text/css" href="/Content/css/ie8down.css">
+    <![endif]-->
+
+
+
+
+
+    <!-- 页面loading动画 -->
+    <div class="load1" id="loading" style="display: none;">
+        <div class="loader">Loading...</div>
+    </div>
+
+
+    <!-- 闪烁下箭头提示 -->
+    <img class="home-todown" src="/Content/icon/ico_downarrow.gif" style="display: none" draggable="false">
+
+
+
+
+
+    <div class="main_box">
+
+        <div class="top_part">
+            <div class="case_statistics">
+
+                <div class="row_title">
+                    <label class="text_border">案件统计</label>
+                </div>
+                <ul class="three-choice">
+
+                        <li class="col-xs-4"><a href="/Case/ALLlist?Stat=0" draggable="false">
+                            <p>499</p>
+                            <p>待审批</p>
+                        </a></li>
+                        <li class="col-xs-4"><a href="/Case/ALLlist?jieStat=0" draggable="false">
+                            <p>507</p>
+                            <p>在办</p>
+                        </a></li>
+                        <li class="col-xs-4"><a href="/Case/ALLlist?jieStat=1" draggable="false">
+                            <p>2</p>
+                            <p>结案</p>
+                        </a></li>
+
+
+                </ul>
+
+
+            </div>
+
+            <div class="unpaidCase_list">
+
+                <div class="row_title">
+                    <label class="text_border">待收款案件列表</label>
+
+                        <label class="check_more"><a href="/Case/Receivables?ListCols=1" draggable="false">更多 +</a></label>
+
+
+                </div>
+                <div class="table-reponsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th title="案号">案号</th>
+                                <th title="案由">案由</th>
+                                <th title="委托人">委托人</th>
+                                <th title="费用">费用</th>
+                                <th title="已收款">已收款</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td title="2018（文）第0001号"><a href="/Case/CaseDes?CaseID=20181000011" draggable="false">2018（文）第0001号</a></td>
+                                    <td>借条</td>
+                                    <td></td>
+                                    <td>500.00</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="/Case/CaseDes?CaseID=20190100011" draggable="false">2019（民）第0001号</a></td>
+                                    <td>34</td>
+                                    <td>12123</td>
+                                    <td>1241.00</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="/Case/CaseDes?CaseID=20190100021" draggable="false">2019（民）第0002号</a></td>
+                                    <td>34</td>
+                                    <td>12123</td>
+                                    <td>1241.00</td>
+                                    <td>0</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="left_part">
+
+        <div class="calendar">
+            <div id="calendar" class="fc fc-ltr fc-unthemed"><div class="fc-toolbar"><div class="fc-left"><h2>2019年 五月</h2></div><div class="fc-right"><label class="check_more"><a href="/Home/Data">更多 +</a></label></div><div class="fc-center"><div class="fc-button-group"><button type="button" class="fc-prevYear-button fc-button fc-state-default fc-corner-left"><span class="fc-icon fc-icon-left-double-arrow"></span></button><button type="button" class="fc-prev-button fc-button fc-state-default"><span class="fc-icon fc-icon-left-single-arrow"></span></button><button type="button" class="fc-next-button fc-button fc-state-default"><span class="fc-icon fc-icon-right-single-arrow"></span></button><button type="button" class="fc-nextYear-button fc-button fc-state-default"><span class="fc-icon fc-icon-right-double-arrow"></span></button><button type="button" class="fc-today-button fc-button fc-state-default fc-corner-right fc-state-disabled" disabled="disabled">今天</button></div></div><div class="fc-clear"></div></div><div class="fc-view-container" style=""><div class="fc-view fc-month-view fc-basic-view" style=""><table><thead class="fc-head"><tr><td class="fc-widget-header"><div class="fc-row fc-widget-header"><table><thead><tr><th class="fc-day-header fc-widget-header fc-mon">周一</th><th class="fc-day-header fc-widget-header fc-tue">周二</th><th class="fc-day-header fc-widget-header fc-wed">周三</th><th class="fc-day-header fc-widget-header fc-thu">周四</th><th class="fc-day-header fc-widget-header fc-fri">周五</th><th class="fc-day-header fc-widget-header fc-sat">周六</th><th class="fc-day-header fc-widget-header fc-sun">周日</th></tr></thead></table></div></td></tr></thead><tbody class="fc-body"><tr><td class="fc-widget-content"><div class="fc-day-grid-container" style=""><div class="fc-day-grid"><div class="fc-row fc-week fc-widget-content fc-rigid" style="height: 120px;"><div class="fc-bg"><table><tbody><tr><td class="fc-day fc-widget-content fc-mon fc-other-month fc-past" data-date="2019-04-29"></td><td class="fc-day fc-widget-content fc-tue fc-other-month fc-past" data-date="2019-04-30"></td><td class="fc-day fc-widget-content fc-wed fc-past" data-date="2019-05-01"></td><td class="fc-day fc-widget-content fc-thu fc-past" data-date="2019-05-02"></td><td class="fc-day fc-widget-content fc-fri fc-past" data-date="2019-05-03"></td><td class="fc-day fc-widget-content fc-sat fc-past" data-date="2019-05-04"></td><td class="fc-day fc-widget-content fc-sun fc-past" data-date="2019-05-05"></td></tr></tbody></table></div><div class="fc-content-skeleton"><table><thead><tr><td class="fc-day-number fc-mon fc-other-month fc-past" data-date="2019-04-29">29</td><td class="fc-day-number fc-tue fc-other-month fc-past" data-date="2019-04-30">30</td><td class="fc-day-number fc-wed fc-past" data-date="2019-05-01">1</td><td class="fc-day-number fc-thu fc-past" data-date="2019-05-02">2</td><td class="fc-day-number fc-fri fc-past" data-date="2019-05-03">3</td><td class="fc-day-number fc-sat fc-past" data-date="2019-05-04">4</td><td class="fc-day-number fc-sun fc-past" data-date="2019-05-05">5</td></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><div class="fc-bgevent-skeleton"><table><tbody><tr><td colspan="5"></td><td class="fc-nonbusiness fc-bgevent" colspan="2"></td></tr></tbody></table></div></div><div class="fc-row fc-week fc-widget-content fc-rigid" style="height: 120px;"><div class="fc-bg"><table><tbody><tr><td class="fc-day fc-widget-content fc-mon fc-today fc-state-highlight" data-date="2019-05-06"></td><td class="fc-day fc-widget-content fc-tue fc-future" data-date="2019-05-07"></td><td class="fc-day fc-widget-content fc-wed fc-future" data-date="2019-05-08"></td><td class="fc-day fc-widget-content fc-thu fc-future" data-date="2019-05-09"></td><td class="fc-day fc-widget-content fc-fri fc-future" data-date="2019-05-10"></td><td class="fc-day fc-widget-content fc-sat fc-future" data-date="2019-05-11"></td><td class="fc-day fc-widget-content fc-sun fc-future" data-date="2019-05-12"></td></tr></tbody></table></div><div class="fc-content-skeleton"><table><thead><tr><td class="fc-day-number fc-mon fc-today fc-state-highlight" data-date="2019-05-06">6</td><td class="fc-day-number fc-tue fc-future" data-date="2019-05-07">7</td><td class="fc-day-number fc-wed fc-future" data-date="2019-05-08">8</td><td class="fc-day-number fc-thu fc-future" data-date="2019-05-09">9</td><td class="fc-day-number fc-fri fc-future" data-date="2019-05-10">10</td><td class="fc-day-number fc-sat fc-future" data-date="2019-05-11">11</td><td class="fc-day-number fc-sun fc-future" data-date="2019-05-12">12</td></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><div class="fc-bgevent-skeleton"><table><tbody><tr><td colspan="5"></td><td class="fc-nonbusiness fc-bgevent" colspan="2"></td></tr></tbody></table></div></div><div class="fc-row fc-week fc-widget-content fc-rigid" style="height: 120px;"><div class="fc-bg"><table><tbody><tr><td class="fc-day fc-widget-content fc-mon fc-future" data-date="2019-05-13"></td><td class="fc-day fc-widget-content fc-tue fc-future" data-date="2019-05-14"></td><td class="fc-day fc-widget-content fc-wed fc-future" data-date="2019-05-15"></td><td class="fc-day fc-widget-content fc-thu fc-future" data-date="2019-05-16"></td><td class="fc-day fc-widget-content fc-fri fc-future" data-date="2019-05-17"></td><td class="fc-day fc-widget-content fc-sat fc-future" data-date="2019-05-18"></td><td class="fc-day fc-widget-content fc-sun fc-future" data-date="2019-05-19"></td></tr></tbody></table></div><div class="fc-content-skeleton"><table><thead><tr><td class="fc-day-number fc-mon fc-future" data-date="2019-05-13">13</td><td class="fc-day-number fc-tue fc-future" data-date="2019-05-14">14</td><td class="fc-day-number fc-wed fc-future" data-date="2019-05-15">15</td><td class="fc-day-number fc-thu fc-future" data-date="2019-05-16">16</td><td class="fc-day-number fc-fri fc-future" data-date="2019-05-17">17</td><td class="fc-day-number fc-sat fc-future" data-date="2019-05-18">18</td><td class="fc-day-number fc-sun fc-future" data-date="2019-05-19">19</td></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><div class="fc-bgevent-skeleton"><table><tbody><tr><td colspan="5"></td><td class="fc-nonbusiness fc-bgevent" colspan="2"></td></tr></tbody></table></div></div><div class="fc-row fc-week fc-widget-content fc-rigid" style="height: 120px;"><div class="fc-bg"><table><tbody><tr><td class="fc-day fc-widget-content fc-mon fc-future" data-date="2019-05-20"></td><td class="fc-day fc-widget-content fc-tue fc-future" data-date="2019-05-21"></td><td class="fc-day fc-widget-content fc-wed fc-future" data-date="2019-05-22"></td><td class="fc-day fc-widget-content fc-thu fc-future" data-date="2019-05-23"></td><td class="fc-day fc-widget-content fc-fri fc-future" data-date="2019-05-24"></td><td class="fc-day fc-widget-content fc-sat fc-future" data-date="2019-05-25"></td><td class="fc-day fc-widget-content fc-sun fc-future" data-date="2019-05-26"></td></tr></tbody></table></div><div class="fc-content-skeleton"><table><thead><tr><td class="fc-day-number fc-mon fc-future" data-date="2019-05-20">20</td><td class="fc-day-number fc-tue fc-future" data-date="2019-05-21">21</td><td class="fc-day-number fc-wed fc-future" data-date="2019-05-22">22</td><td class="fc-day-number fc-thu fc-future" data-date="2019-05-23">23</td><td class="fc-day-number fc-fri fc-future" data-date="2019-05-24">24</td><td class="fc-day-number fc-sat fc-future" data-date="2019-05-25">25</td><td class="fc-day-number fc-sun fc-future" data-date="2019-05-26">26</td></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><div class="fc-bgevent-skeleton"><table><tbody><tr><td colspan="5"></td><td class="fc-nonbusiness fc-bgevent" colspan="2"></td></tr></tbody></table></div></div><div class="fc-row fc-week fc-widget-content fc-rigid" style="height: 120px;"><div class="fc-bg"><table><tbody><tr><td class="fc-day fc-widget-content fc-mon fc-future" data-date="2019-05-27"></td><td class="fc-day fc-widget-content fc-tue fc-future" data-date="2019-05-28"></td><td class="fc-day fc-widget-content fc-wed fc-future" data-date="2019-05-29"></td><td class="fc-day fc-widget-content fc-thu fc-future" data-date="2019-05-30"></td><td class="fc-day fc-widget-content fc-fri fc-future" data-date="2019-05-31"></td><td class="fc-day fc-widget-content fc-sat fc-other-month fc-future" data-date="2019-06-01"></td><td class="fc-day fc-widget-content fc-sun fc-other-month fc-future" data-date="2019-06-02"></td></tr></tbody></table></div><div class="fc-content-skeleton"><table><thead><tr><td class="fc-day-number fc-mon fc-future" data-date="2019-05-27">27</td><td class="fc-day-number fc-tue fc-future" data-date="2019-05-28">28</td><td class="fc-day-number fc-wed fc-future" data-date="2019-05-29">29</td><td class="fc-day-number fc-thu fc-future" data-date="2019-05-30">30</td><td class="fc-day-number fc-fri fc-future" data-date="2019-05-31">31</td><td class="fc-day-number fc-sat fc-other-month fc-future" data-date="2019-06-01">1</td><td class="fc-day-number fc-sun fc-other-month fc-future" data-date="2019-06-02">2</td></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><div class="fc-bgevent-skeleton"><table><tbody><tr><td colspan="5"></td><td class="fc-nonbusiness fc-bgevent" colspan="2"></td></tr></tbody></table></div></div><div class="fc-row fc-week fc-widget-content fc-rigid" style="height: 125px;"><div class="fc-bg"><table><tbody><tr><td class="fc-day fc-widget-content fc-mon fc-other-month fc-future" data-date="2019-06-03"></td><td class="fc-day fc-widget-content fc-tue fc-other-month fc-future" data-date="2019-06-04"></td><td class="fc-day fc-widget-content fc-wed fc-other-month fc-future" data-date="2019-06-05"></td><td class="fc-day fc-widget-content fc-thu fc-other-month fc-future" data-date="2019-06-06"></td><td class="fc-day fc-widget-content fc-fri fc-other-month fc-future" data-date="2019-06-07"></td><td class="fc-day fc-widget-content fc-sat fc-other-month fc-future" data-date="2019-06-08"></td><td class="fc-day fc-widget-content fc-sun fc-other-month fc-future" data-date="2019-06-09"></td></tr></tbody></table></div><div class="fc-content-skeleton"><table><thead><tr><td class="fc-day-number fc-mon fc-other-month fc-future" data-date="2019-06-03">3</td><td class="fc-day-number fc-tue fc-other-month fc-future" data-date="2019-06-04">4</td><td class="fc-day-number fc-wed fc-other-month fc-future" data-date="2019-06-05">5</td><td class="fc-day-number fc-thu fc-other-month fc-future" data-date="2019-06-06">6</td><td class="fc-day-number fc-fri fc-other-month fc-future" data-date="2019-06-07">7</td><td class="fc-day-number fc-sat fc-other-month fc-future" data-date="2019-06-08">8</td><td class="fc-day-number fc-sun fc-other-month fc-future" data-date="2019-06-09">9</td></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div><div class="fc-bgevent-skeleton"><table><tbody><tr><td colspan="5"></td><td class="fc-nonbusiness fc-bgevent" colspan="2"></td></tr></tbody></table></div></div></div></div></td></tr></tbody></table></div></div></div>
+            <div id="retreatdiv"></div>
+        </div>
+
+    </div>
+
+
+    <div class="right_part">
+
+        <div class="notice_bulletin">
+
+            <div class="row_title">
+                <label class="text_border">公告通知</label>
+                <label class="check_more"><a href="/Message/MyGgList" draggable="false">更多 +</a></label>
+            </div>
+            <div class="content">
+                <ul class="text">
+                        <li><a href="/Message/Detail?id=1354" draggable="false">
+                            <p>dfsdfs</p>
+                        </a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="approval_center">
+
+            <div class="row_title">
+                <label class="text_border">审批中心</label>
+
+                    <label class="check_more"><a href="/Audit/List" draggable="false">更多 +</a></label>
+
+
+            </div>
+            <div class="allTtem">
+                    <div class="item2">
+                        <p><span>事项：</span><span>收案审批-咨询代写文书</span></p>
+                        <p><span>状态：</span><span>待审批</span></p>
+                        <p><span>提交时间：</span><span>2019年05月06日 19时17分</span></p>
+                    </div>
+                    <div class="item2">
+                        <p><span>事项：</span><span>业务审批-结案审批</span></p>
+                        <p><span>状态：</span><span>待审批</span></p>
+                        <p><span>提交时间：</span><span>2019年05月03日 15时30分</span></p>
+                    </div>
+                    <div class="item2">
+                        <p><span>事项：</span><span>用印审批-介绍信</span></p>
+                        <p><span>状态：</span><span>待审批</span></p>
+                        <p><span>提交时间：</span><span>2019年05月01日 17时24分</span></p>
+                    </div>
+                    <div class="item2">
+                        <p><span>事项：</span><span>收案审批-咨询代写文书</span></p>
+                        <p><span>状态：</span><span>待审批</span></p>
+                        <p><span>提交时间：</span><span>2019年04月29日 10时35分</span></p>
+                    </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+
+
+
+
+
+
+
+
+
+    <div class="modal right fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <iframe src="" width="100%" height="100%" style="overflow: hidden; border: none;" id="myModalLabelUrl"></iframe>
+    </div>
+
+    
+
+
+
+<script>
+
+    // 页面loading动画
+    $(function () {
+        $('#loading').fadeOut(400);
+    });
+
+
+    //关闭弹出窗
+    function closeTip(obj) {
+        var dialog = $(obj).parent().parent('.layui-layer-dialog');
+        var shadow = $(dialog).prev('.layout2_shadow');
+        $(dialog).hide();
+        $(shadow).hide();
+    }
+
+    //查看详情
+    function DetailShow(url) {
+        if (url != null) {
+            var selectedEle = $('#sysNotice').find('option:selected');
+            location.href = url + $(selectedEle).val();
+        }
+        else {
+            var selectedEle = $('#otherNotice').find('option:selected');
+            location.href = $(selectedEle).attr('murl');
+        }
+    }
+
+    //不再提醒，不显示下一条
+    function NeverNoticeRead(id) {
+        var selectedEle = $(id).find('option:selected');
+        $.ajax({
+            url: id == '#sysNotice' ? '/Message/SetSysReadStat' : '/Message/SetOtherReadStat',
+            data: { ID: $(selectedEle).val() },
+            method: 'get',
+            type: 'json',
+            success: function (response) {
+            }
+        });
+    }
+    //不再提醒
+    function NeverNotice(id) {
+        var selectedEle = $(id).find('option:selected');
+
+        $.ajax({
+            url: id == '#sysNotice' ? '/Message/SetSysReadStat' : '/Message/SetOtherReadStat',
+            data: { ID: $(selectedEle).val() },
+            method: 'get',
+            type: 'json',
+            success: function (response) {
+                if (response.Result) {
+                    var index = $(id).find('option').index($(selectedEle));
+                    var maxLength = $(id).find('option').length;
+                    $(id).find('option').eq(index).prop('selected', false);
+
+                    $(selectedEle).remove();
+                    $(id).find('option').eq(0).prop('selected', true);
+                    var parentBase = $(id).parent('.layout2_inputarea');
+                    $(parentBase).find('.layui-layer-content').find('.title').html($(id).find('option').eq(0).attr('title'));
+                    $(parentBase).find('.layui-layer-content').find('.detail').html($(id).find('option').eq(0).attr('des'));
+
+                    if ($(id).find('option').length == 0) {
+                        var obj = $(id).parent('.layout2_inputarea').find('.layui-layer-close');
+                        closeTip(obj);
+                    }
+                }
+                if (response.MessageCount != null && response.MessageCount != undefined) {
+                    var arr = parent.document.getElementsByClassName('badge');
+                    for (var i = 0; i < arr.length; i++) {
+                        arr[i].innerHTML = response.MessageCount;
+                    }
+                }
+            }
+        })
+    }
+
+    //上一条
+    function PrevShow(id) {
+        var index = $(id).find('option').index($(id).find('option:selected'));
+        if (index == 0) {
+            layer.msg('已经是第一条', { time: 1000 });
+            return false;
+        } else {
+            $(id).find('option').eq(index).prop('selected', false);
+            $(id).find('option').eq(index - 1).prop('selected', true);
+
+            var parentBase = $(id).parent('.layout2_inputarea');
+            $(parentBase).find('.layui-layer-content').find('.title').html($(id).find('option').eq(index - 1).attr('title'));
+            $(parentBase).find('.layui-layer-content').find('.detail').html($(id).find('option').eq(index - 1).attr('des'));
+        }
+    }
+
+    //下一条
+    function NextShow(id) {
+        var index = $(id).find('option').index($(id).find('option:selected'));
+        var maxLength = $(id).find('option').length;
+        if (index == maxLength - 1) {
+            layer.msg('已经是最后一条', { time: 1000 });
+            return false;
+        } else {
+            $(id).find('option').eq(index).prop('selected', false);
+            $(id).find('option').eq(index + 1).prop('selected', true);
+
+            var parentBase = $(id).parent('.layout2_inputarea');
+            $(parentBase).find('.layui-layer-content').find('.title').html($(id).find('option').eq(index + 1).attr('title'));
+            $(parentBase).find('.layui-layer-content').find('.detail').html($(id).find('option').eq(index + 1).attr('des'));
+        }
+    }
+
+
+</script>
+
+
+    </section>
+    
+
+<script type="text/javascript" src="/WebResource.axd?d=0zd9Y-1nbqhtJETSjGdh4dGa2On7CjnrzzvirF6QSJmTOs9YvYuJMoAGTMZmXwYQKE4244xgjjNQeYPte1ABvh7NiWltqI0qvlWa5LmygrvXKqpZygL7IiTETaU3tRLo6avG77vdVFuiCjI-0sIORcrrQfg1&amp;t=636736440675645877"></script>
+    <script src="/Content/Scripts/jquery.unobtrusive-ajax.js?v=12321312313"></script>
+    <script type="text/javascript" src="/Content/js/baseFunction.js?v=12321312313"></script>
+
+
+</body></html>

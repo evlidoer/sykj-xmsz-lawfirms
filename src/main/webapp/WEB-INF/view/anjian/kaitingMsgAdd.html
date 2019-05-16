@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+    <link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+    
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/laydate/default/laydate.css"/>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/layui/lay/modules/laydate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    
+    <script src="static/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+   <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+
+	
+		
+    $(function () {
+    		/* 
+    			我的案件 操作 跳过来的 
+    		*/
+		    	var anhao = $.cookie("kaitingCase_propernum");
+		    	var id = $.cookie("kaitingId");
+		    	if(id != 'null' && id != ''){
+		    		$("#CaseId").val(anhao);
+		    		$("#caselawid").val(id);
+		    		$("#CaseId").attr("type","hidden");
+		    		$("#aj").append('<input name="CaseId" type="text" id="aaa" class="form-control required" title="请选择案件" readonly="true">')
+		    		$("#aaa").val(anhao);
+		    	}
+    		
+    	
+    	
+        $("#form").validate({
+            errorPlacement: function (error, element) {
+                element.parent().find("label").after(error);
+            }
+        });
+    });
+
+
+    $("#form").ajaxForm({
+        beforeSubmit: function () {
+            if ($("#CaseId").val().length <= 0) {
+                layer.msg("请选择案件", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#Title").val().length <= 0) {
+                layer.msg("请填写审判程序", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#FaYuan").val().length <= 0) {
+                layer.msg("请填写审判机关", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            return true;
+        },
+        success: function (data) {
+        	if(data=="true"){
+        		alert("添加成功")
+        		$.cookie("case_propernum",null);
+        		 $.cookie("id",null);
+         	   window.location.href = "kaitingMsg";
+            }else{
+         	   alert("添加失败")
+            }
+        }
+    });
+	
+    
+    //显示弹出框
+    function CaseChoose() {
+        layer.open({
+            title: '案件选择',
+            type: 2,
+           area: ['80%', '80%'],
+            fixed: false, //不固定
+           maxmin: true,
+            content: 'xiaotable'
+        });
+    }
+	
+</script>
+    
+</head>
+<body id="content">
+    <section>
+        
+
+<style>
+    .down_box2, .down_box2 select {
+        width: 200px !important;
+        display: inline-block !important;
+    }
+</style>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">开庭/侦查/检察</a></li>
+    <li><a class="active" draggable="false">法院开庭</a></li>
+</ol>
+
+<form action="CasecHoldAHearingFormAdd" id="form" method="post">   
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">基本信息</label>
+                </div>
+            </div>
+           <div class="row">
+                <div class="col-xs-6" id="aj">
+                    <label><em>*</em>案件：</label>
+                    <input name="CaseId" type="text" id="CaseId"  onclick="CaseChoose();" class="form-control required" title="请选择案件" readonly="true">
+               		 <input type="hidden" id="caselawid"   name="id"  /><!-- 案件id -->
+                </div>
+            </div>
+
+          <div class="row">
+                <div class="col-xs-6">
+                    <label><em>*</em>审判程序：</label>
+                    <input type="text" name="hearingapprovalprocedure" id="Title"  class="form-control required" title="请填写审批程序">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label><em>*</em>审判机关：</label>
+                    <input type="text" name="hearingoffice" id="FaYuan"  class="form-control required" title="请填写审判机关">
+                </div>
+            </div>
+         	
+         	 <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">其他选填</label>
+                    <span class="input_display">展开</span>
+                </div>
+            </div>
+ 
+ 	       <div class="input3_other" style="display: none;">
+               
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>宣判日期：</label>
+                        <input style="width: 20%;display:inline-block" type="text" name="hearingacquittime" id="XuanPanDate"  class="form-control" readonly="true" lay-key="3">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>上诉日期：</label>
+                        <input style="width: 20%;display:inline-block" type="text" name="hearingappealtime" id="ShangSuDate" class="form-control" readonly="true" lay-key="4">
+                    </div>
+                </div>
+                
+                 <div class="row">
+                    <div class="col-xs-12">
+                        <label>立案日期：</label>
+                    	 <input style="width: 20%;display:inline-block" type="text" name="hearingaccreditationtime" id="laDate"  class="form-control" readonly="true" lay-key="1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>开庭时间：</label>
+                        <input style="width: 20%;display:inline-block" type="text" name="hearingholdacouttime" id="KaiTingDate"  class="form-control" readonly="true" lay-key="2">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>法庭：</label>
+                        <input type="text" name="hearingcourt" id="FaTing"  class="form-control">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>主审法官：</label>
+                        <input type="text" name="hearingjude" id="FaGuan"  class="form-control">
+                    </div>
+
+                    <div class="col-xs-6">
+                        <label>联系电话：</label>
+                        <input type="text" name="hearingjudgetel" id="FaGuanPhone"  class="form-control">
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>书记员：</label>
+                        <input type="text" name="hearingcourtclerk" id="ShujiYuan"  class="form-control">
+
+                    </div>
+
+                    <div class="col-xs-6">
+                        <label>联系电话：</label>
+                        <input type="text" name="hearingcourtclerktel" id="ShuJiPhone"  class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>备注：</label>
+                        <textarea id="Des" name="hearingremark" class="form-control" rows="3" cols="90"></textarea>
+                    </div>
+                </div>
+            </div>
+ 
+            
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid">确定提交</button>
+                    <!-- <button class="btn_hollow">开始检索</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+    </section>
+</body>
+<script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+<script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+<script>
+laydate.render({
+    elem:'#laDate' //指定元素
+    , calendar: true
+	, type: 'date'
+});
+
+    laydate.render({
+        elem:'#KaiTingDate' //指定元素
+    , calendar: true
+    , type: 'datetime'
+    });
+
+    laydate.render({
+        elem: '#XuanPanDate' //指定元素
+     , calendar: true
+     , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#ShangSuDate' //指定元素
+    , calendar: true
+    , type: 'date'
+    });
+</script>
+</html>
+

@@ -1,0 +1,23 @@
+.breadcrumb{
+	height: 40px;
+	background-color: white;
+	border-bottom: 1px solid black;
+}
+.breadcrumb btn-default{
+	border: 0px;
+}
+.breadcrumb-li-one{
+	margin-left: 7px;
+}
+.breadcrumb li a{
+	cursor: default;
+	font-size: 14px;
+	color: #555;
+}
+.breadcrumb li a:hover{
+	cursor: default;
+	text-decoration: none;
+}
+.a_black{
+	color: #333333;
+}

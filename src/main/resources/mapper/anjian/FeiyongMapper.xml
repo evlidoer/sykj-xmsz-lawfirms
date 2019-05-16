@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.lawfirm.mapper.anjian.FeiyongMapper">
+  	<select id="feiyongShow" parameterType="map" resultType="map">
+  		select ccr.*,cl.* from  case_cost_relief ccr
+			inner join case_law cl on cl.id = ccr.case_law_id
+			inner join case_case_type cct on cct.id = cl.case_case_type_id
+			inner join hr_emp he on he.id=cl.system_approval_id
+			inner join system_user su on su.hr_emp_id =he.id where su.user_name = #{userName}
+			<if test="casePropernum != null and casePropernum != ''">and case_propernum like '%${casePropernum}%'</if>
+				<if test="relief_approval_status != null and relief_approval_status != ''">and relief_approval_status like '%${relief_approval_status}%'</if>
+  	
+  	</select>
+</mapper>

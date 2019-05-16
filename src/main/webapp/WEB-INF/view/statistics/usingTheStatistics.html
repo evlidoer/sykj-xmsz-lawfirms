@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<base href="../../lawfirms" />
+<head>
+<meta charset="UTF-8">
+<title>用印统计</title>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+
+<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+	#auto_div {
+		display: none;
+		width: 250px;
+		border: 1px #74c0f9 solid;
+		border-radius: 0px 0px 5px 5px;
+		background: #FFFFFF;
+		position: absolute;
+		top: 35px;
+		left: 545px;
+		color: #323232;
+		z-index: 1000;
+	}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+				<ol class="breadcrumb">
+					<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+					<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+					<span class="glyphicon glyphicon-menu-left" ></span>
+				</button>
+					<li class="breadcrumb-li-one">
+						<a>统计</a>
+					</li>
+					<li>
+						<a>用印统计</a>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row" id="monthly" style="margin-top: 10px;">
+			<div class="col-lg-12 col-sm-12 col-md-12">
+				<div class="form-inline">
+					<select class="form-control" id="yyType">
+						<option value>用印类型</option>
+		                <option value="公函">公函</option> 
+		                <option value="介绍信">介绍信</option> 
+		                <option value="律师函">律师函</option> 
+		                <option value="非诉">非诉</option> 
+					</select>
+					<select class="form-control" id="spStatus">
+						<option value>审批状态</option>
+		                <option value="未审批">未审批</option> 
+		                <option value="已审批">已审批</option> 
+					</select>
+					<div class="form-group">
+						<select class="form-control" id="cType">
+							<option value>案件类型</option>
+						</select>
+					</div>
+					<label>
+						<span>领用人：</span>
+				    </label>
+				    <div class="form-group">
+				    	<input id="properId" type="hidden" name="properId">
+						<input id="properUp" type="hidden">
+						<input class="form-control" id="proper" oninput="selNames($(this).val());">
+						<div id="auto_div">
+						</div>
+				    </div>
+				</div>
+				<div class="form-inline" style="margin-top: 10px;">
+					<label>
+						<span>领用日期：</span>
+				    </label>
+				    <div class="form-group">
+						<input class="form-control times" id="startTime" type="text">
+					</div>
+					<div class="form-group">
+						<input class="form-control times" id="endTime" type="text">
+					</div>
+					<div class="form-group" style="margin-left: 13px;">
+						<button type="button" class="btn btn-success" onclick="search();">搜索</button>
+					</div>
+					<div class="form-group">
+						<button type="button" class="btn btn-default" onclick="goExprot();">导出</button>
+						<form name="dwon" action="statistics/using/export" method="post" style="display: none;">
+							<input type="hidden" name="properId" />
+							<input type="hidden" name="cType" />
+							<input type="hidden" name="yyType" />
+							<input type="hidden" name="spStatus" />
+							<input type="hidden" name="startTime" />
+							<input type="hidden" name="endTime" />
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="monthly" style="margin-top: 10px;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 12px;">
+				<h3 style="text-align: center; font-weight: bold;">用印统计（合计：<sapn id="heji">0</sapn>个）</h3>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 12px;">
+				<table id="showShouJieAn" class="table table-hover table-striped">
+				</table>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="static/financeJs/usingTheStatistics.js"></script>
+	<script type="text/javascript" src="static/financeJs/setNameSjaStatistics.js"></script>
+	<script type="text/javascript">
+		function goExprot(){
+			var dwonFrm = document.dwon;
+			$("input[name='properId']").val($("#properId").val());
+			$("input[name='cType']").val($("#cType").val());
+			$("input[name='yyType']").val($("#yyType").val());
+			$("input[name='spStatus']").val($("#spStatus").val());
+			$("input[name='startTime']").val($("#startTime").val());
+			$("input[name='endTime']").val($("#endTime").val());
+			dwonFrm.submit();
+		}
+	</script>
+</body>
+</html>

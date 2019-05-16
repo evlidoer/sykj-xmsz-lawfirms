@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/main_navyblue.css" />
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="static/js/bootstrap.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.js"></script>
+
+		<script type="text/javascript">
+			function SelNoticeInfo(id) {
+				$.cookie("Save_Sel_SelNoticeInfo_ID", id);
+				window.location.href = "goto/administration/SelNoticeInfo";
+			}
+
+			function UpdNoticeInfo(id) {
+				$.cookie("Save_Sel_UpdNoticeInfo_ID", id);
+				window.location.href = "goto/administration/UpdNoticeInfo";
+			}
+
+			function refresh() {
+				$("#NoticeTab").bootstrapTable("refresh");
+			}
+
+			function DelNoticeByid(id) {
+				$.ajax({
+					type: "get",
+					url: "delNotice/" + id,
+					success: function() {
+						refresh()
+					}
+				});
+			}
+			$(function() {
+				$("#NoticeTab").bootstrapTable("refresh");
+				$("#NoticeTab").bootstrapTable({
+					method: "get",
+					url: "/lawfirms/administration/sel", //?timer=" + new Date().getTime()
+					dataType: "json",
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 10, //每页几条数据
+					pageList: [15, 20],
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					/**
+					 * 参数传递
+					 * @param {Object} params
+					 */
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							title: $("#title").val(),
+							stime: $("#stime").val(),
+							etime: $("#etime").val()
+						}
+					},
+					columns: [{
+						title: "标题",
+						formatter: function(value, row, index, field) {
+							var opAdd = '<a href = "javaScript:SelNoticeInfo(' + row.id + ')" draggable="false" >' + row.title + '</a>';
+							return opAdd;
+						}
+					}, {
+						title: "时间",
+						field: "noticeReleasetime"
+					}, {
+						title: "开始时间",
+						field: "noticeNotificationtime"
+					}, {
+						title: "结束时间",
+						field: "noticeNotificationendtime"
+					}, {
+						title: "操作",
+						formatter: function(value, row, index, field) {
+							var caidan = '<button class="layui-btn MyBtu1"><i class="layui-icon"></i>呼出操作</button> <p class = "MyparDiv" style = "display:none">' +
+								' <button class="layui-btn MyBtu2"><i class="layui-icon"></i>收起</button>' +
+								' <a href="goto/administration/AddNoticeInfo" draggable="false"><button class="layui-btn"><i class="layui-icon"></i> </button></a>' +
+								' <a href="javaScript:UpdNoticeInfo(' + row.id + ')" draggable="false"><button class="layui-btn"><i class="layui-icon"></i></button></a>' +
+								' <a href="javaScript:DelNoticeByid(' + row.id + ')" draggable="false"><button class="layui-btn"><i class="layui-icon"></i></button></a>' +
+								' <a href="javaScript:SelNoticeInfo(' + row.id + ')" draggable="false"><button class="layui-btn"><i class="layui-icon"></i></button></a>' +
+								' </p>';
+							return caidan;
+
+						}
+					}]
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+
+				$("#jiansuo22").on("click", function() {
+					refresh();
+				});
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+				$(document).on("click", ".MyBtu1", function() {
+					$(this).css("display", "none")
+					$(this).next().css("display", "block");
+				});
+				$(document).on("click", ".MyBtu2", function() {
+					$(this).parent().css("display", "none")
+					$(this).parent().parent().children(".MyBtu1").css("display", "inline-block");
+				})
+			});
+
+			function show(id) {
+				$.ajax({
+					type: "get",
+					url: "/lawfirms/administration/selInfoById/" + id + "",
+					dataType: "json",
+					success: function(data) {
+						$("#titleShow").text(data.title);
+						$("#descShow").text(data.desc);
+						$("#userShow").text(data.USERNAME);
+						$("#MyModal").modal("show");
+						$("#dateShow").text(formatDate(data.notice_releasetime));
+					}
+				});
+			}
+			//转换日期格式(时间戳转换为datetime格式)
+		function formatDate(cellval) {
+			var dateVal = cellval + "";
+			if(cellval != null) {
+				var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+				var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+				var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+				var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+				var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+				return date.getFullYear() + "-" + month + "-" + currentDate;
+			}
+		}
+		</script>
+
+		<style>
+			.bootstrap-table .table:not(.table-condensed),
+			.bootstrap-table .table:not(.table-condensed)>tbody>tr>th,
+			.bootstrap-table .table:not(.table-condensed)>tfoot>tr>th,
+			.bootstrap-table .table:not(.table-condensed)>thead>tr>td,
+			.bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+			.bootstrap-table .table:not(.table-condensed)>tfoot>tr>td {
+				padding: 0px;
+				line-height: 35px !important;
+			}
+			
+			.select_time,
+			#BegTime,
+			#EndTime,
+			#BirthDay,
+			#Begtime,
+			#TCxrq,
+			#STime,
+			#PayTime1,
+			#LiAnDate,
+			#KaiTingDate,
+			#XuanPanDate,
+			#ShangSuDate,
+			#XjDate,
+			#DbDate,
+			#ZcBegDate,
+			#ZcEndDate,
+			#ZcBegDate1,
+			#ZcEndDate1,
+			#ZcBegDate2,
+			#ZcEndDate2,
+			#ScBegDate,
+			#ScEndDate,
+			#fDate,
+			#BillTime,
+			#ETime,
+			#stime,
+			#etime,
+			#Ptime {
+				background-repeat: no-repeat;
+				background-position: 99% center;
+				background-size: 24px 24px;
+				background-image: url(static/img/icon_input_time.png);
+			}
+			
+			a {
+				font-size: 16px
+			}
+			
+			table a:link {
+				color: blue;
+				text-decoration: none;
+			}
+			/*//未访问：蓝色、无下划线 */
+			
+			table a:active: {
+				color: red;
+			} //激活：红色 
+			table a:visited {
+				color: purple;
+				text-decoration: none;
+			}
+			/*//已访问：紫色、无下划线 */
+			
+			table a:hover {
+				color: red;
+				text-decoration: underline;
+				cursor: pointer;
+			}
+			/*//鼠标移近：红色、下划线*/
+			
+			.MyparDiv a {
+				display: inline-block;
+				margin-top: 5px;
+			}
+			.layui-btn+.layui-btn {
+				margin-left: 0px;
+			}
+		</style>
+	</head>
+
+	<body id="content">
+		<section>
+			<script>
+			</script>
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading" style="display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!--浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="static/img/back.png" draggable="false" />
+				</a>
+				<li>
+					<a draggable="false">行政</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">通知公告</a>
+				</li>
+			</ol>
+			<form class="container-fluid page_find" id="searchForm" method="get">
+				<span>&nbsp;&nbsp;&nbsp;输入标题：</span>
+				<div class="input-group">
+					<input type="text" class="form-control" id="title" name="title" placeholder="请输入标题" aria-describedby="basic-addon1">
+				</div>
+				<span>&nbsp;&nbsp;&nbsp;开始时间：</span>
+				<div class="input-group">
+					<input type="text" class="form-control Wdate" id="stime" name="stime" aria-describedby="basic-addon1">
+				</div>
+				<!-- <span>&nbsp;&nbsp;&nbsp;结束时间：</span>
+				<div class="input-group">
+					<input type="text" class="layui-input test-item"  id="etime" name="etime" aria-describedby="basic-addon1">
+				</div> -->
+				<span>&nbsp;&nbsp;&nbsp;</span> <input id="jiansuo22" type="button" name="" class="btn_solid" value="开始检索">
+				<a href="goto/administration/AddNoticeInfo" class="btn_hollow" style="margin: 0 0 0 20px;">
+					添&nbsp;&nbsp;&nbsp; 加
+				</a>
+			</form>
+			<div id="datas">
+				<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="96" data-table-fixed-head-top="0" id="NoticeTab">
+				</table>
+			</div>
+		</section>
+		<div class="modal fade" tabindex="-1" role="dialog" id="MyModal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">公告详情 </h4>
+					</div>
+					<div class="modal-body">
+						<p style="margin: 0 auto;">
+							<h4 id="titleShow"></h4> 时间: <span id="dateShow"></span>&nbsp;&nbsp;&nbsp; 发布人: <span id="userShow"></span>
+						</p>
+						<p style="font-weight: 600">
+							详情通知 : <span id="descShow">
+										
+									</span></p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+	</body>
+	<script type="text/javascript">
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#stime' //指定元素
+					,
+				trigger: 'click'
+			});
+			laydate.render({
+				elem: '#etime' //指定元素
+					,
+				trigger: 'click'
+			});
+		});
+	</script>
+
+</html>

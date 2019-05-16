@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+  <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+
+<script>
+    $(function () {
+        $("#BComType").change(function () {
+            var BComType = $(this).val();
+            var BillCols = $("#BillCols").val();
+            if (BComType == 2) {
+                //个人
+                $("#SwNumsDiv").hide();
+                $("#SwNums").attr("class", "form-control");
+                $("#TableDes").hide();
+            } else {
+                //企业
+                $("#SwNumsDiv").show();
+                $("#SwNums").attr("class", "form-control required");
+                $("#TableDes").show();
+            }
+        });
+
+
+        $("#BillCols").change(function () {
+            var BillCols = $(this).val();
+            var BComType = $("#BComType").val();
+            if (BComType == 2) {
+                //个人
+                $("#TrSwNUms").hide();
+                $("#TableDes").hide();
+            } else {
+                //企业
+                if (BillCols == 2) {
+                    $("#TrSwNUms").hide();
+                    $("#TableDes").hide();
+                } else {
+                    $("#TrSwNUms").show();
+                    $("#TableDes").show();
+                }
+            }
+        });
+
+
+
+
+        $(function () {
+            $("#form").validate({
+                errorPlacement: function (error, element) {
+                    if (element.context.tagName == 'SELECT') {
+                        $(element).css('color', '#3a3a3a');
+                    }
+                    if (element.attr("name") == "BillType") {
+                        error.appendTo(element.parent().parent().parent().find("label"));
+                    } else {
+                        error.appendTo(element.parent().find("label"));
+                    }
+                }
+            });
+
+
+            $("#form").ajaxForm({
+                beforeSubmit: function () {
+                    //if ($("#BTitle").val().length == 0) {
+                    //    layer.msg("请填写发票抬头", function () {
+                    //        //关闭后的操作
+                    //    });
+                    //    return false;
+                    //}
+
+                    //if ($("#Price").val().length == 0) {
+                    //    layer.msg("请填写开票金额", function () {
+                    //        //关闭后的操作
+                    //    });
+                    //    return false;
+                    //}
+
+                    //if ($("#BillType").val().length == 0) {
+                    //    layer.msg("请选择开票项目", function () {
+                    //        //关闭后的操作
+                    //    });
+                    //    return false;
+                    //}
+
+
+                    //if ($("#BComType").val() == "1" && $("#BillCols").val() != "2") {
+                    //    if ($("#SwNums").val().length == 0) {
+                    //        layer.msg("请填写纳税人识别号", function () {
+                    //            //关闭后的操作
+                    //        });
+                    //        return false;
+                    //    }
+                    //}
+                },
+                success: function (data) {
+                    if (data = 1) {
+                    	alert("提交成功")
+                        window.location.href = "myCase";
+                    }
+                }
+            });
+        });
+        
+        
+        
+        
+        
+        /*
+         * 收值
+         */
+		$("#lawId").val($.cookie("id"))
+		$("#case_propernum").html($.cookie("case_propernum"))//案号
+		$("#case_agencyfee").html($.cookie("case_agencyfee"))//代理费
+		$("#money").html($.cookie("case_paidsal"))//已付款
+		$("#yesKaip").html($.cookie("caseInvoiced"))//#已开票金额
+		$("#client").html($.cookie("client"))//客户
+    });
+</script>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">发票申请</a></li>
+</ol>
+
+
+<div class="grid_input_shell">
+    <div class="container">
+        <div class="row row_title">
+            <div class="col-xs-12">
+                <label class="text_border">案件信息</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for="">案号：</label>
+                    <label id="case_propernum"></label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for="">代理费：</label>
+                    <label id="case_agencyfee">7000.00</label>
+                </div>
+                <div class="col-xs-6">
+                    <label for="">已到款项：</label>
+                    <label id="money">0元 （已经收到的款）</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for="">已开发票：</label>
+                    <label id="yesKaip">0元  (已经开出的发票）</label>
+                </div>
+            </div>
+        </div>
+
+<form action="addWholeCaseCZ2" class="" id="form" method="post">            
+<input type="hidden" name="CaseId" value="20191000021">
+            <input type="hidden" name="case_law_id" value="" id="lawId">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">申请发票</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <label><em>*</em>发票抬头：</label>
+                    <input type="text" name="cw_invoice_title" id="BTitle" value="" class="form-control required" title="请填写发票抬头">
+                </div>
+                <div class="col-xs-6">
+                    <label><em>*</em>开票金额：</label>
+                    <input name="cw_invoice_money" type="text" id="Price" maxlength="10" onkeyup="this.value=this.value.replace(/[^\.\d]/g,'');if(this.value.split('.').length>2){this.value=this.value.split('.')[0]+'.'+this.value.split('.')[1]};" class="form-control required" title="请填写开票金额">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <label><em>*</em>开票项目：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select name="cw_invoice_item" id="BillType" class="required" title="请选择开票项目">
+                                <option value="">选择开票项目</option>
+                                    <option value="1">律师代理费</option>
+                                    <option value="2">法律顾问费</option>
+                                    <option value="3">咨询费</option>
+                                    <option value="4">法务托管费</option>
+                                    <option value="5">非诉</option>
+                                    <option value="6">其他（备注中填写）</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <label><em>*</em>开具类型：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select name="cw_open_type" id="BComType">
+                                <option value="1">企业</option>
+                                <option value="2">个人</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <label><em>*</em>发票类型：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select name="cw_invoice_type" id="BillCols">
+                                <option value="1">增值税专用发票</option>
+                                <option value="2">增值税普通发票</option>
+                                <option value="3">通用机打发票</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6" id="SwNumsDiv">
+                    <label><em>*</em>纳税人识别号：</label>
+                    <input type="text" name="cw_taxpayer_identity_number" id="SwNums" value="" class="form-control required" title="请填写纳税人识别号">
+                </div>
+            </div>
+   
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid">确定提交</button>
+                    <!-- <button class="btn_hollow">开始检索</button> -->
+                </div>
+            </div>
+</form>
+    </div>
+</div>
+<script type="text/javascript">
+    laydate.render({
+        elem: '#BillTime' //指定元素
+, calendar: true
+, type: 'date'
+    });
+</script>
+
+
+
+
+
+
+    </section>
+    
+
+<script type="text/javascript" src="/WebResource.axd?d=0zd9Y-1nbqhtJETSjGdh4dGa2On7CjnrzzvirF6QSJmTOs9YvYuJMoAGTMZmXwYQKE4244xgjjNQeYPte1ABvh7NiWltqI0qvlWa5LmygrvXKqpZygL7IiTETaU3tRLo6avG77vdVFuiCjI-0sIORcrrQfg1&amp;t=636736440675645877"></script>
+    <script src="/Content/Scripts/jquery.unobtrusive-ajax.js?v=12321312313"></script>
+    <script type="text/javascript" src="/Content/js/baseFunction.js?v=12321312313"></script>
+
+
+</body></html>

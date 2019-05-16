@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css"/>
+<link rel="stylesheet" type="text/css" href="static/css/main.css">
+<link id="main_link" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+<script src="static/bootstarp/js/jquery-3.3.1.js"></script>
+<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="static/bootstarp/js/bootstrap-table.js"></script>
+</head>
+<body>
+    <body id="content">
+    <section>
+        
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="/Content/icon/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">年度考核</a></li>
+    <li><a class="active" draggable="false">历史考核</a></li>
+</ol>
+
+<!-- 选项卡 -->
+<ul class="tab">
+    <li><a href="gotoyearend" draggable="false">考核填表</a></li>
+    <li><a href="gotorecord" class="tab_on" draggable="false">历史考核</a></li>
+</ul>
+
+<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="94.4000015258789" data-table-fixed-head-top="0" id="table"><thead id="table_title" class="table-fixed-head-thead" style="width: 1215px; min-width: 1215px; max-width: 1215px; top: 0px; position: fixed; visibility: hidden;">
+        <tr style="width: 1215px; min-width: 1215px; max-width: 1215px;">
+            <th title="年度" style="width: 245px; min-width: 245px; max-width: 245px;">年度</th>
+            <th title="总分" style="width: 196px; min-width: 196px; max-width: 196px;">总分</th>
+            <th title="及格分" style="width: 259px; min-width: 259px; max-width: 259px;">及格分</th>
+            <th title="您的得分" style="width: 318px; min-width: 318px; max-width: 318px;">您的得分</th>
+            <th title="操作" style="width: 197px; min-width: 197px; max-width: 197px;">操作</th>
+        </tr>
+    </thead>
+    <thead id="table_title" style="visibility: visible;">
+        <tr>
+            <th title="年度">年度</th>
+            <th title="总分">总分</th>
+            <th title="及格分">及格分</th>
+            <th title="您的得分">您的得分</th>
+            <th title="操作">操作</th>
+        </tr>
+    </thead>
+</table>
+
+
+<script type="text/javascript" src="/Content/Js/table.js"></script>
+<script>
+    function Detail(ID) {
+        location.href = '/ExamineManage/ExamineTableDetail?ID=' + ID
+    }
+</script>
+    </section>
+    
+</body>
+
+</body>
+</html>

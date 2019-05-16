@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+      <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+    <link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+    
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/laydate/default/laydate.css"/>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/layui/lay/modules/laydate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    
+    <script src="static/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    
+</head>
+<body id="content">
+    <section>
+
+<script>
+    $(function () {
+        $("#form").validate({
+            errorPlacement: function (error, element) {
+                if (element.context.tagName == 'SELECT') {
+                    $(element).css('color', '#3a3a3a');
+                }
+
+                if (element.attr("name") == "SCols") {
+                    element.parent().parent().parent().find("label").after(error);
+                }
+                else if (element.attr("name") == "FileCount") {
+                    element.parent().find("#FileCount").after(error);
+                }
+                else {
+                    element.parent().find("label").after(error);
+                }
+            }
+        });
+
+        var IsCase = $('#SCols').find("option:selected").data("iscase");
+        if (IsCase == "1") {
+            $("#CaseId").attr("class", "form-control required");
+            $("#CaseNum").show();
+        }
+        var caseID = '';
+        if (caseID.length > 0) {
+            //如果CaseID存在，不需要弹窗选择案件
+            $("#CaseId").removeAttr("onclick");
+            $("#CaseId").attr("readonly", "readonly");
+        }
+
+        $("#SCols").change(function () {
+            IsCase = $(this).find("option:selected").data("iscase");
+            if (IsCase == "1") {
+                $("#CaseId").attr("class", "form-control required");
+                $("#CaseNum").show();
+            } else {
+                $("#CaseId").attr("class", "form-control");
+                $("#CaseNum").hide();
+            }
+        });
+    });
+
+    //asp.net版本
+    function ClickCase2() {
+        var day = new Date();
+        var TimeStr = day.getFullYear().toString() + (day.getMonth() + 1).toString() + day.getDate().toString() + day.getHours().toString() + day.getMinutes().toString() + day.getSeconds().toString();
+        var VMakeId = document.getElementById("TMakeId").value; 
+        var Uid = document.getElementById("Uid").value;
+        var Wid = document.getElementById("Wid").value;
+        var url = '/CFUpload/index.aspx?MakeId=' + VMakeId + "&S=" + TimeStr + "&Uid=" + Uid + "&Wid=" + Wid + "&Ts=1";
+        layer.open({
+            title: '文件上传',
+            type: 2,
+            area: ['45%', '55%'],
+            fixed: true, //不固定
+            maxmin: true,
+            content: url
+        });
+    }
+
+    //mvc版本
+    function ClickCase() {
+        layer.open({
+            title: '文件上传',
+            type: 2,
+            area: ['45%', '55%'],
+            fixed: true, //不固定
+            maxmin: true,
+            content: url
+        });
+    }
+
+
+    function SetOpen() {
+        $(".tip").fadeIn(200);
+    }
+
+    var openCount = 0;
+    function SetClose() {
+        openCount++;
+        GetUpCount();
+        $(".tip").fadeOut(200);
+        layer.close(openCount);
+    }
+
+    function GetUpCount() { 
+        $.ajax({
+            type: "POST",
+            url: "/CFileUpload/UploadCount",
+            data: { "TimeStamp": $("#TMakeId").val(), "Wid": $("#Wid").val() },
+            async: false,
+            success: function (result) {
+                result = JSON.parse(result);
+                $("#DivUpCount").html(result.R);
+                $("#FileCount").val(result.R);
+                
+            }
+        });
+    }
+
+    $("#form").ajaxForm({
+        beforeSubmit: function () {
+        },
+        success: function (data) {
+        	alert("提交成功")
+             window.location.href = "yongyin3";
+        }
+    });
+
+    function CaseChoose() {
+        //此处如果不++，先选择案件后再上传文件，弹出框不会自动关闭
+        openCount++;
+        layer.open({
+            title: '案件选择',
+            type: 2,
+            area: ['80%', '80%'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: 'xiaotable'
+        });
+    }
+
+</script>
+
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">用印申请</a></li>
+</ol>
+
+<form action="addCaseSealApplyfor" class="" id="form" method="post">    
+
+<div class="grid_input_shell">
+        <div class="container">
+            <!-- 选项卡 -->
+            <ul class="tab">
+                <a href="yongyin1" draggable="false" class="tab_on">手动模式</a>
+	            <a href="yongyin2"  draggable="false">自动模式</a>
+	            <a href="yongyin3" draggable="false">用印记录</a>
+            </ul>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for=""><em>*</em>用印事项：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select id="SCols" name="applyforUsingTheItem" class="required" title="请选择用印事项">
+                                <option value="">选择用印事项</option>
+                                   <option value="律师调查专用介绍信">律师调查专用介绍信</option>
+					                <option value="律师见证">律师见证</option>
+					                <option value="委托代理合同">委托代理合同</option>
+					                <option value="授权委托书（民商等）">授权委托书（民商等）</option>
+					                <option value="结案登记表">结案登记表</option>
+					                <option value="收案审批表">收案审批表</option>
+					                <option value="公函">公函</option>
+					                <option value="介绍信">介绍信</option>
+					                <option value="律师函">律师函</option>
+					                <option value="非诉">非诉</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>领用日期：</label>
+                    <input type="text" name="applyforReceive" id="STime"  class="form-control required" title="请选择领用日期" readonly="true" lay-key="1">
+                </div>
+                <div class="col-xs-6">
+                    <label for="">案件：</label>
+                    <input type="text" name="CaseId" id="CaseId" value="" onclick="CaseChoose();" class="form-control required" title="请选择案件" readonly="true">
+                <input type="hidden" name="case_law_id" id="caselawid" value="" >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                <div class="layui-upload">
+					  <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button> 
+					  <div class="layui-upload-list">
+					    <table class="layui-table">
+					      <thead>
+					        <tr><th>文件名</th>
+					        <th>大小</th>
+					        <th>状态</th>
+					        <th>操作</th>
+					      </tr></thead>
+					      <tbody id="demoList"></tbody>
+					    </table>
+					  </div>
+					  <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+				</div> 
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid">确定提交</button>
+                    <!-- <button class="btn_hollow">开始检索</button> -->
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div style="display: none;">
+        <input type="hidden" id="TMakeId" name="TMakeId" value="2019042721335300911687">
+        <input type="hidden" id="Tid" name="Tid" value="2019042721335300911687">
+        <input type="hidden" id="Wid" name="Wid" value="1687">
+        <input type="hidden" id="Uid" name="Uid" value="1">
+    </div>
+</form>
+ 
+<script>
+    laydate.render({
+        elem: '#STime' //指定元素
+       , calendar: true
+       , type: 'date'
+    });
+</script>
+
+    </section>
+    
+
+<script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+<script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+<script>
+layui.use('upload', function(){
+  var upload = layui.upload;
+   
+//多文件列表示例
+  var demoListView = $('#demoList')
+  ,uploadListIns = upload.render({
+    elem: '#testList'
+    ,url: 'upload/'+new Date().getTime()
+    ,accept: 'file'
+    ,multiple: true
+    ,auto: false
+    ,bindAction: '#testListAction'
+    ,choose: function(obj){   
+      var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+      //读取本地文件
+      obj.preview(function(index, file, result){
+        var tr = $(['<tr id="upload-'+ index +'">'
+          ,'<td>'+ file.name +'</td>'
+          ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+          ,'<td>等待上传</td>'
+          ,'<td>'
+            ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+            ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+          ,'</td>'
+        ,'</tr>'].join(''));
+        
+        //单个重传
+        tr.find('.demo-reload').on('click', function(){
+          obj.upload(index, file);
+        });
+        
+        //删除
+        tr.find('.demo-delete').on('click', function(){
+          delete files[index]; //删除对应的文件
+          tr.remove();
+          uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+        });
+        
+        demoListView.append(tr);
+      });
+    }
+    ,done: function(res, index, upload){
+      if(res == 0){ //上传成功
+        var tr = demoListView.find('tr#upload-'+ index)
+        ,tds = tr.children();
+        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+        tds.eq(3).html(''); //清空操作
+        return delete this.files[index]; //删除文件队列已经上传成功的文件
+      }
+      this.error(index, upload);
+    }
+    ,error: function(index, upload){
+      var tr = demoListView.find('tr#upload-'+ index)
+      ,tds = tr.children();
+      tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+      tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+    }
+  });
+});
+</script>
+
+</body>

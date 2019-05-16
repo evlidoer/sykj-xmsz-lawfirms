@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<base href="/lawfirms/" />
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css">
+		<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script src="static/js/jquery_1.11.3.min.js"></script>
+		<script type="text/javascript" src="static/bootstarp/js/bootstrap.js"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/jquery.form.js"></script>
+		<script src="static/js/MouseOpen.js"></script>
+		<script src="static/js/WebSiteJs.js"></script>
+		<script src="static/js/layer.js"></script>
+		<script src="static/js/jquery.validate.js"></script>
+		<script src="static/js/jquery.validate.min.js"></script>
+		<script src="static/js/messages_zh.js"></script>
+		<script src="static/js/layDate5.0.9/laydate.js"></script>
+		<script src="static/js/echarts.min.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+		<script type="text/javascript">
+			
+	$(function (){
+		
+		
+		
+		
+		
+		$("#tijiao11").on("click",function(){
+    			$.ajax({
+    				type:"get",
+    				url:"SealApprovalById",
+    				async:true,
+    				data:$("#form").serialize(),
+    				success:function(data){
+    					if(data==1){
+    						alert("审批成功")
+    						window.location.href="gotosealok";
+    					}else if(data==0){
+    						alert("当前用户无权限")
+    					}
+    				}
+    			});
+    			
+    		})		
+		$("#sealId").val($.cookie("gotosealId"))
+		
+    	$.ajax({
+    		type: "get",
+			url: "sealSel/"+$.cookie("gotolawId"),
+			async: true,
+			dataType: "json",
+			success:function(data){
+				console.log(data)
+				$("#case_propernum").html(data[0].case_propernum)
+				$("#case_cause").html(data[0].case_cause)
+				$("#case_parties").html(data[0].case_parties)
+				$("#case_opposite_parties").html(data[0].case_opposite_parties)
+				$("#case_status").html(data[0].case_status)
+				$("#case_lawsuit_status").html(data[0].case_lawsuit_status)
+				$("#case_accept").html(data[0].case_accept)
+				$("#case_agencyfee").html(data[0].case_agencyfee)
+				$("#case_paidsal").html(data[0].case_paidsal)
+				$("#case_invoiced").html(data[0].case_invoiced)
+				$("#case_paycols").html(data[0].case_paycols)
+				if(data[0].case_approve_status=="N"){
+					$("#case_approve_status").html("未审批")
+				}else if(data[0].case_approve_status=="Y"){
+					$("#case_approve_status").html("已审批")
+				}else if(data[0].case_approve_status=="Z"){
+					$("#case_approve_status").html("审批未通过")
+				}
+				
+				
+			}
+    		
+    	})
+    
+    });
+		</script>
+</head>
+<body>
+	<section>
+        
+
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading1" style="opacity: 5.55112e-17; display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb" style="background-color: white;">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">审批</a></li>
+    <li><a class="active" draggable="false">流程审批</a></li>
+</ol>
+
+<input id="IsLook" value="0" type="hidden">
+<input id="Cols" value="3" type="hidden">
+<input id="AuditID" value="421017" type="hidden">
+<div class="grid_input_shell">
+    
+    <div>
+        <div class="row basic_info">
+            <div class="row row_title">
+
+
+                <label class="text_border"></label>
+                 
+            </div>
+
+	
+    <section>
+        
+
+
+</ol>
+<div class="case_detail container">
+    <div class="row row_title">
+<div class="shell text_group">
+    <div class="my_grid">
+        <div class="all_box text_box">
+            案号：<p title=""><a href="#" draggable="false" id="case_propernum" ></a></p>
+        </div>
+    </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            案由：<p id="case_cause"></p>
+        </div>
+    </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            委托人/当事人：<p id="case_parties"></p>
+        </div>
+    </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            对方当事人：<p id="case_opposite_parties">
+
+                
+            </p>
+        </div>
+    </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            诉讼阶段：<p id="case_status">
+
+                
+            </p>
+        </div>
+    </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            诉讼地位：<p id="case_lawsuit_status">
+
+                
+            </p>
+        </div>
+    </div>
+
+              <div class="my_grid">
+            <div class="all_box text_box">
+                受理部门：<p id="case_accept"></p>
+            </div>
+        </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            代理费：<p id="case_agencyfee"></p>
+        </div>
+    </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            已收费金额：<p id="case_paidsal"></p>
+        </div>
+    </div>
+
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            已开票金额：<p id="case_invoiced"></p>
+        </div>
+    </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            收费方式：<p id="case_paycols"></p>
+        </div>
+    </div>
+
+    <div class="my_grid">
+        <div class="all_box text_box">
+            收案审批状态：<p id="case_approve_status"></p>
+        </div>
+    </div>
+
+    
+</div>
+
+    </div>
+
+</div>
+
+<div class="case_detail container">
+    <div class="row row_title">
+        <table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="table_other" style="text-align: center;">
+          
+        </table>
+
+
+            <ul class="small_menu" id="set_508041">
+                    <li><a target="_blank" href="" draggable="false">打印</a></li>
+                <li><a target="_blank" href="" draggable="false">修改</a></li><li><a target="_blank" href="/Official/NewLookFile?Id=508041&amp;FileCols=2&amp;IsZhang=1" draggable="false">盖章</a></li>
+                    <li><a href="javascript:OfficialDel('')" draggable="false">删除</a></li>
+            </ul>
+
+
+
+            <div style="margin-top: 20px"><b style="color: red">操作提示：</b>批量打印仅限Word文档，PDF文档只能使用单个打印！</div>
+            <div class="col-xs-12" style="text-align: center">
+              
+            </div>
+    </div>
+</div>
+
+<script>
+	
+    function OfficialDel(id) {
+        layer.msg('确认要删除此项吗？', {
+            time: 0 //不自动关闭
+               , btn: ['确定', '取消']
+               , yes: function (index) {
+                   layer.close(index);
+                   $.ajax({
+                       type: "POST",
+                       url: "/Official/AjaxFileUpLoadDel",
+                       data: { "ID": id },
+                       async: false,
+                       success: function (result) {
+                           result = JSON.parse(result);
+                           layer.msg(result.R, {
+                               time: 1500
+                           }, function () {
+                               $("#" + id).remove();
+                           });
+                       }
+                   });
+               }
+        });
+    }
+
+    function BatchPrint() {
+        var IsWord = true;
+        $("input:checkbox[name='FileTypeID']:checked").each(function () {
+            var VFilePath = $(this).val().split(',')[0].toLowerCase();
+            if (VFilePath != "doc" && VFilePath != "docx")
+                IsWord = false;
+        });
+        if (!IsWord) {
+            layer.msg("只能批量打印Word文件，请重新选择", function () {
+                //关闭后的操作
+            });
+            return false;
+        }
+
+        var s = "";
+        $("input:checkbox[name='FileTypeID']:checked").each(function () {
+            var id = $(this).val().split(',')[1];
+            s += id + ",";
+        });
+        if (s.length > 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Official/OfficialBatchPrintCheck",
+                data: { "Ids": s.substring(0, s.length - 1) },
+                async: false,
+                success: function (result) {
+                    result = JSON.parse(result);
+                    if (result.R == 0) {
+                        layer.msg("打印失败，文书需要审批后才能打印", {
+                            time: 1500
+                        }, function () {
+
+                        });
+                    } else {
+                        window.location.href = "/Official/OfficialBatchPrint?Ids=" + s.substring(0, s.length - 1) + "&OfficialID=" + $("#OfficialID").val() + "&CaseId=" + $("#CaseId").val();
+                    }
+                }
+            });
+        } else {
+            layer.msg("请选择要打印的Word文件", function () {
+                //关闭后的操作
+            });
+        }
+    }
+
+    //批量锁定
+    function Lock() {
+        var s = "";
+        $("input:checkbox[name='FileTypeID']:checked").each(function () {
+            var id = $(this).val().split(',')[1];
+            s += id + ",";
+        });
+        if (s.length > 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Official/OfficialBatchLock",
+                data: { "Ids": s.substring(0, s.length - 1), "OfficialID": $("#OfficialID").val(), "CaseId": $("#CaseId").val(), "AuditId": $("#AuditId").val() },
+                async: false,
+                success: function (result) {
+                    result = JSON.parse(result);
+                    layer.msg(result.R, {
+                        time: 1000
+                    }, function () {
+                        if (result.H.length > 0) {
+                            window.location.href = result.H;
+                        }
+                    });
+                }
+            });
+        } else {
+            layer.msg("请选择要锁定的数据", function () {
+                //关闭后的操作
+            });
+        }
+    }
+    //审批
+    function Approve() {
+        var s = "";
+        $("input:checkbox[name='FileTypeID']:checked").each(function () {
+            var id = $(this).val().split(',')[1];
+            s += id + ",";
+        });
+        if (s.length > 0) {
+            $.ajax({
+                type: "POST",
+                url: "/Official/OfficialBatchApprove",
+                data: { "Ids": s.substring(0, s.length - 1), "OfficialID": $("#OfficialID").val() },
+                async: false,
+                success: function (result) {
+                    result = JSON.parse(result);
+                    layer.msg(result.R, {
+                        time: 1500
+                    }, function () {
+                        if (result.H.length > 0) {
+                            window.location.href = result.H;
+                        }
+                    });
+                }
+            });
+        } else {
+            layer.msg("请选择要审批的数据", function () {
+                //关闭后的操作
+            });
+        }
+    }
+
+
+    function PrintFail() {
+        layer.msg("打印失败，该文书需要审批后才能打印", {
+            time: 1000
+        }, function () {
+            //关闭后的操作
+            window.location.href = "/Official/OfficialDes?CaseId=" + $("#CaseId").val();
+        });
+    }
+</script>
+
+<script>
+    // 多选框全选
+    var allMarkNum = 0;
+    $('.all_marks').click(function () {
+        allMarkNum++;
+        if (allMarkNum % 2 == 0) {
+            $(':checkbox').prop('checked', false);
+            $(':checkbox').removeClass('input_checked');
+        } else {
+            $(':checkbox').prop('checked', true);
+            $(':checkbox').addClass('input_checked');
+        }
+    })
+</script>
+
+    </section>
+            </div>
+
+
+        <div class="row approval_record">
+            <div class="row row_title">
+                <label class="text_border">审批记录</label>
+            </div>
+                <div class="row">
+                    <div class="col-xs-10">
+                        <p>
+                            
+                        </p>
+                        <p> </p>
+                        <p> </p>
+                        <p>
+                        </p>
+                    </div>
+
+                </div>
+                    </div>
+
+<form action="SealApprovalById" class="" id="form" method="post">
+	<input type="hidden" id="sealId" name="id" value="">
+            <div class="row my_approval">
+                <div class="row row_title">
+                    <label class="text_border">我的审批</label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>审批操作：</label>
+                        <div class="choose_shell">
+                            <input type="radio" name="applyfor_approval_status" value="Y" checked="checked" class="required input_radio_checked">通过
+                                    <input type="radio" name="applyfor_approval_status" value="O">不通过
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>备注说明：</label>
+                        <div>
+                            <textarea class="form-control col-xs-12" name=""></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: center">
+                        <input type="button" name="" id="tijiao11" class="btn_solid" value="确认提交">
+                    </div>
+                </div>
+            </div>
+</form>    </div>
+</div>
+
+
+
+
+    </section>
+</body>
+</html>

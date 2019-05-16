@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!--全所电子档案-->
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<!-- <link rel="stylesheet" type="text/css" href="static/css/main_navyblue.css" /> -->
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="static/js/bootstrap.js"></script>
+		<script src="static/js/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.js"></script>
+		<style type="text/css">
+			.fixed-table-container input[name="btSelectAll"] {
+				margin-left:-7px !important;
+				/* padding-right: 29px; */
+			}
+		</style>
+	</head>
+	<script type="text/javascript">
+		function refresh() {
+			$("#RecordArchiveslibrary").bootstrapTable("refresh");
+		}
+		//转换日期格式(时间戳转换为datetime格式)
+		function changeDateFormat(cellval) {
+			var dateVal = cellval + "";
+			if(cellval != null) {
+				var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+				var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+				var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+				var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+				var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+				return date.getFullYear() + "-" + month + "-" + currentDate;
+			}
+		}
+		$(function() {
+			$("#ref").on("click", function() {
+				refresh();
+			})
+			$("#RecordArchiveslibrary").bootstrapTable({
+				method: "get",
+				url: "ElectronicRecordsAlL/sel", //?timer=" + new Date().getTime()
+				dataType: "json",
+				cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+				pagination: true, //开启分页
+				pageNumber: 1, //默认显示第几页
+				pageSize: 3, //每页几条数据
+				pageList: [3, 6, 10],
+				sidePagination: "server", //client 前台分页，server后台分页 	
+				/**
+				 * 参数传递
+				 * @param {Object} params
+				 */
+				queryParams: function(params) {
+					return {
+						offset: params.offset,
+						limit: params.limit,
+						title: $("#title").val(),
+						stime: $("#stime").val(),
+						etime: $("#etime").val(),
+						status: $("#status").val(),
+						DateType: $("#DateType").val(),
+						company: $("#company").val()
+					}
+				},
+				columns: [{
+					title: "案号",
+					field: "case_propernum"
+				}, {
+					title: "档案号",
+					field: "case_filenumber"
+				}, {
+					title: "档案名称",
+					field: "file_name"
+				}, {
+					title: "借档人",
+					field: "user_name"
+				}, {
+					title: "借出时间",
+					formatter: function(value, row, index) {
+						return changeDateFormat(row.archiveslibrary_borrowdate)
+					}
+				}, {
+					title: "归还时间",
+					formatter: function(value, row, index) {
+						return changeDateFormat(row.archiveslibrary_returndate)
+					}
+				}, {
+					title: "备注说明",
+					field: "archiveslibrary_remark"
+				}, {
+						title: "归档状态",
+						formatter: function(value, row, index, field) {
+							if(row.archiveslibrary_return_status == "Y") {
+								return '<span style = "color :GREEN;font-weight: 900;"><svg class="icon" style="width: 1.3671875em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1400 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="585"><path d="M1357.379123 228.538908L602.358419 982.625346a133.466626 133.466626 0 0 1-188.72181 0L36.059524 604.914794A133.466626 133.466626 0 0 1 224.9148 416.726851l283.082714 282.949247L1168.657314 39.016299a133.733559 133.733559 0 0 1 188.721809 189.522609z" p-id="586"></path></svg></span>';
+							} else {
+								return ""
+							//	return '<span class = ""fa style = "color :red;font-weight: 900;"><svg class="icon" style="width: 1.0087890625em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1033 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1262"><path d="M635.892666 512.097727l362.985248-359.262323a93.073141 93.073141 0 0 0 0-125.64874 82.835095 82.835095 0 0 0-120.064351 0l-372.292562 365.777443L144.466484 24.39447A82.835095 82.835095 0 0 0 24.402132 27.186664a93.073141 93.073141 0 0 0 0 125.64874L390.179575 512.097727 27.194327 871.360049a93.073141 93.073141 0 0 0 0 125.64874 84.696558 84.696558 0 0 0 58.636078 26.991211 82.835095 82.835095 0 0 0 58.636079-24.199017l372.292562-365.777442 372.292562 365.777442a82.835095 82.835095 0 0 0 58.636079 24.199017 84.696558 84.696558 0 0 0 61.428273-26.991211 93.073141 93.073141 0 0 0 0-125.64874z" fill="#FF6868" p-id="1263"></path></svg></span>';
+							}
+						}
+					}],
+				//height: $(window).height() - 150//自定义表格的高度
+			}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+		}); //
+	</script>
+	<style type="text/css">
+
+	</style>
+
+	<body id="content">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<!--<div class="load1" id="loading">
+    <div class="loader">Loading...</div>
+</div>-->
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">文档管理</a>
+				</li>
+				<li>
+					<a class="active">我的电子文档</a>
+				</li>
+			</ol>
+
+			<form action="/PlaceOnFile/List" class="container-fluid page_find" id="searchForm" method="post">
+				<div class="input-group">
+					<input type="text" name="SearchStr" id="SearchStr" class="form-control">
+				</div>
+				<div class="down_box">
+					<select name="SearchType">
+						<option value="1">案号搜索</option>
+						<option value="7">案由搜索</option>
+						<option value="3">委托人/嫌疑人搜索</option>
+						<option value="4">对方当事人搜索</option>
+						<option value="6">受理法院搜索</option>
+					</select>
+				</div>
+				<input type="submit" value="检索" class="btn_solid">
+			</form>
+
+			<div id="datas">
+				<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="RecordArchiveslibrary">
+				</table>
+			</div>
+		</section>
+	</body>
+
+</html>

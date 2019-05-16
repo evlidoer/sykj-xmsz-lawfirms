@@ -1,0 +1,23 @@
+.form-input{
+	border: none;
+	border-bottom:1px solid #3c763d;
+	outline: none;
+	background:#dff0d8;
+	text-align: center;
+	
+}
+
+
+.nav-tabss > li > a:hover {
+  border-color: #dff0d8;
+}
+.nav-tabss > li.active > a,
+.nav-tabss > li.active > a:hover,
+.nav-tabss > li.active > a:focus {
+  color: #555;
+  background-color: #dff0d8;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+}
+
+

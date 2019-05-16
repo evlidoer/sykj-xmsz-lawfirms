@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.lawfirm.mapper.record.IDainZiGuiDangMapper">
+	<select id="selZiGuiDangall" resultType="java.util.Map" parameterType="java.util.Map">
+		select * from record 
+			inner join record_file on record.record_archived_file
+			inner join case_law on record.law_case_id = case_law.id
+			inner join hr_emp on case_law.case_attorney_id = hr_emp.id
+			<where>
+				<if test = "title != null and test != ''">
+					file_name like #{title} or
+					case_propernum like #{title} or
+					emp_name like #{title}
+				</if>
+			</where>
+	</select>
+	
+	<select id="selZiGuiDangall" resultType="java.util.Map" parameterType="int">
+		select * from record 
+			inner join record_file on record.record_archived_file
+			inner join case_law on record.law_case_id = case_law.id
+			inner join hr_emp on case_law.case_attorney_id = hr_emp.id
+			where record.id =#{id}
+	</select>
+	<insert id="insert_record_archiveslibrary" parameterType="java.util.Map">
+		 insert into record_archiveslibrary 
+        <foreach collection="dataMap.keys" separator="," item="key" open="(" close=")">
+	        <if test="key == 'law_caseid' or key == 'record_id' or key == 'system_user_id'  or key == 'archiveslibrary_borrowdate' or key == 'archiveslibrary_returndate'  or key == 'archiveslibrary_remark' or key == 'archiveslibrary_return_status'">
+	             ${key}
+	        </if>
+        </foreach>
+        values
+        <foreach collection="dataMap.keys" item="key" separator="," open="(" close=")">
+	       <if test="key == 'law_caseid' or key == 'record_id' or key == 'system_user_id' or key == 'archiveslibrary_borrowdate' or key == 'archiveslibrary_returndate' or key == 'archiveslibrary_remark' or key == 'archiveslibrary_return_status'">
+	            #{dataMap[${key}]}
+	        </if>
+        </foreach>
+	</insert>
+	<insert id="insert_Record_file" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+		insert into Record_file
+	 	<foreach collection="dataMap.keys" separator="," item="key" open="(" close=")">
+	        <if test="key == 'file_name' or  key == 'file_path' or key == 'file_upload_date' or key == 'file_upload_person'">
+	             ${key}
+	        </if>
+        </foreach>
+        values
+        <foreach collection="dataMap.keys" item="key" separator="," open="(" close=")">
+	        <if test="key == 'file_name' or key == 'file_path' or key == 'file_upload_date' or key == 'file_upload_person'">
+	            #{dataMap[${key}]}
+	        </if>
+        </foreach>
+	</insert>
+	<select id="sel_Record_fileByMap" resultType="int" parameterType="java.util.Map">
+		select id from Record_file where 1 = 1
+			<if test="file_name != null and file_name != ''">
+				and file_name = #{file_name}
+			</if>
+			<if test="file_path != null and file_path != ''">
+				and file_path = #{file_path}
+			</if>
+			<if test="file_upload_date != null and file_upload_date != ''">
+				and file_upload_date = #{file_upload_date}
+			</if>
+			<if test="file_upload_person != null and file_upload_person != ''">
+				and file_name = #{file_name}
+			</if>
+	</select>
+	
+	<insert id="insert_Record" parameterType="com.jt.lawfirm.bean.record.Record" useGeneratedKeys="true" keyProperty="id">
+		insert into Record values(null,#{lawCaseId},#{recordArchivedFile})
+	</insert>
+</mapper>

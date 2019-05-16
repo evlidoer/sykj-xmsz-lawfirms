@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+	<base href="../../lawfirms"/>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css"/>
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#big{
+				font-size: 15px;
+			}
+			#table tr{
+				height: 47px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid" id="big">
+		<div class="row">
+			<ol class="breadcrumb" style="background-color: #fff;">
+				<a class="btn btn-default" draggable="false" style="border: 0px;" href="gotoindex">
+					<img src="static/img/back.png" draggable="false" style="height: 40px; width: 40px;"/>
+				</a>
+				<li>
+					<a draggable="false">人事</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">人事管理</a>
+				</li>
+			</ol>
+		</div>
+			<div class="row">
+					<div class="col-md-12 col-lg-12">
+					<input class="btn btn-default" style="height: 34px; padding: 0,5px;"  readonly="true" value="添加律师资料" onclick="javascrtpt:window.location.href='hr/index/toadd'"/>&nbsp;&nbsp;
+					<input class="btn btn-default" style="height: 34px; padding: 0,5px;"  value="添加实习人员资料"  readonly="true" onclick="javascrtpt:window.location.href='hr/index/toaddsx'"/>&nbsp;&nbsp;
+					<input class="btn btn-default" style="height: 34px; padding: 0,5px;"  value="添加辅助人员资料" readonly="true" onclick="javascrtpt:window.location.href='hr/index/toaddfz'"/>&nbsp;&nbsp;
+			</div>
+			</div>
+			<div class="row" style="height: 5px;"></div>
+			<div class="row">
+				<div class="col-md-12 col-lg-12">
+						<form name="dwon" action="hr/index/export" method="post" style="display: none;">
+							<input type="hidden" name="chval" />
+						</form>
+					<input class="btn btn-default" style="height: 34px; padding: 0,5px;"  onclick="exportEx();" value="批量导出" readonly="true"/>&nbsp;&nbsp;
+					<input type="checkbox" name="Person" style="margin: 0 8px; width: 20px; height: 20px; vertical-align: middle; background-repeat: no-repeat;"  value="1"/>人事基本资料&nbsp;&nbsp;
+					<input type="checkbox" name="Person" style="margin: 0 8px; width: 20px; height: 20px; vertical-align: middle; background-repeat: no-repeat;"  value="2"/>教育经历&nbsp;&nbsp;
+					<input type="checkbox" name="Person" style="margin: 0 8px; width: 20px; height: 20px; vertical-align: middle; background-repeat: no-repeat;"  value="3"/>工作经历&nbsp;&nbsp;
+					<input type="checkbox" name="Person" style="margin: 0 8px; width: 20px; height: 20px; vertical-align: middle; background-repeat: no-repeat;"  value="4"/>获奖记录&nbsp;&nbsp;
+					<input type="checkbox" name="Person" style="margin: 0 8px; width: 20px; height: 20px; vertical-align: middle; background-repeat: no-repeat;"  value="5"/>惩罚记录&nbsp;&nbsp;
+					</div>
+			</div>
+			<div class="row" style="height: 5px;"></div>
+			<div class="row">
+				<div class="col-md-12 col-lg-12">
+					<form class="form-inline">
+						<div class="form-group">
+							<input type="text" class="form-control"  placeholder="姓名/手机号码"  id="nameorphone" />
+						</div>&nbsp;&nbsp;
+						<div class="form-group">
+							<select class="form-control"  id="identid">
+								<option value="">选择身份</option>		
+								<option value="1">律师</option>
+								<option value="2">实习人员</option>
+								<option value="3">辅助人员</option>
+							</select>
+						</div>&nbsp;&nbsp;
+						<div class="form-group">
+							<input  class="form-control test-item"  id="mindate"/>
+						</div>
+						至
+						<div class="form-group">
+							<input  class="form-control test-item"  id="maxdate"/>
+						</div>&nbsp;&nbsp;
+						<div class="form-group">
+							<select class="form-control"  id="datefun">
+								<option value="1">入职时间检索</option>		
+								<option value="2">合同开始时间检索</option>
+								<option value="3">合同结束时间检索</option>
+							</select>
+						</div>&nbsp;&nbsp;
+						<div class="form-group">
+							<select class="form-control"  id="nameord">
+								<option value="1">按姓名排序</option>		
+								<option value="2">按自定义排序</option>
+							</select>
+						</div>&nbsp;&nbsp;
+						<input type="button" value="检索" onclick="$('#table').bootstrapTable('refresh');"  style="height: 2.4em; padding: 0 12px;" draggable="false"  class="btn btn-success" readonly="true"/>
+					</form>
+				</div>
+			</div>
+			<div class="row" style="height: 5px;"></div>
+			<div class="row">
+				<div class="col-md-12 col-lg-12">
+					<table class="tab"  id="table"></table>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		lay('.test-item').each(function(){
+			laydate.render({
+				 elem: this
+			,trigger: 'click'
+			 });
+		}); 
+	
+		$(document).ready( function (){
+	        $( '#table' ).bootstrapTable('resetView',{ height: 260 } );
+		});
+		
+		function exportEx () {
+			var chval =[];
+			$("input[name='Person']:checked").each(function  () {
+				chval.push($(this).val())
+			})
+			if (chval=="") {
+				alert("未选择");
+				return;
+			}
+			var deon = document.dwon;
+			$("input[name='chval']").val(chval);
+			deon.submit();
+		}
+		
+		function confirmd(id) {
+			if(confirm("确定删除吗")){
+				$.ajax({
+					type:"get",
+					url:"hr/emp/deletebyid/" + id,
+					success :function  (data) {
+						if(data.status == "yes"){
+							$("#table").bootstrapTable("refresh")
+							alert("删除成功")
+						}else{
+							alert("删除失败")
+						}
+					}
+				});
+				$("#table").bootstrapTable("refresh");
+				return true;
+			}
+			return false;
+			}
+		
+		$(function  () {
+			$("#table").bootstrapTable({
+			url:"hr/index/select",
+			method: 'get',
+			dataType: "json",
+			striped : true, //是否显示行间隔色
+			pageNumber : 1, //初始化加载第一页
+			pagination : true,//是否分页
+			sidePagination : 'server',//server:服务器端分页|client：前端分页
+			pageSize : 12,//单页记录数
+			pageList : [ 6, 12, 18, 24 ],//可选择单页记录数
+			queryParams:function(params){
+					return {
+						offset: params.offset,
+						limit: params.limit,
+						nameorphone: $("#nameorphone").val(),
+						identid: $("#identid").val() ,
+						mindate: $("#mindate").val(),
+						maxdate: $("#maxdate").val(),
+						datefun: $("#datefun").val(),
+						nameord: $("#nameord").val()
+					} 
+				},
+			columns:[{
+				title:"编号",
+				field:"hrEmpId",
+				visible: false
+			},{
+				title:"身份",
+				field:"identityName"
+			},{
+				title:"姓名",
+				field:"empName"
+			},{
+				title:"手机号码",
+				field:"empPhone"
+			},{
+				title:"入职时间",
+				field:"empEntrydate"
+			},{
+				title:"合同到期时间",
+				field:"empContEnddate"
+			},{
+				title:"在职状态",
+				field:"empWorkstatus",
+				formatter: function(value, row, index){
+					if(value=="Y"){
+						return "在职";
+					}else if(value=="N"){
+						return "离职";
+					}
+				}
+			},{
+				title:"状态",
+				field:"empStatus"
+			},{
+				title:"操作",
+				formatter: function(value, row, index, field) {
+					var jjj = "<div class='btn-group btn-group-sm' role='group' aria-label='Small button group'><button type='button' onclick='toadd("+ row.hrEmpId +");'  class='btn btn-default'>查看</button><button type='button'  onclick='toup("+ row.hrEmpId +");'  class='btn btn-default'>修改</button><button type='button' onclick='return confirmd("+ row.hrEmpId +")' class='btn btn-default'>删除</button></div>";
+					return jjj;
+			}
+			}]
+			})
+		})
+		
+		function toadd(id) {
+			location="hr/index/showsee?id="+ id;
+		}
+		
+		function toup(id) {
+			location="hr/index/toup?id="+ id;
+		}
+	</script>
+</html>

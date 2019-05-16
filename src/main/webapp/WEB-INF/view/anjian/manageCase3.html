@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+    
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="static/layui/css/modules/laydate/default/laydate.css"/>
+
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/layui/lay/modules/laydate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    
+   
+
+
+    
+    
+    
+</head>
+<body id="content" style="padding-bottom: 66px;">
+    <section>
+        
+
+<script>
+    function CaseChoose() {
+        $("#Tips").hide();
+        layer.open({
+            title: '案件选择',
+            type: 2,
+            area: ['80%', '80%'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: 'xiaotable'
+        });
+    }
+
+    $(function () {
+       	
+/*     	$("#save").on("click",function(){
+				$("#save").on("click",function(){
+					alert(1)
+					$.ajax({
+						type:"get",
+						url:"setCaseFilenumber/" + $("#caseFilenumber").val+"/"+$("#caselawid").val,
+						async:true,
+						success:function(data){
+							if(data == 1){
+								alert("设置成功")
+				                    window.location.href = "ManageCase3";
+							}
+						}
+					})
+			})
+    	}) */
+    	
+    	
+    	
+
+        $("#form").ajaxForm({
+            beforeSubmit: function () {
+                if ($("#CaseId").val().length <= 0) {
+                    layer.msg("请选择案件", function () {
+                        //关闭后的操作
+                    });
+                    return false;
+                }
+                return true;
+            },
+            success: function (data) {
+            	if(data == 1){
+					alert("设置成功")
+	                    window.location.href = "ManageCase3";
+				}
+                   
+            }
+        });
+    });
+</script>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件管理</a></li>
+    <li><a class="active" draggable="false">设置档案归档号</a></li>
+</ol>
+<ul class="tab">
+       <a href="ManageCase" draggable="false" >修改案件</a>
+        <a href="ManageCase2" draggable="false">修改案号</a>
+        <a href="ManageCase3" draggable="false" class="tab_on">设置档案归档号</a>
+        <a href="ManageCase4" draggable="false">删除案件</a>
+        <a href="ManageCase5" draggable="false">案件回收站</a>
+</ul>
+<script type="text/javascript">
+   
+</script>
+
+<form action="setCaseFilenumber" method="post" class="shell todown" id="form" >    
+<div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">设置档案归档号</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>案件：</label>
+                    <input type="hidden"   name="_method" value="PUT" />
+                    <input type="hidden" id="caselawid"   name="id"  /><!-- 案件id -->
+                    <input name="CaseId" type="text" id="CaseId" value="" class="form-control required" title="请选择案件" onclick="CaseChoose()" readonly="true">
+                </div>
+          
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>案件归档号：</label>
+                    <input name="caseFilenumber" type="text" id="GdNums" class="form-control required" title="请填写案件归档号">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid">确定提交</button>
+                </div>
+            </div>
+        </div>
+</form>
+
+
+    </section>
+	<script src="static/anjian/jquery.unobtrusive-ajax.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+</body>
+</html>

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html><head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+  
+<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+<style>
+    .down_box2, .down_box2 select {
+        width: 200px;
+        display: inline-block !important;
+    }
+</style>
+<script>
+    $(function () {
+    	
+    
+    	//---------------------------------------------------------------
+    	//随机案号
+    	 function randomAnhap(){
+     		var num   = Math.ceil(Math.random()*1000);
+ 	   		 var hao   = (Array(4).join(0) + num).slice(-4);
+ 	   		 var yesr  = new Date().getFullYear();
+ 	   		 var anhao = yesr + "（民）第"+hao+"号";
+ 	   		 return anhao;
+     	}
+    	
+    	
+     	var clientname= $.cookie("clientname");
+    	$("#clientname").val(clientname)
+    	$("#anjianHao").append('<input type="text" value='+randomAnhap()+' name="casePropernum" id="CaseYear"readonly="true"   class="form-control required" style="width:500px;" title="案号">')
+    	$.cookie("clientname",null);
+   //-----------------------------------------------------------------
+    })
+
+        $("#addCaseForm").validate({
+            errorPlacement: function (error, element) {
+                if (element.context.tagName == 'SELECT') {
+                    $(element).css('color', '#3a3a3a');
+                }
+                if (element.attr("name") == "IsBuTie") {
+                    error.appendTo(element.parent().parent().parent().find("label"));
+                } else if (element.attr("name") == "SscxValue") {
+                    error.appendTo(element.parent().parent().find("#SscxDiv"));
+                }
+                else if (element.attr("name") == "Ssdw") {
+                    error.appendTo(element.parent().parent().find("#SsdwDiv"));
+                }
+                else {
+                    element.parent().find("label").after(error);
+                }
+            }
+        });
+
+        $("#IsBuTie").change(function () {
+            if ($("#IsBuTie").val() == "Y") {
+                $("#BuTiePrice").attr("class", "form-control required");
+                $("#BuTiePrice").val("");
+                $("#bzje").show();
+            } else {
+                $("#BuTiePrice").attr("class", "form-control");
+                $("#BuTiePrice").val("0");
+                $("#bzje").hide();
+            }
+        });
+
+
+    $("#addCaseForm").ajaxForm({
+        beforeSubmit: function () {
+        
+            var P = $("#Province").val();
+            if (!P) {
+                layer.msg("请选择办案省份", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+
+            var C = $("#City").val();
+            if (!C) {
+                layer.msg("请选择办案城市", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            
+            if ($("#BegTime").val() == "") {
+                layer.msg("请选择收案时间", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#AyMake").val() == "") {
+                layer.msg("请填写案由", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#SWtr").val() == "") {
+                layer.msg("请填写委托人", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#SDfdsr").val() == "") {
+                layer.msg("请填写对方当事人", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#Slfy").val() == "") {
+                layer.msg("请填写受理部门", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#Ssbd").val() == "") {
+                layer.msg("请填写诉讼标的", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#Price").val() == "") {
+                layer.msg("请填写代理费", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+	
+            if ($("#case_status").val() == "-1") {
+                layer.msg("请选择诉讼阶段", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+            if ($("#case_lawsuit_status").val() == "-1") {
+                layer.msg("请选择诉讼地位", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+
+            if ($("#PayCols").val() == "") {
+                layer.msg("请选择收费方式", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+
+            if (($("#PayCols").val() == "风险代理收费" || $("#PayCols").val() == "固定+风险代理") && $("#FengXianMake").val() == "") {
+                layer.msg("请填写风险收费说明", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+
+            if ($("#IsBuTie").val() == "") {
+                layer.msg("请选择是否享受政府补贴", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+
+            if ($("#IsBuTie").val() == "是" && $("#BuTiePrice").val() == "") {
+                layer.msg("请填写补助金额", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+        },
+        success: function (data) {
+        	if(data == "false"){
+        		alert("提交失败")	
+        	}else{
+        		//alert(data)
+        		alert("提交成功")
+        		$.cookie("anhao",data)
+        		window.location.href="addCase5"
+        	}
+        	
+        }
+    });
+
+
+
+    //移除disabled属性，form提交不然取不到值
+    function RemoveDisable() {
+        //$("#SDfdsr").removeAttr("disabled");
+        //$("#Slfy").removeAttr("disabled");
+        //$("#Ssbd").removeAttr("disabled"); 
+
+        //$("#Begtime").removeAttr("disabled");  
+        //$("#Ssdb").removeAttr("disabled");
+        //$("#AyMake").removeAttr("disabled");
+        //$("#SWtr").removeAttr("disabled");
+        //$("#Price").removeAttr("disabled");
+        //$("#ZPrice").removeAttr("disabled");
+        //$("#PayCols").removeAttr("disabled");
+        //$("#IsBuTie").removeAttr("disabled");
+        //$("#BuTiePrice").removeAttr("disabled");
+        //$("#BuTiePrice").removeAttr("disabled");
+        //$("input[name='SscxValue']").removeAttr("disabled");
+        //$("input[name='Ssdw']").removeAttr("disabled");
+    }
+
+
+
+    function UpFile() { 
+        var Wid = $("#Wid").val();
+        var Uid = $("#Uid").val();
+        
+        var day = new Date();
+        var TimeStr = day.getFullYear().toString() + (day.getMonth() + 1).toString() + day.getDate().toString() + day.getHours().toString() + day.getMinutes().toString() + day.getSeconds().toString();
+        var VMakeId = document.getElementById("TMakeId").value;
+        layer.open({
+            title: '文件上传',
+            type: 2,
+            area: ['45%', '55%'],
+            fixed: true, //不固定
+            maxmin: true, 
+            //content: '/CFileUpload/UploadFileStore?MakeId=' + VMakeId + "&S=" + TimeStr + "&Cols=5&TUid=" + Uid + "&TWid=" + Wid
+            content: '/CFUpload/index.aspx?MakeId=' + VMakeId + "&S=" + TimeStr + "&Cols=5&TUid=" + Uid + "&TWid=" + Wid+"&Ts=3" 
+        });
+    }
+
+
+
+
+
+
+
+    function del(v) {
+        layer.msg('确认要删除文件吗？', {
+            time: 0 //不自动关闭
+             , btn: ['确定', '取消']
+             , yes: function (index) {
+                 layer.close(index);
+                 $.ajax({
+                     type: "POST",
+                     url: "/Custom/FileStoreDel",
+                     data: { "ID": v },
+                     success: function (result) {
+                         result = JSON.parse(result);
+                         layer.msg(result.R, { time: 1500 }, function () {
+                             //关闭后的操作
+                             if (result.R == "删除成功") {
+                                 $("#li" + v).remove();
+                             }
+                         });
+                     }
+                 });
+             }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		var caseCaseTypeId = $.cookie('caseCaseTypeId')
+		 $('#caseCaseTypeId').val(caseCaseTypeId)
+	})
+</script>
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+    <li><a href="javascript:void(0)" draggable="false">新增案件</a></li>
+    <li><a class="active" draggable="false">登记立案信息</a></li>
+</ol>
+
+<form action="addCaseForm" id="addCaseForm" method="post">    
+	<div>
+        <input type="hidden" id="caseCaseTypeId" name="caseCaseTypeId" value="2019042409531884911687">
+    </div>
+    
+    <div class="grid_input_shell">
+        <div class="container">
+                <ul class="flow_line">
+                    <li>1.选择案件类型</li>
+                    <span>&gt;</span>
+                    <li>2.利益冲突审查</li>
+                    <span>&gt;</span>
+                    <li>3.新增委托人</li>
+                    <span>&gt;</span>
+                    <li class="flow_line_now">4.登记立案信息</li>
+                    <span>&gt;</span>
+                    <li>5.立案文书上传</li>
+                    <span>&gt;</span>
+                    <li>6.收案审批</li>
+                </ul>
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">基本信息</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" id="anjianHao">
+                    <label for=""><em>*</em>案号：</label><br>
+                   
+                   <!-- 客户名字 -->
+                   <input type="hidden" name="clientname" id="clientname">
+                </div>
+
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>案由：</label>
+                    <input type="text" name="caseCause" id="AyMake" value=""  class="form-control required" title="请填写案由">
+                </div>
+
+
+            </div>
+
+
+            <div class="row">
+                <!-- <div class="col-xs-6">
+                    <label for=""><em>*</em>委托人：</label>
+                    
+                    <input type="text" name="hearingconsignor" id="SWtr" value="121231" class="form-control required" title="请填写委托人" maxlength="600">
+                </div> -->
+                <div class="col-xs-12">
+                    <label for=""><em>*</em>对方当事人：</label>
+                    <input type="text" name="caseoppositeparties" id="SDfdsr" value="" class="form-control required" title="请填写对方当事人" maxlength="600">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for="">
+                            <label for=""><em>*</em>当事人(多个当事人用,分隔)：</label>
+
+                    </label>
+                    <input type="text" name="caseParties" id="LxRen" value="" class="form-control required" title="请填写当事人" maxlength="300">
+
+                </div>
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>收案日期：</label>
+
+                    <input type="text" name="caseSubtime" id="Begtime"  class="form-control required" title="请选择收案日期" readonly="true" lay-key="1">
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>受理部门：</label>
+                    <input type="text" name="caseAccept" id="Slfy" value="" class="form-control required" title="请填写受理部门">
+                </div>
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>诉讼标的：</label>
+                    <input type="text" name="caseLawsuitobj" id="Ssbd" value="" class="form-control required" title="请填写诉讼标的">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>代理费：</label>
+                    <input type="text" name="caseAgencyfee" id="Price" value=""  class="form-control required" title="请填写代理费">
+                </div>
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>收费方式：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select id="PayCols" name="CasePayCols" onchange="ClickPayCols();">
+                                <option value="">收费方式</option>
+                                    <option value="免费">免费</option>
+                                    <option value="计件收费">计件收费</option>
+                                    <option value="计时收费">计时收费</option>
+                                    <option value="按标的额比例收费">按标的额比例收费</option>
+                                    <option value="风险代理收费">风险代理收费</option>
+                                    <option value="标的+风险代理">标的+风险代理</option>
+                                    <option value="固定+风险代理">固定+风险代理</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="TrFengXian" style="display: none">
+                <div class="col-xs-12">
+                    <label for=""><em>*</em>风险收费说明：</label>
+                    <input type="text" name="FengXianMake" id="FengXianMake" value="" class="form-control" title="请填写风险收费说明" maxlength="100">
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>是否享受政府补助：</label>
+                    <div class="dropdown_box1">
+                        <div class="down_box">
+                            <select id="IsBuTie" name="caseSubsidy" class="required" title="请选择是否享受政府补贴">
+                                <option value="">是否享受政府补贴</option>
+                                <option value="Y">是</option>
+                                <option value="N" selected="selected">否</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>补助金额：</label>
+                    <input type="text" name="caseSubsidysal" id="BuTiePrice" value="0" onblur="SetInputDouble(this,2);" class="form-control" title="请填写补助金额">
+                </div>
+            </div>
+
+            <div class="row" id="SscxDiv">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>诉讼阶段：</label>
+						<div class="dropdown_box1">
+                        <div class="down_box">
+                            <select id="case_status" name="caseStatus" class="required" title="请选择诉讼阶段">
+                                <option value="-1">请选择诉讼阶段</option>
+                                <option value="立案">立案</option>
+                                <option value="一审">一审</option>
+                                <option value="二审">二审</option>
+                                <option value="执行">执行</option>
+                                <option value="再审">再审</option> 
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>诉讼地位：</label>
+						<div class="dropdown_box1">
+                        <div class="down_box">
+                            <select id="case_lawsuit_status" name="caseLawsuitStatus" class="required" title="请选择诉讼地位">
+                                <option value="-1">请选诉讼地位</option>
+                                <option value="原告">原告</option>
+                                <option value="被告">被告</option>
+                                <option value="上诉人">上诉人</option>
+                                <option value="被上诉人">被上诉人</option>
+                                <option value="申请执行人">申请执行人</option>
+                                <option value="被申请执行人">被申请执行人</option>
+                                <option value="申请人">申请人</option>
+                                <option value="被申请人">被申请人</option>
+                                <option value="第三人">第三人</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">其他选填</label>
+                    <span class="input_display">展开</span>
+                </div>
+            </div>
+
+
+
+            <div class="input3_other" style="display: block;">
+
+                <div class="row">
+                   <!--  <div class="col-xs-6">
+                        <label for="">
+                            专属案号：
+                        </label>
+                        <input type="text" name="" id="UserDefId" value="" class="form-control">
+                    </div> -->
+
+                    <div class="col-xs-12">
+                        <label for="">杂费：</label>
+                        <input type="text" name="caseProxysal" id="ZPrice" value="" onblur="SetInputDouble(this,2);" class="form-control">
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-xs-6">
+                        <label for="">办案地区：</label>
+                        <div class="dropdown_box1">
+                            <div class="down_box">
+                                <select id="Province" name="caseTransactionRegion">
+                                    
+                                <option value="省/直辖市">省/直辖市</option><option value="安徽">安徽</option><option value="北京">北京</option><option value="福建">福建</option><option value="甘肃">甘肃</option><option value="广东">广东</option><option value="广西">广西</option><option value="贵州">贵州</option><option value="海南">海南</option><option value="河北">河北</option><option value="河南">河南</option><option value="黑龙江">黑龙江</option><option value="湖北">湖北</option><option value="湖南">湖南</option><option value="吉林">吉林</option><option value="江苏">江苏</option><option value="江西">江西</option><option value="辽宁">辽宁</option><option value="内蒙古">内蒙古</option><option value="宁夏">宁夏</option><option value="青海">青海</option><option value="山东">山东</option><option value="山西">山西</option><option value="陕西">陕西</option><option value="上海">上海</option><option value="四川">四川</option><option value="天津">天津</option><option value="西藏">西藏</option><option value="新疆">新疆</option><option value="云南">云南</option><option value="浙江">浙江</option><option value="重庆">重庆</option></select>
+                            </div>
+                            <div class="down_box">
+                                <select id="City" name="caseTransactionRegion">
+                                    
+                                <option value="地级市">地级市</option><option value="常州">常州</option><option value="淮安">淮安</option><option value="连云港">连云港</option><option value="南京">南京</option><option value="南通">南通</option><option value="苏州">苏州</option><option value="宿迁">宿迁</option><option value="泰州">泰州</option><option value="无锡">无锡</option><option value="徐州">徐州</option><option value="盐城">盐城</option><option value="扬州">扬州</option><option value="镇江">镇江</option></select>
+                            </div>
+                            <i id="TbProvince"></i>
+                            <input type="hidden" id="HProvince" value="江苏">
+                            <input type="hidden" id="HCity" value="连云港">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <label for="">
+                            是否指派：
+                     <ul class="cue display_inline float_right" title="" data-toggle="tooltip" data-placement="right auto" data-original-title="是否指派：案件是否由律所指派给律师办理！">
+                         <!-- 提示信息 -->
+                         <li></li>
+                         <li></li>
+                     </ul>
+
+                        </label>
+
+                        <div class="dropdown_box1">
+                            <div class="down_box">
+                                <select id="IsFrom" title="是否指派" name="caseAssign" class="required">
+                                    <option value="-1">请选择是否指派</option>
+                                        <option value="Y">是</option>
+                                        <option value="N" selected="selected">否</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                            第三人：
+                        </label>
+                        <input type="text" name="caseThirdParty" id="DiSanRen" value="" class="form-control" maxlength="50">
+                    </div>
+                </div>
+
+               <!--  <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                            相关文件： 
+                        </label>
+                        <input type="button" class="but_85" id="btnupload" value="上传文件" onclick="UpFile();">
+                    </div>
+                </div> -->
+
+                <div class="row" style="display:none" id="FileULDIV">
+                    <div class="col-xs-12">
+                        <ul style="float: left" id="FileUL">
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label for="">备注：</label>
+                        <textarea id="Des" name="caseRemarks" class="form-control" rows="3" cols="90"></textarea>
+                    </div>
+                </div>
+            </div>
+
+       <!--      <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">办案律师</label>
+                </div>
+            </div> -->
+
+
+<!--             <div class="row">
+                <div class="col-xs-12">
+                    <ul id="optionContainer">
+                        <li>
+                            <div class="down_box2">
+                                <select id="TLawyerCols1" name="TLawyerCols1" class="valid">
+                                	<option value="101">主办律师</option>
+                                </select>
+                            </div>
+                           &nbsp;业绩分成：
+                            <input id="TLawyerPrice1" name="TLawyerPrice1" readonly="readonly" type="text" title="主办律师业绩分成" value="100"  style="display: inline; width: 200px;" class="form-control">
+                            <div class="down_box2">
+                                <select id="TPriceCols1" name="TPriceCols1" style="width: 200px !important">
+                                    <option value="1">百分比</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div> -->
+
+
+
+
+       
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid">确定提交</button>
+                    <!-- <button class="btn_hollow">开始检索</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    var s = ["Province", "City"];
+    var opt0 = ["省/直辖市", "地级市"];
+    setup();
+    if (document.getElementById("HProvince").value != "")
+        document.getElementById(s[0]).value = document.getElementById("HProvince").value;
+    change(1);
+    if (document.getElementById("HCity").value != "")
+        document.getElementById(s[1]).value = document.getElementById("HCity").value;
+
+
+    function ClickPayCols() {
+        var VPayDes = $("#PayCols").val();
+        if (VPayDes.indexOf("风险") != -1) {
+            //$$("TrFengXian").style.display = "block";
+            $("#TrFengXian").show();
+            $("#FengXianMake").attr("class", "form-control required");
+        }
+        else {
+            //$$("TrFengXian").style.display = "none";
+            $("#TrFengXian").hide();
+            $("#FengXianMake").attr("class", "form-control");
+        }
+    }
+    ClickPayCols();
+
+    
+
+
+    Load1();
+    setTimeout(Load2, 200);
+
+
+    function MobileCustom() {
+        layer.open({
+            title: '客户选择',
+            type: 2,
+            area: ['70%', '60%'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: '/CustomChoose/CaseList'
+        });
+    }
+</script>
+
+
+    </section>
+    
+ <script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+<script type="text/javascript">
+	   laydate.render({
+        elem: '#Begtime' //指定元素
+     , calendar: true
+     , type: 'date'
+    });
+</script>
+
+</body></html>

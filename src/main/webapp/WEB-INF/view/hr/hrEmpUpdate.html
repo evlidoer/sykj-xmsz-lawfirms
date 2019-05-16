@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html>
+	<base href="../../lawfirms"/>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css"/>
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#big{
+				font-size: 15px;
+			}
+			input{
+				border: 0px;  // 去除未选中状态边框
+				outline: none; // 去除选中状态边框
+				background-color: rgba(0, 0, 0, 0);// 透明背景
+			}
+			#mysc{
+				font-size: 15px;
+			}
+			
+			ul{
+				list-style:none;
+			}
+			input:focus {
+			 outline: none; 
+			}
+			#myModal{
+				font-size: 15px;
+			}
+			#schoolupdate{
+				font-size: 15px;
+			}
+			table tr{
+				height: 47px;
+			}
+			input checkbox{
+				width: 20px;
+				height: 20px;
+				vertical-align: middle;
+				background-repeat: no-repeat;
+				margin: 0 8px;
+			}
+			.upload{position: relative;width: 80px;height: 18px;line-height: 18px;text-align: center;
+			        padding: 0px 5px;-webkit-border-radius: 2px;border-radius: 2px;
+			        margin: 0 auto;
+			        }
+			.upload form{width:100%;position:absolute; left:0; top:0;opacity:0; filter:alpha(opacity=0);}
+			.upload form input{width: 100%;}
+		</style>
+	</head>
+	<body>
+		<div class="container-fluid" id="big">
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<ol class="breadcrumb" style="background-color: #fff;">
+					<a class="btn btn-default" draggable="false" style="border: 0px;" onclick="javascript:window.history.back();">
+						<img src="static/img/back.png" draggable="false" style="height: 40px; width: 40px;"/>
+					</a>
+					<li>
+						<a draggable="false">人事</a>
+						
+					</li>
+					<li>
+						<a class="active" draggable="false">人事资料详情</a>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">基本信息</font>
+			</div>
+		</div>
+		<div class="row" style="height: 5px;"></div>
+		<form id="fromid" class="form-inline">
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<table class="table table-bordered">
+					<tr>
+						<td><div><p>姓名:</p><p><input type="text" id="emp_id" name="id" style="display: none;"><input type="text" id="emp_name" name="empName"></input></p></div></td>						
+						<td><div><p>性别:</p><p></input>
+							<select id="emp_sex" name="empSex" class="form-control" >
+								<option value="M">男</option>
+								<option value="F">女</option>
+							</select>
+						</p></div></td>	
+					</tr>
+					<tr>
+						<td><div><p>是否在职:</p><p></input>
+							<select name="empWorkstatus" id="emp_workstatus" class="form-control" >
+								<option value="Y">在职</option>
+								<option value="N">不在职</option>
+							</select></p>
+						</div></td>						
+						<td><div><p>出生日期:</p><p><input id="emp_birthdate"  class=" form-control test-item" name="empBirthdate"></input></p></div></td>	
+					</tr>
+					<tr>
+						<td><div><p>证件类型:</p><p><input id="emp_paperstype" name="empPaperstype"></input></p></div></td>	
+						<td><div><p>证件号:</p><p><input id="emp_papersnum" name="empPapersnum"></input></p></div></td>						
+					</tr>
+					<tr>
+						<td><div><p>最高学历:</p><p><input id="emp_education" name="empEducation"></input></p></div></td>	
+						<td><div><p>最高学位:</p><p><input id="emp_academic" name="empAcademic"></input></p></div></td>	
+					</tr>
+					<tr>
+						<td><div><p>所内身份:</p><p><input id="hr_internal_id" name="hrInternalId"></input></p></div></td>						
+						<td><div><p>民族:</p><p><input id="hr_nation_id" name="hrNationId"></input></p></div></td>	
+						
+					</tr>
+					<tr>
+						<td><div><p>政治面貌:</p><p><input id="hr_political_id" name="hrPoliticalId"></input></p></div></td>	
+						<td><div><p>婚姻情况:</p><p><input id="emp_maritalsta" name="empMaritalsta"></input></p></div></td>						
+					</tr>
+					<tr>
+						<td><div><p>门禁号:</p><p><input id="emp_entrancenum" name="empEntrancenum"></input></p></div></td>	
+						<td><div><p>专业部:</p><p><input id="hr_specialty_id" name="hrSpecialtyId"></input></p></div></td>	
+					</tr>
+					<tr>
+						<td><div><p>证件号:</p><p><input id="emp_papersnum" name="empPapersnum"></input></p></div></td>						
+						<td><div><p>最高学历:</p><p><input id="emp_education" name="empEducation"></input></p></div></td>	
+					</tr>
+					<tr>
+						<td colspan="2"><div><p>最高学位:</p><p><input id="emp_academic" name="empAcademic"></input></p></div></td>	
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="row" style="height: 10px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">从业资料</font>
+			</div>
+		</div>
+		<div class="row" style="height: 5px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<table class="table table-bordered">
+					<tr>
+						<td><div><p>执业类别:</p><p><input id="hr_practise_id" name="hrPractiseId"></input></p></div></td>						
+						<td><div><p>执业证号码:</p><p><input id="emp_pracnum" name="empPracnum"></input></p></div></td>	
+						<td><div><p>首次执业时间:</p><p><input id="emp_pracdate" type="text" class="form-control test-item" name="empPracdate"></input></p></div></td>	
+					</tr>
+					<tr>
+						<td><div><p>首次执业地:</p><p><input id="emp_pracsite" name="empPracsite"></input></p></div></td>	
+						<td><div><p>资格证类别:</p><p><input id="hr_certify_id" name="hrCertifyId"></input></p></div></td>						
+						<td><div><p>资格证号码:</p><p><input id="emp_certifynum" name="empCertifynum"></input></p></div></td>	
+						
+					</tr>
+					<tr>
+						<td><div><p>资格证取得方式:</p><p></input>
+							<select name="empGainway" id="emp_gainway" class="form-control" >
+								<option value="exam">考试</option>
+								<option value="check">考核</option>
+								<option value="rests">其他</option>
+							</select>
+							
+						</p></div></td>	
+						<td><div><p>资格证取得地:</p><p><input  id="emp_gainsite" name="empGainsite"></input></p></div></td>	
+						<td><div></div></td>	
+					</tr>
+					<tr>
+						<td colspan="3"><div><p>擅长领域:</p>
+						<input type="button" id="empGoodfield" name="empGoodfield" style="text-align: left; box-shadow:0 0 0px; border-color:#ccc; width:100%" class="form-control" id="scmodal" onclick="clickDatato();" data-toggle="modal" data-target="#mysc">						</div></td>	
+					</tr>
+					<tr>
+						<td colspan="3">
+							<div>
+								<p>个人介绍:</p>
+								<p>
+									<textarea id="emp_introduce" name="empIntroduce" rows="5" cols="100" style="border: 0px;"></textarea>
+								</p>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="row" style="height: 10px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">入职情况</font>
+			</div>
+		</div>
+		<div class="row" style="height: 5px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<table class="table table-bordered">
+					<tr>
+						<td><div><p>入职时间:</p><p><input id="emp_entrydate" type="text" class="form-control test-item" name="empEntrydate"></input></p></div></td>						
+						<td><div><p>合同开始:</p><p><input id="emp_cont_startdate" type="text" class="form-control test-item"  name="empContStartdate"></input></p></div></td>	
+						<td><div><p>合同截止:</p><p><input id="emp_cont_enddate" type="text" class="form-control test-item"  name="empContEnddate"></input></p></div></td>	
+					</tr>
+					<tr>
+						<td colspan="3"><div><p>社保号码:</p><p><input id="emp_social_num" name="empSocialNum"></input></p></div></td>	
+					</tr>
+					<tr>
+						<td colspan="3"><div><p>参保情况:</p><p><input id="cb" ><input id="cbid" style="display: none"></input></p></div></td>	
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="row" style="height: 10px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">联系信息</font>
+			</div>
+		</div>
+		<div class="row" style="height: 5px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<table class="table table-bordered">
+					<tr>
+						<td><div><p>手机号码:</p><p><input id="emp_phone" name="empPhone"></input></p></div></td>	
+						<td><div><p>联系地址:</p><p><input id="emp_site" name="empSite"></input></p></div></td>							
+						<td><div><p>邮箱:</p><p><input id="emp_email" name="empEmail"></input></p></div></td>	
+					</tr>
+					<tr>
+						<td><div><p>邮政编码:</p><p><input id="emp_postcode" name="empPostcode"></input></p></div></td>						
+						<td><div><p>QQ号码:</p><p><input id="emp_qq" name="empQq"></input></p></div></td>	
+						<td><div><p>微信号:</p><p><input id="emp_wechat" name="empWechat"></input></p></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</form>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<input type="button" value="确认修改" id="update" style="height: 2.4em; padding: 0 12px;" draggable="false"  class="btn btn-success" readonly="true"/>
+			</div>
+		</div>
+		<div class="row" style="height: 10px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">教育经历</font>
+				<a class="btn" onclick="education();" data-toggle='modal' data-target='#schooladd'>添加</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<table id="table" class="tab"></table>
+			</div>
+		</div>
+		<div class="row" style="height: 10px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">工作经历</font><a  class="btn" onclick="workexperience();" data-toggle='modal' data-target='#workadd'>添加</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<table id="table1" class="tab"></table>
+			</div>
+		</div>
+		<div class="row" style="height: 10px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">获奖记录</font>	<a class="btn" onclick="rew();" data-toggle='modal' data-target='#rewadd' >添加</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<table id="table2" class="table"></table>
+			</div>
+		</div>
+		<div class="row" style="height: 10px;"></div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<span style="display: inline-block; width: 2px; height: 13px; border-color: black; border: 1px solid black;"></span>
+				<font size="3">惩罚记录</font><a class="btn" onclick="pun();" data-toggle='modal' data-target='#punadd' >添加</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-lg-12">
+				<table id="table3" class="table"></table>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- 查看教育经历的模态框 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">教育经历</h4>
+      </div>
+      <div class="modal-body">
+      	<table class="table table-striped" >
+      		<tr>
+      			<td>
+      				<p>毕业学校</p>
+      				<p><font id="degree_school"></font></p>
+      			</td>
+      			<td>
+      				<p>主修专业</p>
+      				<p><font id="degree_major"></font></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p>获得学位</p>
+      				<p><font id="degree_degrees"></font></p>
+      			</td>
+      			<td>
+      				<p>证书编号</p>
+      				<p><font id="degree_crednum"></font></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p>全日制</p>
+      				<p><font id="degree_fulltime"></font></p>
+      			</td>
+      			<td>
+      				<p>所在地</p>
+      				<p><font id="degree_site"></font></p>
+      			</td>
+      		</tr>
+      	</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="line-height: 30px;">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 教育经历查看结束 -->
+<!-- 教育经历tj开始 -->
+<div class="modal fade" id="schooladd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">教育经历</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="addform">
+      	<table class="table" >
+      		<tr>
+      			<td>
+      				<p><font style="color: red;">*</font>毕业学校</p>
+      				<p><input type="text" class="form-control"  id="degreeSchool" name="degreeSchool"></input></p>
+      			</td>
+      			<td>
+      				<p><font style="color: red;">*</font>主修专业</p>
+      				<p><input type="text" class="form-control" id="degreeMajor"  name="degreeMajor"></input></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p><font style="color: red;">*</font>获得学位</p>
+      				<p><input type="text" class="form-control" id="degreeDegrees" name="degreeDegrees"></input></p>
+      			</td>
+      			<td>
+      				<p>证书编号</p>
+      				<p><input type="text" class="form-control"  id="degreeCrednum" name="degreeCrednum"/></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p><font style="color: red;">*</font>全日制</p>
+      				<p>
+      					<select class="form-control" id="degreefulltime" name="degreeFulltime">
+							<option value="Y">是</option>   
+							<option value="N">否</option>   						
+      					</select>
+      				</p>
+      			</td>
+      			<td>
+      				<p>所在地</p>
+      				<p><input type="text" id="degreesite" class="form-control" name="degreeSite"></input></p>
+      			</td>
+      		</tr>
+      	</table>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  id="degreetj">确定提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 教育经历tj结束 -->
+<!-- 教育经历修改开始 -->
+<div class="modal fade" id="schoolupdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">教育经历</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="updegreeform">
+      	<table class="table" >
+      		<tr>
+      			<td>
+      				<input type="text" id="degreeid" name="id" style="display: none;">
+      				<p>毕业学校</p>
+      				<p><input type="text" id="degreeschool" name="degreeSchool"></input></p>
+      			</td>
+      			<td>
+      				<p>主修专业</p>
+      				<p><input type="text" id="degreemajor" name="degreeMajor"></input></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p>获得学位</p>
+      				<p><input type="text" id="degreedegrees" name="degreeDegrees"></input></p>
+      			</td>
+      			<td>
+      				<p>证书编号</p>
+      				<p><input type="text" id="degreecrednum" name="degreeCrednum"/></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p>全日制</p>
+      				<p>
+      					<select class="form-control" id="degreefulltime" name="degreeFulltime">
+							<option value="Y">是</option>   
+							<option value="N">否</option>   						
+      					</select>
+      				</p>
+      			</td>
+      			<td>
+      				<p>所在地</p>
+      				<p><input type="text" id="degreesite" name="degreeSite"></input></p>
+      			</td>
+      		</tr>
+      	</table>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="degreeupfrom();" >确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 教育经历修改结束 -->
+
+<!-- 工作经历添加开始 -->
+<div class="modal fade" id="workadd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">工作经历</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="workaddform">
+      	<table class="table" >
+      		<tr>
+      			<td>
+      				<input type="text" id="workid" name="id" style="display: none;">
+      				<p><font style="color: red;">*</font>开始日期</p>
+      				<p><input type="text" class="form-control test-item" id="workhistorystartdate" name="workhistoryStartdate"></input></p>
+      			</td>
+      			<td>
+      				<p><font style="color: red;">*</font>结束日期</p>
+      				<p><input type="text" class="form-control test-item" id="workhistoryenddate" name="workhistoryEnddate"></input></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p><font style="color: red;">*</font>工作单位</p>
+      				<p><input type="text" class="form-control" id="workhistoryworkunit" name="workhistoryWorkunit"></input></p>
+      			</td>
+      			<td>
+      				<p><font style="color: red;">*</font>工作职务</p>
+      				<p><input type="text" class="form-control" id="workhistoryjob_position" name="workhistoryJobPosition"/></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p><font style="color: red;">*</font>工作类别</p>
+      				<p>
+      					<select class="form-control" id="workhistoryworktype" name="workhistoryWorktype">
+							<option value="律师工作">律师工作</option>
+                            <option value="法官">法官</option>
+                            <option value="检察官">检察官</option>
+                            <option value="法律工作">法律工作</option>
+                            <option value="警察">警察</option>
+                            <option value="公务员">公务员</option>
+                            <option value="其他">其他</option>
+      					</select>
+      				</p>
+      			</td>
+      			<td>
+      				<p><font style="color: red;">*</font>工作性质</p>
+      				<p>
+      					<select class="form-control" id="workhistoryworknature" name="workhistoryWorknature">
+							<option value="党委">党委</option>
+                            <option value="政府">政府</option>
+                            <option value="人大">人大</option>
+                            <option value="政协">政协</option>
+                            <option value="公安">公安</option>
+                            <option value="检察院">检察院</option>
+                            <option value="法院">法院</option>
+                            <option value="司法行政机关">司法行政机关</option>
+                            <option value="群团组织">群团组织</option>
+                            <option value="企业">企业</option>
+                            <option value="社会团体">社会团体</option>
+                            <option value="其他">其他</option>
+      					</select>
+      				</p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td colspan="2">
+      				<p><font style="color: red;">*</font>所在地</p>
+      				<p>
+      					<input type="text" id="workhistorysite" class="form-control" name="workhistorySite"></input>
+      				</p>
+      			</td>
+      		</tr>
+      	</table>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  id="worktianjia">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 工作经历添加结束 -->
+<!-- 查看工作经历的模态框 -->
+	<div class="modal fade" id="mywork" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">教育经历</h4>
+      </div>
+      <div class="modal-body">
+      	<table class="table table-striped" >
+      		<tr>
+      			<td>
+      				<p>开始日期</p>
+      				<p><font id="workhistory_startdate"></font></p>
+      			</td>
+      			<td>
+      				<p>结束日期</p>
+      				<p><font id="workhistory_enddate"></font></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p>工作单位</p>
+      				<p><font id="workhistory_workunit"></font></p>
+      			</td>
+      			<td>
+      				<p>工作职务</p>
+      				<p><font id="workhistory_job_position"></font></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p>工作类别</p>
+      				<p><font id="workhistory_worktype"></font></p>
+      			</td>
+      			<td>
+      				<p>工作性质</p>
+      				<p><font id="workhistory_worknature"></font></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td colspan="2">
+      				<p>所在地</p>
+      				<p><font id="workhistory_site"></font></p>
+      			</td>
+      		</tr>
+      	</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="line-height: 30px;">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 工作经历查看结束 -->
+
+<!-- 工作经历修改开始 -->
+<div class="modal fade" id="workupdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">工作经历</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="workup">
+      	<table class="table" >
+      		<tr>
+      			<td>
+      				<input type="text" id="workidup" name="id" style="display: none;">
+      				<p>开始日期</p>
+      				<p><input type="text" class="form-control test-item" id="workhistorystartdateup" name="workhistoryStartdate"></input></p>
+      			</td>
+      			<td>
+      				<p>结束日期</p>
+      				<p><input type="text" class="form-control test-item" id="workhistoryenddateup" name="workhistoryEnddate"></input></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p>工作单位</p>
+      				<p><input type="text" id="workhistoryworkunitup" name="workhistoryWorkunit"></input></p>
+      			</td>
+      			<td>
+      				<p>工作职务</p>
+      				<p><input type="text" id="workhistoryjob_positionup" name="workhistoryJobPosition"/></p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>
+      				<p>工作类别</p>
+      				<p>
+      					<select class="form-control" id="workhistoryworktypeup" name="workhistoryWorktype">
+							<option value="律师工作">律师工作</option>
+                            <option value="法官">法官</option>
+                            <option value="检察官">检察官</option>
+                            <option value="法律工作">法律工作</option>
+                            <option value="警察">警察</option>
+                            <option value="公务员">公务员</option>
+                            <option value="其他">其他</option>
+      					</select>
+      				</p>
+      			</td>
+      			<td>
+      				<p>工作性质</p>
+      				<p>
+      					<select class="form-control" id="workhistoryworknatureup" name="workhistoryWorknature">
+							<option value="党委">党委</option>
+                            <option value="政府">政府</option>
+                            <option value="人大">人大</option>
+                            <option value="政协">政协</option>
+                            <option value="公安">公安</option>
+                            <option value="检察院">检察院</option>
+                            <option value="法院">法院</option>
+                            <option value="司法行政机关">司法行政机关</option>
+                            <option value="群团组织">群团组织</option>
+                            <option value="企业">企业</option>
+                            <option value="社会团体">社会团体</option>
+                            <option value="其他">其他</option>
+      					</select>
+      				</p>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td colspan="2">
+      				<p>所在地</p>
+      				<p>
+      					<input type="text" id="workhistorysiteup" name="workhistorySite"></input>
+      				</p>
+      			</td>
+      		</tr>
+      	</table>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="workxiugai();">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 工作经历修改结束 -->
+
+<!--奖励添加开始-->
+	<div class="modal fade" id="rewadd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModa4lLabel">奖励记录</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="rewaddform">
+      		<table class="table">
+      			<tr>
+      				<td>
+      					<label><font style="color: red;">*</font>获奖时间:</label>
+      					<input type="text" class="form-control test-item" name="rewardTime" id="rewardTime" />
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>获奖级别:</label>
+	      				<select id="rewardLevel" name="rewardLevel" class="form-control">
+	      					<option value="">请选择...</option>
+	      					<option value="世界级">世界级</option>
+	      					<option value="国家级">国家级</option>
+	      					<option value="省/部/自辖市/自治区级">省/部/自辖市/自治区级</option>
+	      					<option value="地级市/区级">地级市/区级</option>
+	      					<option value="县级">县级</option>
+	      					<option value="行业级">行业级</option>
+	      					<option value="其他">其他</option>
+	      				</select>
+      				</td>
+      			</tr>
+      			<tr>
+      				<td>
+      					<label><font style="color: red;">*</font>颁发机构:</label>
+      					<input type="text" id="IssuingBody" name="lssuingBody" class="form-control" placeholder="颁发机构" />
+      				</td>
+      			</tr>
+      			<tr>
+      				<td colspan="2">
+      					<label><font style="color: red;">*</font>获奖内容:</label>
+      					<p>
+      						<textarea id="rewardContent" name="rewardContent" rows="3"  cols="80" ></textarea>
+      					</p>
+      				</td>
+      			</tr>
+      		</table>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  id="rewatj">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 奖励添加结束 -->
+<!--奖励修改开始-->
+	<div class="modal fade" id="rewup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModa4lLabel">奖励记录</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="uprewform">
+      		<table class="table">
+      			<tr>
+      				<td><input type="text" style="display: none;" id="rewid" name="id">
+      					<label><font style="color: red;">*</font>获奖时间:</label>
+      					<input type="text" class="form-control test-item" name="rewardTime" id="rewardTimeup" />
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>获奖级别:</label>
+	      				<select id="rewardLevelup" name="rewardLevel" class="form-control">
+	      					<option value="">请选择...</option>
+	      					<option value="世界级">世界级</option>
+	      					<option value="国家级">国家级</option>
+	      					<option value="省/部/自辖市/自治区级">省/部/自辖市/自治区级</option>
+	      					<option value="地级市/区级">地级市/区级</option>
+	      					<option value="县级">县级</option>
+	      					<option value="行业级">行业级</option>
+	      					<option value="其他">其他</option>
+	      				</select>
+      				</td>
+      			</tr>
+      			<tr>
+      				<td>
+      					<label><font style="color: red;">*</font>颁发机构:</label>
+      					<input type="text" id="IssuingBodyup" name="lssuingBody" class="form-control" placeholder="颁发机构" />
+      				</td>
+      			</tr>
+      			<tr>
+      				<td colspan="2">
+      					<label><font style="color: red;">*</font>获奖内容:</label>
+      					<p>
+      						<textarea id="rewardContentup" name="rewardContent" rows="3"  cols="80" ></textarea>
+      					</p>
+      				</td>
+      			</tr>
+      		</table>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  onclick="rewxiugai();">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 奖励修改结束 -->
+
+<!--奖励查看开始-->
+	<div class="modal fade" id="rewsee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModa4lLabel">奖励记录</h4>
+      </div>
+      <div class="modal-body">
+      		<table class="table">
+      			<tr>
+      				<td><input type="text" style="display: none;" id="rewidck" >
+      					<label><font style="color: red;">*</font>获奖时间:</label>
+      					<p><font id="rewardTimecksee"></font></p>
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>获奖级别:</label>
+	      				<p><font id="rewardLevelcksee"></font></p>
+      				</td>
+      			</tr>
+      			<tr>
+      				<td>
+      					<label><font style="color: red;">*</font>颁发机构:</label>
+      					<p><font id="lssuingBodycksee"></font></p>
+      				</td>
+      			</tr>
+      			<tr>
+      				<td colspan="2">
+      					<label><font style="color: red;">*</font>获奖内容:</label>
+      					<p><font id="rewardContentcksee"></font></p>
+      				</td>
+      			</tr>
+      		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 奖励查看结束 -->
+
+<!--惩罚查看开始-->
+<div class="modal fade" id="punsee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">惩罚记录</h4>
+      </div>
+      <div class="modal-body">
+      		<table class="table">
+      			<tr>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚时间:</label>
+      					<p><font id="puntime"></font></p>
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚级别:</label>
+      					<p><font id="punjibie"></font></p>
+      				</td>
+      			</tr>
+      			<tr>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚事项:</label>
+      					<p><font id="punsx"></font></p>
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚机构:</label>
+      					<p><font id="punjiguo"></font></p>
+      				</td>
+      			</tr>
+      			<tr>
+      				<td colspan="2">
+      				<label><font style="color: red;">*</font>惩罚事由</label>
+					<p><font id="punsy"></font></p>    				
+      				</td>
+      			</tr>
+      		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  data-dismiss="modal">返回</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--惩罚查看结束-->
+
+<!--惩罚添加开始-->
+	<div class="modal fade" id="punadd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">惩罚记录</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="punaddform">
+      		<table class="table">
+      			<tr>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚时间:</label>
+      					<input type="text" class="form-control test-item" name="punishmentTime" id="punishmentTime" />
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚级别:</label>
+      					<select id="punishmentLevel" class="form-control"  name="punishmentLevel">
+	      					<option value="">请选择...</option>
+	      					<option value="行业处分">行业处分</option>
+	      					<option value="行业处分-训诫">行业处分-训诫</option>
+	      					<option value="行业处分-公开谴责">行业处分-公开谴责</option>
+	      					<option value="行业处分-通报批评">行业处分-通报批评</option>
+	      					<option value="行业处分-建议吊销执业证">行业处分-建议吊销执业证</option>
+	      					<option value="行政处罚">行政处罚</option>
+	      					<option value="行政处罚-警告">行政处罚-警告</option>
+	      					<option value="行政处罚-停止执业">行政处罚-停止执业</option>
+	      					<option value="行政处罚-处以罚款">行政处罚-处以罚款</option>
+	      					<option value="行政处罚-吊销执业证">行政处罚-吊销执业证</option>
+      					</select>
+      				</td>
+      			</tr>
+      			<tr>
+      			<td>
+      					<label><font style="color: red;">*</font>惩罚事项:</label>
+      					<input type="text" id="punishmentMatter" name="punishmentMatter" class="form-control"/>	
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚机构:</label>
+      					<input type="text" id="lssuingBody" name="lssuingBody" class="form-control" placeholder="惩罚机构" />
+      				</td>
+      			</tr>
+      			<tr>
+      				<td colspan="2">
+      				<label><font style="color: red;">*</font>惩罚事由</label>
+					<p>
+						<textarea id="punishmentContent" name="punishmentContent" cols="80" rows="3"></textarea>
+					</p>      				
+      				</td>
+      			</tr>
+      		</table>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  id="puntj">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 惩罚添加结束 -->
+<!--惩罚修改开始-->
+<div class="modal fade" id="punup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">惩罚记录</h4>
+      </div>
+      <div class="modal-body">
+      	<form class="form-inline" id="uppunform">
+      		<table class="table">
+      			<tr>
+      				<td><input type="text" style="display: none;" id="punid" name="id">
+      					<label><font style="color: red;">*</font>惩罚时间:</label>
+      					<input type="text" class="form-control test-item" name="punishmentTime" id="punishmentTimeup" />
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚级别:</label>
+      					<select id="punishmentLevelup" class="form-control"  name="punishmentLevel">
+	      					<option value="">请选择...</option>
+	      					<option value="行业处分">行业处分</option>
+	      					<option value="行业处分-训诫">行业处分-训诫</option>
+	      					<option value="行业处分-公开谴责">行业处分-公开谴责</option>
+	      					<option value="行业处分-通报批评">行业处分-通报批评</option>
+	      					<option value="行业处分-建议吊销执业证">行业处分-建议吊销执业证</option>
+	      					<option value="行政处罚">行政处罚</option>
+	      					<option value="行政处罚-警告">行政处罚-警告</option>
+	      					<option value="行政处罚-停止执业">行政处罚-停止执业</option>
+	      					<option value="行政处罚-处以罚款">行政处罚-处以罚款</option>
+	      					<option value="行政处罚-吊销执业证">行政处罚-吊销执业证</option>
+      					</select>
+      				</td>
+      			</tr>
+      			<tr>
+      			<td>
+      					<label><font style="color: red;">*</font>惩罚事项:</label>
+      					<input type="text" id="punishmentMatterup" name="punishmentMatter" class="form-control"/>	
+      				</td>
+      				<td>
+      					<label><font style="color: red;">*</font>惩罚机构:</label>
+      					<input type="text" id="lssuingBodyup" name="lssuingBody" class="form-control" placeholder="惩罚机构" />
+      				</td>
+      			</tr>
+      			<tr>
+      				<td colspan="2">
+      				<label><font style="color: red;">*</font>惩罚事由</label>
+					<p>
+						<textarea id="punishmentContentup" name="punishmentContent" cols="80" rows="3"></textarea>
+					</p>      				
+      				</td>
+      			</tr>
+      		</table>
+      	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  onclick="punxiugai();">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 惩罚修改结束 -->
+
+	<!-- 擅长领域开始 -->
+<div class="modal fade" id="mysc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">专业选择</h4>
+      </div>
+      <div class="modal-body">
+      	<form  class="form-inline">
+      		<input type="text" class="form-control" id="casetypename" placeholder="专业领域"/>
+			<input type="button" value="检索" onclick="clickDatato();" class="btn  btn-success" id="jiansuo" />
+      	 </form>
+      	 <div>
+      	 	<ul id="datato" style="float: left;margin-top: 10px">
+      	 	</ul>
+      	 </div>
+      	<span style="display: inline-block;width: 100%; height: 20px; background-color: blue;color: #FBFBFB;">
+      	 	&nbsp;已选专业
+      	 </span>
+      	 <ul id="ulok" style="float: left;margin-top: 10px"></ul>
+      	 <span style="display: inline-block;width: 100%; height: 20px;"></span>
+      	<center>
+        <button type="button" class="btn btn-success" data-dismiss="modal" 	onclick="setVal();">确认提交</button>
+       </center>
+       </div>
+    </div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">
+	lay('.test-item').each(function(){
+				laydate.render({
+					elem: this,
+					trigger: 'click',
+					format:'yyyy-MM-dd'
+				 });
+			});
+$(function () {
+	var id = window.location.search;
+	var arr = id.split("=");
+	$('#table').bootstrapTable('showColumn', 'id');
+	$.ajax({
+		type:"get",
+		url:"hr/emp/byidselect/" + arr[1],
+		dataType: "json",
+		success:function  (data) {
+			$("#emp_id").val(data[0].id)
+			$("#emp_name").val(data[0].empName)
+			$("#emp_sex").val(data[0].empSex)
+			$("#emp_workstatus").val(data[0].empWorkstatus)
+			$("#emp_birthdate").val(data[0].empBirthdate)
+			$("#emp_paperstype").val(data[0].empPaperstype)
+			$("#emp_papersnum").val(data[0].empPapersnum)
+			$("#emp_education").val(data[0].empEducation)
+			$("#emp_academic").val(data[0].empAcademic)
+			$("#hr_internal_id").val(data[0].hrInternalId)
+			$("#hr_nation_id").val(data[0].hrNationId)
+			$("#hr_political_id").val(data[0].hrPoliticalId)
+			$("#emp_maritalsta").val(data[0].empMaritalsta)
+			$("#emp_entrancenum").val(data[0].empEntrancenum)
+			$("#hr_specialty_id").val(data[0].hrSpecialtyId)
+			$("#hr_practise_id").val(data[0].hrPractiseId)
+			$("#emp_pracnum").val(data[0].empPracnum)
+			$("#emp_pracdate").val(data[0].empPracdate)
+			$("#emp_pracsite").val(data[0].empPracsite)
+			$("#hr_certify_id").val(data[0].hrCertifyId)
+			$("#emp_certifynum").val(data[0].empCertifynum)
+			$("#emp_gainway").val(data[0].empGainway)
+			$("#emp_gainsite").val(data[0].empGainsite)
+			$("#emp_introduce").val(data[0].empIntroduce)
+			$("#emp_entrydate").val(data[0].empEntrydate)
+			$("#emp_cont_startdate").val(data[0].empContStartdate)
+			$("#emp_cont_enddate").val(data[0].empContEnddate)
+			$("#emp_social_num").val(data[0].empSocialNum)
+			$("#emp_phone").val(data[0].empPhone)
+			$("#emp_site").val(data[0].empSite)
+			$("#emp_email").val(data[0].empEmail)
+			$("#emp_postcode").val(data[0].empPostcode)
+			$("#emp_qq").val(data[0].empQq)
+			$("#emp_wechat").val(data[0].empWechat)
+			$("#empGoodfield").val(data[0].empGoodfield)
+		}
+	})
+	$.ajax({
+			type:"get",
+			url:"hr/emp/selectins/" + arr[1],
+			dataType: "json",
+			success:function  (data) {
+				if(data.length>0){
+					$("#cb").val(data[0].insuredName)
+					$("#cbid").val(data[0].id)
+				}
+			}
+		});
+	$("#table").bootstrapTable({
+			type:"get",
+			url:"hr/degree/bydegrreselectid/" + arr[1],
+			dataType: "json",
+			columns:[{
+				title:"id",
+				field:"id",
+				visible: false
+				
+			},{
+				title:"毕业学院",
+				field:"degreeSchool"
+			},{
+				title:"主修专业",
+				field:"degreeMajor"
+			},{
+				title:"获得学位",
+				field:"degreeDegrees"
+			},{
+				title:"证书编号",
+				field:"degreeCrednum"
+			},{
+				title:"全日制",
+				field:"degreeFulltime",
+				formatter: function(value, row, index){
+					if(value=="Y"){
+						return "是";
+					}else if(value=="N"){
+						return "不是";
+					}
+				}
+			},{
+				title:"操作",
+				formatter: function(value, row, index, field) {
+					var jjj = "<div class='btn-group btn-group-sm' role='group' aria-label='Small button group'><button type='button' data-toggle='modal' onclick='return select("+ row.id +")' data-target='#myModal'  class='btn btn-default'>查看</button><button type='button' onclick='return selectandup("+ row.id +")'  data-toggle='modal' data-target='#schoolupdate'  class='btn btn-default'>修改</button><button type='button' onclick='return deletedegree("+ row.id +")' class='btn btn-default'>删除</button></div>";
+					return jjj;
+					}
+			}]
+		})
+		$("#table1").bootstrapTable({
+			type:"get",
+			url:"hr/work/byworkselectid/" + arr[1],
+			dataType: "json",
+			columns:[{
+				title:"id",
+				field:"id",
+				visible: false
+			},{
+				title:"开始日期",
+				field:"workhistoryStartdate"
+			},{
+				title:"结束日期",
+				field:"workhistoryEnddate"
+			},{
+				title:"工作单位",
+				field:"workhistoryWorkunit"
+			},{
+				title:"工作职务",
+				field:"workhistoryJobPosition"
+			},{
+				title:"工作类别",
+				field:"workhistoryWorktype"
+			},{
+				title:"工作性质",
+				field:"workhistoryWorknature"
+			},{
+				title:"所在地",
+				field:"workhistorySite"
+			},{
+				
+				title:"操作",
+				formatter: function(value, row, index, field) {
+					var jjj = "<div class='btn-group btn-group-sm' role='group' aria-label='Small button group'><button type='button' data-toggle='modal' onclick='return workby("+ arr[1] +")' data-target='#mywork'  class='btn btn-default'>查看</button><button type='button' onclick='return workbyup("+ arr[1] +")'  data-toggle='modal' data-target='#workupdate'  class='btn btn-default'>修改</button><button type='button' onclick='return deletework("+ row.id +")' class='btn btn-default'>删除</button></div>";
+					return jjj;
+			}}]
+			})
+			
+			$("#table2").bootstrapTable({
+			type:"get",
+			url:"hr/emp/selectrewbyid/"+arr[1],
+			dataType: "json",
+			columns:[{
+				title:"id",
+				field:"id",
+				visible: false
+			},{
+				title:"奖励时间",
+				field:"rewardTime"
+			},{
+				title:"奖励级别",
+				field:"rewardLevel"
+			},{
+				title:"颁奖机构",
+				field:"lssuingBody"
+			},{
+				title:"颁奖内容",
+				field:"rewardContent"
+			},{
+				title:"操作",
+				formatter: function(value, row, index, field) {
+					var jjj = "<div class='btn-group btn-group-sm' role='group' aria-label='Small button group'><button type='button' onclick='return rewsee("+ row.id +")'  data-toggle='modal' data-target='#rewsee'  class='btn btn-default'>查看</button><button type='button' onclick='return rewup("+ row.id +")'  data-toggle='modal' data-target='#rewup'  class='btn btn-default'>修改</button><button type='button' onclick='return deleterew("+ row.id +")' class='btn btn-default'>删除</button></div>";
+					return jjj;
+			
+			}}]
+		})
+		
+		$("#table3").bootstrapTable({
+			type:"get",
+			url:"hr/emp/selectpunbyid/"+arr[1],
+			dataType: "json",
+			columns:[{
+				title:"id",
+				field:"id",
+				visible: false
+			},{
+				title:"惩罚时间",
+				field:"punishmentTime"
+			},{
+				title:"惩罚级别",
+				field:"punishmentLevel"
+			},{
+				title:"惩罚事项",
+				field:"punishmentMatter"
+			},{
+				title:"惩罚机构",
+				field:"lssuingBody"
+			},{
+				title:"惩罚内容",
+				field:"punishmentContent"
+			},{
+				title:"操作",
+				formatter: function(value, row, index, field) {
+					var jjj = "<div class='btn-group btn-group-sm' role='group' aria-label='Small button group'><button type='button' onclick='return punsee("+ row.id +")'  data-toggle='modal' data-target='#punsee'  class='btn btn-default'>查看</button><button type='button' onclick='return punup("+ row.id +")'  data-toggle='modal' data-target='#punup'  class='btn btn-default'>修改</button><button type='button' onclick='return deletepun("+ row.id +")' class='btn btn-default'>删除</button></div>";
+					return jjj;
+			}}]
+		})
+			/*emp修改*/
+			$("#update").on("click",function  () {
+				$.ajax({
+					type:"post",
+					url:"hr/emp/updatecb",
+					dataType: "json",
+					data:{
+						id:$("#cbid").val(),
+						insuredName:$("#cb").val(),
+						hrEmpId: arr[1]
+					},
+					success :function  (data) {
+						if(data.status == "yes"){
+							$.ajax({
+								type:"post",
+								url:"hr/emp/update",
+								dataType: "json",
+								data:$("#fromid").serialize(),
+								success :function  (data) {
+									if(data.status == "yes"){
+										alert("修改成功");
+										window.location.href = "hr/index/toindex";
+									}else{
+										alert("修改失败");
+									}
+								}
+							});
+						}else{
+							alert("修改失败");
+						}
+					}
+				});
+				
+			})
+			
+			$("#degreetj").on("click",function  () {
+			if ($("#degreeSchool").val()=='') {
+				alert("毕业学校为空")
+				return ;
+			}
+			if ($("#degreeMajor").val()=='') {
+				alert("主修专业为空")
+				return;
+			}
+			if ($("#degreeDegrees").val()=='') {
+				alert("获得学位为空")
+				return;
+			}
+			$.ajax({
+				type:"get",
+				url:"hr/degree/degrreinsertid/"+ arr[1],
+				dataType: "json",
+				data:$("#addform").serialize(),
+				success:function  (data) {
+					if(data.status == "yes"){
+							$("#table").bootstrapTable("refresh")
+							alert("添加成功")
+							$("#schooladd").modal('hide')
+						}else{
+							alert("添加失败")
+						}
+				}
+			});
+			})
+			
+			$("#worktianjia").on("click",function () {
+				if ($("#workhistorystartdate").val()=='') {
+				alert("开始日期为空")
+				return;
+			}if ($("#workhistoryenddate").val()=='') {
+				alert("结束日期")
+				return;
+			}if ($("#workhistoryworkunit").val()=='') {
+				alert("工作单位为空")
+				return;
+			}if ($("#workhistoryjob_position").val()=='') {
+				alert("工作职务为空")
+				return;
+			}if ($("#workhistoryworktype").val()=='') {
+				alert("工作类别为空")
+				return;
+			}if ($("#workhistorysite").val()=='') {
+				alert("所在地为空")
+				return;
+			}
+			$.ajax({
+				type:"get",
+				url:"hr/work/insertworkid/"+ arr[1],
+				dataType: "json",
+				data:$("#workaddform").serialize(),
+				success:function  (data) {
+					if(data.status == "yes"){
+							$("#table1").bootstrapTable("refresh")
+							alert("添加成功")
+							$("#workadd").modal('hide')
+						}else{
+							alert("添加失败")
+						}
+				}
+			});
+			})
+			
+			$("#rewatj").on("click",function () {
+				if ($("#rewardTime").val()=='') {
+				alert("获奖时间为空")
+				return;
+			}if ($("#rewardLevel").val()=='') {
+				alert("获奖级别为空")
+				return;
+			}if ($("#IssuingBody").val()=='') {
+				alert("颁发机构为空")
+				return;
+			}if ($("#rewardContent").val()=='') {
+				alert("获奖内容为空")
+				return;
+			}
+			$.ajax({
+				type:"get",
+				url:"hr/emp/inserrew/"+ arr[1],
+				dataType: "json",
+				data:$("#rewaddform").serialize(),
+				success:function  (data) {
+					if(data.status == "yes"){
+							alert("添加成功")
+							$("#table2").bootstrapTable("refresh")
+							$("#rewadd").modal('hide')
+						}else{
+							alert("添加失败")
+						}
+				}
+			});
+			})
+			
+			$("#puntj").on("click",function  () {
+				if ($("#punishmentTime").val()=='') {
+				alert("惩罚时间为空")
+				return;
+			}if ($("#punishmentLevel").val()=='') {
+				alert("惩罚级别为空")
+				return;
+			}if ($("#punishmentMatter").val()=='') {
+				alert("惩罚事项为空")
+				return;
+			}if ($("#lssuingBody").val()=='') {
+				alert("惩罚机构为空")
+				return;
+			}if ($("#punishmentContent").val()=='') {
+				alert("惩罚事由为空")
+				return;
+			}
+			$.ajax({
+				type:"get",
+				url:"hr/emp/inserpun/"+ arr[1],
+				dataType: "json",
+				data:$("#punaddform").serialize(),
+				success:function  (data) {
+					if(data.status == "yes"){
+							$("#table3").bootstrapTable("refresh")
+							alert("添加成功")
+							$("#punadd").modal('hide')
+						}else{
+							alert("添加失败")
+						}
+				}
+			});
+			})
+		})
+		
+
+
+function deletedegree(id) {
+	if(confirm("确定删除吗")){
+		$.ajax({
+			type:"get",
+			url:"hr/degree/degrredeletebyid/" + id,
+			dataType: "json",
+			success :function  (data) {
+				if(data.status == "yes"){
+					$("#table").bootstrapTable("refresh")
+					alert("删除成功")
+				}else{
+					alert("删除失败")
+				}
+			}
+		});
+		return true;
+	}
+	return false;
+	}
+	
+	function deletework(id) {
+	if(confirm("确定删除吗")){
+		$.ajax({
+			type:"get",
+			url:"hr/work/workdeletebyid/" + id,
+			dataType: "json",
+			success :function  (data) {
+				if(data.status == "yes"){
+					$("#table1").bootstrapTable("refresh")
+					alert("删除成功")
+				}else{
+					alert("删除失败")
+				}
+			}
+		});
+		return true;
+	}
+	return false;
+	}
+	
+	function deleterew(id) {
+	if(confirm("确定删除吗")){
+		$.ajax({
+			type:"get",
+			url:"hr/emp/deleterew/" + id,
+			dataType: "json",
+			success :function  (data) {
+				if(data.status == "yes"){
+					$("#table2").bootstrapTable("refresh")
+					alert("删除成功")
+				}else{
+					alert("删除失败")
+				}
+			}
+		});
+		return true;
+	}
+	return false;
+	}
+	
+	function deletepun(id) {
+	if(confirm("确定删除吗")){
+		$.ajax({
+			type:"get",
+			url:"hr/emp/deletepun/" + id,
+			dataType: "json",
+			success :function  (data) {
+				if(data.status == "yes"){
+					$("#table3").bootstrapTable("refresh")
+					alert("删除成功")
+				}else{
+					alert("删除失败")
+				}
+			}
+		});
+		return true;
+	}
+	return false;
+	}
+	
+	
+		function degreeupfrom () {
+			$.ajax({
+				type:"get",
+				url:"hr/degree/updatedegree",
+				dataType: "json",
+				data:$("#updegreeform").serialize(),
+				success :function  (data) {
+					if(data.status == "yes"){
+						$("#table").bootstrapTable("refresh")
+						alert("修改成功")
+						$("#schoolupdate").modal('hide')
+					}else{
+						alert("修改失败")
+					}
+				}
+			});
+		}
+		function workxiugai  () {
+			$.ajax({
+				type:"get",
+				url:"hr/work/updatework",
+				dataType: "json",
+				data:$("#workup").serialize(),
+				success :function  (data) {
+					if(data.status == "yes"){
+						$("#table1").bootstrapTable("refresh")
+						alert("修改成功")
+						$("#workupdate").modal('hide')
+					}else{
+						alert("修改失败")
+					}
+				}
+			});
+		}
+	
+		function rewxiugai () {
+			$.ajax({
+				type:"get",
+				url:"hr/emp/uprew",
+				dataType: "json",
+				data:$("#uprewform").serialize(),
+				success :function  (data) {
+					if(data.status == "yes"){
+						$("#table2").bootstrapTable("refresh")
+						alert("修改成功")
+						$("#rewup").modal('hide')
+					}else{
+						alert("修改失败")
+					}
+				}
+			});
+		}
+		
+		function  punxiugai() {
+			$.ajax({
+				type:"get",
+				url:"hr/emp/uppun",
+				dataType: "json",
+				data:$("#uppunform").serialize(),
+				success :function  (data) {
+					if(data.status == "yes"){
+						$("#table3").bootstrapTable("refresh")
+						alert("修改成功")
+						$("#punup").modal('hide')
+					}else{
+						alert("修改失败")
+					}
+				}
+			});
+		}
+	
+	function rewup (id) {
+			$.ajax({
+				type:"get",
+				url:"hr/emp/selectrewid/" + id,
+				dataType: "json",
+				success :function  (data) {
+					$("#rewid").val(data[0].id)
+					$("#rewardTimeup").val(data[0].rewardTime)
+					$("#rewardLevelup").val(data[0].rewardLevel)
+					$("#IssuingBodyup").val(data[0].lssuingBody)
+					$("#rewardContentup").val(data[0].rewardContent)
+				}
+			});
+		}
+			function punup (id) {
+			$.ajax({
+				type:"get",
+				url:"hr/emp/selectpunid/" + id,
+				dataType: "json",
+				success :function  (data) {
+					$("#punid").val(data[0].id)
+					$("#punishmentTimeup").val(data[0].punishmentTime)
+					$("#punishmentLevelup").val(data[0].punishmentLevel)
+					$("#punishmentMatterup").val(data[0].punishmentMatter)
+					$("#lssuingBodyup").val(data[0].lssuingBody)
+					$("#punishmentContentup").val(data[0].punishmentContent)
+				}
+			});
+		}
+/*degree显示到模态框*/
+function select(id) {
+		$.ajax({
+			type:"get",
+			url:"hr/degree/bydegrreselect/" + id,
+			dataType: "json",
+			success :function  (data) {
+				$("#degree_school").text(data[0].degreeSchool)
+				$("#degree_major").text(data[0].degreeMajor)
+				$("#degree_degrees").text(data[0].degreeDegrees)
+				$("#degree_crednum").text(data[0].degreeCrednum)
+				$("#degree_fulltime").text(data[0].degreeFulltime)
+				$("#degree_site").text(data[0].degreeSite)
+			}
+		});
+	}
+	/* work显示到模态框 */
+function workby(id) {
+	$.ajax({
+		type:"get",
+		url:"hr/work/byworkselectid/" + id,
+		dataType: "json",
+		success :function  (data) {
+			$("#workhistory_startdate").text(data[0].workhistoryStartdate)
+			$("#workhistory_enddate").text(data[0].workhistoryEnddate)
+			$("#workhistory_workunit").text(data[0].workhistoryWorktype)
+			$("#workhistory_job_position").text(data[0].workhistoryJobPosition)
+			$("#workhistory_worktype").text(data[0].workhistoryWorktype)
+			$("#workhistory_worknature").text(data[0].workhistoryWorknature)
+			$("#workhistory_site").text(data[0].workhistorySite)
+		}
+	});
+}
+	/* work显示到模态框进行修改 */
+function workbyup(id) {
+	$.ajax({
+		type:"get",
+		url:"hr/work/byworkselectid/" + id,
+		dataType: "json",
+		success :function  (data) {
+			$("#workidup").val(data[0].id)
+			$("#workhistorystartdateup").val(data[0].workhistoryStartdate)
+			$("#workhistoryenddateup").val(data[0].workhistoryEnddate)
+			$("#workhistoryworkunitup").val(data[0].workhistoryWorktype)
+			$("#workhistoryjob_positionup").val(data[0].workhistoryJobPosition)
+			$("#workhistoryworktypeup").val(data[0].workhistoryWorktype)
+			$("#workhistoryworknatureup").val(data[0].workhistoryWorknature)
+			$("#workhistorysiteup").val(data[0].workhistorySite)
+		}
+	});
+}
+/*  degree显示到模态框*/
+function selectandup(id) {
+	$.ajax({
+		type:"get",
+		url:"hr/degree/bydegrreselect/" + id,
+		dataType: "json",
+		success :function  (data) {
+			$("#degreeid").val(data[0].id)
+			$("#degreeschool").val(data[0].degreeSchool)
+			$("#degreemajor").val(data[0].degreeMajor)
+			$("#degreedegrees").val(data[0].degreeDegrees)
+			$("#degreecrednum").val(data[0].degreeCrednum)
+			$("#degreefulltime").val(data[0].degreeFulltime)
+			$("#degreesite").val(data[0].degreeSite)
+		}
+	});
+}
+
+function rewsee (id) {
+	$.ajax({
+		type:"get",
+		url:"hr/emp/selrewbyid/" + id,
+		dataType: "json",
+		success :function  (data) {
+			$("#rewardTimecksee").text(data[0].rewardTime)
+			$("#rewardLevelcksee").text(data[0].rewardLevel)
+			$("#lssuingBodycksee").text(data[0].lssuingBody)
+			$("#rewardContentcksee").text(data[0].rewardContent)
+		}
+	});
+}
+function punsee (id) {
+	$.ajax({
+		type:"get",
+		url:"hr/emp/selpunbyid/" + id,
+		dataType: "json",
+		success :function  (data) {
+			$("#puntime").text(data[0].punishmentTime)
+			$("#punjibie").text(data[0].punishmentLevel)
+			$("#punsx").text(data[0].punishmentMatter)
+			$("#punjiguo").text(data[0].lssuingBody)
+			$("#punsy").text(data[0].punishmentContent)
+		}
+	});
+}
+
+ function education () {
+	 	$("#degreeSchool").val("");
+	 	$("#degreeMajor").val("");
+	 	$("#degreeDegrees").val("");
+	 	$("#degreefulltime").val("Y");
+	 	$("#degreeSite").val("");
+	 	$("#degreeCrednum").val("");
+	 }
+	
+	  function workexperience () {
+	 	$("#workhistorystartdate").val("");
+	 	$("#workhistoryenddate").val("");
+	 	$("#workhistoryworkunit").val("");
+	 	$("#workhistoryjob_position").val("");
+	 	$("#workhistoryworktype").val("律师工作");
+	 	$("#workhistoryworknature").val("党委");
+	 	$("#workhistorysite").val("");
+	 }
+	  function rew () {
+	 	$("#rewardTime").val("");
+	 	$("#rewardLevel").val("");
+	 	$("#IssuingBody").val("");
+	 	$("#rewardContent").val("");
+	 }
+	  function pun () {
+	 	$("#punishmentTime").val("");
+	 	$("#punishmentLevel").val("");
+	 	$("#punishmentMatter").val("");
+	 	$("#lssuingBody").val("");
+	 	$("#punishmentContent").val("");
+	 }
+	 
+	 function setVal(){
+	 	var $wuid = $("input[name='WUid']");
+	 	var arr = new Array();
+	 	$wuid.each(function(len,val){
+	 		arr[len] = val.value;
+	 	});
+	 	$("#empGoodfield").val(arr);
+	 }
+	 function clickDatato(){
+	 	$("#datato").find("li").remove();
+	 	$.ajax({
+	 		type:"post",
+	 		url:"hr/emp/selectcase",
+	 		dataType: "json",
+	 		data:{"casetypename":$("#casetypename").val()},
+	 		success :function (data) {
+	 			for (var i = 0; i < data.length; i++) {
+	 				var li = "<li style='float: left'><input type='checkbox' on='off' name='WUid1' id='"+ data[i] +"' value='"+ data[i] +"' onclick='SelectCheck(this)' >"+data[i]+"</li>"; 
+	 				$("#datato").append(li);
+	 			}
+	 		}
+	 	});
+	 }
+	 
+	 function SelectCheck(obj) {
+	 	if($(obj).attr("on") == 'off'){
+	 		if($("input[name='WUid']").length == 3){
+	 			alert("最多只能选择三个");
+	 			$(obj).prop("checked",false);
+	 			return;
+	 		}
+	 		$(obj).attr("on",'on');
+	 		var $li = $("<li style='float: left'><input type='checkbox' checked='checked' name='WUid' on='on' onclick='SelectCheck(this)' value='"+ $(obj).val() +"' >" + $(obj).val() + "</li>");
+	 		$("#ulok").append($li);
+	 	}else{
+	 		$(obj).attr("on",'off');
+	 		$("input[name='WUid']").each(function(len,val){
+	 			if($(obj).val() == $(val).val()){
+	 				$(val).parent().remove();
+	 			}
+	 		});
+	 		$("input[name='WUid1']").each(function(len,val){
+	 			if($(obj).val() == $(val).val()){
+	 				$(val).attr("on","off");
+	 				$(val).prop("checked",false);
+	 			}
+	 		});
+	 	}
+	 }
+</script>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<base href="/lawfirms/" />
+<head>
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_navyblue.css">
+    <script src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/bootstrap.js"></script>
+    <script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/LyJs.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+	
+	
+<body>
+<section>
+<form  class="shell todown" id="form">   
+	<input type="hidden" id="EditLinks" name="EditLinks" value="">
+    <input type="hidden" id="Msg" name="Msg" value="">
+    <input type="hidden" id="IsInit" name="IsInit" value="1">
+    <input type="hidden" id="T" name="T" value="0">
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">
+                     		   利益冲突审查
+                     		   <ul class="cue display_inline float_right" style="margin-left:10px;" data-toggle="tooltip" data-placement="right auto" title="软件可对以下几种利益冲突进行检测： 
+一、双重代理型利益冲突，同一律师在同一案件中为双方当事人担任代理人。 
+二、同一律所型利益冲突，同一律所型利益冲突是指在同一律师事务所内部，有两个或多个律师分别为同一案件的双方当事人担任代理人。">
+                              <!-- 提示信息 -->
+                              <li></li>
+
+                              <li></li>
+                          </ul>
+                    </label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                            <em>*</em>委托人/当事人：
+                        </label>
+                        <input type="text" name="Wtr" id="Wtr" value="" class="form-control required" title="请填写委托人/当事人">
+                    </div>
+                    <div class="col-xs-6">
+                            <label for="">
+                                <em>*</em>对方当事人：
+                            </label> 
+                        <input type="text" name="DWtr" id="DWtr" value="" class="form-control required" title="请填写对方当事人">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="button" id="btn" value="立即检测"  class="btn_solid">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+						 <table id="onetable" class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="table" style="border-left: 1px dotted #ededed;">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</section>
+</body>
+</html>

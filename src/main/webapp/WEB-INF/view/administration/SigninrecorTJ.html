@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<link rel="stylesheet" href="static/layui/css/layui.css" id="layuicss-layer">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script src="static/js/jquery_1.11.3.min.js"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+
+		<script src="static/layui/layui.js"></script>
+		<script>
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#stime' //指定元素
+				});
+				laydate.render({
+					elem: '#etime' //指定元素
+				});
+			});
+			function Export(){
+				window.location.href="download/Signinrecor/Excel";
+			}
+			function refresh() {
+				$("#Signinrecor").bootstrapTable("refresh");
+			}
+			$(function() {
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+				$("#ref").on("click", function() {
+					refresh();
+				})
+				$("#Signinrecor").bootstrapTable({
+					method: "get",
+					url: "administration/selSigninrecor", //?timer=" + new Date().getTime()
+					dataType: "json",
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 10, //每页几条数据
+					pageList: [15,20],
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					/**
+					 * 参数传递
+					 * @param {Object} params
+					 */
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							title: $("#title").val(),
+							stime: $("#stime").val(),
+							etime: $("#etime").val(),
+							classifyId: $("#classifyId").val()
+						}
+					},
+					columns: [{
+							title: "签到人",
+							field: "ename"
+						}, {
+							title: "签到时间",
+							field: "signinrecordStime"
+						}, {
+							title: "签到",
+							formatter: function(value, row, index, field) {
+								if(row.admSigninrecorStatis == "Y") {
+									return '<span style = "color :GREEN">√</span>';
+								}else{
+									return ''
+								}
+							}
+						},
+						{
+							title: "签退",
+							formatter: function(value, row, index, field) {
+								if(row.admSigninrecorStatis == "N") {
+									return '<span style = "color :red">√</span>';
+								}else{
+									return ''
+								}
+							}
+						}
+					],
+					//height: $(window).height() - 150//自定义表格的高度
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+			});
+		</script>
+
+		<style type="text/css">
+			.select_time,
+			#BegTime,
+			#EndTime,
+			#BirthDay,
+			#Begtime,
+			#TCxrq,
+			#STime,
+			#PayTime1,
+			#LiAnDate,
+			#KaiTingDate,
+			#XuanPanDate,
+			#ShangSuDate,
+			#XjDate,
+			#DbDate,
+			#ZcBegDate,
+			#ZcEndDate,
+			#ZcBegDate1,
+			#ZcEndDate1,
+			#ZcBegDate2,
+			#ZcEndDate2,
+			#ScBegDate,
+			#ScEndDate,
+			#fDate,
+			#BillTime,
+			#ETime,
+			#stime,
+			#etime,
+			#Ptime {
+				background-repeat: no-repeat;
+				background-position: 99% center;
+				background-size: 24px 24px;
+				background-image: url(static/img/icon_input_time.png);
+			}
+			
+			table td span {
+				font-weight: 900;
+				font-size: 25px;
+			}
+		</style>
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading" style="display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="static/img/back.png" draggable="false">
+				</a>
+
+				<li>
+					<a draggable="false">行政</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">签到管理</a>
+				</li>
+			</ol>
+			<ul class="tab">
+				<a href="goto/administration/SigninrecorGL" draggable="false">签到管理</a>
+				<a href="goto/administration/SigninrecorTJ"  class="tab_on" draggable="false">签到统计</a>
+			</ul>
+			<form action="goto/administration/SigninrecorGL" class="container-fluid page_find" id="searchForm" method="post">
+				<div class="input-group">
+					<input type="text" class="form-control" id="title" name="title" placeholder="执业人员" aria-describedby="basic-addon1" onkeyup="MousePiPei(this,'3');" onfocus="MousePiPei(this,'3');">
+				</div>
+				<div id="_CityList_" style="width: 200px; display: none">
+					<span style="cursor: pointer; float: right;" onclick="JavaScript:_HideList_()"></span>
+					<div class="clear"></div>
+					<div id="Div_Txt" style="width: 200px;">
+					</div>
+				</div>
+				<span>&nbsp;&nbsp;&nbsp;开始时间：</span>
+				<div class="input-group">
+					<input type="text" class="form-control" id="stime" name="stime" aria-describedby="basic-addon1" lay-key="1">
+				</div>
+				<span>&nbsp;&nbsp;&nbsp;结束时间：</span>
+				<div class="input-group">
+					<input type="text" class="form-control" id="etime" name="etime" aria-describedby="basic-addon1" lay-key="2">
+				</div>
+				<span>&nbsp;&nbsp;&nbsp;</span>
+				<div class="down_box">
+					<select id="classifyId" name="classifyId">
+						<option value="">签到类型</option>
+						<option value="上班签到">上班签到</option>
+						<option value="会议签到">会议签到</option>
+						<option value="外勤签到">外勤签到</option>
+					</select>
+				</div>
+				<input type="button" id="ref" class="btn_solid" value="开始检索">
+				<button class="btn_hollow" style="margin-left: 80px;" onclick="Export()" type="button">导出Excel</button>
+			</form>
+			<div id="datas">
+
+				<!-- 列表 -->
+				<table id="Signinrecor" class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="149.40000915527344" data-table-fixed-head-top="0">
+				</table>
+
+			</div>
+		</section>
+	</body>
+
+</html>

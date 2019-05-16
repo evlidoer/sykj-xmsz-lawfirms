@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.jt.lawfirm.mapper.administration.ISigninrecorMapper">
+
+	<select id="selSigninrecorAll" resultType="com.jt.lawfirm.bean.administration.Signinrecor" parameterType="java.util.Map">
+		select n.*,u.emp_name ename from adm_signinrecor n
+		inner join hr_emp u on n.hr_emp_id = u.id
+		where 1 = 1
+		<if test="title != null and title != ''">
+			and u.emp_name like #{title}
+		</if>
+		<!-- 查询某个时间点签到 -->
+		<if test="stime != null and stime != '' and etime != null and etime != ''">
+			and n.signinrecord_stime between #{stime} and #{etime}
+		</if>
+		<if test="classifyId != null and classifyId != ''">
+			and n.classify_id = #{classifyId}
+		</if>
+	</select>
+	
+	<select id="selMySigninrecorAll" resultType="com.jt.lawfirm.bean.administration.dtd.MySigninrecor">
+	select n.*,u.emp_name ename from adm_signinrecor n
+		inner join hr_emp u on n.hr_emp_id = u.id
+	</select>
+</mapper>

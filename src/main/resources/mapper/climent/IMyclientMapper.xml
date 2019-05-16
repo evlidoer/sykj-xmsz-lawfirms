@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.lawfirm.mapper.client.IMyclientMapper">
+	<resultMap type="com.jt.lawfirm.bean.client.Client" id="climentmap">
+		<id column="id" property="id"/>
+		<result column="client" property="client"/>
+		<result column="tel" property="tel"/>
+		<result column="status" property="status"/>
+		<result column="explains" property="postscript"/>
+		<result column="empid" property="empid"/>
+	<collection property="detail" ofType="com.jt.lawfirm.bean.client.Detail"> 
+		<id column="id" property="id"/>
+		<result column="client_id" property="clientId"/>
+		<result column="client_principal" property="clientPrincipal"/>
+		<result column="client_assign" property="clientAssign"/>
+		<result column="client_contacts" property="clientContacts"/>
+		<result column="client_email" property="clientEmail"/>
+		<result column="client_duty" property="clientDuty"/>
+		<result column="client_influence" property="clientInfluence"/>
+		<result column="client_phone" property="clientPhone"/>
+		<result column="client_region" property="clientRegion"/>
+		<result column="client_stuatus" property="clientStuatus"/>
+		<result column="client_behalf" property="clientBehalf"/>
+		<result column="client_legalphone" property="clientLegalphone"/>
+		<result column="client_file" property="clientFile"/>
+		<result column="client_idcard" property="clientIdcard"/>
+		<result column="client_nationid" property="clientNationid"/>
+		<result column="client_sex" property="clientSex"/>
+		<result column="client_site" property="clientSite"/>
+		<result column="client_remark" property="clientRemark"/>
+		<result column="client_addtime" property="clientAddtime"/>
+		
+	</collection>
+		<collection property="typemsg" ofType="com.jt.lawfirm.bean.client.Typemsg">
+			<id column="id" property="id"/>
+			<result column="client_id" property="clientId"/>
+			<result column="client_type_id" property="clientTypeId"/>
+			<result column="idtype" property="idtype"/>
+			<result column="idnumber" property="idnumber"/>
+			<result column="company_nature" property="companyNature"/>
+			<result column="company_scale" property="companyScale"/>
+			<result column="type" property="Type"/>
+			<result column="industry" property="industry"/>
+		<collection property="ctype" ofType="com.jt.lawfirm.bean.client.Ctype">
+			<id column="id" property="id"/>
+			<result column="client_type" property="clientType"/>
+		</collection>
+		</collection>
+	</resultMap>
+
+	<select id="FindAll" resultMap="climentmap" parameterType="map">
+		select * from client c 
+		left join client_typemsg ctm on c.id = ctm.client_id
+		left join client_type ct on ctm.client_type_id = ct.id
+		left join client_detail cd on c.id = cd.client_id where 1 = 1
+		<if test="client!=null and client!=''">
+			and client like #{client}
+		</if>		
+		<if test="tel!=null and tel!=''">
+			and tel like #{tel}
+		</if>
+		
+		<if test="clientAssign!=null and clientAssign!=''">
+			and cd.client_assign = #{clientAssign}
+		</if>
+		
+		<if test="clientStuatus!=null and clientStuatus!=''">
+			and cd.client_stuatus = #{clientStuatus}
+		</if>
+			ORDER BY c.id
+	</select>
+	<insert id="Addclient" parameterType="com.jt.lawfirm.bean.client.AddclientBean">
+		insert into client values(null,#{client},#{tel},"未代理","null",#{empId})
+		<selectKey resultType="int" keyProperty="id">
+			select LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<insert id="AddTetail" parameterType="com.jt.lawfirm.bean.client.AddclientBean">
+		insert into client_detail values(null,#{id},"N",#{clientPrincipal},#{clientContacts},#{clientEmail},#{clientDuty},#{clientInfluence}
+		,#{clientPhone},#{clientRegion},#{clientStuatus},#{clientBehalf},#{clientLegalphone},#{clientFile},#{clientIdcard},#{clientNation},#{clientSex},
+		#{clientSite},#{clientRemark},#{clientBirth},#{clientAddtime})
+	</insert>
+
+	<insert id="Addmsg" parameterType="com.jt.lawfirm.bean.client.AddclientBean">
+		insert into client_typemsg values(null,#{id},#{clientTypeId},#{idtype},#{idnumber},#{companyNature},#{companyScale},#{type},#{industry})
+	</insert>
+	
+	<update id="modifclient" parameterType="com.jt.lawfirm.bean.client.AddclientBean">
+		update client set client = #{client},tel=#{tel} where id = #{id};
+		
+	</update>
+	
+	<update id="modifclientdetail" parameterType="com.jt.lawfirm.bean.client.AddclientBean">
+		update client_detail set client_principal = #{clientPrincipal},client_contacts=#{clientContacts}
+		,client_email = #{clientEmail},client_duty = #{clientDuty},client_influence = #{clientInfluence},client_phone = #{clientPhone}
+		,client_region = #{clientRegion},client_stuatus = #{clientStuatus},client_behalf = #{clientBehalf},client_legalphone = #{clientLegalphone}
+		,client_file = #{clientFile},client_idcard = #{clientIdcard},client_nation = #{clientNation},client_sex = #{clientSex},client_site = #{clientSite}
+		,client_remark = #{clientRemark},client_birth = #{clientBirth} where client_id = #{id};
+		
+	</update>
+	
+	<update id="modifclientmsg" parameterType="com.jt.lawfirm.bean.client.AddclientBean">
+		update client_typemsg set client_type_id = #{clientTypeId},idtype = #{idtype},idnumber = #{idnumber},company_nature = #{companyNature},company_scale=#{companyScale}
+		,type = #{type},industry = #{industry} where client_id = #{id};
+	</update>
+	
+	<select id="FindClient" resultType="com.jt.lawfirm.bean.client.AddclientBean" parameterType="int">
+		select * from client c
+		left join client_typemsg ctm on c.id = ctm.client_id
+		left join client_type ct on ctm.client_type_id = ct.id
+		left join client_detail cd on c.id = cd.client_id where c.id = #{id}
+	</select>
+	
+	<select id="lawnum" parameterType="int" resultType="int">
+		select count(id) from case_law where client_id = #{id}
+	</select>	
+	
+	<delete id="removeById" parameterType="int">
+		delete from client where id = #{id};
+		delete from client_detail where client_id = #{id};
+		delete from client_typemsg where client_id = #{id};
+	</delete>
+	
+	
+</mapper>

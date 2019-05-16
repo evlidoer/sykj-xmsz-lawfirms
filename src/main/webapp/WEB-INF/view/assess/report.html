@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css"/>
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css"/>
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css"/>
+    <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css"/>
+    <script src="static/js/jquery-3.2.0.js"></script>
+    <script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="static/bootstarp/js/bootstrap.js"></script>
+    <script type="text/javascript" src="static/bootstarp/js/bootstrap-table.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+   <script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="static/css/laydate.css" id="layuicss-layer"/>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/js/layDate5.0.9/laydate.js"></script>
+    <link rel="stylesheet" href="http://jutian.elvshi.cn/Content/Js/layDate-v5.0.9/laydate/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    <script src="static/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body id="content" style="padding-bottom: 66px;">
+    <section>
+        
+
+<!-- 页面加载动画 -->
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb" style="background-color: white;">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">年度考核</a></li>
+    <li><a class="active" draggable="false">数据上报</a></li>
+</ol>
+
+<form action="/ExamineManage/DataReport" class="container-fluid page_find" id="searchForm" method="post" onclick="Sys.Mvc.AsyncForm.handleClick(this, new Sys.UI.DomEvent(event));" onsubmit="Sys.Mvc.AsyncForm.handleSubmit(this, new Sys.UI.DomEvent(event), { insertionMode: Sys.Mvc.InsertionMode.replace, updateTargetId: 'datas' });">    <div>
+        <div class="input-group">
+            <input type="text" name="Title" id="Title" class="form-control" placeholder="关键字">
+        </div>
+
+        <div class="down_box">
+            <select name="DateType">
+                <option value="1">案号搜索</option>
+                <option value="2">案由搜索</option>
+                
+                <option value="3">委托人搜索</option>
+                <option value="4">承办律师搜索</option>
+            </select>
+        </div>
+
+        <div class="down_box">
+            <select name="Cols">
+                <option selected="selected" value="">选择案件类型</option>
+                    <option value="1001">民事案件</option>
+                    <option value="1002">刑事案件</option>
+                    <option value="1003">行政案件</option>
+                    <option value="1004">非诉讼法律事务</option>
+                    <option value="1005">法律顾问</option>
+                    <option value="1006">法律援助</option>
+                    <option value="1007">执行案件</option>
+                    <option value="1008">中保案件</option>
+                    <option value="1009">仲裁案件</option>
+                    <option value="1011">破产案件</option>
+                    <option value="1010">咨询代写文书</option>
+            </select>
+        </div>
+
+        <div class="down_box">
+            <select name="PSStat">
+                <option selected="selected" value="">选择开票状态</option>
+                <option value="y">已开票</option>
+                <option value="n">未开票</option>
+            </select>
+        </div>
+
+        <div class="down_box">
+            <select name="Source">
+                <option value="">选择上报状态</option>
+                <option value="0">未上报</option>
+                <option value="1">已上报</option>
+                <option value="2">上报失败</option>
+            </select>
+        </div>
+
+        <label>收案日期：</label>
+        <div class="input-group">
+            <input id="STime" name="STime" class="form-control" type="text" lay-key="1">
+        </div>
+
+        <div class="input-group">
+            <input id="ETime" name="ETime" class="form-control" type="text" lay-key="2">
+        </div>
+
+        <input type="button" value="检索" class="btn_solid" style="margin-left: 10px;">
+
+
+        <button class="btn_hollow" onclick="ReportDataAuto()" type="button">批量上报数据</button>
+        <button class="btn_hollow" onclick="ReportDataManual()" type="button">手动已上报</button>
+
+    </div>    
+</form>
+<div id="datas">
+
+
+<style>
+    .btn_hollow {
+        margin-left: 25px;
+    }
+</style>
+
+
+
+<table class="table white table-hover table-fixed-head fixed" data-table-fixed-head-trigger="150" data-table-fixed-head-top="0" id="table" style="text-align: center;">
+      
+</table>
+<div style="display: none">
+    <label>数据上报结果:</label>
+    <textarea rows="10" cols="120" style="width: 100%" id="ResultMsg"></textarea>
+</div>
+<script>
+    //全选
+    function SelectAll(obj) {
+        var arr = $('input[name=WUid]');
+        if (obj.checked) {
+            for (var i = 0; i < arr.length; i++) {
+                if (!arr[i].checked)
+                    arr[i].click();
+            }
+        }
+        else {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].checked)
+                    arr[i].click();
+            }
+        }
+    }
+    
+    $(function(){
+    	$("#table").bootstrapTable({
+			url:"datareport",	
+			dataType:"json",
+			method:"get",
+			pagination:true, //开启分页
+			pageNumber:1,  //默认显示第几页
+			pageSize:5,    //每页几条数据
+			pageList:[1,2,3,4,5,6,7,8,9,10],
+			sidePagination:"server", //client 前台分页，server后台分页 
+			queryParams:function(params){
+					return {
+						offset:params.offset,
+						limit: params.limit,
+						casePropernum:$("#caseid").val(),
+						caseApproveStatus:$("#IsOver").val(),
+						caseTypeId: $("#SubCols").val(),
+						StartcaseSubtime:$("#stime").val(),
+						EndcaseSubtime:$("#etime").val()
+					}
+				},
+			columns:[{
+				title:"案号",
+				halign: "center",
+				field:"case_propernum"
+				},{
+					title:"诉讼标的",
+					halign:"center",
+					field:"case_lawsuitobj"
+				},{
+					title:"案由",
+					halign:"center",
+					field:"case_cause"
+				},{
+					title:"委托人",
+					halign:"center",
+					field:"case_parties"
+				},{
+					title:"承办律师",
+					halign:"center",
+					field:"emp_name"
+				},{
+					title:"收案时间",
+					halign:"center",
+					field:"case_subtime"
+				},{
+					title:"结案",
+					halign:"center",
+					formatter:function(value,row,index){
+						console.log(row)
+						if(row.settle_status=="N"){
+							return "未结案"
+						}else if(row.settle_status=="Y"){
+							return "已结案"
+						}
+					}
+				},{
+					title:"代理费",
+					halign:"center",
+					field:"case_agencyfee"
+				},{
+					title:"案件类型",
+					halign: "center",
+					field:"case_type_name"
+				},{
+					title:"上报状态",
+					halign: "center",
+					field:""
+				},{
+					title:"开票状态",
+					halign: "center",
+					field:""
+
+				}
+				]
+		})
+    })
+
+</script>
+
+</div>
+
+
+<script>
+    laydate.render({
+        elem: '#STime' //指定元素
+   , calendar: true
+   , type: 'date'
+    });
+
+    laydate.render({
+        elem: '#ETime' //指定元素
+       , calendar: true
+       , type: 'date'
+    });
+</script>
+
+
+    </section>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<base href="../../lawfirms" />
+<head>
+<meta charset="UTF-8">
+<title>收结案统计</title>
+<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+
+<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+	#showShouJieAn tr td{
+		font-size: 11.5px;
+		font-weight: bold;
+	}
+	#auto_div {
+		display: none;
+		width: 250px;
+		border: 1px #74c0f9 solid;
+		border-radius: 0px 0px 5px 5px;
+		background: #FFFFFF;
+		position: absolute;
+		top: 35px;
+		left: 80px;
+		color: #323232;
+		z-index: 1000;
+	}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+				<ol class="breadcrumb">
+					<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+					<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+					<span class="glyphicon glyphicon-menu-left" ></span>
+				</button>
+					<li class="breadcrumb-li-one">
+						<a>统计</a>
+					</li>
+					<li>
+						<a>收结案统计</a>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row" id="monthly" style="margin-top: 10px;">
+			<div class="col-lg-12 col-sm-12 col-md-12">
+				<div class="form-inline">
+					<div class="form-group">
+						<label>
+							<span>执业人员:</span>
+					    </label>
+						<input id="properId" type="hidden" name="properId">
+						<input id="properUp" type="hidden">
+						<input class="form-control" id="proper" oninput="selNames($(this).val());">
+						<div id="auto_div">
+						</div>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="cType">
+							<option value>案件类型</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="ssjd">
+							<option value>诉讼阶段</option>
+							<option value="立案">立案</option>
+							<option value="一审">一审</option>
+							<option value="二审">二审</option>
+							<option value="执行">执行</option>
+							<option value="再审">再审</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="jaStatus">
+							<option value>结案状态</option>
+							<option value="Y">已结案</option>
+							<option value="N">未结案</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="dagd">
+							<option value>档案归档</option>
+							<option value="Y">已归档</option>
+							<option value="N">未归档</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 12px;">
+				<div class="form-inline">
+					<div class="form-group">
+						<select class="form-control" id="sffs">
+							<option value>收费方式</option>
+							<option value="免费">免费</option>
+							<option value="计件收费">计件收费</option>
+							<option value="计时收费">计时收费</option>
+							<option value="按标的额比例费收费">按标的额比例费收费</option>
+							<option value="风险代理收费">风险代理收费</option>
+							<option value="标的+风险代理">标的+风险代理</option>
+							<option value="固定+风险代理">固定+风险代理</option>
+						</select>
+					</div>
+					<label>
+						<span>收案时间:</span>
+				    </label>
+				    <div class="form-group">
+						<input class="form-control times" id="startTime" type="text">
+					</div>
+					<div class="form-group">
+						<input class="form-control times" id="endTime" type="text">
+					</div>
+					<div class="form-group" style="margin-left: 13px;">
+						<button type="button" class="btn btn-success" onclick="search();">搜索</button>
+					</div>
+					<div class="form-group">
+						<button type="button" class="btn btn-default" onclick="exprotUp();">导出</button>
+						<form name="dwon" action="statistics/shoujiean/export" method="post" style="display: none;">
+							<input type="hidden" name="properId" />
+							<input type="hidden" name="cType" />
+							<input type="hidden" name="ssjd" />
+							<input type="hidden" name="jaStatus" />
+							<input type="hidden" name="sffs" />
+							<input type="hidden" name="startTime" />
+							<input type="hidden" name="endTime" />
+							<input type="hidden" name="dagd" />
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="monthly" style="margin-top: 10px;">
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 12px;">
+				<h3 style="text-align: center; font-weight: bold;">律师事务所 （合计：<sapn id="heji">0</sapn>个）</h3>
+			</div>
+			<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 12px;">
+				<table id="showShouJieAn" class="table table-hover table-striped">
+				</table>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="static/financeJs/shouJieAnStatistics.js"></script>
+	<script type="text/javascript" src="static/financeJs/setNameSjaStatistics.js"></script>
+	<script type="text/javascript">
+		function exprotUp(){
+			var dwonFrm = document.dwon;
+			$("input[name='properId']").val($("#properId").val());
+			$("input[name='cType']").val($("#cType").val());
+			$("input[name='ssjd']").val($("#ssjd").val());
+			$("input[name='jaStatus']").val($("#jaStatus").val());
+			$("input[name='sffs']").val($("#sffs").val());
+			$("input[name='startTime']").val($("#startTime").val());
+			$("input[name='endTime']").val($("#endTime").val());
+			$("input[name='dagd']").val($("#dagd").val());
+			dwonFrm.submit();
+		}
+	</script>
+</body>
+</html>

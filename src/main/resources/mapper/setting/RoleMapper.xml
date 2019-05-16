@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.lawfirm.mapper.role.RoleMapper">
+	<select id="selRoleAll" resultType="Role" parameterType="java.util.Map">
+		select * from system_role
+		<where>
+			<if test="title != null and title != ''">
+				and system_role.rname like #{title}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="upd_role_permission_by_id" parameterType="list">
+		<foreach collection="list" item="item" index="index" separator=";">
+			insert into system_role_permission
+			(id,role_id,permission_id)
+			values
+				(
+					null,
+					#{item.roleId},
+					#{item.permissionId}
+				)
+		</foreach>
+	</insert>
+</mapper>

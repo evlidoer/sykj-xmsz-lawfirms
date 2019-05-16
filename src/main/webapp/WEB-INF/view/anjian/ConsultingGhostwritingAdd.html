@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css"
+	href="static/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+<script src="static/js/jquery.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript"
+	charset="utf-8"></script>
+	
+	
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/CityList.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/jquery.form.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/MouseOpen.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/WebSiteJs.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/jquery.validate.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/jquery.validate.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/messages_zh.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/echarts.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/parts.js" type="text/javascript" charset="utf-8"></script>
+
+
+    
+</head>
+<body id="content">
+    <section>
+        
+
+<style>
+    .down_box2, .down_box2 select {
+        width: 200px !important;
+        display: inline-block !important;
+    }
+</style>
+<script>
+    $(function () {
+        $("#form").validate({
+            errorPlacement: function (error, element) {
+                element.parent().find("label").after(error);
+            }
+        });
+    });
+
+    $("#form").ajaxForm({
+        beforeSubmit: function () {
+
+            if ($("#log_service_time").val() == "") {
+                layer.msg("请选择服务时间", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+
+            if ($("#log_service_count").val() == "") {
+                layer.msg("提供服务人次", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+
+            if ($("#log_service_price").val() == "") {
+                layer.msg("请填写服务费用", function () {
+                    //关闭后的操作
+                });
+                return false;
+            }
+          
+        },
+        success: function (data) {
+           
+           if(data=="true"){
+        	   window.location.href = "ConsultingGhostwriting";
+           }else{
+        	   alert("添加失败")
+           }
+           
+  
+        }
+    });
+
+    
+
+
+</script>
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+
+    <li><a href="javascript:void(0)" draggable="false">案件</a></li>
+    <li><a class="active" draggable="false">咨询与代书</a></li>
+</ol>
+
+<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$(function(){
+		$(function(){
+		var caseCaseTypeId = $.cookie('caseCaseTypeId')
+		 $('#caseCaseTypeId').val(caseCaseTypeId)
+		})
+	})
+</script>
+<form action="ConsultingGhostwritingFormAdd" class="" id="form" method="post"> 
+	<input type="hidden" id="caseCaseTypeId" name="caseCaseTypeId"/>
+    <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">基本信息</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>服务时间：</label>
+                    <input type="text" name="logservicetime" id="log_service_time" value=""  readonly="true"
+                           class="form-control required" title="请选择服务时间" />
+                </div>
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>服务费用：</label>
+                    <input type="text" name="logserviceprice" id="log_service_price" value="" onblur="SetInputDouble(this,2);"  class="form-control required"  title="请填写服务费用"/>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <label for=""><em>*</em>提供服务人次：</label>
+                    <input type="text" name="logservicecount" id="log_service_count" value=""  class="form-control required" title="请填写提供服务人次"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                	<select name="logconsultservicetype" id="log_consult_service_type_id">
+						<option value="">请选择服务类型：</option>
+						<option value="口头法律咨询(人   次)">口头法律咨询(人   次)</option>
+						<option value="书面法律咨询(人   次)">书面法律咨询(人   次)</option>
+						<option value="代写法律文书(件)">代写法律文书(件)</option>
+					</select>
+                 </div>
+            </div>
+         	<div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">其他选填</label>
+                    <span class="input_display">展开</span>
+                </div>
+            </div>
+            
+            <div class="input3_other" style="display: block;">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                          		  第三人：
+                        </label>
+                        <input type="text" name="caseThirdParty" id="DiSanRen" value="" class="form-control" maxlength="50">
+                    </div>
+
+                    <div class="col-xs-6">
+                            <label for=""><em>*</em>当事人： </label>
+                        <input type="text" name="caseParties" id="LxRen" value="" class="form-control required" title="请填写当事人">
+                    </div>
+                </div>
+
+     <!--            <div class="row">
+                    <div class="col-xs-6">
+                        <label for="">
+                            相关文件： 
+                        </label>
+                       <input type="button" class="but_85" id="btnupload" value="上传文件" onclick="UpFile();"> 
+                    </div>
+                </div> -->
+
+               <div class="row" style="display:none" id="FileULDIV">
+                    <div class="col-xs-12">
+                        <ul style="float: left" id="FileUL">
+                        </ul>
+                    </div>
+                </div> 
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label for="">备注：</label>
+                        <textarea id="Des" name="caseRemarks" class="form-control" rows="3" cols="90"></textarea>
+                    </div>
+                </div>
+            </div>
+ 
+            
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid">确定提交</button>
+                    <!-- <button class="btn_hollow">开始检索</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    laydate.render({
+        elem: '#log_service_time' //指定元素
+   , calendar: true
+   , type: 'date'
+    });
+
+</script>
+
+    </section>
+    
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>addNotice</title>
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_blue.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<script src="static/layui/layui.js"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.layui-upload-drag .layui-icon {
+				font-size: 30px;
+				color: #009688;
+				padding-top: -15px;
+			}
+		</style>
+	</head>
+
+	<body id="content" style="padding-top: 41px;">
+		<section>
+			
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading" style="display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<header class="fixed_top">
+				<!-- 浏览路径线 -->
+				<ol class="breadcrumb" style="margin-bottom: 0px;">
+					<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+					<a href="javascript:;history.go(-1)" class="btn btn-default" draggable="false">
+						<img src="static/img/back.png" draggable="false">
+					</a>
+					<li>公告通知</li>
+					<li class="active">编辑</li>
+				</ol>
+			</header>
+
+			<!-- 表单类组件外部盒子 -->
+			<form enctype="multipart/form-data" class="shell todown" id="form" method="post">
+				<input type="hidden" name="id" id="id">
+				<div class="grid_input_shell">
+					<div class="container">
+						<div class="row row_title">
+							<div class="col-xs-12">
+								<label class="text_border">基本信息</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<label><em>*</em>标题：</label>
+								<input type="text" id="title" name="title" class="form-control 
+								required" maxlength="40" title="请填写标题" style="width: 300px;">
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-xs-12">
+								<label><em>*</em>发布时间：</label>
+								<input style="width: 300px" type="text" class="form-control Wdate" id="noticeReleasetime" name="noticeReleasetime" aria-describedby="basic-addon1">
+							</div>
+							
+							<div class="col-xs-12">
+								<label><em>*</em>开始时间：</label>
+								<input style="width: 300px" type="text" class="form-control Wdate" id="noticeNotificationtime" name="noticeNotificationtime" aria-describedby="basic-addon1">
+							</div>
+							
+							<div class="col-xs-12">
+								<label><em>*</em>结束时间：</label>
+								<input style="width: 300px" type="text" class="form-control Wdate" id="noticeNotificationendtime" name="noticeNotificationendtime" aria-describedby="basic-addon1">
+							</div>
+						</div>
+						<script type="text/javascript">
+							layui.use('laydate', function() {
+								var laydate = layui.laydate;
+								//执行一个laydate实例
+								laydate.render({
+									elem: '#noticeReleasetime',
+									trigger: 'click' //指定元素
+								});
+								laydate.render({
+									elem: '#noticeNotificationtime',
+									trigger: 'click' //指定元素
+								});
+								laydate.render({
+									elem: '#noticeNotificationendtime',
+									trigger: 'click' //指定元素
+								});
+							});
+						</script>
+
+						<div class="row">
+							<div class="col-xs-12">
+								<label><em>*</em>相关文件：</label>
+							</div>
+						</div>
+						<div title="请填选择文件" class="layui-upload-drag" id="fileUpdate-button" style="width: 200px;height: 35px;margin-left: 31px;">
+							<i class="layui-icon"></i>
+							<p id="fileName">点击上传，或将文件拖拽到此处</p>
+						</div>
+						<input type="hidden" name="noticeAccessoryurl" id="noticeAccessoryurl" />
+						<input type="file" name="file" id="file" style="display: none" />
+						<script type="text/javascript">
+							//获取文件名方式二 
+							function getFileName(file) { //通过第二种方式获取文件名
+								var arr = file.split('\\'); //通过\分隔字符串，成字符串数组
+								return arr[arr.length - 1]; //取最后一个，就是文件名
+							}
+							//上传文件处理
+							var fileUpdate_button = document.getElementById("fileUpdate-button");
+							var fileUpdate_input = document.getElementById("file");
+							fileUpdate_button.onclick = function() {
+								fileUpdate_input.click();
+							}
+							$("#file").on("change", function() {
+								var urlName = $("#file").val();
+								$("#fileName").text(getFileName(urlName));
+								$("#noticeAccessoryurl").val(getFileName(urlName));
+							})
+						</script>
+						<div class="row">
+							<div class="col-xs-12">
+								<label><em>*</em>相关描述：</label>
+							</div>
+						</div>
+						<textarea id="notice_desc" name="noticeDesc" required lay-verify="required" placeholder="请输入" class="layui-textarea" style="width: 500px;height: 35px;margin-left: 31px;">
+						</textarea>
+
+						<div class="row">
+							<div class="col-xs-12">
+								<input type="button" id="save" class="btn_solid" value="确定提交">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</section>
+	</body>
+	<script type="text/javascript">
+		Date.prototype.Format = function(fmt) { //author: meizz 
+			var o = {
+				"M+": this.getMonth() + 1, //月份 
+				"d+": this.getDate(), //日 
+				"h+": this.getHours(), //小时 
+				"m+": this.getMinutes(), //分 
+				"s+": this.getSeconds(), //秒 
+				"q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+				"S": this.getMilliseconds() //毫秒 
+			};
+			if(/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+			for(var k in o)
+				if(new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+		}
+		$(function() {
+			$("#save").on("click", function() {
+				var myform = new FormData();
+				myform.append("noticeReleasetime", $("#noticeReleasetime").val())
+				myform.append("noticeNotificationtime", $("#noticeNotificationtime").val())
+				myform.append("noticeNotificationendtime", $("#noticeNotificationendtime").val())
+				myform.append("title", $("#title").val())
+				myform.append("noticeDesc", $("#notice_desc").val())
+				myform.append("noticeAccessoryurl", $("#fileName").text());
+				// ------------------------以上是bean ,下边是文件---------------------------
+				myform.append("file", $("#file")[0].files[0])
+				/*
+				 * 发请求,添加数据
+				 */
+				$.ajax({
+					type: "post",
+					url: "administration/AddNotice",
+					type: "post",
+					dataType: "json",
+					contentType: false, //禁止设置请求类型
+					data: myform,
+					processData: false, //禁止jquery对Data数据的处理,默认会处理,禁止的原因是,FormData已经帮我们做了处理
+					success: function(data) {
+						if(data == true) {
+							window.history.go(-1);
+						} else {
+							layui.msg("服务器出现错误!", {
+								icon: 5,
+								time: 1000
+							});
+						}
+					}
+				});
+				
+			});
+		})
+	</script>
+
+</html>

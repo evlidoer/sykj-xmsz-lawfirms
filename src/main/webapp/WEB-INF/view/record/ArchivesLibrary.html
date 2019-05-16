@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<!--档案借阅-->
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化">
+		<meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=9">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<!-- <link rel="stylesheet" type="text/css" href="static/css/main_navyblue.css" /> -->
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="static/js/bootstrap.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.all.js"></script>
+		<style type="text/css">
+			.bootstrap-table .table:not(.table-condensed), .bootstrap-table .table:not(.table-condensed) > tbody > tr > th, .bootstrap-table .table:not(.table-condensed) > tfoot > tr > th, .bootstrap-table .table:not(.table-condensed) > thead > tr > td, .bootstrap-table .table:not(.table-condensed) > tbody > tr > td, .bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
+			    padding: 4px;
+			    line-height: 35px;
+				}
+			svg:not(:root) {
+			    overflow: hidden;
+			    font-size: 25px;
+			}
+			
+			.fixed-table-container input[type="checkbox"] {
+    margin: 0 12px !important;
+}
+		</style>
+		<script type="text/javascript">
+			//转换日期格式(时间戳转换为datetime格式)
+			function changeDateFormat(cellval) {
+				var dateVal = cellval + "";
+				if(cellval != null) {
+					var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+					var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+					var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+					var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+					var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+					var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+					return date.getFullYear() + "-" + month + "-" + currentDate;
+				}
+			}
+			function refresh() {
+				$("#RecordArchiveslibrary").bootstrapTable("refresh");
+			}
+		function	WH(row){
+			layer.confirm('确定将案号为<span style= "color:red;"> '+row.law.casePropernum+' </span>设为未归档吗?', {
+				  btn: ['确定', '取消']
+				}, function(index, layero){
+					$.ajax({
+						type:"get",
+						url:"RecordArchiveslibrary/n/"+row.id,
+						dataType:"json",
+						success:function(data){
+							if (data == true){
+								refresh();
+							}else{
+								layer.msg("文件归档失败!", {
+									icon: 2,
+									time: 1200
+								});
+							}
+						}
+					});
+				  layer.close(index);
+				}, function(index){
+				});	
+			}
+		function	YH(row){
+				layer.confirm('确定将案号为<span style= "color:red;"> '+row.law.casePropernum+' </span>设为已归档吗?', {
+				  btn: ['确定', '取消']
+				}, function(index, layero){
+					$.ajax({
+						type:"get",
+						url:"RecordArchiveslibrary/y/"+row.id,
+						dataType:"json",
+						success:function(data){
+							if (data == true){
+								refresh();
+							}else{
+								layer.msg("文件归档失败!", {
+									icon: 2,
+									time: 1200
+								});
+							}
+						}
+					});
+				  layer.close(index);
+				}, function(index){
+				});
+			}
+			$(function() {
+				$(document).on("click","#pdel",function(){
+					if($(".selected").length == 0){
+						layer.msg("请选择需要执行操作的数据", {
+							icon: 2,
+							time: 1200
+						});
+						return;
+					}else{
+						var arr = new Array();
+						var list = new Array();
+						arr = $($(".selected > td >input"));
+						for(let i = 0;i<arr.length;i++){
+							console.log($(arr[i]).attr("id"));
+							list[i] = parseInt($(arr[i]).attr("id"));
+						}
+						layer.confirm('确定删除选中数据吗？', {
+							  btn: ['确定', '取消']
+							}, function(index, layero){
+								$.ajax({
+									type:"get",
+									url:"RecordArchiveslibrary/delByArr/"+JSON.stringify(list),
+									dataType:"json",
+									success:function(data){
+										if (data == true){
+											refresh();
+										}else{
+											layer.msg("文件未归档,删除失败!", {
+												icon: 2,
+												time: 1200
+											});
+										}
+									}
+								});
+							  layer.close(index);
+							}, function(index){
+							  //按钮【按钮二】的回调
+							});
+					}
+				});
+				$(document).on("click", ".MyBtu1", function() {
+					$(this).css("display", "none")
+					$(this).next().css("display", "block");
+				})
+				$(document).on("click", ".MyBtu2", function() {
+					$(this).parent().css("display", "none")
+					$(this).parent().parent().children(".MyBtu1").css("display", "inline-block");
+				})
+				$("#ref").on("click", function() {
+					refresh();
+				})
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+				var i = 0;
+				var myleft = 86;
+				var mytop = 188;
+				$("#RecordArchiveslibrary").bootstrapTable({
+					method: "get",
+					url: "RecordArchiveslibrary/sel", //?timer=" + new Date().getTime()
+					dataType: "json",
+					cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 3, //每页几条数据
+					pageList: [3, 6, 10],
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					/**
+					 * 参数传递
+					 * @param {Object} params
+					 */
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							title: $("#title").val(),
+							SearchType: $("#SearchType").val(),
+							Returnstatus: $("#GStat").val(),
+							Sort: $("#Sort").val()
+						}
+					},
+					columns: [{
+						title: "选择",
+						formatter: function(value, row, index) {
+							return '<input data-index="1" name="btSelectItem" id = "'+row.id+'" type="checkbox">'
+						}
+					}, {
+						title: "案号",
+							formatter: function(value, row, index, field) {
+								var opAdd = '<a href = "javaScript:sel('+row.law.id+')" draggable="false" >' + row.law.casePropernum + '</a>';
+								return opAdd;
+							}
+					}, {
+						title: "档案号",
+						field: "law.caseFilenumber"
+					}, {
+						title: "档案名称",
+						field: "record.recordFile.fileName"
+					}, {
+						title: "借档人",
+						formatter: function(value, row, index) {
+							return row.emp.empName; + "("+row.user.userName+")"
+						}
+					}, {
+						title: "借出时间",
+						formatter: function(value, row, index) {
+							return row.archiveslibraryBorrowdate+""
+						}
+					}, {
+						title: "备注",
+						field: "archiveslibraryRemark"
+					}, {
+						title: "归还时间",
+						formatter: function(value, row, index) {
+							return row.archiveslibraryReturndate
+						}
+					}, {
+						title: "归档状态",
+						formatter: function(value, row, index, field) {
+							if(row.archiveslibraryReturnStatus == "Y") {
+								return '<span style = "color :GREEN;font-weight: 900;"><svg class="icon" style="width: 1.3671875em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1400 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="585"><path d="M1357.379123 228.538908L602.358419 982.625346a133.466626 133.466626 0 0 1-188.72181 0L36.059524 604.914794A133.466626 133.466626 0 0 1 224.9148 416.726851l283.082714 282.949247L1168.657314 39.016299a133.733559 133.733559 0 0 1 188.721809 189.522609z" p-id="586"></path></svg></span>';
+							} else {
+								return ""
+							//	return '<span class = ""fa style = "color :red;font-weight: 900;"><svg class="icon" style="width: 1.0087890625em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1033 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1262"><path d="M635.892666 512.097727l362.985248-359.262323a93.073141 93.073141 0 0 0 0-125.64874 82.835095 82.835095 0 0 0-120.064351 0l-372.292562 365.777443L144.466484 24.39447A82.835095 82.835095 0 0 0 24.402132 27.186664a93.073141 93.073141 0 0 0 0 125.64874L390.179575 512.097727 27.194327 871.360049a93.073141 93.073141 0 0 0 0 125.64874 84.696558 84.696558 0 0 0 58.636078 26.991211 82.835095 82.835095 0 0 0 58.636079-24.199017l372.292562-365.777442 372.292562 365.777442a82.835095 82.835095 0 0 0 58.636079 24.199017 84.696558 84.696558 0 0 0 61.428273-26.991211 93.073141 93.073141 0 0 0 0-125.64874z" fill="#FF6868" p-id="1263"></path></svg></span>';
+							}
+						}
+					}, {
+						title: "操作",
+						formatter: function(value, row, index) {
+						if (i + 1 === index){
+							mytop += 42
+							i++;
+						}
+						if(row.archiveslibraryReturnStatus == "Y") {
+								return "<a href='javaScript:WH("+JSON.stringify(row)+")'>设为未归档</a>";
+						}else{
+							return "<a href='javaScript:YH("+JSON.stringify(row)+")'>设为已归档</a>";
+						}
+//						return '<div  class="btn_hollow case_set facaidan btn_solid" data-value="1695">菜单</div>' +
+//							'<ul class="small_menu" style="display:none;left: auto; right: '+myleft+'px; top: '+mytop+'px;">' +
+//							' <li></li>' +
+//							'<li></li>' +
+//							'</ul>';
+					}
+					}]
+					//height: $(window).height() - 150//自定义表格的高度
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+					$(document).on("click", ".facaidan", function() {
+				$(this).text("收起")
+				//alert($(this).next().css("display"))
+				if($(this).next().css("display") == "none") {
+					$(this).next().css("display", "inline-block")
+				} else {
+					$(this).text("菜单")
+					$(this).next().css("display", "none")
+				}
+			});
+			}); //
+			function sel(id){
+		     	$.cookie("gotocognizance_id",id, {
+					expires: 30,
+					path: '/lawfirms'
+				});
+		     	window.location.href="gocognizance"
+		     }
+		</script>
+		<style type="text/css">
+			/* a {
+				text-decoration:none;
+			} */
+		</style>
+	</head>
+
+	<body id="content">
+		<section>
+			
+			<!-- 页面加载动画 
+			<div class="load1" id="loading">
+    			<div class="loader">Loading...</div>
+			</div>-->
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">档案管理</a>
+				</li>
+				<li>
+					<a class="active">借档</a>
+				</li>
+			</ol>
+
+			<div class="container-fluid page_find" id="searchForm">
+				<div class="input-group">
+					<input type="text" name="title" id="title" class="form-control">
+				</div>
+				<div class="down_box">
+					<select id="SearchType" name="SearchType">
+						<option value="1">借档人搜索</option>
+						<option value="2">案号搜索</option>
+						<option value="3">档案号检索</option>
+						<option value="4">档案名称检索</option>
+					</select>
+				</div>
+				<div class="down_box">
+					<select id="GStat" name="GStat" class="selct_1">
+						<option value="">归还状态</option>
+						<option value="N">待归还</option>
+						<option value="Y">已归还</option>
+					</select>
+				</div>
+				<div class="down_box">
+					<select id="Sort" name="Sort" class="selct_1">
+						<option value="">自定义排序</option>
+						<option value="1">借阅时间从高到低</option>
+						<option value="2">借阅时间从低到高</option>
+						<option value="3">归还时间从高到低</option>
+						<option value="4">归还时间从低到高</option>
+					</select>
+				</div>
+				<input id = "ref" type="button" value="检索" class="btn_solid">
+				<a class="btn_hollow" title = "go添加" href="goto/record/addGuidang" style="margin-left: 80px;><button class="layui-btn layui-btn"><i class="layui-icon"></i> 添加</button></a>
+				<a class="btn_hollow" title = "批量删除"  style="color: darkred;" id="pdel">
+					<i class="layui-icon"></i> 批量删除
+				</a>
+			</div>
+
+			<!-- <form class="layui-form" id = "layuiForm"> -->
+				<div id="datas">
+					<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="RecordArchiveslibrary">
+					</table>
+				</div>
+			<!-- </form> -->
+			
+		</section>
+
+	</body>
+</html>

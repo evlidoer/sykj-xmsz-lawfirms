@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>咨询与代书</title>
+    <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+<script src="static/js/jquery.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript"
+	charset="utf-8"></script>
+	
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/CityList.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/jquery.form.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/MouseOpen.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/WebSiteJs.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/jquery.validate.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/jquery.validate.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/messages_zh.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/echarts.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/parts.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+
+<style>
+	.small_menu {
+	    display: none;
+	    position: fixed;
+	    z-index: 300;
+	    top: 100px;
+	    left: 800px;
+	    min-width: 180px;
+	    background-color: #fff;
+	    border: 1px solid #d9d9d9;
+	    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+	    padding: 6px 0;
+	    border-radius: 4px;
+	}
+</style>
+
+<script type="text/javascript">
+$(function () {
+    	$("#table").bootstrapTable({
+			method:'post',
+			dataType:'json',
+			contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:'ConsultingGhostwritingShow',
+			pagination:true,//显示分页
+			pageSize:8,//每页数据数
+			pageList:[3,5,8],//设置页面可显示的数据条数
+			pageNumber:1,//首页页码
+			sidePagination:'server',//设置为服务器端分页
+			//sidePagination: 'client',
+			 queryParams:function(params){//向后台传值
+				return{
+					offset:params.offset,
+					limit:params.limit,
+					casePropernum:$("#casePropernum").val(),
+				 }
+			}, 
+			columns:[{
+				align: 'center', // 左右居中
+				title:'案号',
+				width:'169px',
+				field: 'case_propernum'
+			},{
+				align: 'center', // 左右居中
+				title:'服务时间',
+				formatter:function(value,row,index){
+					if(row.log_service_time!=null)return new Date(row.log_service_time).format("yyyy-MM-dd")
+					else return null
+				}
+			},{
+				align: 'center', // 左右居中
+				title:'服务类型',
+				field: 'log_consult_service_type'
+			},{
+				align: 'center', // 左右居中
+				title:'服务人次',
+				field: 'log_service_count'
+			},{
+				align: 'center', // 左右居中
+				title:'服务费用',
+				field: 'log_service_price'
+			},{
+				align: 'center', // 左右居中
+				title:'操作',
+				formatter:function(value,row,index){
+					var a = '<div class="btn_hollow case_set" data-value="20190100731"><a href="javascript:detailsXXXX('+row.case_law_id+');">查看</a></div>'
+					/* var a= '<div class="btn_hollow case_set" data-value="20190100731">操作</div>';
+					 a+='<ul class="small_menu" id="set_20190100731" style="left: auto; right: 80px; top: 250px; display: none;">';
+				     a+=    "<li><a href='javascript:detailsXXXX("+row.case_law_id+");'>查看</a></li>";
+				     a+= 	"<li><a href='javascript:WholeCaseCZ2("+JSON.stringify(row)+")' draggable='false'>申请发票</a></li>";
+				     a+='</ul>'; */
+				    return a;
+				}
+			}]
+		})
+					 
+		
+		//点击操作显示
+    	//点击操作显示
+    	$("table").on("click",".case_set",function(){
+    		var a = $(this).siblings().css("display");
+    		if(a == "none"){
+    			$(this).siblings().css("display","block")
+    		}
+    	})
+    	//操作 移除消失
+    	$("table").on("mouseleave","ul",function(){
+    		var a = $(this).css("display");
+    		if(a == "block"){
+    			$(this).css("display","none")
+    		}
+    	})
+		
+    		//查询(刷新表格)
+			$("#btn").on("click",function(e){
+				$("#table").bootstrapTable('refresh');//刷新
+			});
+    	
+    });
+    	
+    
+			//发票申请
+			function WholeCaseCZ2(row) {
+				$.cookie("id",row.id);
+				$.cookie("case_propernum",row.case_propernum);
+				$.cookie("case_agencyfee",row.case_agencyfee);
+				$.cookie("case_paidsal",row.case_paidsal);
+				$.cookie("caseInvoiced",row.caseInvoiced);
+				$.cookie("client",row.client);		//客户
+				window.location.href='WholeCaseCZ2';
+			} 
+		//查看
+		function detailsXXXX(case_law_id){
+			 $.cookie("gotocognizance_id",case_law_id)
+			 window.location.href="detailsXXXX";
+		}   
+   
+	
+
+Date.prototype.format = function(fmt) { 
+     var o = { 
+        "M+" : this.getMonth()+1,                 //月份 
+        "d+" : this.getDate(),                    //日 
+        "h+" : this.getHours(),                   //小时 
+        "m+" : this.getMinutes(),                 //分 
+        "s+" : this.getSeconds(),                 //秒 
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+        "S"  : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return fmt; 
+}   
+
+
+</script>
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default">
+        <img src="static/img/back.png" />
+    </a>
+
+    <li><a href="javascript:void(0)">案件</a></li>
+    <li><a class="active">咨询与代书</a></li>
+</ol>
+
+<form  class="container-fluid page_find" id="searchForm" >   
+ <div class="input-group">
+        案号:<input type="text" class="form-control" id="casePropernum" name="casePropernum"  >
+    </div>
+    <input type="button" id="btn" value="检索" class="btn_solid" />
+    <a href="ConsultingGhostwritingAdd" class="btn_hollow" style="margin-left: 80px;" id="GGAdd">添加</a>
+</form>
+
+
+<div id="datas">
+
+<table class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0" id="table">
+</table>
+
+
+
+
+</div>
+
+
+
+    </section>
+
+</body>
+</html>

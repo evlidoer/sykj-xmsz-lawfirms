@@ -1,0 +1,100 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>湖北巨天律师事务所</title>
+    <meta name="keywords" content="律师软件,律师事务所管理软件,律师办案管理系统,律师事务所管理系统,律师业务管理软件,律师案件管理软件,律所信息化" />
+    <meta name="description" content="e律师——以技术优势提升中国律所整体运营管理能力！" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css?v=68673868678">
+    <link id="main_link" rel="stylesheet" type="text/css" href="../css/parts2.css?v=201381130">
+
+    <!--<link id="main_link2" rel="stylesheet" type="text/css" href="../css/main_green.css?v=123121231312">-->
+  
+
+    <!-- 使ie9及以下兼容媒体查询和html5标签 -->
+    <!--[if lte IE 9]>
+    　  <script src="../js/html5shiv.min.js"></script>
+        <script src="../js/respond.js"></script>
+    <![endif]-->
+
+    <!-- 兼容ie9 -->
+    <!--[if IE 9]>
+        <link rel="stylesheet" type="text/css" href="../css/ie9.css">
+    <![endif]-->
+
+    <!-- 兼容ie8 -->
+    <!--[if lte IE 8]>
+		<link rel="stylesheet" type="text/css" href="../css/ie8down.css">
+	<![endif]-->
+
+
+
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+
+
+<!-- 页面加载动画 -->
+<!--<div class="load1" id="loading">
+    <div class="loader">Loading...</div>
+</div>-->
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default">
+        <img src="../icon/back.png" />
+    </a>
+
+    <li><a href="javascript:void(0)">案件管理</a></li>
+    <li><a class="active">修改案件</a></li>
+</ol>
+<ul class="tab">
+        <a href="/CaseManage/CaseUp">修改案件</a>
+        <a href="/CaseManage/CaseUpNum">修改案号</a>
+        <a href="/CaseManage/CaseSetGd">设置档案归档号</a>
+        <a href="/CaseManage/CaseDel">删除案件</a>
+        <a href="/CaseManage/CaseRecycle">案件回收站</a>
+</ul>
+
+<form action="/CaseManage/AjaxCaseUp?is_ajax=ajax" class="shell todown" id="form" method="post">       <div class="grid_input_shell">
+        <div class="container">
+            <div class="row row_title">
+                <div class="col-xs-12">
+                    <label class="text_border">修改案件</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <label for=""><em>*</em>案件：</label>
+                    <input type="hidden" name="CaseIdValue" id="CaseIdValue" value="" class="form-control">
+                    <input name="CaseId" type="text" id="CaseId" value="" class="form-control required" title="请选择案件" onclick="CaseChoose()" readonly="true" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <button id="save" class="btn_solid">确定修改</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+</form> 
+
+    </section>
+    
+
+</body>
+</html>

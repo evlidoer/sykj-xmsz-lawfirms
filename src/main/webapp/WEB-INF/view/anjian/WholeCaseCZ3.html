@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+	<base href="lawfirms" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>代开发票</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/bs/docs.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/bs/patch.css" />
+	
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.form-group,
+			.btn-group {
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+<script type="text/javascript">
+	
+</script>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+					<ol class="breadcrumb">
+						<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+						<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+						<span class="glyphicon glyphicon-menu-left" ></span>
+					</button>
+						<li class="breadcrumb-li-one">
+							<a>财务</a>
+						</li>
+						<li>
+							<a>代开发票</a>
+						</li>
+					</ol>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 5px;">
+				<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+					<div class="bs-callout bs-callout-info">
+						<h6 style="font-weight: bold; font-size: 14px;">代开发票</h6>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 5px; margin-top: 50px;">
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<div class="row">
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>案件:</span>
+							    </label>
+							    <input type="text" class="form-control" placeholder="选择案件">
+							</div>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>申请人:</span>
+							    </label>
+							    <input type="text" class="form-control" placeholder="选择申请人">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-4 col-sm-4 col-md-4" style="font-weight: bold;">
+							委托人:&nbsp;&nbsp;<span>(-修改-)</span>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-md-4" style="font-weight: bold;">
+							案由:&nbsp;&nbsp;<span>(-修改-)</span>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 20px;">
+						<div class="col-lg-4 col-sm-4 col-md-4" style="font-weight: bold;">
+							代理费:&nbsp;&nbsp;<span>(-修改-)</span>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-md-4" style="font-weight: bold;">
+							已到款项:&nbsp;&nbsp;<span>(-修改-)</span>&nbsp;&nbsp;(已经收到的款)
+						</div>
+					</div>
+					<div class="row" style="margin-top: 20px;">
+						<div class="col-lg-4 col-sm-4 col-md-4" style="font-weight: bold;">
+							已开发票:&nbsp;&nbsp;<span>(-修改-)</span>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-md-4" style="font-weight: bold;">
+							办案律师:&nbsp;&nbsp;<span>(-修改-)</span>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 20px;">
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>发票抬头:</span>
+							    </label>
+							    <input type="text" class="form-control">
+							</div>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>开票金额:</span>
+							    </label>
+							    <input type="text" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>选择开票项目:</span>
+							    </label>
+							    <select class="form-control">
+									<option value="-1">开票项目</option>
+									<option value="1">法律代理费</option>
+									<option value="2">法律顾问费</option>
+									<option value="3">咨询费</option>
+									<option value="4">法务托管费</option>
+									<option value="5">非诉</option>
+									<option value="6">其他(备注中填写)</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>开具类型:</span>
+							    </label>
+							    <select class="form-control">
+									<option value="1">个人</option>
+									<option value="2">企业</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>发票类型:</span>
+							    </label>
+							    <select class="form-control">
+									<option value="1">增值税专用发票</option>
+									<option value="2">增值税普通发票</option>
+									<option value="3">普通机打发票</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>纳税人识别号:</span>
+							    </label>
+							    <input type="text" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>发票号:</span>
+							    </label>
+							    <input type="text" class="form-control">
+							</div>
+						</div>
+						<div class="col-lg-4 col-sm-4 col-md-4">
+							<div class="form-group">
+							    <label>
+							    	<span style="color: red;">*</span>
+									<span>开票日期:</span>
+							    </label>
+							    <input type="text" class="form-control">
+							</div>
+						</div>
+					</div>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-md-12"">
+					<div class="bs-callout bs-callout-info">
+						<h6 style="font-weight: bold; font-size: 14px;">
+							其他选填
+							<button type="submit" class="btn btn-default" on="off" onclick="showOptional(this);" 
+								style="border: 1px solid #33333312 ; margin-left: 10px; color: #33333394;">
+									<font>展开</font>
+									<span class="glyphicon glyphicon-resize-full"></span>
+								</button>	
+						</h6>
+					</div>
+				</div>
+			</div>
+			<div class="row" id="showOptional" style="display: none; margin-bottom: 10px;">
+				<div class="col-lg-12 col-sm-12 col-md-12"">
+					123
+				</div>
+			</div>
+			<div class="row" style="margin-bottom: 100px;">
+				<div class="col-lg-12 col-sm-12 col-md-12"">
+					<div class="form-group">
+						<input type="button" onclick="" value="确认提交" class="btn btn-success">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="static/financeJs/actingInvoice.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

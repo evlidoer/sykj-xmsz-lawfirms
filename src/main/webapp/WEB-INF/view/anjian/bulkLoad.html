@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="/lawfirms/" />
+
+    <title>律师事务所</title>
+   
+    <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css">
+    <link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+	<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css"/>
+	
+    <link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_white.css">
+    <script src="static/bootstrapvalidator/vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="static/bootstarp/js/bootstrap.js"></script>
+    <script src="static/js/CityList.js" charset="gb2312" type="text/javascript"></script>
+    <script src="static/js/jquery.form.js"></script>
+    <script src="static/js/MouseOpen.js"></script>
+    <script src="static/js/WebSiteJs.js"></script>
+    <script src="static/js/layer.js"></script>
+    <script src="static/js/jquery.validate.js"></script>
+    <script src="static/js/jquery.validate.min.js"></script>
+    <script src="static/js/messages_zh.js"></script>
+    <script src="static/layui/lay/modules/laydate.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/echarts.min.js"></script>
+    <script type="text/javascript" src="static/js/parts.js"></script>
+    
+    
+</head>
+<body id="content" style="padding-top: 41px;">
+    <section>
+        
+<div class="load1" id="loading" style="display: none;">
+    <div class="loader">Loading...</div>
+</div>
+
+<header class="fixed_top">
+    <!-- 浏览路径线 -->
+    <ol class="breadcrumb">
+        <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+        <a href="javascript:;history.go(-1)" class="btn btn-default" draggable="false">
+            <img src="static/img/back.png" draggable="false">
+        </a>
+        <li>案件管理</li>
+        <li class="active">批量导入案件</li>
+    </ol>
+</header>
+
+
+
+
+<form action="/Case/CImport" method="post" enctype="multipart/form-data">
+    <div class="grid_input_shell">
+        <div class="container">
+
+            <div class="tips" style="height: auto;">
+                <div class="tips_content" style="width: 75%">
+                    <div class="row_title">
+                        <label class="text_border">重要提示</label>
+                    </div>
+                    <p>1、请先下载模板，必须按照模板格式制作后导入；</p>
+                    <p>
+                        2、请勿将数据文件打开后导入；
+                    </p>
+                    <p>
+                        3、Excel模板中第二页为示例数据，可以参照:示例数据；
+                    </p>
+                    <p>
+                        
+                        4、<b>必填项</b>：案件编号，收案日期，案件类型，案件分类，承办律师，代理费，委托人；诉讼类案件：诉讼阶段，诉讼地位必填
+                    </p>
+                    <p>
+                        5、<b>其他说明</b>：案件类型及案件分类请参照系统中新增案件的类型及分类来填写；多个律师以逗号分隔；
+                    </p>
+
+                </div>
+
+                <div class="modal_file">
+                    <p>
+                        <a href="bulkDown" style="color: chocolate;" draggable="false">
+                            <img src="static/img/modal_file.png" width="100px" draggable="false">点击下载模板文件</a>
+                    </p>
+                </div>
+
+            </div>
+            <div class="upload">
+                <div class="row_title">
+                    <label class="text_border">导入文件</label>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span>注：请选择填写好的模板文件，并将其重新命名。</span>
+                    </div>
+
+                    <div class="col-xs-12">
+		                    
+						<div class="layui-upload">
+						  <button type="button" class="layui-btn layui-btn-normal" id="test8">选择文件</button>
+						  <button type="button" class="layui-btn" id="test9">开始上传</button>
+						</div>
+                        <!-- <input type="file" name="ImportData" onchange="CheckUpFile('.xls',this);"> -->
+                    </div>
+
+                    <!-- <div class="col-xs-12">
+                        <button type="submit" class="btn_solid" onclick="BtnImport()" id="ImportBtn">确认导入</button>
+                        <button class="btn_hollow">开始检索</button>
+                    </div> -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</form>
+<script src="static/layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('upload', function(){
+	  var $ = layui.jquery
+	  ,upload = layui.upload;
+	     //拖拽上传
+	  upload.render({
+		    elem: '#test8'
+		    ,url: 'bulkload'
+		    ,auto: false
+		    ,accept: 'file' //普通文件
+		    ,acceptMime:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.ms-excel.sheet.macroEnabled.12'//文件窗口默认显示 xlsx|xls|xlsm 的文件
+		    ,exts:'xlsx|xls|xlsm' //限制后缀名
+		    ,bindAction: '#test9'
+		    ,done: function(res){
+		    	if(res=='0'){
+		    		alert("上传成功")
+		    	}else{
+		    		alert("上传失败")
+		    	}
+		    	
+		    }
+		  });
+  })
+</script>
+
+
+    </section>
+    
+
+<script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+<script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+
+</body></html>

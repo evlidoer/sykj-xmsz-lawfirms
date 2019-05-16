@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>湖北巨天律师事务所</title>
+		<link rel="stylesheet" href="static/layui/css/layui.css" id="layuicss-layer">
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap-table.css" />
+		<link id="main_link" rel="stylesheet" type="text/css" href="static/css/parts2.css">
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<script src="static/js/jquery_1.11.3.min.js"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.js"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//执行一个laydate实例
+				laydate.render({
+					elem: '#stime' //指定元素
+				});
+				laydate.render({
+					elem: '#etime' //指定元素
+				});
+			});
+
+			function refresh() {
+				$("#Signinrecor").bootstrapTable("refresh");
+			}
+
+			function changeDateFormat(cellval) {
+				var dateVal = cellval + "";
+				if(cellval != null) {
+					var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+					var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+					var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+					var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+					var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+					var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+					return date.getFullYear() + "-" + month + "-" + currentDate;
+				}
+			}
+			$(function() {
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+				$("#ref").on("click", function() {
+					refresh();
+				})
+				$("#Signinrecor").bootstrapTable({
+					method: "get",
+					url: "complain/sel", //?timer=" + new Date().getTime()
+					dataType: "json",
+					striped: true,                      //是否显示行间隔色
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 3, //每页几条数据
+					pageList: [3, 6, 10],
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					/**
+					 * 参数传递
+					 * @param {Object} params
+					 */
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							title: $("#title").val(),
+							stime: $("#stime").val(),
+							etime: $("#etime").val(),
+						}
+					},
+					columns: [{
+						title: "建议/投诉",
+						field: "complain_content"
+					}, {
+						title: "案件",
+						formatter: function(value, row, index, field) {
+							var opAdd = '<a href = "javaScript:sel('+row.law_id+')" draggable="false" >' + row.case_propernum + '</a>';
+							return opAdd;
+						}
+					}, {
+						title: "客户名称",
+						field: "client"
+					}, {
+						title: "联系电话",
+						field: "tel"
+					}, {
+						title: " 时 间 ",
+						formatter: function(value, row, index) {
+							return changeDateFormat(row.complain_submit_time)
+						}
+					}, {
+						title: "回复次数",
+						field: "complain_reply_number"
+					}],
+					//height: $(window).height() - 150//自定义表格的高度
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+			});
+			function sel(id){
+		     	$.cookie("gotocognizance_id",id, {
+					expires: 30,
+					path: '/lawfirms'
+				});
+		     	window.location.href="gocognizance"
+		     }
+		</script>
+		<style type="text/css">
+			.select_time,
+			#BegTime,
+			#EndTime,
+			#BirthDay,
+			#Begtime,
+			#TCxrq,
+			#STime,
+			#PayTime1,
+			#LiAnDate,
+			#KaiTingDate,
+			#XuanPanDate,
+			#ShangSuDate,
+			#XjDate,
+			#DbDate,
+			#ZcBegDate,
+			#ZcEndDate,
+			#ZcBegDate1,
+			#ZcEndDate1,
+			#ZcBegDate2,
+			#ZcEndDate2,
+			#ScBegDate,
+			#ScEndDate,
+			#fDate,
+			#BillTime,
+			#ETime,
+			#stime,
+			#etime,
+			#Ptime {
+				background-repeat: no-repeat;
+				background-position: 99% center;
+				background-size: 24px 24px;
+				background-image: url(static/img/icon_input_time.png);
+			}
+		</style>
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading" style="display: none;">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+					<img src="static/img/back.png" draggable="false">
+				</a>
+
+				<li>
+					<a draggable="false">行政</a>
+				</li>
+				<li>
+					<a class="active" draggable="false">签到管理</a>
+				</li>
+			</ol>
+			<ul class="tab">
+				<a href="goto/administration/SigninrecorGL" class="tab_on" draggable="false">签到管理</a>
+				<!-- <a href="goto/administration/SigninrecorTJ" draggable="false">签到统计</a> -->
+			</ul>
+			<form action="goto/administration/SigninrecorGL" class="container-fluid page_find" id="searchForm" method="post">
+				<div class="input-group">
+					<input type="text" class="form-control" id="title" name="title" placeholder="客户名称 :" aria-describedby="basic-addon1" onkeyup="MousePiPei(this,'3');" onfocus="MousePiPei(this,'3');">
+				</div>
+				<div id="_CityList_" style="width: 200px; display: none">
+					<span style="cursor: pointer; float: right;" onclick="JavaScript:_HideList_()"></span>
+					<div class="clear"></div>
+					<div id="Div_Txt" style="width: 200px;">
+					</div>
+				</div>
+				<span>&nbsp;&nbsp;&nbsp;开始时间：</span>
+				<div class="input-group">
+					<input type="text" class="form-control" id="stime" name="stime" aria-describedby="basic-addon1" lay-key="1">
+				</div>
+				<span>&nbsp;&nbsp;&nbsp;结束时间：</span>
+				<div class="input-group">
+					<input type="text" class="form-control" id="etime" name="etime" aria-describedby="basic-addon1" lay-key="2">
+				</div>
+				<!-- <span>&nbsp;&nbsp;&nbsp;</span>
+				<div class="down_box">
+					<select id="classifyId" name="classifyId">
+						<option value="">签到类型</option>
+						<option value="上班签到">上班签到</option>
+						<option value="会议签到">会议签到</option>
+						<option value="外勤签到">外勤签到</option>
+					</select>
+				</div> -->
+				<input type="button" id="ref" class="btn_solid" value="开始检索">
+			</form>
+			<div id="datas">
+
+				<!-- 列表 -->
+				<table id="Signinrecor" class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="149.40000915527344" data-table-fixed-head-top="0">
+				</table>
+
+			</div>
+		</section>
+	</body>
+
+</html>

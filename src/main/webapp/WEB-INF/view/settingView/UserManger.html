@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>用户</title>
+		<link rel="stylesheet" type="text/css" href="static/css/parts3.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/layui/layui.all.js"></script>
+		<script type="text/javascript" src="static/js/parts.js"></script>
+
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.fixed-table-body {
+				overflow-x: visible;
+				overflow-y: visible;
+				height: 100%;
+				
+			}
+			.table>tbody>tr>td,
+				.table>tfoot>tr>td {
+					padding: 8px;
+					line-height: 2.428571 !important;
+					vertical-align: top;
+					border-top: 1px solid #ddd;
+					font-size:16px;
+				}
+		</style>
+		<script type="text/javascript">
+			function logout() {
+				// 清除所有的cookie
+				function deleteCookie() {
+					var cookies = document.cookie.split(";");
+					for(var i = 0; i < cookies.length; i++) {
+						var cookie = cookies[i];
+						var eqPos = cookie.indexOf("=");
+						var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+						document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+					}
+					if(cookies.length > 0) {
+						for(var i = 0; i < cookies.length; i++) {
+							var cookie = cookies[i];
+							var eqPos = cookie.indexOf("=");
+							var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+							var domain = location.host.substr(location.host.indexOf('.'));
+							document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + domain;
+						}
+					}
+				}
+			}
+
+			function login() {
+				$.ajax({
+					type: "post",
+					url: "loginRequest",
+					data: $("#loginRequest").serialize(),
+					dataType: "json",
+					success: function(data) {
+						console.log(data)
+						if(data["200"] != undefined) {
+							window.parent.location.href = "goto/" + data["200"];
+							return;
+						} else if(data["404"] != undefined) {
+							layer.msg("用户名或密码错误!", {
+								icon: 5,
+								time: 1000
+							});
+							return;
+						} else if(data["303"] != undefined) {
+							window.parent.location.href = "goto/" + data["303"];
+						}
+					}
+				});
+			}
+
+			function loginThis(row) {
+				//				if(row.user_name != "admin") {
+				//					layer.msg("用户名或密码错误!", {
+				//						icon: 5,
+				//						time: 1000
+				//					});
+				//					return;
+				//				} else {
+				layer.msg(row.user_name + "快速登录中...", {
+					icon: 1,
+					time: 1000
+				});
+				setTimeout(function() {
+					$("input[name=name]").val(row.user_name);
+					$("input[name=pwd]").val(row.user_desc);
+					logout();
+					login();
+				}, 1000);
+
+			}
+
+			function selThis(id) {
+				$.cookie("sel_info_userManager_byId", id, {
+					expires: 30,
+					path: '/lawfirms'
+				});
+				window.location.href = "goto/setting/userManager/selinfoById";
+			}
+
+			function updThis(id) {
+				$.cookie("upd_info_userManager_byId", id, {
+					expires: 30,
+					path: '/lawfirms'
+				});
+				window.location.href = "goto/setting/userManager/upd";
+			}
+			//}
+			$(function() {
+				var i = 10539;
+				$("#system_user").bootstrapTable({
+					method: "get",
+					url: "goto/setting/userManager/selall", //?timer=" + new Date().getTime()
+					dataType: "json",
+					striped : true, // 设置为true会有隔行变色效果
+					pagination : true, // 设置为true会在底部显示分页条
+					showColumns : false, // 是否显示内容下拉框（选择显示的列）
+					sortOrder: true,
+					cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+					pagination: true, //开启分页
+					pageNumber: 1, //默认显示第几页
+					pageSize: 10, //每页几条数据
+					/* pageList: [3, 6, 10], */
+					sidePagination: "server", //client 前台分页，server后台分页 	
+					/**
+					 * 参数传递
+					 * @param {Object} params
+					 */
+					queryParams: function(params) {
+						return {
+							offset: params.offset,
+							limit: params.limit,
+							tle: $("input[name=tle]").val()
+						}
+					},
+					columns: [{
+						title: "用户名",
+						
+						field: "user_name"
+					}, {
+						title: "姓名",
+						field: "user_realname"
+					}, {
+						title: "手机号",
+						field: "user_phone"
+					}, {
+						title: "权限组",
+						field: "remark"
+					}, {
+						title: "状态",
+						formatter: function(value, row, index) {
+							if(row.user_status == "Y") //{
+								return "在职"
+							//}
+							else
+								return "离职"
+						}
+					}, {
+						title: "操作",
+						column: "width:390px",
+						formatter: function(value, row, index) {
+							var oSel = "<div class='dropdown'>" +
+								"<button class='layui-btn layui-btn-radius layui-btn-primary' id='btncz' data-toggle='dropdown' type='button'>" +
+								'操作&nbsp;<span class="caret"></span>' +
+								'</button>' +
+								'<ul class="dropdown-menu" >' +
+								'<li>' +
+								"<a href='javascript:selThis(" + row.userid + ")'>查看用户</a>" +
+								'</li>' +
+								'<li>' +
+								"<a href='javascript:loginThis(" + JSON.stringify(row) + ")'>快速登录</a>" +
+								'</li>' +
+								'<li>' +
+								"<a href='javascript:updThis(" + row.userid + ")'>修改信息</a>" +
+								'</li>' +
+								'</ul>' +
+								'</div>';
+							return oSel;
+						}
+					}],
+					//height: $(window).height() - 150//自定义表格的高度
+				}); //  $("#empTab").bootstrapTable({  表格自动加载end;
+
+				/**
+				 *	 查询按钮刷新表格
+				 */
+				$("#ref").on("click", function() {
+					refresh();
+				})
+				/**
+				 *  回车事件刷新表格
+				 */
+				$(document).keyup(function(event) {
+					if(event.keyCode == 13) {
+						refresh();
+					}
+				});
+				/**
+				 * 转换日期格式(时间戳转换为datetime格式)
+				 */
+				function changeDateFormat(cellval) {
+					var dateVal = cellval + "";
+					if(cellval != null) {
+						var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+						var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+						var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+						var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+						var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+						var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+						return date.getFullYear() + "-" + month + "-" + currentDate;
+					}
+				}
+			});
+			function refresh() {
+			$("#system_user").bootstrapTable("refresh");
+		}
+		</script>
+	</head>
+
+	<body id="content">
+		<section>
+
+			<!-- 页面加载动画 -->
+			<div class="load1" id="loading">
+				<div class="loader">Loading...</div>
+			</div>
+
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png" />
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">人事</a>
+				</li>
+				<li>
+					<a class="active">用户管理</a>
+				</li>
+			</ol>
+
+			<!-- 选项卡 -->
+			<ul class="tab">
+				<li>
+					<a href="goto/setting/userManager" class="tab_on">用户</a>
+				</li>
+				<li>
+					<a href="goto/setting/userManager/roles">角色</a>
+				</li>
+			</ul>
+
+			<form class="container-fluid page_find"method="post" >
+				<div style="margin: 10px 20px 0 0;">
+					<div class="input-group">
+						<input type="text" name="tle" id="tle " class="form-control" placeholder="用户名/姓名" />
+					</div>
+
+					<!-- <div class="down_box">
+						<select name="IsActive">
+							<option value="-1">在职状态</option>
+							<option value="1">在职</option>
+							<option value="0">离职</option>
+						</select>
+					</div> -->
+					<input id="ref" type="button" value="检索" class="btn_solid" />
+					<a href = "goto/setting/userManager/toadd" class="btn_hollow">添加用户</a>
+				</div>
+			</form>
+			<form id="loginRequest" action="loginRequest" method="post">
+				<input type="hidden" name="name" />
+				<input type="hidden" name="pwd" />
+			</form>
+			<div id="datas">
+				<table id="system_user" class="table white table-hover table-fixed-head" data-table-fixed-head-trigger="0" data-table-fixed-head-top="0">
+				</table>
+			</div>
+
+<!-- 			<script>
+				function add() {
+					window.location.href = "/Users/EditUsers";
+				}
+			</script>
+ -->
+		</section>
+	</body>
+
+</html>

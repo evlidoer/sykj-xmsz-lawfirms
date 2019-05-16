@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<base href="/lawfirms/" />
+
+	<head>
+		<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+		<link id="main_link2" rel="stylesheet" type="text/css" href="static/css/main_green.css">
+		<!--
+			bootstarp table 导入
+		-->
+		<link rel="stylesheet" type="text/css" href="static/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css" />
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+				console.log($.cookie("sel_F_ExpressageSelById"))
+				$.ajax({
+					type: "get",
+					url: "Expressage/selFById/" + $.cookie("sel_F_ExpressageSelById"),
+					dataType: "json",
+					success: function(data) {
+						console.log(data)
+						$("#emp_name").text(data.emp_name);
+						$("#fj_date").text(formatDate(data.fj_date));
+						$("#case_propernum").text(data.case_propernum);
+						$("#cw_invoice_money").text(data.kdmonery);
+						$("#system_user_recipients").text(data.sjname);
+						$("#expressage_courier_services_company").text(data.js_name);
+						$("#expressage_sendaunit").text(data.kd_type);
+						$("#expressage_bring_date").text(formatDate(data.lj_date));
+						$("#expressage_remark").text(data.sjdesc);
+
+						$("#dizhi").text(data.dizhi);
+						$("#danwei").text(data.danwei);
+						$("#danhao").text(data.dizhi);
+					}
+				});
+			});
+
+			function formatDate(cellval) {
+				var dateVal = cellval + "";
+				if(cellval != null) {
+					var date = new Date(parseInt(dateVal.replace("/Date(", "").replace(")/", ""), 10));
+					var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+					var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+					var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+					var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+					var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+					return date.getFullYear() + "-" + month + "-" + currentDate;
+				}
+			}
+		</script>
+	</head>
+
+	<body id="content">
+		<section>
+			<!-- 浏览路径线 -->
+			<ol class="breadcrumb">
+				<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+				<a href="javascript:window.history.back()" class="btn btn-default">
+					<img src="static/img/back.png">
+				</a>
+
+				<li>
+					<a href="javascript:void(0)">行政</a>
+				</li>
+				<li>
+					<a class="active">收件详情</a>
+				</li>
+			</ol>
+			<div class="case_detail container">
+				<div class="row row_title">
+					<label class="text_border">基本资料</label>
+					<div class="shell text_group">
+						<div class="my_grid">
+							<div class="all_box text_box">
+								发件人：
+								<p id="emp_name"></p>
+							</div>
+						</div>
+
+						<div class="my_grid">
+							<div class="all_box text_box">
+								发件日期：
+								<p id="fj_date"></p>
+							</div>
+						</div>
+
+						<div class="my_grid">
+							<div class="all_box text_box">
+								快递公司：
+								<p id="expressage_sendaunit"></p>
+							</div>
+						</div>
+
+						<div class="my_grid">
+							<div class="all_box text_box">
+								地址：
+								<p id="dizhi"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row row_title">
+					<label class="text_border">详细信息</label>
+					<div class="shell text_group">
+						<div class="my_grid">
+							<div class="all_box text_box">
+								案号：
+								<p id="case_propernum"></p>
+							</div>
+						</div>
+
+						<!--<div class="my_grid">
+							<div class="all_box text_box">
+								快递单号：
+								<p></p>
+							</div>
+						</div>-->
+
+						<div class="my_grid">
+							<div class="all_box text_box">
+								快递费：
+								<p id="cw_invoice_money"></p>
+							</div>
+						</div>
+
+						<div class="my_grid">
+							<div class="all_box text_box">
+								收件人：
+								<p id="system_user_recipients"></p>
+							</div>
+						</div>
+
+						<div class="my_grid">
+							<div class="all_box text_box">
+								收件时间：
+								<p id="expressage_bring_date"></p>
+							</div>
+						</div>
+						<div class="my_grid">
+							<div class="all_box text_box">
+								快递单号：
+								<p id="danhao"></p>
+							</div>
+						</div>
+						<div class="my_grid">
+							<div class="all_box text_box">
+								接收单位：
+								<p id="danwei"></p>
+							</div>
+						</div>
+					</div>
+					<div class="shell text_group">
+						<div class="my_grid">
+							<div class="all_box text_box">
+								备注说明：
+								<p id="expressage_remark"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+
+</html>

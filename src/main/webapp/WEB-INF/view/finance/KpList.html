@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<base href="../../lawfirms" />
+
+	<head>
+		<meta charset="UTF-8">
+		<title>开具发票</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="static/js/layDate5.0.9/theme/default/laydate.css" />
+
+		<script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.form-group {
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-md-12" style="height: 45px;">
+					<ol class="breadcrumb">
+						<!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+						<button onclick="javascript:window.history.back();" class="btn btn-default" style="border: 0px; height: 30px;">
+						<span class="glyphicon glyphicon-menu-left" ></span>
+					</button>
+						<li class="breadcrumb-li-one">
+							<a>财务</a>
+						</li>
+						<li>
+							<a>开具发票</a>
+						</li>
+					</ol>
+				</div>
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<div class="form-inline">
+						<div class="form-group">
+							<input type="text" class="form-control" id="caseId">
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="caseIdNum">
+								<option value="1">案号</option>
+					            <option value="2">发票抬头</option>
+					            <option value="3">办案律师</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="kpStatus">
+								<option value="-1">开票状态</option>
+					            <option value="Y">已开</option>
+					            <option value="N">未开</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="fpType">
+								<option value="-1">发票类型</option>
+					            <option value="1">增值税专用发票</option>
+					            <option value="2">增值税普通发票</option>
+					            <option value="3">通用机打发票</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="kaipiaoProject">
+								<option value="-1">开票项目</option>
+								<option value="1">法律代理费</option>
+								<option value="2">法律顾问费</option>
+								<option value="3">咨询费</option>
+								<option value="4">法务托管费</option>
+								<option value="5">非诉</option>
+								<option value="6">其他(备注中填写)</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12 col-sm-12 col-md-12">
+					<div class="form-inline">
+						<div class="form-group">
+							<select class="form-control" id="cType">
+								<option value="-1">案件类型</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control Time" placeholder="起始时间:  yyyy-MM-dd" id="startTime" />
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control Time " placeholder="结束时间:  yyyy-MM-dd" id="endTime" />
+						</div>
+						<div class="form-group">
+							<input type="button" onclick="$('#showTable').bootstrapTable('refresh');" value="检索" class="btn btn-success">
+						</div>
+						<div class="form-group">
+							<input type="button"  onclick="exports();" value="导出" class="btn btn-default">
+							<form name="dwon" action="finance/kpList/export" method="post" style="display: none;">
+								<input type="hidden" name="startTime" />
+								<input type="hidden" name="endTime" />
+								<input type="hidden" name="caseId">
+								<input type="hidden" name="caseIdNum">
+								<input type="hidden" name="kpStatus">
+								<input type="hidden" name="fpType">
+								<input type="hidden" name="cType">
+								<input type="hidden" name="kaipiaoProject">
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12 col-sm-12 col-md-12" style="margin-top: 10px;">
+					<table id="showTable"></table>
+				</div>
+			</div>
+		</div>
+		<script src="static/financeJs/kpList.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function exports(){
+				$("input[name='startTime']").val("").val($("#startTime").val());
+				$("input[name='endTime']").val("").val($("#endTime").val());
+				$("input[name='caseId']").val("").val($("#caseId").val());
+				$("input[name='caseIdNum']").val("").val($("#caseIdNum").val());
+				$("input[name='kpStatus']").val("").val($("#kpStatus").val());
+				$("input[name='fpType']").val("").val($("#fpType").val());
+				$("input[name='cType']").val("").val($("#cType").val());
+				$("input[name='kaipiaoProject']").val("").val($("#kaipiaoProject").val());
+				var oDwon = document.dwon;
+				oDwon.submit();
+			}
+		</script>
+	</body>
+
+</html>

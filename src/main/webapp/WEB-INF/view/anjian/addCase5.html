@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html><head>
+<base href="/lawfirms/" />
+    <meta charset="UTF-8">
+    <title>律师事务所</title>
+    <link rel="stylesheet" type="text/css" href="static/bootstarp/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="static/css/parts2.css"/>
+	
+	<link rel="stylesheet" type="text/css" href="static/css/main_blue.css"/>
+    <script src="static/js/jquery-3.3.1.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstarp/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/CityList.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.form.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/MouseOpen.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/WebSiteJs.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/lay/modules/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/messages_zh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/parts.js" type="text/javascript" charset="utf-8"></script>
+  
+<script src="static/jquery-cookie/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+    
+    
+    
+</head>
+<body id="content">
+    <section>
+        
+
+<style type="text/css">
+    .document_uploading {
+        margin-top: 30px;
+        padding: 30px;
+        max-width: 1200px;
+    }
+
+    .box {
+        height: 350px;
+    }
+
+        .box span {
+            font-size: 16px;
+            margin-top: 30px;
+        }
+
+    .model_choose {
+        width: 630px;
+        height: 100px;
+        /*margin:0 auto;*/
+        margin-top: 40px;
+        margin-left: 10px;
+    }
+
+    .model {
+        width: 300px;
+        height: 100px;
+        background: #3B9BDB;
+        text-align: center;
+        line-height: 100px;
+        float: left;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+        .model:first-child + .model {
+            float: right;
+        }
+
+     
+
+    .model_choose a, .next a {
+        color: #fff!important;
+        display: block;
+    }
+
+    .next {
+        width: 180px;
+        height: 40px;
+        
+        background: #3B9BDB;
+        color: #fff;
+        /*margin:0 auto;*/
+        margin-top: 100px;
+        /*border-radius:4px;*/
+        line-height: 40px;
+        text-align: center;
+    }
+
+       
+</style>
+
+<script type="text/javascript">
+		$(function(){
+			//获取案号
+			var anhao = $.cookie("anhao")
+			$("#anhao").html(anhao)
+		})
+		
+		//跳转页面addCase6
+		function addCase6(){
+			var anhao = $.cookie("anhao")
+			$.cookie("anhao",anhao)
+    		window.location.href="addCase6/"+new Date().getTime()
+		}
+		//跳转页面addCase5_1
+		function addCase5_1(){
+			var anhao = $.cookie("anhao")
+			$.cookie("anhao",anhao)
+    		window.location.href="addCase5_1/"+new Date().getTime()
+		}
+		
+</script>
+<!-- 浏览路径线 -->
+<ol class="breadcrumb">
+    <!-- 返回按钮,在栏目的第一页去掉返回按钮 -->
+    <a href="javascript:window.history.back()" class="btn btn-default" draggable="false">
+        <img src="static/img/back.png" draggable="false">
+    </a>
+    <li><a href="javascript:void(0)" draggable="false">新增案件</a></li>
+    <li><a class="active" draggable="false">立案文书上传</a></li>
+</ol>
+
+
+<ul class="flow_line">
+    <li>1.选择案件类型</li>
+    <span>&gt;</span>
+    <li>2.利益冲突审查</li>
+    <span>&gt;</span>
+    <li>3.新增委托人</li>
+    <span>&gt;</span>
+    <li>4.登记立案信息</li>
+    <span>&gt;</span>
+    <li class="flow_line_now">5.立案文书上传</li>
+    <span>&gt;</span>
+    <li>6.收案审批</li>
+</ul>
+
+
+<div class="container document_uploading">
+    <div class="box">
+        <div class="row">
+            <span class="" id="anhao"></span>
+        </div>
+
+        <div class="model_choose">
+            <div class="model"><a href="javascript:addCase5_1();" draggable="false">自动生成模式</a></div>
+            <div class="model"><a href="yongyin1" draggable="false">手动上传模式</a></div>
+        </div>
+
+        <div class="row">
+            <div class="next">
+                <a href="javascript:addCase6();" draggable="false">暂不申请文书，下一步</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="static/layui/lay/modules/table.js"></script>
+ <script src="static/anjian/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="static/anjian/baseFunction.js"></script>
+
+    </section>
+
+
+</body></html>

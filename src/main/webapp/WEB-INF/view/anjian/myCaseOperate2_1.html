@@ -1,0 +1,161 @@
+<!-- <!DOCTYPE html>
+
+<html>
+<head>
+<base href="/lawfirms/" />
+<meta charset="UTF-8">
+<title>律师事务所</title>
+<link rel="stylesheet" type="text/css"
+	href="static/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="static/css/parts2.css" />
+<link rel="stylesheet" type="text/css" href="static/css/main_green.css" />
+	<link rel="stylesheet" type="text/css" href="static/bootstrap-table/bootstrap-table.css"/>
+<script src="static/js/jquery.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/bootstrap.js" type="text/javascript"
+	charset="utf-8"></script>
+	
+	
+	<script src="static/bootstrap-table/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/bootstrap-table/bootstrap-table-zh-CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/CityList.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/jquery.form.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/MouseOpen.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/WebSiteJs.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="static/js/jquery.validate.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/jquery.validate.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/messages_zh.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/layDate5.0.9/laydate.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/echarts.min.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="static/js/parts.js" type="text/javascript" charset="utf-8"></script>
+
+
+</head>
+
+	<script type="text/javascript">
+			$(function(){
+				$("#table").bootstrapTable({
+					method:'post',
+					dataType:'json',
+					contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+					url:'myCaseOperate2_1Show',
+					pagination:true,//显示分页
+					pageSize:3,//每页数据数
+					pageList:[3,5],//设置页面可显示的数据条数
+					pageNumber:1,//首页页码
+					//sidePagination:'server',//设置为服务器端分页
+					sidePagination: 'client',
+					 queryParams:function(params){//向后台传值
+						return{
+							//offset:params.offset,
+							//limit:params.limit,
+							"caselawid":$("#caselawid").val()
+						 }
+					}, 
+					columns:[{
+						title:'序号',
+						formatter:function(value,row,index){
+							return index+1
+						}
+					},{
+						align: 'center', // 左右居中
+						title:'案号',
+						field:'caselawid'
+					},{
+						align: 'center', // 左右居中
+						title:'申请人',
+						field: 'reliefproposer'
+					},{
+						align: 'center', // 左右居中
+						title:'减免金额',
+						field: 'reliefcreditamount'
+					},{
+						align: 'center', // 左右居中
+						title:'申请日期',
+							formatter:function(value,row,index){
+								if(row.reliefapplicationdate!=null)return new Date(row.reliefapplicationdate).format("yyyy-MM-dd")
+								else return null
+							}
+					},{
+						align: 'center', // 左右居中
+						title:'审核状态',
+						field: 'reliefapprovalstatus'
+					}]
+				})
+				//查询(刷新表格)
+				$("#btn_solid").on("click",function(e){
+					$("#table").bootstrapTable('refresh');//刷新
+				});
+			})
+			
+			
+			
+			
+			
+Date.prototype.format = function(fmt) { 
+     var o = { 
+        "M+" : this.getMonth()+1,                 //月份 
+        "d+" : this.getDate(),                    //日 
+        "h+" : this.getHours(),                   //小时 
+        "m+" : this.getMinutes(),                 //分 
+        "s+" : this.getSeconds(),                 //秒 
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+        "S"  : this.getMilliseconds()             //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) {
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    }
+     for(var k in o) {
+        if(new RegExp("("+ k +")").test(fmt)){
+             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+         }
+     }
+    return fmt; 
+}   
+
+				
+		</script>
+
+
+<body id="content" style="padding-bottom: 61px;">
+	<section>
+		浏览路径线
+		<ol class="breadcrumb">
+			返回按钮,在栏目的第一页去掉返回按钮
+			<a href="javascript:window.history.back()" class="btn btn-default" 	draggable="false"> 
+			<img src="static/img/back.png" draggable="false"> </a>
+			<li><a href="javascript:void(0)" draggable="false">案件</a></li>
+			<li><a class="active" draggable="false">费用减免申请记录</a></li>
+		</ol>
+		
+		<form class="container-fluid page_find" id="searchForm">
+			<div class="input-group">
+				<input type="text" name="caselawid" id="caselawid"
+					class="form-control">
+			</div>
+			<div class="down_box">
+				<select>
+					<option value="">:案号搜索</option>
+				</select>
+			</div>
+			<input type="button" value="检索" class="btn_solid" id="btn_solid">
+		</form>
+		
+		<div id="datas">
+			<table class="table white table-hover table-fixed-head"
+				id="table">
+			</table>
+		</div>
+	</section>
+</body>
+</html> -->
