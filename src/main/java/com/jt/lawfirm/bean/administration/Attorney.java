@@ -12,12 +12,6 @@ import com.jt.lawfirm.bean.hr.HrEmp;
  */
 @TableName(value = "adm_addressList")
 public class Attorney {
-
-
-
-
-
-
 	private Integer  id;
 	private String AddressListUser;//用户名
 	private String AddressListName;//姓名
